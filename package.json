@@ -1,5 +1,6 @@
 {
   "name": "dynamic-needs-analysis",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "coverage": "vitest --coverage --run"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
@@ -26,6 +28,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
