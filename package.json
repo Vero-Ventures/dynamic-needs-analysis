@@ -30,7 +30,7 @@
     "@vitejs/plugin-react": "^4.3.0",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "14.2.3",
     "jsdom": "^24.0.0",
     "postcss": "^8",
