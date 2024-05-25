@@ -2,6 +2,7 @@ version = 1
 
 [merge]
 delete_branch_on_merge = true
+require_automerge_label = false
 
 [approve]
 # note: remove the "[bot]" suffix from GitHub Bot usernames.
