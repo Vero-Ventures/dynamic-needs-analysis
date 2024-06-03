@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "coverage": "vitest --coverage --run"
+    "coverage": "vitest --coverage --run",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
