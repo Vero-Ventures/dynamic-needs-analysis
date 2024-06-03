@@ -1,3 +1,9 @@
-export default function Home() {
-  return <div>Home</div>;
+import { ModeToggle } from "@/components/mode-toggle";
+
+export default function Client() {
+  return (
+    <div>
+      <ModeToggle />
+    </div>
+  );
 }
