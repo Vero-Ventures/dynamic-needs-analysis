@@ -5,8 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function calculateAgeFromDate(date: string) {
-  throw new Error("Not yet implemented");
+export function calculateAgeFromDate(birthDate: Date): number {
+  const birthDateObj = new Date(birthDate);
+  const today = new Date();
+  const age = today.getFullYear() - birthDateObj.getFullYear();
+  // Check if birthday hasn't happened this year yet
+  const month = today.getMonth();
+  const birthMonth = birthDateObj.getMonth();
+  if (
+    month < birthMonth ||
+    (month === birthMonth && today.getDate() < birthDateObj.getDate())
+  ) {
+    return age - 1;
+  }
+  return age;
 }
 
 export function calculateYearsOfActiveIncome(
