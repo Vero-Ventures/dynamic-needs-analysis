@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardHeader,
@@ -17,8 +19,40 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { BirthDatePicker } from "@/components/date-picker";
+import { useState } from "react";
+import {
+  calculateAgeFromDate,
+  calculateInsuredIncomeAmount,
+  calculateYearsOfActiveIncome,
+  findSelectedBracket,
+} from "@/lib/utils";
+import { CANADIAN_PROVINCES } from "@/constants/provinces";
+import type { ProvinceInitials } from "@/constants/provinces";
 
+export type RetirementPlanningForm = {
+  name: string;
+  birthDate: Date;
+  expectedRetirementAge: number;
+  province: ProvinceInitials;
+  annualIncome: number;
+  incomeMultiplier: number;
+  taxBracket: number;
+};
+
+const defaultFormValues: RetirementPlanningForm = {
+  name: "",
+  birthDate: new Date(),
+  expectedRetirementAge: 0,
+  province: "AB",
+  annualIncome: 0,
+  incomeMultiplier: 0,
+  taxBracket: 0,
+};
 export default function RetirementPlanning() {
+  const [form, setForm] = useState<RetirementPlanningForm>(defaultFormValues);
+  const age = calculateAgeFromDate(form.birthDate);
+  const taxBracket = findSelectedBracket(form.province, form.annualIncome);
+
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
@@ -31,50 +65,63 @@ export default function RetirementPlanning() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="Enter your name" />
+            <Input
+              id="name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Enter your name"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="birthdate">Birthdate</Label>
-            <BirthDatePicker />
+            <BirthDatePicker date={form.birthDate} setForm={setForm} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="space-y-2">
               <Label htmlFor="age">Age</Label>
-              <div className="font-bold">42</div>
+              <div className="font-bold">{age}</div>
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="retirement-age">Expected Retirement Age</Label>
-            <Input id="retirement-age" placeholder="Enter retirement age" />
+            <Input
+              id="retirement-age"
+              type="number"
+              value={form.expectedRetirementAge}
+              onChange={(e) =>
+                setForm({ ...form, expectedRetirementAge: +e.target.value })
+              }
+              placeholder="Enter retirement age"
+            />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="active-income">Years of Active Income</Label>
-            <div className="font-bold">40</div>
+            <div className="font-bold">
+              {calculateYearsOfActiveIncome(age, form.expectedRetirementAge)}
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="province">Province</Label>
-            <Select>
+            <Select
+              onValueChange={(province: ProvinceInitials) =>
+                setForm((form) => ({ ...form, province }))
+              }
+            >
               <SelectTrigger id="province">
                 <SelectValue placeholder="Select province" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ab">Alberta</SelectItem>
-                <SelectItem value="bc">British Columbia</SelectItem>
-                <SelectItem value="mb">Manitoba</SelectItem>
-                <SelectItem value="nb">New Brunswick</SelectItem>
-                <SelectItem value="nl">Newfoundland and Labrador</SelectItem>
-                <SelectItem value="ns">Nova Scotia</SelectItem>
-                <SelectItem value="on">Ontario</SelectItem>
-                <SelectItem value="pe">Prince Edward Island</SelectItem>
-                <SelectItem value="qc">Quebec</SelectItem>
-                <SelectItem value="sk">Saskatchewan</SelectItem>
-                <SelectItem value="nt">Northwest Territories</SelectItem>
-                <SelectItem value="nu">Nunavut</SelectItem>
-                <SelectItem value="yt">Yukon</SelectItem>
+                {(Object.keys(CANADIAN_PROVINCES) as ProvinceInitials[]).map(
+                  (provinceInitial) => (
+                    <SelectItem key={provinceInitial} value={provinceInitial}>
+                      {CANADIAN_PROVINCES[provinceInitial]}
+                    </SelectItem>
+                  ),
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -88,6 +135,10 @@ export default function RetirementPlanning() {
               min={0}
               pattern="/^\d+(\.\d{1,2})?$/"
               placeholder="Enter your annual income"
+              value={form.annualIncome}
+              onChange={(e) =>
+                setForm({ ...form, annualIncome: +e.target.value })
+              }
             />
           </div>
           <div className="space-y-2">
@@ -99,6 +150,10 @@ export default function RetirementPlanning() {
               type="number"
               min={0}
               placeholder="Enter income replacement multiplier"
+              value={form.incomeMultiplier}
+              onChange={(e) =>
+                setForm({ ...form, incomeMultiplier: +e.target.value })
+              }
             />
           </div>
         </div>
@@ -107,22 +162,18 @@ export default function RetirementPlanning() {
             <Label htmlFor="estimated-retirement">
               Amount Insured for Income ($)
             </Label>
-            <div className="font-bold">$500,000.00</div>
+            <div className="font-bold">
+              {calculateInsuredIncomeAmount(
+                form.annualIncome,
+                form.incomeMultiplier,
+              )}
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tax-bracket">Tax Bracket</Label>
-            <Select>
-              <SelectTrigger id="tax-bracket">
-                <SelectValue placeholder="Select tax bracket" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="15">15%</SelectItem>
-                <SelectItem value="20">20%</SelectItem>
-                <SelectItem value="25">25%</SelectItem>
-                <SelectItem value="30">30%</SelectItem>
-                <SelectItem value="35">35%</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="font-bold">
+              ${taxBracket.minIncome} and up - {taxBracket.taxRate}%
+            </div>
           </div>
         </div>
       </CardContent>
