@@ -26,8 +26,8 @@ import {
   calculateYearsOfActiveIncome,
   findSelectedBracket,
 } from "@/lib/utils";
-import { CANADIAN_PROVINCES } from "@/constants/provinces";
 import type { ProvinceInitials } from "@/constants/provinces";
+import { CANADIAN_PROVINCES } from "@/constants/provinces";
 
 export type RetirementPlanningForm = {
   name: string;
