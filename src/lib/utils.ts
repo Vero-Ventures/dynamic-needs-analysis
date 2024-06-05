@@ -14,15 +14,20 @@ export function calculateAgeFromDate(birthDate: Date): number {
   const birthDateObj = new Date(birthDate);
   const today = new Date();
   const age = today.getFullYear() - birthDateObj.getFullYear();
-  // Check if birthday hasn't happened this year yet
+
+  if (age < 0) {
+    throw new Error("Age cannot be negative");
+  }
+
   const month = today.getMonth();
   const birthMonth = birthDateObj.getMonth();
-  if (
-    month < birthMonth ||
-    (month === birthMonth && today.getDate() < birthDateObj.getDate())
-  ) {
+  const day = today.getDate();
+  const birthDay = birthDateObj.getDate();
+
+  if (month < birthMonth || (month === birthMonth && day < birthDay)) {
     return age - 1;
   }
+
   return age;
 }
 
