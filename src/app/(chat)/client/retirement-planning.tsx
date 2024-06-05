@@ -179,7 +179,7 @@ export default function RetirementPlanning() {
       </CardContent>
       <CardFooter>
         <Button type="submit" className="ml-auto">
-          Calculate
+          Save
         </Button>
       </CardFooter>
     </Card>
