@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Run Unit Tests with Coverage Report
-        run: bun run coverage
+        run: bun coverage
 
   format-files:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Format All Files with Prettier
-        run: bun prettier . --write
+        run: bun format
       - name: Commit all changed files back to the repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
