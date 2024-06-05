@@ -42,6 +42,9 @@ export function calculateInsuredIncomeAmount(
   annualIncome: number,
   incomeReplacementMultiplier: number,
 ) {
+  if (annualIncome < 0 || incomeReplacementMultiplier < 0) {
+    throw new Error("Income and multiplier must be positive");
+  }
   return annualIncome * incomeReplacementMultiplier;
 }
 
