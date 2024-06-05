@@ -5,14 +5,7 @@
     "next/core-web-vitals"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      {
-        "disallowTypeAnnotations": false,
-        "fixStyle": "separate-type-imports",
-        "prefer": "type-imports"
-      }
-    ],
+    "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-import-type-side-effects": "error"
   }
 }
