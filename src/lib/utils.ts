@@ -35,7 +35,11 @@ export function calculateYearsOfActiveIncome(
   age: number,
   expectedRetirementAge: number,
 ) {
-  return expectedRetirementAge - age;
+  if (age < 0 || expectedRetirementAge < 0) {
+    throw new Error("Age and retirement age must be positive");
+  }
+  const yearsOfActiveIncome = expectedRetirementAge - age;
+  return yearsOfActiveIncome < 0 ? 0 : yearsOfActiveIncome;
 }
 
 export function calculateInsuredIncomeAmount(
