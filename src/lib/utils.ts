@@ -1,7 +1,10 @@
-import { ProvinceInitials } from "@/constants/provinces";
-import { TAX_BRACKETS, TaxBracket } from "@/constants/tax";
-import { type ClassValue, clsx } from "clsx";
+import { clsx } from "clsx";
+import type { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+import { TAX_BRACKETS } from "@/constants/tax";
+import type { ProvinceInitials } from "@/constants/provinces";
+import type { TaxBracket } from "@/constants/tax";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
