@@ -71,10 +71,10 @@ function AssistantMessage() {
         <div className="font-medium">Insurance Assistant</div>
         <div className="prose prose-stone w-96 rounded-lg">
           <p>
-            It's a pleasure to meet you! I'm an AI assistant created by Acme
-            Inc. I'm here to help with all sorts of tasks, from research and
-            analysis to creative projects and problem-solving. Please let me
-            know if there's anything I can assist you with.
+            It&apos;s a pleasure to meet you! I&apos;m an AI assistant created
+            by Acme Inc. I&apos;m here to help with all sorts of tasks, from
+            research and analysis to creative projects and problem-solving.
+            Please let me know if there&apos;s anything I can assist you with.
           </p>
         </div>
       </div>

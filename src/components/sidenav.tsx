@@ -6,7 +6,6 @@ import {
   LandmarkIcon,
   LogOutIcon,
   TargetIcon,
-  User,
   Users2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -66,6 +65,7 @@ export default function SideNav() {
         </div>
         {NavLinks.map((link) => (
           <Link
+            key={link.label}
             href={link.href}
             className="flex items-center rounded-lg px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
           >

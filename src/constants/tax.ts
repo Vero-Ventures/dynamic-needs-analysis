@@ -1,4 +1,4 @@
-import { CANADIAN_PROVINCES } from "@/constants/provinces";
+import type { CANADIAN_PROVINCES } from "@/constants/provinces";
 
 export interface TaxBracket {
   minIncome: number;
