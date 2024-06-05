@@ -1,4 +1,4 @@
-import type { CANADIAN_PROVINCES } from "@/constants/provinces";
+import type { ProvinceInitials } from "@/constants/provinces";
 
 export interface TaxBracket {
   minIncome: number;
@@ -7,11 +7,9 @@ export interface TaxBracket {
   dividendNonEligible: number;
 }
 
-export type ProvinceTaxBrackets<T> = {
-  [province in keyof T]: TaxBracket[];
-};
+export type ProvinceTaxBrackets = Record<ProvinceInitials, TaxBracket[]>;
 
-export const TAX_BRACKETS: ProvinceTaxBrackets<typeof CANADIAN_PROVINCES> = {
+export const TAX_BRACKETS: ProvinceTaxBrackets = {
   AB: [
     {
       minIncome: 0,
