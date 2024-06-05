@@ -1,3 +1,5 @@
+import { ProvinceInitials } from "@/constants/provinces";
+import { TAX_BRACKETS, TaxBracket } from "@/constants/tax";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -33,4 +35,23 @@ export function calculateInsuredIncomeAmount(
   incomeReplacementMultiplier: number,
 ) {
   return annualIncome * incomeReplacementMultiplier;
+}
+
+export function findSelectedBracket(
+  province: ProvinceInitials,
+  annualIncome: number,
+): TaxBracket {
+  const result = TAX_BRACKETS[province].find(
+    (bracket: TaxBracket, index: number, array: TaxBracket[]) => {
+      const nextBracket: TaxBracket = array[index + 1];
+      return (
+        annualIncome >= bracket.minIncome &&
+        (!nextBracket || annualIncome < nextBracket.minIncome)
+      );
+    },
+  );
+  if (!result) {
+    throw new Error("No bracket found");
+  }
+  return result;
 }
