@@ -58,3 +58,14 @@ export function findSelectedBracket(
   }
   return result;
 }
+
+export function formatMoney(amount: number, currency = "CAD") {
+  return new Intl.NumberFormat("en-CA", {
+    style: "currency",
+    currency,
+  }).format(amount);
+}
+
+export function calculateWant(need: number, priority: number) {
+  return need * (priority / 100);
+}
