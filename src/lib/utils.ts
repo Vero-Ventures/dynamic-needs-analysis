@@ -14,15 +14,20 @@ export function calculateAgeFromDate(birthDate: Date): number {
   const birthDateObj = new Date(birthDate);
   const today = new Date();
   const age = today.getFullYear() - birthDateObj.getFullYear();
-  // Check if birthday hasn't happened this year yet
+
+  if (age < 0) {
+    throw new Error("Age cannot be negative");
+  }
+
   const month = today.getMonth();
   const birthMonth = birthDateObj.getMonth();
-  if (
-    month < birthMonth ||
-    (month === birthMonth && today.getDate() < birthDateObj.getDate())
-  ) {
+  const day = today.getDate();
+  const birthDay = birthDateObj.getDate();
+
+  if (month < birthMonth || (month === birthMonth && day < birthDay)) {
     return age - 1;
   }
+
   return age;
 }
 
@@ -30,13 +35,20 @@ export function calculateYearsOfActiveIncome(
   age: number,
   expectedRetirementAge: number,
 ) {
-  return expectedRetirementAge - age;
+  if (age < 0 || expectedRetirementAge < 0) {
+    throw new Error("Age and retirement age must be positive");
+  }
+  const yearsOfActiveIncome = expectedRetirementAge - age;
+  return yearsOfActiveIncome < 0 ? 0 : yearsOfActiveIncome;
 }
 
 export function calculateInsuredIncomeAmount(
   annualIncome: number,
   incomeReplacementMultiplier: number,
 ) {
+  if (annualIncome < 0 || incomeReplacementMultiplier < 0) {
+    throw new Error("Income and multiplier must be positive");
+  }
   return annualIncome * incomeReplacementMultiplier;
 }
 
@@ -46,7 +58,7 @@ export function findSelectedBracket(
 ): TaxBracket {
   const result = TAX_BRACKETS[province].find(
     (bracket: TaxBracket, index: number, array: TaxBracket[]) => {
-      const nextBracket: TaxBracket = array[index + 1];
+      const nextBracket = array.at(index + 1);
       return (
         annualIncome >= bracket.minIncome &&
         (!nextBracket || annualIncome < nextBracket.minIncome)
@@ -67,5 +79,11 @@ export function formatMoney(amount: number, currency = "CAD") {
 }
 
 export function calculateWant(need: number, priority: number) {
-  return need * (priority / 100);
+  if (need < 0 || priority < 0 || priority > 100) {
+    throw new Error(
+      "Need and priority must be positive, and priority must be less than or equal to 100",
+    );
+  }
+  const priorityInDecimal = priority / 100;
+  return need * priorityInDecimal;
 }
