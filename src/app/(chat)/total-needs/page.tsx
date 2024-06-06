@@ -2,7 +2,8 @@
 
 import { DollarSignIcon, HandCoinsIcon } from "lucide-react";
 import MoneyCardWithIcon from "./money-card-icon";
-import { TotalItem, TotalNeedsTable } from "./total-needs-table";
+import type { TotalItem } from "./total-needs-table";
+import { TotalNeedsTable } from "./total-needs-table";
 import { calculateWant } from "@/lib/utils";
 import { useState } from "react";
 
