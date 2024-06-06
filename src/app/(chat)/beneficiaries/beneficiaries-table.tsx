@@ -24,15 +24,9 @@ export default function BeneficiariesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="text-center font-medium">Jane Doe</TableCell>
-          <TableCell className="text-center font-medium">100</TableCell>
-          <TableCell className="text-right">
-            <Button variant="link" className="p-0">
-              <CircleXIcon className="text-destructive" />
-            </Button>
-          </TableCell>
-        </TableRow>
+        <BeneficiaryTableRow />
+        <BeneficiaryTableRow />
+        <BeneficiaryTableRow />
       </TableBody>
       <TableFooter>
         <TableRow>
@@ -49,5 +43,19 @@ export default function BeneficiariesTable() {
         </TableRow>
       </TableFooter>
     </Table>
+  );
+}
+
+function BeneficiaryTableRow() {
+  return (
+    <TableRow>
+      <TableCell className="text-center font-medium">Jane Doe</TableCell>
+      <TableCell className="text-center font-medium">100</TableCell>
+      <TableCell className="text-right">
+        <Button variant="link" className="p-0">
+          <CircleXIcon className="text-destructive" />
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 }
