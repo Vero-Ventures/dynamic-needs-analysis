@@ -58,7 +58,7 @@ export function findSelectedBracket(
 ): TaxBracket {
   const result = TAX_BRACKETS[province].find(
     (bracket: TaxBracket, index: number, array: TaxBracket[]) => {
-      const nextBracket: TaxBracket = array[index + 1];
+      const nextBracket = array.at(index + 1);
       return (
         annualIncome >= bracket.minIncome &&
         (!nextBracket || annualIncome < nextBracket.minIncome)
