@@ -79,5 +79,9 @@ export function formatMoney(amount: number, currency = "CAD") {
 }
 
 export function calculateWant(need: number, priority: number) {
-  return need * (priority / 100);
+  if (need < 0 || priority < 0) {
+    throw new Error("Need and priority must be positive");
+  }
+  const priorityInDecimal = priority / 100;
+  return need * priorityInDecimal;
 }
