@@ -24,9 +24,9 @@ export default function BeneficiariesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <BeneficiaryTableRow />
-        <BeneficiaryTableRow />
-        <BeneficiaryTableRow />
+        <BeneficiaryTableRow name="Jane Doe" allocation={50} />
+        <BeneficiaryTableRow name="John Don" allocation={30} />
+        <BeneficiaryTableRow name="Alice Kan" allocation={20} />
       </TableBody>
       <TableFooter>
         <TableRow>
@@ -46,11 +46,15 @@ export default function BeneficiariesTable() {
   );
 }
 
-function BeneficiaryTableRow() {
+type BeneficiaryTableRowProps = {
+  name: string;
+  allocation: number;
+};
+function BeneficiaryTableRow({ name, allocation }: BeneficiaryTableRowProps) {
   return (
     <TableRow>
-      <TableCell className="text-center font-medium">Jane Doe</TableCell>
-      <TableCell className="text-center font-medium">100</TableCell>
+      <TableCell className="text-center font-medium">{name}</TableCell>
+      <TableCell className="text-center font-medium">{allocation}</TableCell>
       <TableCell className="text-right">
         <Button variant="link" className="p-0">
           <CircleXIcon className="text-destructive" />
