@@ -27,9 +27,9 @@ export default function BeneficiariesTable() {
   const [allocation, setAllocation] = useState(0);
 
   const newTotalAllocationPercentage = totalAllocationPercentage + allocation;
-  const remainingAllocationPercentage = (
-    100 - totalAllocationPercentage
-  ).toFixed(2);
+  const remainingAllocationPercentage = (100 - totalAllocationPercentage)
+    .toFixed(2)
+    .replace(/[.,]00$/, "");
 
   return (
     <Table className="mx-auto max-w-2xl">
