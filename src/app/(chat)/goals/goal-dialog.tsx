@@ -46,7 +46,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddGoalSchema } from "./data";
+import { AddGoalSchema } from "../../data/db";
 
 type FormSchema = z.infer<typeof AddGoalSchema>;
 

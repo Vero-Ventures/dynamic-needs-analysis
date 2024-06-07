@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
-import { goalsData } from "./data";
+import { goalsData } from "../../data/db";
 import DeleteGoalButton from "../../../components/delete-item-button";
 import GoalDialog from "./goal-dialog";
 import { deleteGoal } from "./actions";

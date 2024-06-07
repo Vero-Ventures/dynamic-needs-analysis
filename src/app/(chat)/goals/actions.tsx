@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddGoalSchema, goalsData } from "./data";
+import { AddGoalSchema, goalsData } from "../../data/db";
 
 export async function addGoal(data: FormData) {
   const formData = Object.fromEntries(data.entries());
