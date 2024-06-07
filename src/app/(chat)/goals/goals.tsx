@@ -10,55 +10,6 @@ export default function Goals() {
   );
 }
 
-import { Button } from "@/components/ui/button";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { addGoalAction } from "./actions";
-
-export function GoalDialog() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="my-4">Add new Goal</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add Goal</DialogTitle>
-        </DialogHeader>
-        <form action={addGoalAction} id="goal-form" className="grid gap-4 py-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" placeholder="Red Cross" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="amount">Amount</Label>
-            <Input id="amount" name="amount" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-6">
-            <Label htmlFor="amount">Philanthropic:</Label>
-            <Switch id="amount" name="philanthropic" />
-          </div>
-        </form>
-        <DialogFooter>
-          <Button form="goal-form" type="submit">
-            Add
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 import {
   Table,
   TableBody,
@@ -71,7 +22,9 @@ import {
 import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { goalsData } from "./data";
-import DeleteGoalButton from "./delete-goal-button";
+import DeleteGoalButton from "../../../components/delete-item-button";
+import GoalDialog from "./goal-dialog";
+import { deleteGoal } from "./actions";
 
 function GoalsTable() {
   return (
@@ -97,12 +50,21 @@ function GoalsTable() {
               )}
             </TableCell>
             <TableCell className="text-right">
-              <DeleteGoalButton id={goal.id} />
+              <DeleteGoal id={goal.id} />
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
       <TableFooter></TableFooter>
     </Table>
+  );
+}
+
+function DeleteGoal({ id }: { id: number }) {
+  const deleteGoalWithBind = deleteGoal.bind(null, id);
+  return (
+    <form action={deleteGoalWithBind}>
+      <DeleteGoalButton />
+    </form>
   );
 }

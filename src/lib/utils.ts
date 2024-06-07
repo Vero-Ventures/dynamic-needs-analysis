@@ -87,3 +87,7 @@ export function calculateWant(need: number, priority: number) {
   const priorityInDecimal = priority / 100;
   return need * priorityInDecimal;
 }
+
+export async function sleep(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}

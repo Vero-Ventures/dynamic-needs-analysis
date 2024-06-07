@@ -1,4 +1,4 @@
-interface GoalsData {
+export interface GoalsData {
   id: number;
   name: string;
   amount: number;
@@ -19,3 +19,11 @@ export const goalsData: GoalsData[] = [
     philanthropic: false,
   },
 ];
+
+import { z } from "zod";
+
+export const AddGoalSchema = z.object({
+  name: z.string(),
+  amount: z.coerce.number(),
+  philanthropic: z.string(),
+});
