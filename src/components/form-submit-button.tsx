@@ -8,14 +8,16 @@ export default function FormSubmitButton({
   value,
   loadingValue,
   isPending,
+  disabled,
 }: {
   value: string;
   loadingValue: string;
   isPending?: boolean;
+  disabled?: boolean;
 }) {
   const { pending } = useFormStatus();
   return (
-    <Button disabled={isPending || pending} type="submit">
+    <Button disabled={isPending || pending || disabled} type="submit">
       {isPending || pending ? (
         <div className="flex items-center gap-2">
           <Loader2Icon className="animate-spin" />
