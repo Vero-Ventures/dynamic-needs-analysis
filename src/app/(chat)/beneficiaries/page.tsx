@@ -1,11 +1,19 @@
+"use client";
+
+import { useState } from "react";
+import type { Beneficiary } from "./beneficiaries-table";
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
 
 export default function Beneficiaries() {
+  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   return (
     <div>
-      <BeneficiariesTable />
-      <DesiredBeneficiaryAllocationChart />
+      <BeneficiariesTable
+        beneficiaries={beneficiaries}
+        setBeneficiaries={setBeneficiaries}
+      />
+      <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
     </div>
   );
 }

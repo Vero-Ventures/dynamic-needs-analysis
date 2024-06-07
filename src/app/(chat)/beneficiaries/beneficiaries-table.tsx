@@ -20,8 +20,13 @@ export type Beneficiary = {
   name: string;
   allocation: number;
 };
-export default function BeneficiariesTable() {
-  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+export default function BeneficiariesTable({
+  beneficiaries,
+  setBeneficiaries,
+}: {
+  beneficiaries: Beneficiary[];
+  setBeneficiaries: React.Dispatch<React.SetStateAction<Beneficiary[]>>;
+}) {
   const [totalAllocationPercentage, setTotalAllocationPercentage] = useState(0);
   const [name, setName] = useState("");
   const [allocation, setAllocation] = useState(0);
