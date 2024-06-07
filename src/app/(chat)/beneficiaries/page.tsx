@@ -5,7 +5,7 @@ import type { Beneficiary } from "./beneficiaries-table";
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
 
-export default function Beneficiaries() {
+export default function BeneficiariesPage() {
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   return (
     <div>
