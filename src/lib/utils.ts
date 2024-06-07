@@ -2,13 +2,13 @@ import { clsx } from "clsx";
 import type { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { TAX_BRACKETS } from "@/constants/tax";
-import type { ProvinceInitials } from "@/constants/provinces";
-import type { TaxBracket } from "@/constants/tax";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+import { TAX_BRACKETS } from "@/constants/tax";
+import type { ProvinceInitials } from "@/constants/provinces";
+import type { TaxBracket } from "@/constants/tax";
 
 export function calculateAgeFromDate(birthDate: Date): number {
   const birthDateObj = new Date(birthDate);
@@ -86,4 +86,8 @@ export function calculateWant(need: number, priority: number) {
   }
   const priorityInDecimal = priority / 100;
   return need * priorityInDecimal;
+}
+
+export async function sleep(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
 }
