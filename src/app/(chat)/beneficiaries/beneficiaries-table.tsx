@@ -1,7 +1,5 @@
 "use client";
 
-import { CircleXIcon } from "lucide-react";
-
 import {
   Table,
   TableBody,
@@ -9,118 +7,69 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import { useState } from "react";
+import type { BeneficiaryData } from "@/app/data/db";
+import { beneficiariesData } from "@/app/data/db";
+import { cn } from "@/lib/utils";
+import { deleteBeneficiary } from "./actions";
+import DeleteBeneficiaryButton from "@/components/delete-item-button";
 
 export type Beneficiary = {
   name: string;
   allocation: number;
 };
-export default function BeneficiariesTable({
-  beneficiaries,
-  setBeneficiaries,
-}: {
-  beneficiaries: Beneficiary[];
-  setBeneficiaries: React.Dispatch<React.SetStateAction<Beneficiary[]>>;
-}) {
-  const [totalAllocationPercentage, setTotalAllocationPercentage] = useState(0);
-  const [name, setName] = useState("");
-  const [allocation, setAllocation] = useState(0);
-
-  const newTotalAllocationPercentage = totalAllocationPercentage + allocation;
-  const remainingAllocationPercentage = (100 - totalAllocationPercentage)
-    .toFixed(2)
-    .replace(/[.,]00$/, "");
-
+export default function BeneficiariesTable() {
   return (
-    <Table className="mx-auto max-w-2xl">
+    <Table className="mx-auto max-w-xl">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-center">Name</TableHead>
-          <TableHead className="text-center">Allocation (%)</TableHead>
+          <TableHead
+            className={cn("text-left", {
+              "text-center": beneficiariesData.length !== 0,
+            })}
+          >
+            Name
+          </TableHead>
+          <TableHead
+            className={cn("text-right", {
+              "text-center": beneficiariesData.length !== 0,
+            })}
+          >
+            Allocation (%)
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {beneficiaries.map((b) => (
+        {beneficiariesData.map((b) => (
           <BeneficiaryTableRow
-            key={b.name}
+            key={b.id}
+            id={b.id}
             name={b.name}
             allocation={b.allocation}
           />
         ))}
-        <TableRow>
-          <TableCell className="text-center font-medium">
-            <Input
-              type="text"
-              className="w-full border border-x-0 border-t-0 p-1"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Add New Beneficiary"
-            />
-          </TableCell>
-          <TableCell className="text-center font-medium">
-            <Input
-              type="number"
-              min="0"
-              max={remainingAllocationPercentage}
-              className="w-full border border-x-0 border-t-0 p-1"
-              onChange={(e) => setAllocation(+e.target.value)}
-              value={allocation || ""}
-              placeholder={`${remainingAllocationPercentage}%`}
-            />
-          </TableCell>
-          <TableCell></TableCell>
-        </TableRow>
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell>
-            <p className="text-base font-bold">
-              Total: <span>{totalAllocationPercentage}%</span>
-            </p>
-          </TableCell>
-          <TableCell></TableCell>
-          <TableCell className="text-right">
-            <Button
-              type="submit"
-              disabled={newTotalAllocationPercentage > 100}
-              onClick={() => {
-                if (newTotalAllocationPercentage > 100) return;
-
-                setTotalAllocationPercentage(
-                  +newTotalAllocationPercentage.toFixed(2),
-                );
-                setBeneficiaries((beneficiaries) => [
-                  ...beneficiaries,
-                  { name, allocation },
-                ]);
-                setName("");
-                setAllocation(0);
-              }}
-            >
-              Add New Beneficiaries
-            </Button>
-          </TableCell>
-        </TableRow>
-      </TableFooter>
     </Table>
   );
 }
 
-function BeneficiaryTableRow({ name, allocation }: Beneficiary) {
+function BeneficiaryTableRow({ id, name, allocation }: BeneficiaryData) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
       <TableCell className="text-center font-medium">{allocation}</TableCell>
       <TableCell className="text-right">
-        <Button variant="link" className="p-0">
-          <CircleXIcon className="text-destructive" />
-        </Button>
+        <DeleteBeneficiary id={id} />
       </TableCell>
     </TableRow>
+  );
+}
+
+function DeleteBeneficiary({ id }: { id: number }) {
+  const deleteBeneficiaryWithBind = deleteBeneficiary.bind(null, id);
+  return (
+    <form action={deleteBeneficiaryWithBind}>
+      <DeleteBeneficiaryButton />
+    </form>
   );
 }

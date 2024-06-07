@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import type { Beneficiary } from "./beneficiaries-table";
+import { beneficiariesData } from "@/app/data/db";
 
 const randomHexColorCode = () => {
   const n = (Math.random() * 0xfffff * 1000000).toString(16);
@@ -29,11 +29,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   return null;
 };
 
-export default function DesiredBeneficiaryAllocationChart({
-  beneficiaries,
-}: {
-  beneficiaries: Beneficiary[];
-}) {
+export default function DesiredBeneficiaryAllocationChart() {
   return (
     <div className="mt-20 space-y-3">
       <h1 className="text-center text-xl font-bold tracking-wide">
@@ -43,13 +39,13 @@ export default function DesiredBeneficiaryAllocationChart({
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={400}>
             <Pie
-              data={beneficiaries}
+              data={beneficiariesData}
               cx="50%"
               cy="50%"
               labelLine={false}
               dataKey="allocation"
             >
-              {beneficiaries.map((entry, index) => (
+              {beneficiariesData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={randomHexColorCode()} />
               ))}
             </Pie>

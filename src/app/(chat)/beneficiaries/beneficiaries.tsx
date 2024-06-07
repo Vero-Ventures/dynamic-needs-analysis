@@ -1,19 +1,29 @@
-"use client";
-
-import { useState } from "react";
-import type { Beneficiary } from "./beneficiaries-table";
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
+import BeneficiaryDialog from "./beneficiary-dialog";
+import { beneficiariesData } from "@/app/data/db";
 
 export default function Beneficiaries() {
-  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+  const totalAllocationPercentage = beneficiariesData.reduce(
+    (acc, cur) => acc + cur.allocation,
+    0,
+  );
+  const remainingAllocationPercentage = +(100 - totalAllocationPercentage)
+    .toFixed(2)
+    .replace(/[.,]00$/, "");
+
   return (
-    <div>
-      <BeneficiariesTable
-        beneficiaries={beneficiaries}
-        setBeneficiaries={setBeneficiaries}
-      />
-      <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
-    </div>
+    <section className="px-4">
+      <div className="mx-auto mb-5 mt-3 flex max-w-xl items-center justify-between">
+        <p className="text-lg font-bold">
+          Total Allocated: <span>{totalAllocationPercentage}%</span>
+        </p>
+        <BeneficiaryDialog
+          remainingAllocationPercentage={remainingAllocationPercentage}
+        />
+      </div>
+      <BeneficiariesTable />
+      <DesiredBeneficiaryAllocationChart />
+    </section>
   );
 }
