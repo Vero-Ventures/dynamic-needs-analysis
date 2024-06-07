@@ -6,7 +6,7 @@ export default function ChatLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="flex">
-      <div className="flex-1">{children}</div>
+      <div className="h-screen flex-1 overflow-auto">{children}</div>
       <Chatbot />
     </div>
   );
