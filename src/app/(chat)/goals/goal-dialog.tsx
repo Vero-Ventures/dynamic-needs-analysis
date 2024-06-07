@@ -55,7 +55,6 @@ function AddGoalForm({
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isPending, setIsPending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<FormSchema>({
     resolver: zodResolver(AddGoalSchema),
@@ -68,7 +67,6 @@ function AddGoalForm({
 
   async function onSubmit() {
     if (!formRef.current) return;
-    setIsPending(true);
     const formData = new FormData(formRef.current);
     await sleep(3000);
     await addGoal(formData);
@@ -125,7 +123,8 @@ function AddGoalForm({
         />
         <DialogFooter>
           <FormSubmitButton
-            isPending={isPending}
+            isPending={form.formState.isSubmitting}
+            disabled={!form.formState.isDirty || !form.formState.isValid}
             value="Add Goal"
             loadingValue="Adding..."
           />
