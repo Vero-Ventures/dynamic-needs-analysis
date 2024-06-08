@@ -1,6 +1,5 @@
 "use client";
 
-import FormSubmitButton from "@/components/form-submit-button";
 import {
   Form,
   FormControl,
@@ -10,11 +9,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { sleep } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { StepperFormActions } from "./stepper-form-actions";
+import { useStepper } from "@/components/ui/stepper";
 
 const AddBusinessSchema = z.object({
   name: z.string(),
@@ -27,6 +27,7 @@ const AddBusinessSchema = z.object({
 type FormSchema = z.infer<typeof AddBusinessSchema>;
 
 export default function AddBusinessesForm() {
+  const { nextStep } = useStepper();
   const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<FormSchema>({
     resolver: zodResolver(AddBusinessSchema),
@@ -42,7 +43,7 @@ export default function AddBusinessesForm() {
   async function onSubmit() {
     if (!formRef.current) return;
     // const formData = new FormData(formRef.current);
-    await sleep(3000);
+    nextStep();
     // await addGoal(formData);
   }
 
@@ -51,7 +52,7 @@ export default function AddBusinessesForm() {
       <form
         ref={formRef}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4"
+        className="grid grid-cols-1 gap-2"
       >
         <FormField
           control={form.control}
@@ -118,12 +119,7 @@ export default function AddBusinessesForm() {
             </FormItem>
           )}
         />
-        <FormSubmitButton
-          isPending={form.formState.isSubmitting}
-          disabled={!form.formState.isDirty || !form.formState.isValid}
-          value="Add New Business"
-          loadingValue="Adding..."
-        />
+        <StepperFormActions />
       </form>
     </Form>
   );
