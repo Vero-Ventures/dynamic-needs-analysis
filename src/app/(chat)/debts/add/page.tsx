@@ -1,3 +1,5 @@
+import DebtForm from "./debt-form";
+
 export default function AddDebt() {
-  return <div>AddDebt</div>;
+  return <DebtForm />;
 }
