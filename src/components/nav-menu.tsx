@@ -60,7 +60,7 @@ const NavLinks: NavLink[] = [
 export default function NavMenu() {
   const pathname = usePathname();
   return NavLinks.map((link) => {
-    const isActive = pathname === link.href;
+    const isActive = pathname.includes(link.href);
     return (
       <Link
         key={link.label}
