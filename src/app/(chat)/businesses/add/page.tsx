@@ -5,6 +5,7 @@ import { ShareholderTable } from "./shareholder-table";
 export default function AddBusinessesPage() {
   return (
     <div className="space-y-6 p-4">
+      <h2 className="text-2xl font-bold">Add New Business</h2>
       <AddBusinessesForm />
       <section>
         <h2 className="text-2xl font-bold">Shareholders</h2>
