@@ -1,3 +1,5 @@
-export default function Beneficiaries() {
-  return <div>Beneficiaries</div>;
+import Beneficiaries from "./beneficiaries";
+
+export default function BeneficiariesPage() {
+  return <Beneficiaries />;
 }
