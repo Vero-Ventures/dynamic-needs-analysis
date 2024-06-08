@@ -12,17 +12,10 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 import { StepperFormActions } from "./stepper-form-actions";
 import { useStepper } from "@/components/ui/stepper";
-
-const AddBusinessSchema = z.object({
-  name: z.string(),
-  valuation: z.coerce.number(),
-  EBITDA: z.coerce.number(),
-  appreciationRate: z.coerce.number(),
-  term: z.coerce.number(),
-});
+import { AddBusinessSchema } from "@/app/data/db";
 
 type FormSchema = z.infer<typeof AddBusinessSchema>;
 

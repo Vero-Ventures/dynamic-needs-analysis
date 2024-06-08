@@ -88,3 +88,22 @@ export const AddShareholderSchema = z.object({
   insuranceCoverage: z.coerce.number(),
   EBITDAPercentContribution: z.coerce.number(),
 });
+
+// === Business Data and Schema ===
+export interface Business {
+  id: number;
+  name: string;
+  valuation: number;
+}
+
+export const businesses: Business[] = [
+  { id: 0, name: "BCIT Incorporated", valuation: 1000 },
+];
+
+export const AddBusinessSchema = z.object({
+  name: z.string(),
+  valuation: z.coerce.number(),
+  EBITDA: z.coerce.number(),
+  appreciationRate: z.coerce.number(),
+  term: z.coerce.number(),
+});
