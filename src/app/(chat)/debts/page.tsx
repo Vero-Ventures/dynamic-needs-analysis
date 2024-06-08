@@ -1,12 +1,9 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Debts from "./debts";
 
 export default function DebtsPage() {
   return (
     <div className="m-3">
-      <Link href="/debts/add">
-        <Button>Add New Debt</Button>
-      </Link>
+      <Debts />
     </div>
   );
 }
