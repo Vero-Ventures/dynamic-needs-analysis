@@ -19,12 +19,14 @@ export interface TotalItem {
   priority: number;
 }
 
+type OnSetPriorityFN = (priority: number, id: number) => void;
+
 export function TotalNeedsTable({
   data,
   onSetPriority,
 }: {
   data: TotalItem[];
-  onSetPriority: any;
+  onSetPriority: OnSetPriorityFN;
 }) {
   return (
     <Table>
@@ -55,7 +57,7 @@ function TotalNeedsTableRow({
   onSetPriority,
 }: {
   need: TotalItem;
-  onSetPriority: any;
+  onSetPriority: OnSetPriorityFN;
 }) {
   return (
     <TableRow key={need.purpose}>
