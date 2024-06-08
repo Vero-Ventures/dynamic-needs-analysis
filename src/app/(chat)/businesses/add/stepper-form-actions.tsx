@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useStepper } from "@/components/ui/stepper/use-stepper";
+import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function StepperFormActions() {
   const {
     prevStep,
-    resetSteps,
     nextStep,
     isDisabledStep,
     hasCompletedAllSteps,
@@ -21,8 +21,11 @@ export function StepperFormActions() {
   return (
     <div className="flex w-full justify-end gap-2">
       {hasCompletedAllSteps ? (
-        <Button size="sm" type="button" onClick={resetSteps}>
-          Reset
+        <Button disabled size="sm" type="button">
+          <div>
+            <Loader2Icon className="animate-spin" />
+            <span>Loading...</span>
+          </div>
         </Button>
       ) : (
         <>
