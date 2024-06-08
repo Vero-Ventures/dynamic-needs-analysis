@@ -52,7 +52,7 @@ export default function AddBusinessesForm() {
       <form
         ref={formRef}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 gap-2"
+        className="grid grid-cols-1 gap-2 px-2"
       >
         <FormField
           control={form.control}

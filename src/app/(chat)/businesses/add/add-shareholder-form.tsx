@@ -38,7 +38,7 @@ export default function AddShareholderForm() {
       <form
         ref={formRef}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
+        className="grid gap-4 px-4 pt-4"
       >
         <FormField
           control={form.control}
