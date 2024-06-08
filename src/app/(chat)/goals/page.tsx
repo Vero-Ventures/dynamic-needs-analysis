@@ -3,7 +3,7 @@ import Liquidity from "./liquidity";
 
 export default function GoalsPage() {
   return (
-    <div className="flex flex-wrap gap-6 p-4">
+    <div className="grid gap-4 p-4 xl:grid-cols-2">
       <Goals />
       <Liquidity />
     </div>

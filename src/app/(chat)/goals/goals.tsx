@@ -4,7 +4,7 @@ export default function Goals() {
       <div className="flex justify-between gap-2">
         <h2 className="mb-2 text-2xl font-bold">Goals</h2>
       </div>
-      <GoalDialog />
+      <AddGoalDialog />
       <GoalsTable />
     </section>
   );
@@ -23,7 +23,7 @@ import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { goalsData } from "../../data/db";
 import DeleteGoalButton from "../../../components/delete-item-button";
-import GoalDialog from "./goal-dialog";
+import AddGoalDialog from "./add-goal-dialog";
 import { deleteGoal } from "./actions";
 
 function GoalsTable() {
