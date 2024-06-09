@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useRef, useState } from "react";
-import FormSubmitButton from "../../../components/form-submit-button";
+import FormSubmitButton from "@/components/form-submit-button";
 import { sleep } from "@/lib/utils";
 import { addGoal } from "./actions";
 
@@ -46,7 +46,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddGoalSchema } from "../../data/db";
+import { AddGoalSchema } from "@/app/data/db";
 
 type FormSchema = z.infer<typeof AddGoalSchema>;
 

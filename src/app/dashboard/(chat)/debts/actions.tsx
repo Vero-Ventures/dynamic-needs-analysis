@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddDebtSchema, debtsData } from "../../data/db";
+import { AddDebtSchema, debtsData } from "@/app/data/db";
 
 export async function addDebt(data: FormData) {
   const formData = Object.fromEntries(data.entries());
@@ -34,7 +34,7 @@ export async function addDebt(data: FormData) {
     annualPayment,
     insurableFutureValueDollars,
   });
-  revalidatePath("/debts");
+  revalidatePath("/dashboard/debts");
 }
 
 export async function deleteDebt(id: number) {
@@ -43,5 +43,5 @@ export async function deleteDebt(id: number) {
     throw new Error("No debt found at this index");
   }
   debtsData.splice(i, 1);
-  revalidatePath("/debts");
+  revalidatePath("/dashboard/debts");
 }

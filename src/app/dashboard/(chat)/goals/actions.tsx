@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddGoalSchema, goalsData } from "../../data/db";
+import { AddGoalSchema, goalsData } from "@/app/data/db";
 
 export async function addGoal(data: FormData) {
   const formData = Object.fromEntries(data.entries());
@@ -22,7 +22,7 @@ export async function addGoal(data: FormData) {
     amount,
     philanthropic: philanthropic === "on",
   });
-  revalidatePath("/goals");
+  revalidatePath("/dashboard/goals");
 }
 
 export async function deleteGoal(id: number) {
@@ -31,5 +31,5 @@ export async function deleteGoal(id: number) {
     throw new Error("No goal found at this index");
   }
   goalsData.splice(i, 1);
-  revalidatePath("/goals");
+  revalidatePath("/dashboard/goals");
 }

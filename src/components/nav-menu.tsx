@@ -21,37 +21,37 @@ interface NavLink {
 
 const NavLinks: NavLink[] = [
   {
-    href: "/client",
+    href: "/dashboard/client",
     icon: <CircleUserIcon className="mr-3 h-5 w-5" />,
     label: "Client",
   },
   {
-    href: "/beneficiaries",
+    href: "/dashboard/beneficiaries",
     icon: <Users2Icon className="mr-3 h-5 w-5" />,
     label: "Beneficiaries",
   },
   {
-    href: "/businesses",
+    href: "/dashboard/businesses",
     icon: <Building2Icon className="mr-3 h-5 w-5" />,
     label: "Businesses",
   },
   {
-    href: "/assets",
+    href: "/dashboard/assets",
     icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
     label: "Assets",
   },
   {
-    href: "/debts",
+    href: "/dashboard/debts",
     icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
     label: "Debts",
   },
   {
-    href: "/goals",
+    href: "/dashboard/goals",
     icon: <TargetIcon className="mr-3 h-5 w-5" />,
     label: "Goals",
   },
   {
-    href: "/total-needs",
+    href: "/dashboard/total-needs",
     icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
     label: "Total Needs",
   },
