@@ -21,37 +21,37 @@ interface NavLink {
 
 const NavLinks: NavLink[] = [
   {
-    href: "/client",
+    href: "/dashboard/client/1",
     icon: <CircleUserIcon className="mr-3 h-5 w-5" />,
     label: "Client",
   },
   {
-    href: "/beneficiaries",
+    href: "/dashboard/client/1/beneficiaries",
     icon: <Users2Icon className="mr-3 h-5 w-5" />,
     label: "Beneficiaries",
   },
   {
-    href: "/businesses",
+    href: "/dashboard/client/1/businesses",
     icon: <Building2Icon className="mr-3 h-5 w-5" />,
     label: "Businesses",
   },
   {
-    href: "/assets",
+    href: "/dashboard/client/1/assets",
     icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
     label: "Assets",
   },
   {
-    href: "/debts",
+    href: "/dashboard/client/1/debts",
     icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
     label: "Debts",
   },
   {
-    href: "/goals",
+    href: "/dashboard/client/1/goals",
     icon: <TargetIcon className="mr-3 h-5 w-5" />,
     label: "Goals",
   },
   {
-    href: "/total-needs",
+    href: "/dashboard/client/1/total-needs",
     icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
     label: "Total Needs",
   },
@@ -60,7 +60,11 @@ const NavLinks: NavLink[] = [
 export default function NavMenu() {
   const pathname = usePathname();
   return NavLinks.map((link) => {
-    const isActive = pathname.includes(link.href);
+    const isActive =
+      link.href === "/dashboard/client/1/businesses" ||
+      link.href === "/dashboard/client/1/debts"
+        ? pathname.includes(link.href)
+        : pathname === link.href;
     return (
       <Link
         key={link.label}

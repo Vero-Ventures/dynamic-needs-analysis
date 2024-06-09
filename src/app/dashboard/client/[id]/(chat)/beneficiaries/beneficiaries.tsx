@@ -13,7 +13,7 @@ export default function Beneficiaries() {
     .replace(/[.,]00$/, "");
 
   return (
-    <section className="px-4">
+    <section className="p-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-xl items-center justify-between">
         <p className="text-lg font-bold">
           Total Allocated: <span>{totalAllocationPercentage}%</span>
@@ -23,7 +23,9 @@ export default function Beneficiaries() {
         />
       </div>
       <BeneficiariesTable />
-      <DesiredBeneficiaryAllocationChart />
+      <DesiredBeneficiaryAllocationChart
+        beneficiariesData={beneficiariesData}
+      />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddBeneficiarySchema, beneficiariesData } from "../../data/db";
+import { AddBeneficiarySchema, beneficiariesData } from "@/app/data/db";
 
 export async function addBeneficiary(data: FormData) {
   const formData = Object.fromEntries(data.entries());
@@ -21,7 +21,7 @@ export async function addBeneficiary(data: FormData) {
     name,
     allocation,
   });
-  revalidatePath("/beneficiaries");
+  revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }
 
 export async function deleteBeneficiary(id: number) {
@@ -30,5 +30,5 @@ export async function deleteBeneficiary(id: number) {
     throw new Error("No beneficiary found at this index");
   }
   beneficiariesData.splice(i, 1);
-  revalidatePath("/beneficiaries");
+  revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }

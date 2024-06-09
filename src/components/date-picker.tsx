@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { RetirementPlanningForm } from "@/app/(chat)/client/retirement-planning";
+import type { RetirementPlanningForm } from "@/app/dashboard/client/[id]/(chat)/retirement-planning";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();

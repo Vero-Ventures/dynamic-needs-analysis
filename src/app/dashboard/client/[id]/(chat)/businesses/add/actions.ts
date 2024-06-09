@@ -32,7 +32,7 @@ export async function addShareholder(data: FormData) {
     liquidationDisparity: 0,
   });
 
-  revalidatePath("/businesses/add");
+  revalidatePath("/dashboard/client/[id]/businesses/add", "page");
 }
 
 export async function deleteShareholder(id: number) {
@@ -41,7 +41,7 @@ export async function deleteShareholder(id: number) {
     throw new Error("No shareholders found at this index");
   }
   shareholders.splice(i, 1);
-  revalidatePath("/businesses/add");
+  revalidatePath("/dashboard/client/[id]/businesses/add", "page");
 }
 
 export async function addBusiness(data: FormData) {
@@ -69,5 +69,5 @@ export async function deleteBusiness(id: number) {
     throw new Error("No shareholders found at this index");
   }
   businesses.splice(i, 1);
-  revalidatePath("/businesses");
+  revalidatePath("/dashboard/client/[id]/businesses", "page");
 }

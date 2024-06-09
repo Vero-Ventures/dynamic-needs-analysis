@@ -7,7 +7,7 @@ export default function Debts() {
   return (
     <section className="px-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-2xl items-center justify-between">
-        <Link href="/debts/add" className="my-4">
+        <Link href="/dashboard/client/1/debts/add" className="my-4">
           <Button>Add New Debt</Button>
         </Link>
       </div>

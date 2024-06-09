@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Businesses() {
   return (
     <div className="p-4">
-      <Link href="/businesses/add">
+      <Link href="/dashboard/client/1/businesses/add">
         <Button>Add New Business</Button>
       </Link>
       <div className="mt-4">
@@ -27,7 +27,7 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
 import { formatMoney } from "@/lib/utils";
 
-export function BusinessTable() {
+function BusinessTable() {
   return (
     <Table className="max-w-lg">
       <TableHeader>

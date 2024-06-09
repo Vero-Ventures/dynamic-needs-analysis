@@ -15,7 +15,7 @@ export function StepperFormActions() {
   const router = useRouter();
 
   if (hasCompletedAllSteps) {
-    router.replace("/businesses");
+    router.replace("/dashboard/client/1/businesses");
   }
 
   return (

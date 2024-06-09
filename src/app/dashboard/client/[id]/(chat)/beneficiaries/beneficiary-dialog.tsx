@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
-import FormSubmitButton from "../../../components/form-submit-button";
+import FormSubmitButton from "@/components/form-submit-button";
 
 export default function BeneficiaryDialog({
   remainingAllocationPercentage,
@@ -51,7 +51,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { sleep } from "@/lib/utils";
-import { AddBeneficiarySchema } from "../../data/db";
+import { AddBeneficiarySchema } from "@/app/data/db";
 import { addBeneficiary } from "./actions";
 
 type FormSchema = z.infer<typeof AddBeneficiarySchema>;
