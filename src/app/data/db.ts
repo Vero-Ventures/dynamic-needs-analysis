@@ -106,6 +106,8 @@ export const AddBusinessSchema = z.object({
   EBITDA: z.coerce.number(),
   appreciationRate: z.coerce.number(),
   term: z.coerce.number(),
+});
+
 // === Debts Data and Schema ===
 
 export interface DebtData {
