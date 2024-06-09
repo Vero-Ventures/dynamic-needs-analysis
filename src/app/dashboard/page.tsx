@@ -24,9 +24,9 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export function ClientCard() {
+function ClientCard() {
   return (
-    <Link href="/dashboard/clients/1">
+    <Link href="/dashboard/clients/1/client">
       <Card className="p-4 transition-all hover:-translate-y-1 hover:shadow-md">
         <CardHeader>
           <CardTitle>Client Name</CardTitle>
