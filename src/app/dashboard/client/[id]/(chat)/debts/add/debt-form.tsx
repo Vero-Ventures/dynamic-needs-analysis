@@ -92,12 +92,12 @@ export default function DebtForm() {
       </CardContent>
       <CardFooter className="mt-3">
         <div className="flex w-full flex-col gap-3 lg:flex-row">
-          <Link href="/dashboard/clients/1/debts" className="w-full">
+          <Link href="/dashboard/client/1/debts" className="w-full">
             <Button variant="outline" type="submit" className="w-full">
               Cancel
             </Button>
           </Link>
-          <Link href="/dashboard/clients/1/debts" className="w-full">
+          <Link href="/dashboard/client/1/debts" className="w-full">
             <Button type="submit" className="w-full">
               Save
             </Button>
