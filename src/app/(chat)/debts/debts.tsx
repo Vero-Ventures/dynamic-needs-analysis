@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import DebtsTable from "./debts-table";
+import DebtsChart from "./debts-chart";
 
 export default function Debts() {
   return (
@@ -11,6 +12,9 @@ export default function Debts() {
         </Link>
       </div>
       <DebtsTable />
+      <div className="mt-14">
+        <DebtsChart />
+      </div>
     </section>
   );
 }
