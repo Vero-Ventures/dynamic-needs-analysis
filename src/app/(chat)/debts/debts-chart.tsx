@@ -2,14 +2,14 @@
 
 import type { TooltipProps } from "recharts";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  AreaChart,
+  Area,
 } from "recharts";
 
 import { formatMoney } from "@/lib/utils";
@@ -71,7 +71,7 @@ export default function DebtsChart() {
   return (
     <div className="h-[500px]">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart
+        <AreaChart
           width={500}
           height={300}
           data={data}
@@ -82,6 +82,12 @@ export default function DebtsChart() {
             left: 60,
           }}
         >
+          <defs>
+            <linearGradient id={"bankLoan"} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 2" vertical={false} />
           <XAxis
             className="text-xs font-semibold"
@@ -121,14 +127,16 @@ export default function DebtsChart() {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={40} iconSize={18} />
-          <Line
+          <Area
             type="monotone"
             dataKey="bank loan"
             stroke="#8884d8"
             strokeWidth={1.5}
-            activeDot={{ r: 6 }}
+            activeDot={{ r: 5 }}
+            fillOpacity={1}
+            fill={`url(#${"bankLoan"})`}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
