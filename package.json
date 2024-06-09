@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "coverage": "bun test --coverage",
-    "format": "prettier . --write"
+    "format:check": "prettier --check .",
+    "format": "prettier --write . --list-different"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
