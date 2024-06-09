@@ -22,7 +22,7 @@ export async function addGoal(data: FormData) {
     amount,
     philanthropic: philanthropic === "on",
   });
-  revalidatePath("/dashboard/goals");
+  revalidatePath("/dashboard/clients/[id]/goals");
 }
 
 export async function deleteGoal(id: number) {
@@ -31,5 +31,5 @@ export async function deleteGoal(id: number) {
     throw new Error("No goal found at this index");
   }
   goalsData.splice(i, 1);
-  revalidatePath("/dashboard/goals");
+  revalidatePath("/dashboard/clients/[id]/goals");
 }
