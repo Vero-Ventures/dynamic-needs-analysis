@@ -40,7 +40,7 @@ export async function addDebt(data: FormData) {
 export async function deleteDebt(id: number) {
   const i = debtsData.findIndex((g) => g.id === id);
   if (i === -1) {
-    throw new Error("No goal found at this index");
+    throw new Error("No debt found at this index");
   }
   debtsData.splice(i, 1);
   revalidatePath("/debts");
