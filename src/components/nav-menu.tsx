@@ -61,7 +61,8 @@ export default function NavMenu() {
   const pathname = usePathname();
   return NavLinks.map((link) => {
     const isActive =
-      link.href === "/dashboard/client/1/businesses"
+      link.href === "/dashboard/client/1/businesses" ||
+      link.href === "/dashboard/client/1/debts"
         ? pathname.includes(link.href)
         : pathname === link.href;
     return (
