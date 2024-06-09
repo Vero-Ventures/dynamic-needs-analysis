@@ -26,7 +26,7 @@ import Link from "next/link";
 
 function ClientCard() {
   return (
-    <Link href="/dashboard/clients/1/client">
+    <Link href="/dashboard/client/1">
       <Card className="p-4 transition-all hover:-translate-y-1 hover:shadow-md">
         <CardHeader>
           <CardTitle>Client Name</CardTitle>

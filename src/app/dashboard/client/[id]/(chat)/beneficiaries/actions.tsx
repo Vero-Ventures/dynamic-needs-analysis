@@ -21,7 +21,7 @@ export async function addBeneficiary(data: FormData) {
     name,
     allocation,
   });
-  revalidatePath("/dashboard/clients/[id]/beneficiaries");
+  revalidatePath("/dashboard/client/[id]/beneficiaries");
 }
 
 export async function deleteBeneficiary(id: number) {
@@ -30,5 +30,5 @@ export async function deleteBeneficiary(id: number) {
     throw new Error("No beneficiary found at this index");
   }
   beneficiariesData.splice(i, 1);
-  revalidatePath("/dashboard/clients/[id]/beneficiaries");
+  revalidatePath("/dashboard/client/[id]/beneficiaries");
 }
