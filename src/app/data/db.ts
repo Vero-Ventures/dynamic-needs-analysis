@@ -55,3 +55,39 @@ export const AddBeneficiarySchema = z.object({
   name: z.string(),
   allocation: z.coerce.number(),
 });
+
+// === Debts Data and Schema ===
+
+export interface DebtData {
+  id: number;
+  name: string;
+  initialValue: number;
+  yearAcquired: number;
+  rate: number;
+  term: number;
+  annualPayment: number;
+  insurableFutureValueDollars: number;
+}
+
+export const debtsData: DebtData[] = [
+  {
+    id: 0,
+    name: "Bank Loan",
+    initialValue: 100000,
+    yearAcquired: 2020,
+    rate: 5,
+    term: 30,
+    annualPayment: 10000,
+    insurableFutureValueDollars: 392194.24,
+  },
+];
+
+export const AddDebtSchema = z.object({
+  name: z.string(),
+  initialValue: z.coerce.number(),
+  yearAcquired: z.coerce.number(),
+  rate: z.coerce.number(),
+  term: z.coerce.number(),
+  annualPayment: z.coerce.number(),
+  insurableFutureValueDollars: z.coerce.number(),
+});
