@@ -34,7 +34,7 @@ export async function addDebt(data: FormData) {
     annualPayment,
     insurableFutureValueDollars,
   });
-  revalidatePath("/dashboard/client/[id]/debts");
+  revalidatePath("/dashboard/client/[id]/debts", "page");
 }
 
 export async function deleteDebt(id: number) {
@@ -43,5 +43,5 @@ export async function deleteDebt(id: number) {
     throw new Error("No debt found at this index");
   }
   debtsData.splice(i, 1);
-  revalidatePath("/dashboard/client/[id]/debts");
+  revalidatePath("/dashboard/client/[id]/debts", "page");
 }
