@@ -54,7 +54,7 @@ export default function RetirementPlanning() {
   const taxBracket = findSelectedBracket(form.province, form.annualIncome);
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="mx-auto w-full border-none shadow-none">
       <CardHeader>
         <CardTitle>Retirement Planning</CardTitle>
         <CardDescription>
@@ -62,7 +62,7 @@ export default function RetirementPlanning() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -77,13 +77,7 @@ export default function RetirementPlanning() {
             <BirthDatePicker date={form.birthDate} setForm={setForm} />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="space-y-2">
-              <Label htmlFor="age">Age</Label>
-              <div className="font-bold">{age}</div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="retirement-age">Expected Retirement Age</Label>
             <Input
@@ -95,14 +89,6 @@ export default function RetirementPlanning() {
               }
               placeholder="Enter retirement age"
             />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="active-income">Years of Active Income</Label>
-            <div className="font-bold">
-              {calculateYearsOfActiveIncome(age, form.expectedRetirementAge)}
-            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="province">Province</Label>
@@ -126,7 +112,7 @@ export default function RetirementPlanning() {
             </Select>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="annual-income">Annual Income ($)</Label>
             <Input
@@ -157,7 +143,21 @@ export default function RetirementPlanning() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="active-income">Years of Active Income</Label>
+            <div className="font-bold">
+              {calculateYearsOfActiveIncome(age, form.expectedRetirementAge)}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="space-y-2">
+              <Label htmlFor="age">Age</Label>
+              <div className="font-bold">{age}</div>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="estimated-retirement">
               Amount Insured for Income ($)
