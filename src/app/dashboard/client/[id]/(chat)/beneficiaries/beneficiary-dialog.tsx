@@ -15,9 +15,9 @@ import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
 export default function BeneficiaryDialog({
-  remainingAllocationPercentage,
+  remainingAllocationParts,
 }: {
-  remainingAllocationPercentage: number;
+  remainingAllocationParts: number;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -30,7 +30,7 @@ export default function BeneficiaryDialog({
           <DialogTitle>Add Beneficiary</DialogTitle>
         </DialogHeader>
         <AddBeneficiaryForm
-          remainingAllocationPercentage={remainingAllocationPercentage}
+          remainingAllocationParts={remainingAllocationParts}
           setOpen={setOpen}
         />
       </DialogContent>
@@ -57,10 +57,10 @@ import { addBeneficiary } from "./actions";
 type FormSchema = z.infer<typeof AddBeneficiarySchema>;
 
 function AddBeneficiaryForm({
-  remainingAllocationPercentage,
+  remainingAllocationParts,
   setOpen,
 }: {
-  remainingAllocationPercentage: number;
+  remainingAllocationParts: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -68,7 +68,7 @@ function AddBeneficiaryForm({
     resolver: zodResolver(AddBeneficiarySchema),
     defaultValues: {
       name: "",
-      allocation: remainingAllocationPercentage,
+      allocation: remainingAllocationParts,
     },
   });
 
@@ -110,7 +110,7 @@ function AddBeneficiaryForm({
               <FormControl>
                 <Input
                   id="allocation"
-                  placeholder={`${remainingAllocationPercentage}%`}
+                  placeholder={`${remainingAllocationParts} parts`}
                   {...field}
                 />
               </FormControl>

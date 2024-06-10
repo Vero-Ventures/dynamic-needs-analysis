@@ -33,7 +33,7 @@ export default function BeneficiariesTable() {
               "text-center": beneficiariesData.length !== 0,
             })}
           >
-            Allocation (%)
+            Allocation (parts)
           </TableHead>
         </TableRow>
       </TableHeader>
