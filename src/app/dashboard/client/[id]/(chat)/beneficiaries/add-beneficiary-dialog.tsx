@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
-export default function BeneficiaryDialog({
+export default function AddBeneficiaryDialog({
   remainingAllocationParts,
 }: {
   remainingAllocationParts: number;

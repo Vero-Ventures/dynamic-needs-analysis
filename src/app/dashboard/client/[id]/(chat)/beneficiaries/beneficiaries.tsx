@@ -1,6 +1,6 @@
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
-import BeneficiaryDialog from "./beneficiary-dialog";
+import AddBeneficiaryDialog from "./add-beneficiary-dialog";
 import { beneficiariesData } from "@/app/data/db";
 
 export default function Beneficiaries() {
@@ -18,7 +18,7 @@ export default function Beneficiaries() {
         <p className="text-lg font-bold">
           Total Allocation: <span>{totalAllocationParts} parts</span>
         </p>
-        <BeneficiaryDialog
+        <AddBeneficiaryDialog
           remainingAllocationParts={remainingAllocationParts}
         />
       </div>
