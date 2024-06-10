@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import DebtsTable from "./debts-table";
 import DebtsChart from "./debts-chart";
+import { cn } from "@/lib/utils";
 
 export default function Debts() {
   return (
     <section className="px-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-2xl items-center justify-between">
-        <Link href="/dashboard/client/1/debts/add" className="my-4">
-          <Button>Add New Debt</Button>
+        <Link
+          href="/dashboard/client/1/debts/add"
+          className={cn(buttonVariants(), "my-4")}
+        >
+          Add New Debt
         </Link>
       </div>
       <DebtsTable />
