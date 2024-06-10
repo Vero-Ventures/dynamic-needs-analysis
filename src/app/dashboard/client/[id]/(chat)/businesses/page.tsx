@@ -1,11 +1,14 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Businesses() {
   return (
     <div className="p-4">
-      <Link href="/dashboard/client/1/businesses/add">
-        <Button>Add New Business</Button>
+      <Link
+        className={cn(buttonVariants())}
+        href="/dashboard/client/1/businesses/add"
+      >
+        Add New Business
       </Link>
       <div className="mt-4">
         <BusinessTable />
@@ -25,7 +28,7 @@ import {
 import { businesses } from "@/app/data/db";
 import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
-import { formatMoney } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 
 function BusinessTable() {
   return (

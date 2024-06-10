@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function DebtForm() {
   return (
@@ -92,12 +93,16 @@ export default function DebtForm() {
       </CardContent>
       <CardFooter className="mt-3">
         <div className="flex w-full flex-col gap-3 lg:flex-row">
-          <Link href="/dashboard/client/1/debts" className="w-full">
-            <Button variant="outline" type="submit" className="w-full">
-              Cancel
-            </Button>
+          <Link
+            href="/dashboard/client/1/debts"
+            className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+          >
+            Cancel
           </Link>
-          <Link href="/dashboard/client/1/debts" className="w-full">
+          <Link
+            href="/dashboard/client/1/debts"
+            className={cn(buttonVariants(), "w-full")}
+          >
             <Button type="submit" className="w-full">
               Save
             </Button>
