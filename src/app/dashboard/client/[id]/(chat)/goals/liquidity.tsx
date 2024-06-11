@@ -22,8 +22,8 @@ import {
 } from "@/lib/utils";
 
 export function LiquidityTable() {
-  const totalGoals = calculateTotalSumGoals(goalsData);
-  const surplusShortfall = calculateSurplusShortfall(0, totalGoals);
+  const totalSumGoals = calculateTotalSumGoals(goalsData);
+  const surplusShortfall = calculateSurplusShortfall(0, totalSumGoals);
 
   const liquidityData = [
     {
@@ -64,7 +64,7 @@ export function LiquidityTable() {
     },
     {
       label: "Total Sum of All Goals",
-      totalAmount: formatMoney(totalGoals),
+      totalAmount: formatMoney(totalSumGoals),
     },
     {
       label: "Surplus / Shortfall",
