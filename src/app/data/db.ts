@@ -82,7 +82,7 @@ export const BeneficiarySchema = z.object({
   allocation: z.coerce.number(),
 });
 
-// === Shareholder Data and Schema ===
+// === Business Data and Schema ===
 
 export interface Shareholder {
   id: number;
@@ -90,39 +90,16 @@ export interface Shareholder {
   sharePercentage: number;
   insuranceCoverage: number;
   ebitdaContributionPercentage: number;
-  ebitdaContribution: number;
-  shareValue: number;
-  liquidationDisparity: number;
 }
 
-export const shareholders: Shareholder[] = [
-  {
-    id: 0,
-    name: "Scott Chen",
-    sharePercentage: 100,
-    insuranceCoverage: 0,
-    ebitdaContributionPercentage: 100,
-    ebitdaContribution: 0,
-    shareValue: 0,
-    liquidationDisparity: 0,
-  },
-];
-
-export const AddShareholderSchema = z.object({
-  name: z.string(),
-  sharePercentage: z.coerce.number(),
-  insuranceCoverage: z.coerce.number(),
-  ebitdaContributionPercent: z.coerce.number(),
-});
-
-// === Business Data and Schema ===
 export interface Business {
   id: number;
   name: string;
   valuation: number;
   ebitda: number;
-  rate: number;
+  appreciationRate: number;
   term: number;
+  shareholders: Shareholder[];
 }
 
 export const businesses: Business[] = [
@@ -131,22 +108,23 @@ export const businesses: Business[] = [
     name: "BCIT Incorporated",
     valuation: 1000,
     ebitda: 0,
-    rate: 0,
+    appreciationRate: 0,
     term: 0,
+    shareholders: [
+      {
+        id: 0,
+        name: "John Doe",
+        sharePercentage: 100,
+        insuranceCoverage: 0,
+        ebitdaContributionPercentage: 100,
+      },
+    ],
   },
 ];
 
-export const AddBusinessSchema = z.object({
-  name: z.string(),
-  valuation: z.coerce.number(),
-  ebitda: z.coerce.number(),
-  appreciationRate: z.coerce.number(),
-  term: z.coerce.number(),
-});
-
 // === Debts Data and Schema ===
 
-export interface Debt {
+interface Debt {
   id: number;
   name: string;
   initialValue: number;
