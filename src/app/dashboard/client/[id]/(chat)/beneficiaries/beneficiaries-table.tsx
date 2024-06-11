@@ -11,6 +11,7 @@ import { beneficiariesData } from "@/app/data/db";
 import { cn } from "@/lib/utils";
 import { deleteBeneficiary } from "./actions";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
+import EditBeneficiaryDialog from "./edit-beneficiary-dialog";
 
 export type Beneficiary = {
   name: string;
@@ -56,6 +57,9 @@ function BeneficiaryTableRow({ id, name, allocation }: BeneficiaryData) {
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
       <TableCell className="text-center font-medium">{allocation}</TableCell>
+      <TableCell className="text-center">
+        <EditBeneficiaryDialog id={id} name={name} allocation={allocation} />
+      </TableCell>
       <TableCell className="text-right">
         <DeleteBeneficiary id={id} />
       </TableCell>
