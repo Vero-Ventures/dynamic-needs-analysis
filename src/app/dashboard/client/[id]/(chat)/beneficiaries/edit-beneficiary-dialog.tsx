@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { SquarePenIcon } from "lucide-react";
 
 import {
   Dialog,
@@ -14,23 +14,29 @@ import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
-export default function BeneficiaryDialog({
-  remainingAllocationPercentage,
+export default function EditBeneficiaryDialog({
+  id,
+  name,
+  allocation,
 }: {
-  remainingAllocationPercentage: number;
+  id: number;
+  name: string;
+  allocation: number;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="my-4">Add new Beneficiary</Button>
+      <DialogTrigger asChild className="mx-auto">
+        <SquarePenIcon className="hover:cursor-pointer" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Beneficiary</DialogTitle>
+          <DialogTitle>Edit Beneficiary</DialogTitle>
         </DialogHeader>
-        <AddBeneficiaryForm
-          remainingAllocationPercentage={remainingAllocationPercentage}
+        <EditBeneficiaryForm
+          id={id}
+          name={name}
+          allocation={allocation}
           setOpen={setOpen}
         />
       </DialogContent>
@@ -51,24 +57,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { sleep } from "@/lib/utils";
-import { AddBeneficiarySchema } from "@/app/data/db";
-import { addBeneficiary } from "./actions";
+import { BeneficiarySchema } from "@/app/data/db";
+import { editBeneficiary } from "./actions";
 
-type FormSchema = z.infer<typeof AddBeneficiarySchema>;
+type FormSchema = z.infer<typeof BeneficiarySchema>;
 
-function AddBeneficiaryForm({
-  remainingAllocationPercentage,
+function EditBeneficiaryForm({
+  id,
+  name,
+  allocation,
   setOpen,
 }: {
-  remainingAllocationPercentage: number;
+  id: number;
+  name: string;
+  allocation: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<FormSchema>({
-    resolver: zodResolver(AddBeneficiarySchema),
+    resolver: zodResolver(BeneficiarySchema),
     defaultValues: {
-      name: "",
-      allocation: remainingAllocationPercentage,
+      name,
+      allocation,
     },
   });
 
@@ -77,7 +87,7 @@ function AddBeneficiaryForm({
 
     const formData = new FormData(formRef.current);
     await sleep(3000);
-    await addBeneficiary(formData);
+    await editBeneficiary(id, formData);
     setOpen(false);
   }
 
@@ -108,11 +118,7 @@ function AddBeneficiaryForm({
             <FormItem>
               <FormLabel>Allocation</FormLabel>
               <FormControl>
-                <Input
-                  id="allocation"
-                  placeholder={`${remainingAllocationPercentage}%`}
-                  {...field}
-                />
+                <Input id="allocation" placeholder="0" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,8 +127,9 @@ function AddBeneficiaryForm({
         <DialogFooter>
           <FormSubmitButton
             isPending={form.formState.isSubmitting}
-            value="Add Beneficiary"
-            loadingValue="Adding..."
+            disabled={!form.formState.isDirty || !form.formState.isValid}
+            value="Save Changes"
+            loadingValue="Editing..."
           />
         </DialogFooter>
       </form>
