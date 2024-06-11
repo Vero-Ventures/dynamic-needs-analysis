@@ -9,7 +9,9 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-import { calculateWant, formatMoney } from "@/lib/utils";
+
+import { calculateWant } from "@/lib/total-needs/utils";
+import { formatMoney } from "@/lib/utils";
 
 export interface TotalItem {
   id: number;

@@ -16,7 +16,8 @@ import {
   calculateInsuredIncomeAmount,
   calculateYearsOfActiveIncome,
   findSelectedBracket,
-} from "@/lib/utils";
+} from "@/lib/client/utils";
+
 import type { ProvinceInitials } from "@/constants/provinces";
 import { CANADIAN_PROVINCES } from "@/constants/provinces";
 import type { ClientData } from "@/app/data/db";

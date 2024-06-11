@@ -4,7 +4,7 @@ import { DollarSignIcon, HandCoinsIcon } from "lucide-react";
 import MoneyCardWithIcon from "./money-card-icon";
 import type { TotalItem } from "./total-needs-table";
 import { TotalNeedsTable } from "./total-needs-table";
-import { calculateWant } from "@/lib/utils";
+import { calculateWant } from "@/lib/total-needs/utils";
 import { useState } from "react";
 
 const initialTotalInsurableNeeds: TotalItem[] = [

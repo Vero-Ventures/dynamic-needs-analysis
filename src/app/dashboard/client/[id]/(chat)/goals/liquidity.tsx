@@ -15,11 +15,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import {
   calculateSurplusShortfall,
   calculateTotalSumGoals,
-  formatMoney,
-} from "@/lib/utils";
+} from "@/lib/goals/utils";
+
+import { formatMoney } from "@/lib/utils";
 
 export function LiquidityTable() {
   const totalSumGoals = calculateTotalSumGoals(goals);
