@@ -23,10 +23,19 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { cn, sleep } from "@/lib/utils";
+import { cn, formatMoney, sleep } from "@/lib/utils";
 import { addDebt } from "../actions";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useRouter } from "next/navigation";
+import {
+  calculateAmountPaidOffDollars,
+  calculateCurrentValueOfDebtDollars,
+  calculateCurrentYearsHeld,
+  calculateDebtRemainingDollars,
+  calculateFutureValueOfActualTermDebtDollars,
+  calculateInsurableFutureValueDollars,
+  calculateYearsToBePaidOff,
+} from "@/lib/debts/utils";
 
 const addDebtSchema = z.object({
   name: z.string(),
@@ -52,6 +61,37 @@ export default function DebtForm() {
       annualPayment: 0,
     },
   });
+
+  // derived values
+  const currentYearsHeld = calculateCurrentYearsHeld(
+    form.getValues("yearAcquired")
+  );
+  const amountPaidOff = calculateAmountPaidOffDollars(
+    form.getValues("annualPayment"),
+    currentYearsHeld
+  );
+  const currentDebtValue = calculateCurrentValueOfDebtDollars(
+    form.getValues("initialValue"),
+    form.getValues("rate"),
+    currentYearsHeld
+  );
+  const debtRemaining = calculateDebtRemainingDollars(
+    currentDebtValue,
+    amountPaidOff
+  );
+  const yearsToBePaidOff = calculateYearsToBePaidOff(
+    form.getValues("rate"),
+    form.getValues("annualPayment"),
+    debtRemaining
+  );
+  const insurableFutureValue = calculateInsurableFutureValueDollars(
+    calculateFutureValueOfActualTermDebtDollars(
+      form.getValues("initialValue"),
+      form.getValues("rate"),
+      form.getValues("term")
+    ),
+    amountPaidOff
+  );
 
   async function onSubmit(values: AddDebtFormSchema) {
     await sleep(3000);
@@ -167,11 +207,13 @@ export default function DebtForm() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="current-years-held">Current Years Held</Label>
-                <div className="font-bold">3</div>
+                <div className="font-bold">{currentYearsHeld}</div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="amount-paid-off">Amount Paid Off ($)</Label>
-                <div className="font-bold">$50</div>
+                <Label htmlFor="years-to-be-paid-off">
+                  Years to be Paid Off
+                </Label>
+                <div className="font-bold">{yearsToBePaidOff}</div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -179,25 +221,25 @@ export default function DebtForm() {
                 <Label htmlFor="current-debt-value">
                   Current Value of Debt ($)
                 </Label>
-                <div className="font-bold">$250</div>
+                <div className="font-bold">{formatMoney(currentDebtValue)}</div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="debt-remaining">Debt Remaining</Label>
-                <div className="font-bold">$180</div>
+                <Label htmlFor="debt-remaining">Debt Remaining ($)</Label>
+                <div className="font-bold">{formatMoney(debtRemaining)}</div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="years-to-be-paid-off">
-                  Years to be Paid Off
-                </Label>
-                <div className="font-bold">5</div>
+                <Label htmlFor="amount-paid-off">Amount Paid Off ($)</Label>
+                <div className="font-bold">{formatMoney(amountPaidOff)}</div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="insurable-future-value">
                   Insurable Future Value ($)
                 </Label>
-                <div className="font-bold">$170.20</div>
+                <div className="font-bold">
+                  {formatMoney(insurableFutureValue)}
+                </div>
               </div>
             </div>
 
