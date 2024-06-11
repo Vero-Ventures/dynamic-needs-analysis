@@ -1,28 +1,22 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { DebtSchema, debts } from "@/app/data/db";
+import { debts } from "@/app/data/db";
+import type { AddDebtFormSchema } from "./add/debt-form";
+import {
+  amountPaidOffDollars,
+  currentYearsHeld,
+  futureValueOfActualTermDebtDollars,
+  insurableFutureValueDollars as calculateInsurableFutureValueDollars,
+} from "@/lib/debts/utils";
 
-export async function addDebt(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = DebtSchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
+export async function addDebt(data: AddDebtFormSchema) {
+  const { name, initialValue, yearAcquired, rate, term, annualPayment } = data;
 
-  const {
-    name,
-    initialValue,
-    yearAcquired,
-    rate,
-    term,
-    annualPayment,
-    insurableFutureValueDollars,
-  } = parsed.data;
+  const insurableFutureValueDollars = calculateInsurableFutureValueDollars(
+    futureValueOfActualTermDebtDollars(initialValue, rate, term),
+    amountPaidOffDollars(annualPayment, currentYearsHeld(yearAcquired))
+  );
 
   debts.push({
     id: debts.length,
