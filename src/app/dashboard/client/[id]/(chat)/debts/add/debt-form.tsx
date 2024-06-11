@@ -38,7 +38,7 @@ import {
 } from "@/lib/debts/utils";
 
 const addDebtSchema = z.object({
-  name: z.string(),
+  name: z.string().trim(),
   initialValue: z.coerce.number(),
   yearAcquired: z.coerce.number(),
   rate: z.coerce.number(),
