@@ -27,10 +27,10 @@ export type AddBusinessesFormSchema = z.infer<typeof addBusinessSchema>;
 
 export default function AddBusinessesForm({
   business,
-  setBusiness,
+  onAddBusiness,
 }: {
   business: AddBusinessesFormSchema;
-  setBusiness: React.Dispatch<React.SetStateAction<AddBusinessesFormSchema>>;
+  onAddBusiness: (values: AddBusinessesFormSchema) => void;
 }) {
   const { nextStep } = useStepper();
   const form = useForm<AddBusinessesFormSchema>({
@@ -39,7 +39,7 @@ export default function AddBusinessesForm({
   });
 
   async function onSubmit(values: AddBusinessesFormSchema) {
-    setBusiness((business) => ({ ...business, ...values }));
+    onAddBusiness(values);
     nextStep();
   }
 

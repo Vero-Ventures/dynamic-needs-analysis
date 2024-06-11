@@ -46,6 +46,10 @@ export default function AddBusinessStepper({
     },
   ]);
 
+  function onAddBusiness(values: AddBusinessesFormSchema) {
+    setBusiness((business) => ({ ...business, ...values }));
+  }
+
   function onAddShareholder(shareholder: AddShareholderFormSchema) {
     setShareholders([
       ...shareholders,
@@ -86,34 +90,14 @@ export default function AddBusinessStepper({
       totalMajorShareholderInsurance
     );
 
-  const totalShareholderTableData = [
-    {
-      label: "Total Shareholder Percentage Owned (%)",
-      totalAmount: `${totalShareholderPercentageOwned}%`,
-    },
-    {
-      label: "Total EBITDA Contribution (%)",
-      totalAmount: `${totalEbitdaContributionPercentage}%`,
-    },
-    {
-      label: "Total Major Shareholder Value ($)",
-      totalAmount: formatMoney(totalMajorShareholderValue),
-    },
-    {
-      label: "Total Major Shareholder Insurance ($)",
-      totalAmount: formatMoney(totalMajorShareholderInsurance),
-    },
-    {
-      label: "Total Major Shareholder Disparity ($)",
-      totalAmount: formatMoney(totalMajorShareholderDisparity),
-    },
-  ];
-
   return (
     <div className="flex w-full flex-col gap-4">
       <Stepper orientation="vertical" initialStep={0} steps={steps}>
         <Step icon={Building2Icon} label="Add Business">
-          <AddBusinessesForm business={business} setBusiness={setBusiness} />
+          <AddBusinessesForm
+            business={business}
+            onAddBusiness={onAddBusiness}
+          />
         </Step>
         <Step icon={Users2Icon} label="Add Shareholders">
           <div className="my-4 space-y-6">
@@ -125,7 +109,30 @@ export default function AddBusinessStepper({
               onEditShareholder={onEditShareholder}
               onDeleteShareholder={onDeleteShareholder}
             />
-            <TotalShareholderTable data={totalShareholderTableData} />
+            <TotalShareholderTable
+              data={[
+                {
+                  label: "Total Shareholder Percentage Owned (%)",
+                  totalAmount: `${totalShareholderPercentageOwned}%`,
+                },
+                {
+                  label: "Total EBITDA Contribution (%)",
+                  totalAmount: `${totalEbitdaContributionPercentage}%`,
+                },
+                {
+                  label: "Total Major Shareholder Value ($)",
+                  totalAmount: formatMoney(totalMajorShareholderValue),
+                },
+                {
+                  label: "Total Major Shareholder Insurance ($)",
+                  totalAmount: formatMoney(totalMajorShareholderInsurance),
+                },
+                {
+                  label: "Total Major Shareholder Disparity ($)",
+                  totalAmount: formatMoney(totalMajorShareholderDisparity),
+                },
+              ]}
+            />
           </div>
           <StepperFormActions />
         </Step>

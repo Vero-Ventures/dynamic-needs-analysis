@@ -45,9 +45,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddGoalSchema } from "@/app/data/db";
+import { addGoalSchema } from "@/app/data/db";
 
-type FormSchema = z.infer<typeof AddGoalSchema>;
+type FormSchema = z.infer<typeof addGoalSchema>;
 
 function AddGoalForm({
   setOpen,
@@ -56,7 +56,7 @@ function AddGoalForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<FormSchema>({
-    resolver: zodResolver(AddGoalSchema),
+    resolver: zodResolver(addGoalSchema),
     defaultValues: {
       name: "",
       amount: 0,
