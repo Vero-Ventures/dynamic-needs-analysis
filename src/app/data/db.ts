@@ -148,7 +148,7 @@ export const debts: Debt[] = [
   },
 ];
 
-export const AddDebtSchema = z.object({
+export const DebtSchema = z.object({
   name: z.string(),
   initialValue: z.coerce.number(),
   yearAcquired: z.coerce.number(),

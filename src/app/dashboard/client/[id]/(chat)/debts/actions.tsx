@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddDebtSchema, debts } from "@/app/data/db";
+import { DebtSchema, debts } from "@/app/data/db";
 
 export async function addDebt(data: FormData) {
   const formData = Object.fromEntries(data.entries());
-  const parsed = AddDebtSchema.safeParse(formData);
+  const parsed = DebtSchema.safeParse(formData);
   if (!parsed.success) {
     const fields: Record<string, string> = {};
     for (const key of Object.keys(formData)) {
