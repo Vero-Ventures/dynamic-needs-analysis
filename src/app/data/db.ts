@@ -1,4 +1,5 @@
 import type { ProvinceInitials } from "@/constants/provinces";
+import type { TaxBracket } from "@/constants/tax";
 import { z } from "zod";
 
 // === Client Data and Schema ===
@@ -27,14 +28,14 @@ export const clients: ClientData[] = [
 
 // === Goals Data and Schema ===
 
-export interface GoalsData {
+export interface Goals {
   id: number;
   name: string;
   amount: number;
   philanthropic: boolean;
 }
 
-export const goalsData: GoalsData[] = [
+export const goals: Goals[] = [
   {
     id: 0,
     name: "Red Cross",
@@ -57,13 +58,13 @@ export const AddGoalSchema = z.object({
 
 // === Beneficiaries Data and Schema ===
 
-export interface BeneficiaryData {
+export interface Beneficiary {
   id: number;
   name: string;
   allocation: number;
 }
 
-export const beneficiariesData: BeneficiaryData[] = [
+export const beneficiaries: Beneficiary[] = [
   {
     id: 0,
     name: "John Harrison",
@@ -135,7 +136,7 @@ export const AddBusinessSchema = z.object({
 
 // === Debts Data and Schema ===
 
-export interface DebtData {
+export interface Debt {
   id: number;
   name: string;
   initialValue: number;
@@ -146,7 +147,7 @@ export interface DebtData {
   insurableFutureValueDollars: number;
 }
 
-export const debtsData: DebtData[] = [
+export const debts: Debt[] = [
   {
     id: 0,
     name: "Bank Loan",
@@ -168,3 +169,20 @@ export const AddDebtSchema = z.object({
   annualPayment: z.coerce.number(),
   insurableFutureValueDollars: z.coerce.number(),
 });
+
+export interface Asset {
+  name: string;
+  initialValue: number;
+  currentValue: number;
+  yearAcquired: number;
+  rate: number;
+  term: number;
+  type: string;
+  isTaxable: boolean;
+  isLiquid: boolean;
+  isToBeSold: boolean;
+  beneficiaries: Beneficiary[];
+  selectedTaxBracket: TaxBracket | undefined;
+  capitalGainsTaxRate: number;
+  futureTaxLiabilityDollars?: number;
+}

@@ -7,7 +7,7 @@ export default function Liquidity() {
   );
 }
 
-import { goalsData } from "@/app/data/db";
+import { goals } from "@/app/data/db";
 import {
   Table,
   TableBody,
@@ -22,7 +22,7 @@ import {
 } from "@/lib/utils";
 
 export function LiquidityTable() {
-  const totalSumGoals = calculateTotalSumGoals(goalsData);
+  const totalSumGoals = calculateTotalSumGoals(goals);
   const surplusShortfall = calculateSurplusShortfall(0, totalSumGoals);
 
   const liquidityData = [

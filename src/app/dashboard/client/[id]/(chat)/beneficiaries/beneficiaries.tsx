@@ -1,10 +1,10 @@
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
 import BeneficiaryDialog from "./beneficiary-dialog";
-import { beneficiariesData } from "@/app/data/db";
+import { beneficiaries } from "@/app/data/db";
 
 export default function Beneficiaries() {
-  const totalAllocationPercentage = beneficiariesData.reduce(
+  const totalAllocationPercentage = beneficiaries.reduce(
     (acc, cur) => acc + cur.allocation,
     0,
   );
@@ -23,9 +23,7 @@ export default function Beneficiaries() {
         />
       </div>
       <BeneficiariesTable />
-      <DesiredBeneficiaryAllocationChart
-        beneficiariesData={beneficiariesData}
-      />
+      <DesiredBeneficiaryAllocationChart beneficiariesData={beneficiaries} />
     </section>
   );
 }

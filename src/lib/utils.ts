@@ -92,9 +92,9 @@ export async function sleep(ms: number) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-import type { GoalsData } from "@/app/data/db";
+import type { Goals } from "@/app/data/db";
 
-export function calculateTotalSumGoals(data: GoalsData[]) {
+export function calculateTotalSumGoals(data: Goals[]) {
   return data.reduce((total, goal) => total + goal.amount, 0);
 }
 

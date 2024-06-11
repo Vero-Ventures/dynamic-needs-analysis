@@ -6,16 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { BeneficiaryData } from "@/app/data/db";
-import { beneficiariesData } from "@/app/data/db";
+import type { Beneficiary } from "@/app/data/db";
+import { beneficiaries } from "@/app/data/db";
 import { cn } from "@/lib/utils";
 import { deleteBeneficiary } from "./actions";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 
-export type Beneficiary = {
-  name: string;
-  allocation: number;
-};
 export default function BeneficiariesTable() {
   return (
     <Table className="mx-auto max-w-xl">
@@ -23,14 +19,14 @@ export default function BeneficiariesTable() {
         <TableRow>
           <TableHead
             className={cn("text-left", {
-              "text-center": beneficiariesData.length !== 0,
+              "text-center": beneficiaries.length !== 0,
             })}
           >
             Name
           </TableHead>
           <TableHead
             className={cn("text-right", {
-              "text-center": beneficiariesData.length !== 0,
+              "text-center": beneficiaries.length !== 0,
             })}
           >
             Allocation (%)
@@ -38,7 +34,7 @@ export default function BeneficiariesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {beneficiariesData.map((b) => (
+        {beneficiaries.map((b) => (
           <BeneficiaryTableRow
             key={b.id}
             id={b.id}
@@ -51,7 +47,7 @@ export default function BeneficiariesTable() {
   );
 }
 
-function BeneficiaryTableRow({ id, name, allocation }: BeneficiaryData) {
+function BeneficiaryTableRow({ id, name, allocation }: Beneficiary) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
