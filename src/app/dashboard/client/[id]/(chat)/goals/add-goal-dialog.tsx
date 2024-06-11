@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
-import { sleep } from "@/lib/utils";
 import { addGoal } from "./actions";
 
 export default function AddGoalDialog() {
@@ -68,7 +67,6 @@ function AddGoalForm({
   async function onSubmit() {
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
-    await sleep(3000);
     await addGoal(formData);
     setOpen(false);
   }
