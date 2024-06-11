@@ -18,6 +18,7 @@ import {
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import type { Shareholder } from "@/app/data/db";
+import { addBusiness } from "./actions";
 
 const steps = [
   { label: "Add Business" },
@@ -46,7 +47,11 @@ export default function AddBusinessStepper({
     },
   ]);
 
-  function onAddBusiness(values: AddBusinessesFormSchema) {
+  async function handleAddBusiness() {
+    await addBusiness(business, shareholders);
+  }
+
+  function handleSubmitBusiness(values: AddBusinessesFormSchema) {
     setBusiness((business) => ({ ...business, ...values }));
   }
 
@@ -96,7 +101,7 @@ export default function AddBusinessStepper({
         <Step icon={Building2Icon} label="Add Business">
           <AddBusinessesForm
             business={business}
-            onAddBusiness={onAddBusiness}
+            onAddBusiness={handleSubmitBusiness}
           />
         </Step>
         <Step icon={Users2Icon} label="Add Shareholders">
@@ -134,7 +139,7 @@ export default function AddBusinessStepper({
               ]}
             />
           </div>
-          <StepperFormActions />
+          <StepperFormActions onSubmitBusiness={handleAddBusiness} />
         </Step>
       </Stepper>
     </div>
