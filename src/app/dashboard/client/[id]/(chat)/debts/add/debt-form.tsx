@@ -255,6 +255,7 @@ export default function DebtForm() {
                   Cancel
                 </Link>
                 <FormSubmitButton
+                  disabled={!form.formState.isDirty || !form.formState.isValid}
                   className="order-1 w-full lg:order-2"
                   isPending={form.formState.isSubmitting}
                   value="Add Debt"
