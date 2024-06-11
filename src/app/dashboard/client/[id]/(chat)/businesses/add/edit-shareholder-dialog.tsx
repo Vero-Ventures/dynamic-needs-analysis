@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { SquarePenIcon } from "lucide-react";
 
 export default function EditShareholderDialog({
   shareholder,
@@ -22,9 +22,7 @@ export default function EditShareholderDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <PencilIcon />
-        </Button>
+        <SquarePenIcon className="hover:cursor-pointer" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -53,11 +51,10 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { PencilIcon } from "lucide-react";
 import type { Shareholder } from "@/app/data/db";
 
 const EditShareholderSchema = z.object({
-  name: z.string(),
+  name: z.string().trim(),
   sharePercentage: z.coerce.number(),
   insuranceCoverage: z.coerce.number(),
   ebitdaContributionPercentage: z.coerce.number(),
