@@ -51,7 +51,7 @@ export const beneficiariesData: BeneficiaryData[] = [
   },
 ];
 
-export const AddBeneficiarySchema = z.object({
+export const BeneficiarySchema = z.object({
   name: z.string(),
   allocation: z.coerce.number(),
 });

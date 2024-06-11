@@ -51,10 +51,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { sleep } from "@/lib/utils";
-import { AddBeneficiarySchema } from "@/app/data/db";
+import { BeneficiarySchema } from "@/app/data/db";
 import { addBeneficiary } from "./actions";
 
-type FormSchema = z.infer<typeof AddBeneficiarySchema>;
+type FormSchema = z.infer<typeof BeneficiarySchema>;
 
 function AddBeneficiaryForm({
   remainingAllocationParts,
@@ -65,7 +65,7 @@ function AddBeneficiaryForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<FormSchema>({
-    resolver: zodResolver(AddBeneficiarySchema),
+    resolver: zodResolver(BeneficiarySchema),
     defaultValues: {
       name: "",
       allocation: remainingAllocationParts,
