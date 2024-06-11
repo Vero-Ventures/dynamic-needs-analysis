@@ -3,11 +3,11 @@ import EditBusinessStepper from "./edit-business-stepper";
 import { notFound } from "next/navigation";
 
 export default function EditBusinessPage({
-  businessId,
+  params,
 }: {
-  businessId: string;
+  params: { businessId: string };
 }) {
-  const business = businesses.at(+businessId);
+  const business = businesses.at(+params.businessId);
   if (!business) {
     notFound();
   }

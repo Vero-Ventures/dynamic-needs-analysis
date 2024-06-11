@@ -118,7 +118,7 @@ export const businesses: Business[] = [
 
 // === Debts Data and Schema ===
 
-interface Debt {
+export interface Debt {
   id: number;
   name: string;
   initialValue: number;
