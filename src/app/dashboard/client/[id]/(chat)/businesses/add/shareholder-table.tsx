@@ -16,17 +16,20 @@ import {
   calculateShareValue,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
+import EditShareholderDialog from "./edit-shareholder-dialog";
 
 export function ShareholderTable({
   shareholders,
   valuation,
   ebitda,
   onDeleteShareholder,
+  onEditShareholder,
 }: {
   shareholders: Shareholder[];
   valuation: number;
   ebitda: number;
   onDeleteShareholder: (id: number) => void;
+  onEditShareholder: (updatedShareholder: Shareholder) => void;
 }) {
   return (
     <Table>
@@ -39,6 +42,7 @@ export function ShareholderTable({
           <TableHead>$ EBITDA Contribution</TableHead>
           <TableHead>Share Value ($)</TableHead>
           <TableHead>Liquidation Disparity ($)</TableHead>
+          <TableHead className="text-right"></TableHead>
           <TableHead className="text-right"></TableHead>
         </TableRow>
       </TableHeader>
@@ -63,6 +67,12 @@ export function ShareholderTable({
               {formatMoney(
                 calculateLiquidationDisparity(shareholder, valuation)
               )}
+            </TableCell>
+            <TableCell className="text-right">
+              <EditShareholderDialog
+                shareholder={shareholder}
+                onEditShareholder={onEditShareholder}
+              />
             </TableCell>
             <TableCell className="text-right">
               <DeleteShareholder

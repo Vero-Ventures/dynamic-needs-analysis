@@ -59,6 +59,13 @@ export default function AddBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
+  function onEditShareholder(updatedShareholder: Shareholder) {
+    setShareholders(
+      shareholders.map((s) =>
+        s.id === updatedShareholder.id ? updatedShareholder : s
+      )
+    );
+  }
   const totalShareholderPercentageOwned =
     calculateTotalShareholderPercentageOwned(shareholders);
 
@@ -115,6 +122,7 @@ export default function AddBusinessStepper({
               shareholders={shareholders}
               valuation={business.valuation}
               ebitda={business.ebitda}
+              onEditShareholder={onEditShareholder}
               onDeleteShareholder={onDeleteShareholder}
             />
             <TotalShareholderTable data={totalShareholderTableData} />
