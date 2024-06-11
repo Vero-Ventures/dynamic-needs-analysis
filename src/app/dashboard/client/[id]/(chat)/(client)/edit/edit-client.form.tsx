@@ -73,11 +73,10 @@ export default function EditClientForm({
     resolver: zodResolver(editClientFormSchema),
     defaultValues: defaultFormValues,
   });
-
-  const age = calculateAgeFromDate(form.getValues("birthDate"));
+  const age = calculateAgeFromDate(form.watch("birthDate"));
   const taxBracket = findSelectedBracket(
-    form.getValues("province"),
-    form.getValues("annualIncome")
+    form.watch("province"),
+    form.watch("annualIncome")
   );
   async function onSubmit(values: EditClientFormSchema) {
     await editClient(0, values);
@@ -140,7 +139,7 @@ export default function EditClientForm({
             <p className="font-bold">
               {calculateYearsOfActiveIncome(
                 age,
-                form.getValues("expectedRetirementAge")
+                form.watch("expectedRetirementAge")
               )}
             </p>
           </div>
@@ -205,8 +204,8 @@ export default function EditClientForm({
             </Label>
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
-                form.getValues("annualIncome"),
-                form.getValues("incomeMultiplier")
+                form.watch("annualIncome"),
+                form.watch("incomeMultiplier")
               )}
             </div>
           </div>
