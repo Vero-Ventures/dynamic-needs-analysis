@@ -50,7 +50,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const addShareholderSchema = z.object({
-  name: z.string(),
+  name: z.string().trim(),
   sharePercentage: z.coerce.number(),
   insuranceCoverage: z.coerce.number(),
   ebitdaContributionPercentage: z.coerce.number(),

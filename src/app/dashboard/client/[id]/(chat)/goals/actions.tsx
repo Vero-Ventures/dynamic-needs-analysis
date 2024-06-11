@@ -1,26 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { addGoalSchema, goals } from "@/app/data/db";
+import { goals } from "@/app/data/db";
+import type { AddGoalFormSchema } from "./add-goal-dialog";
 
-export async function addGoal(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = addGoalSchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
-
-  const { name, amount, philanthropic } = parsed.data;
-
+export async function addGoal(goal: AddGoalFormSchema) {
   goals.push({
     id: goals.length,
-    name,
-    amount,
-    philanthropic: philanthropic === "on",
+    ...goal,
+    philanthropic: goal.philanthropic === "on",
   });
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }

@@ -16,7 +16,7 @@ import { StepperFormActions } from "./stepper-form-actions";
 import { useStepper } from "@/components/ui/stepper";
 
 const addBusinessSchema = z.object({
-  name: z.string(),
+  name: z.string().trim(),
   valuation: z.coerce.number(),
   ebitda: z.coerce.number(),
   appreciationRate: z.coerce.number(),

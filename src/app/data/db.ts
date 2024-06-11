@@ -50,12 +50,6 @@ export const goals: Goals[] = [
   },
 ];
 
-export const addGoalSchema = z.object({
-  name: z.string(),
-  amount: z.coerce.number(),
-  philanthropic: z.string(),
-});
-
 // === Beneficiaries Data and Schema ===
 
 export interface Beneficiary {
