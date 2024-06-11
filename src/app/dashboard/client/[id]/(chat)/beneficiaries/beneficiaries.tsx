@@ -7,7 +7,7 @@ import { beneficiaries } from "@/app/data/db";
 export default function Beneficiaries() {
   const totalAllocationParts = beneficiaries.reduce(
     (acc, cur) => acc + cur.allocation,
-    0,
+    0
   );
   const remainingAllocationParts = +(100 - totalAllocationParts)
     .toFixed(2)

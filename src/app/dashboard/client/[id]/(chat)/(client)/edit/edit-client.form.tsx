@@ -77,7 +77,7 @@ export default function EditClientForm({
   const age = calculateAgeFromDate(form.getValues("birthDate"));
   const taxBracket = findSelectedBracket(
     form.getValues("province"),
-    form.getValues("annualIncome"),
+    form.getValues("annualIncome")
   );
   async function onSubmit(values: EditClientFormSchema) {
     await editClient(0, values);
@@ -140,7 +140,7 @@ export default function EditClientForm({
             <p className="font-bold">
               {calculateYearsOfActiveIncome(
                 age,
-                form.getValues("expectedRetirementAge"),
+                form.getValues("expectedRetirementAge")
               )}
             </p>
           </div>
@@ -206,7 +206,7 @@ export default function EditClientForm({
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
                 form.getValues("annualIncome"),
-                form.getValues("incomeMultiplier"),
+                form.getValues("incomeMultiplier")
               )}
             </div>
           </div>
