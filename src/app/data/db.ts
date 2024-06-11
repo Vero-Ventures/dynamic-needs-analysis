@@ -1,4 +1,29 @@
+import type { ProvinceInitials } from "@/constants/provinces";
 import { z } from "zod";
+
+// === Client Data and Schema ===
+
+export interface ClientData {
+  id: number;
+  name: string;
+  birthDate: Date;
+  expectedRetirementAge: number;
+  province: ProvinceInitials;
+  annualIncome: number;
+  incomeMultiplier: number;
+}
+
+export const clients: ClientData[] = [
+  {
+    id: 0,
+    name: "John Doe",
+    birthDate: new Date(),
+    expectedRetirementAge: 65,
+    province: "BC",
+    annualIncome: 0,
+    incomeMultiplier: 0,
+  },
+];
 
 // === Goals Data and Schema ===
 

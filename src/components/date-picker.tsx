@@ -12,7 +12,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { RetirementPlanningForm } from "@/app/dashboard/client/[id]/(chat)/retirement-planning";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();
@@ -45,10 +44,10 @@ export function DatePicker() {
 
 export function BirthDatePicker({
   date,
-  setForm,
+  onSelect,
 }: {
   date: Date;
-  setForm: React.Dispatch<React.SetStateAction<RetirementPlanningForm>>;
+  onSelect: (...event: any[]) => void;
 }) {
   return (
     <Popover>
@@ -68,13 +67,11 @@ export function BirthDatePicker({
         <Calendar
           captionLayout="dropdown"
           fromYear={1900}
-          toYear={new Date().getFullYear()}
+          toDate={new Date()}
           showOutsideDays={false}
           mode="single"
           selected={date}
-          onSelect={(date) =>
-            date ? setForm((form) => ({ ...form, birthDate: date })) : ""
-          }
+          onSelect={onSelect}
           initialFocus
         />
       </PopoverContent>

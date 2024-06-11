@@ -4,7 +4,6 @@ import { Slider } from "@/components/ui/slider";
 import {
   Table,
   TableBody,
-  TableFooter,
   TableHead,
   TableHeader,
   TableCell,
@@ -47,7 +46,6 @@ export function TotalNeedsTable({
           />
         ))}
       </TableBody>
-      <TableFooter></TableFooter>
     </Table>
   );
 }
