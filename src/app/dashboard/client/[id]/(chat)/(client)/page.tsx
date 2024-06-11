@@ -9,7 +9,7 @@ import { formatMoney, cn } from "@/lib/utils";
 import Link from "next/link";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import getClient from "./(client)/actions";
+import getClient from "./actions";
 
 export default async function ClientPage() {
   const client = await getClient(0);

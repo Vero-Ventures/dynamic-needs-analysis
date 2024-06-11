@@ -99,7 +99,7 @@ export interface Business {
 export const businesses: Business[] = [
   {
     id: 0,
-    name: "BCIT Incorporated",
+    name: "Vero Ventures",
     valuation: 1000,
     ebitda: 0,
     appreciationRate: 0,

@@ -35,6 +35,14 @@ export function StepperFormActions({
       ) : (
         <>
           <Button
+            onClick={() => router.replace("/dashboard/client/1/businesses")}
+            size="sm"
+            variant="secondary"
+            type="button"
+          >
+            Cancel
+          </Button>
+          <Button
             disabled={isDisabledStep}
             onClick={prevStep}
             size="sm"

@@ -15,6 +15,7 @@ export async function addBusiness(
     shareholders,
   };
   businesses.push(newBusiness);
+  revalidatePath("/dashboard/client/[id]/businesses", "page");
 }
 
 export async function deleteBusiness(id: number) {

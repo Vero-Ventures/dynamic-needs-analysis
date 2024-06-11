@@ -29,6 +29,7 @@ import { businesses } from "@/app/data/db";
 import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
 import { cn, formatMoney } from "@/lib/utils";
+import { SquarePenIcon } from "lucide-react";
 
 function BusinessTable() {
   return (
@@ -38,6 +39,7 @@ function BusinessTable() {
           <TableHead className="w-[200px]">Name</TableHead>
           <TableHead>Valuation ($)</TableHead>
           <TableHead className="text-right"></TableHead>
+          <TableHead className="text-right"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -45,6 +47,14 @@ function BusinessTable() {
           <TableRow key={b.name}>
             <TableCell className="font-medium">{b.name}</TableCell>
             <TableCell>{formatMoney(b.valuation)}</TableCell>
+            <TableCell>
+              <Link
+                href={`/dashboard/client/1/businesses/edit/${b.id}`}
+                className="hover:cursor-pointer"
+              >
+                <SquarePenIcon />
+              </Link>
+            </TableCell>
             <TableCell>
               <DeleteBusiness id={b.id} />
             </TableCell>
