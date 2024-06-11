@@ -5,11 +5,13 @@ import { Loader2Icon } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
 export default function FormSubmitButton({
+  className,
   value,
   loadingValue,
   isPending,
   disabled,
 }: {
+  className?: string;
   value: string;
   loadingValue: string;
   isPending?: boolean;
@@ -17,7 +19,11 @@ export default function FormSubmitButton({
 }) {
   const { pending } = useFormStatus();
   return (
-    <Button disabled={isPending || pending || disabled} type="submit">
+    <Button
+      className={className}
+      disabled={isPending || pending || disabled}
+      type="submit"
+    >
       {isPending || pending ? (
         <div className="flex items-center gap-2">
           <Loader2Icon className="animate-spin" />
