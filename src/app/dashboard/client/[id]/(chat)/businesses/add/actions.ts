@@ -18,7 +18,7 @@ export async function addShareholder(data: FormData) {
     name,
     sharePercentage,
     insuranceCoverage,
-    EBITDAPercentContribution,
+    ebitdaContributionPercent: EBITDAPercentContribution,
   } = parsed.data;
 
   shareholders.push({
@@ -26,8 +26,8 @@ export async function addShareholder(data: FormData) {
     name,
     sharePercentage,
     insuranceCoverage,
-    EBITDAPercentContribution,
-    EBITDAContribution: 0,
+    ebitdaContributionPercentage: EBITDAPercentContribution,
+    ebitdaContribution: 0,
     shareValue: 0,
     liquidationDisparity: 0,
   });

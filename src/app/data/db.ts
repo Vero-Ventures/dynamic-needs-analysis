@@ -89,8 +89,8 @@ export interface Shareholder {
   name: string;
   sharePercentage: number;
   insuranceCoverage: number;
-  EBITDAPercentContribution: number;
-  EBITDAContribution: number;
+  ebitdaContributionPercentage: number;
+  ebitdaContribution: number;
   shareValue: number;
   liquidationDisparity: number;
 }
@@ -101,8 +101,8 @@ export const shareholders: Shareholder[] = [
     name: "Scott Chen",
     sharePercentage: 100,
     insuranceCoverage: 0,
-    EBITDAPercentContribution: 100,
-    EBITDAContribution: 0,
+    ebitdaContributionPercentage: 100,
+    ebitdaContribution: 0,
     shareValue: 0,
     liquidationDisparity: 0,
   },
@@ -112,7 +112,7 @@ export const AddShareholderSchema = z.object({
   name: z.string(),
   sharePercentage: z.coerce.number(),
   insuranceCoverage: z.coerce.number(),
-  EBITDAPercentContribution: z.coerce.number(),
+  ebitdaContributionPercent: z.coerce.number(),
 });
 
 // === Business Data and Schema ===
@@ -120,16 +120,26 @@ export interface Business {
   id: number;
   name: string;
   valuation: number;
+  ebitda: number;
+  rate: number;
+  term: number;
 }
 
 export const businesses: Business[] = [
-  { id: 0, name: "BCIT Incorporated", valuation: 1000 },
+  {
+    id: 0,
+    name: "BCIT Incorporated",
+    valuation: 1000,
+    ebitda: 0,
+    rate: 0,
+    term: 0,
+  },
 ];
 
 export const AddBusinessSchema = z.object({
   name: z.string(),
   valuation: z.coerce.number(),
-  EBITDA: z.coerce.number(),
+  ebitda: z.coerce.number(),
   appreciationRate: z.coerce.number(),
   term: z.coerce.number(),
 });

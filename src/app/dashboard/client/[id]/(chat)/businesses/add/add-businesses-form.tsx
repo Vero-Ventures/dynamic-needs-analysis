@@ -27,7 +27,7 @@ export default function AddBusinessesForm() {
     defaultValues: {
       name: "",
       valuation: 0,
-      EBITDA: 0,
+      ebitda: 0,
       appreciationRate: 0,
       term: 0,
     },

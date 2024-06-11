@@ -35,8 +35,8 @@ export function ShareholderTable() {
             </TableCell>
             <TableCell>{shareholder.sharePercentage}%</TableCell>
             <TableCell>{formatMoney(shareholder.insuranceCoverage)}</TableCell>
-            <TableCell>{shareholder.EBITDAPercentContribution}%</TableCell>
-            <TableCell>{formatMoney(shareholder.EBITDAContribution)}</TableCell>
+            <TableCell>{shareholder.ebitdaContributionPercentage}%</TableCell>
+            <TableCell>{formatMoney(shareholder.ebitdaContribution)}</TableCell>
             <TableCell>{formatMoney(shareholder.shareValue)}</TableCell>
             <TableCell>
               {formatMoney(shareholder.liquidationDisparity)}

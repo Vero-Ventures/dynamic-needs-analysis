@@ -7,21 +7,21 @@ export function calculateTotalSumGoals(data: Goals[]) {
 export function calculateLiquidityPreserved(
   allocationFactor: number,
   totalFutureValueLiquid: number,
-) {
+): number {
   return totalFutureValueLiquid * (1 - allocationFactor);
 }
 
 export function calculateLiquidityAllocatedToGoals(
   allocationFactor: number,
   totalFutureValueLiquid: number,
-) {
+): number {
   return totalFutureValueLiquid * allocationFactor;
 }
 
 export function calculateSurplusShortfall(
   liquidityAllocated: number,
   totalSumGoals: number,
-) {
+): number {
   return liquidityAllocated - totalSumGoals;
 }
 
