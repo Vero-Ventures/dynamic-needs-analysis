@@ -14,13 +14,12 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import { CheckCircle2Icon } from "lucide-react";
 import { goalsData } from "@/app/data/db";
 import DeleteGoalButton from "@/components/delete-item-button";
 import AddGoalDialog from "./add-goal-dialog";
@@ -43,10 +42,8 @@ function GoalsTable() {
             <TableCell className="w-[200px] font-medium">{goal.name}</TableCell>
             <TableCell>{formatMoney(goal.amount)}</TableCell>
             <TableCell>
-              {goal.philanthropic ? (
+              {goal.philanthropic && (
                 <CheckCircle2Icon className="mx-auto stroke-green-600" />
-              ) : (
-                <XCircleIcon className="mx-auto stroke-red-600" />
               )}
             </TableCell>
             <TableCell className="text-right">
@@ -55,7 +52,6 @@ function GoalsTable() {
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter></TableFooter>
     </Table>
   );
 }

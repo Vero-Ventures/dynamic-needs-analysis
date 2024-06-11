@@ -11,7 +11,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -77,7 +76,6 @@ export function LiquidityTable() {
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter></TableFooter>
     </Table>
   );
 }
