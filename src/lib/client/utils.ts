@@ -25,7 +25,7 @@ import type { TaxBracket } from "@/constants/tax";
 
 export function findSelectedBracket(
   province: ProvinceInitials,
-  annualIncome: number,
+  annualIncome: number
 ): TaxBracket {
   const result = TAX_BRACKETS[province].find(
     (bracket: TaxBracket, index: number, array: TaxBracket[]) => {
@@ -34,7 +34,7 @@ export function findSelectedBracket(
         annualIncome >= bracket.minIncome &&
         (!nextBracket || annualIncome < nextBracket.minIncome)
       );
-    },
+    }
   );
   if (!result) {
     throw new Error("No bracket found");
@@ -44,7 +44,7 @@ export function findSelectedBracket(
 
 export function calculateYearsOfActiveIncome(
   age: number,
-  expectedRetirementAge: number,
+  expectedRetirementAge: number
 ) {
   if (age < 0 || expectedRetirementAge < 0) {
     throw new Error("Age and retirement age must be positive");
@@ -55,7 +55,7 @@ export function calculateYearsOfActiveIncome(
 
 export function calculateInsuredIncomeAmount(
   annualIncome: number,
-  incomeReplacementMultiplier: number,
+  incomeReplacementMultiplier: number
 ) {
   if (annualIncome < 0 || incomeReplacementMultiplier < 0) {
     throw new Error("Income and multiplier must be positive");

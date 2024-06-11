@@ -39,10 +39,10 @@ test("should throw an error when the birth year is 3 years in the future", () =>
   const futureBirthDate = new Date(
     today.getFullYear() + 3,
     today.getMonth(),
-    today.getDate(),
+    today.getDate()
   );
 
   expect(() => calculateAgeFromDate(futureBirthDate)).toThrow(
-    "Age cannot be negative",
+    "Age cannot be negative"
   );
 });

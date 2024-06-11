@@ -58,6 +58,6 @@ test("should return 'No bracket found' based on the annual income of -250000 in 
   const annualIncome = -250000;
 
   expect(() => findSelectedBracket(province, annualIncome)).toThrow(
-    "No bracket found",
+    "No bracket found"
   );
 });

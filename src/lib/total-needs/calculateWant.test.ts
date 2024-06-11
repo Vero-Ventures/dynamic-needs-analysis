@@ -33,18 +33,18 @@ test("Calculates want with 60% priority and no need", () => {
 
 test("Calculates want with 30% priority and negative need", () => {
   expect(() => calculateWant(-369121519, 30)).toThrow(
-    "Need and priority must be positive, and priority must be less than or equal to 100",
+    "Need and priority must be positive, and priority must be less than or equal to 100"
   );
 });
 
 test("Calculates want with negative priority", () => {
   expect(() => calculateWant(369121519, -30)).toThrow(
-    "Need and priority must be positive, and priority must be less than or equal to 100",
+    "Need and priority must be positive, and priority must be less than or equal to 100"
   );
 });
 
 test("Calculates want with priority greater than 100", () => {
   expect(() => calculateWant(369121519, 160)).toThrow(
-    "Need and priority must be positive, and priority must be less than or equal to 100",
+    "Need and priority must be positive, and priority must be less than or equal to 100"
   );
 });
