@@ -1,4 +1,4 @@
-import getClient from "@/app/data/client";
+import getClient from "../../(client)/actions";
 import AddBusinessStepper from "./add-business-stepper";
 import { notFound } from "next/navigation";
 

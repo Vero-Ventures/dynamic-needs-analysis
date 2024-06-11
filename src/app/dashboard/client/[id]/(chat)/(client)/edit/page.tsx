@@ -1,4 +1,4 @@
-import getClient from "@/app/data/client";
+import getClient from "../actions";
 import EditClientForm from "./edit-client.form";
 import { notFound } from "next/navigation";
 
