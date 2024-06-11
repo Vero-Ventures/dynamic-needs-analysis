@@ -4,18 +4,21 @@ import { revalidatePath } from "next/cache";
 import { debts } from "@/app/data/db";
 import type { AddDebtFormSchema } from "./add/debt-form";
 import {
-  amountPaidOffDollars,
-  currentYearsHeld,
-  futureValueOfActualTermDebtDollars,
-  insurableFutureValueDollars as calculateInsurableFutureValueDollars,
+  calculateAmountPaidOffDollars,
+  calculateCurrentYearsHeld,
+  calculateFutureValueOfActualTermDebtDollars,
+  calculateInsurableFutureValueDollars,
 } from "@/lib/debts/utils";
 
 export async function addDebt(data: AddDebtFormSchema) {
   const { name, initialValue, yearAcquired, rate, term, annualPayment } = data;
 
   const insurableFutureValueDollars = calculateInsurableFutureValueDollars(
-    futureValueOfActualTermDebtDollars(initialValue, rate, term),
-    amountPaidOffDollars(annualPayment, currentYearsHeld(yearAcquired))
+    calculateFutureValueOfActualTermDebtDollars(initialValue, rate, term),
+    calculateAmountPaidOffDollars(
+      annualPayment,
+      calculateCurrentYearsHeld(yearAcquired)
+    )
   );
 
   debts.push({
