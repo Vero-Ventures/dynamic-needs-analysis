@@ -10,7 +10,7 @@ export async function sleep(ms: number) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function formatMoney(amount: number, currency = "CAD") {
+export function formatMoney(amount: number, currency = "CAD"): string {
   return new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency,

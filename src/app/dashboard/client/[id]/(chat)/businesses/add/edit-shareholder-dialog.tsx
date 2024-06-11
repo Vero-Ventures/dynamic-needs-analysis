@@ -11,23 +11,28 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 
-export default function AddShareholderDialog({
-  onAddShareholder,
+export default function EditShareholderDialog({
+  shareholder,
+  onEditShareholder,
 }: {
-  onAddShareholder: (shareholder: AddShareholderFormSchema) => void;
+  shareholder: Shareholder;
+  onEditShareholder: (updatedShareholder: Shareholder) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add new Shareholder</Button>
+        <Button>
+          <PencilIcon />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Shareholder</DialogTitle>
+          <DialogTitle>Edit Shareholder</DialogTitle>
         </DialogHeader>
-        <AddShareholderForm
-          onAddShareholder={onAddShareholder}
+        <EditShareholderForm
+          shareholder={shareholder}
+          onEditShareholder={onEditShareholder}
           setOpen={setOpen}
         />
       </DialogContent>
@@ -48,35 +53,34 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { PencilIcon } from "lucide-react";
+import type { Shareholder } from "@/app/data/db";
 
-const addShareholderSchema = z.object({
+const EditShareholderSchema = z.object({
   name: z.string(),
   sharePercentage: z.coerce.number(),
   insuranceCoverage: z.coerce.number(),
   ebitdaContributionPercentage: z.coerce.number(),
 });
 
-export type AddShareholderFormSchema = z.infer<typeof addShareholderSchema>;
+export type EditShareholderFormSchema = z.infer<typeof EditShareholderSchema>;
 
-function AddShareholderForm({
+function EditShareholderForm({
   setOpen,
-  onAddShareholder,
+  shareholder,
+  onEditShareholder,
 }: {
+  shareholder: Shareholder;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onAddShareholder: (shareholder: AddShareholderFormSchema) => void;
+  onEditShareholder: (updatedShareholder: Shareholder) => void;
 }) {
-  const form = useForm<AddShareholderFormSchema>({
-    resolver: zodResolver(addShareholderSchema),
-    defaultValues: {
-      name: "",
-      sharePercentage: 0,
-      ebitdaContributionPercentage: 0,
-      insuranceCoverage: 0,
-    },
+  const form = useForm<EditShareholderFormSchema>({
+    resolver: zodResolver(EditShareholderSchema),
+    defaultValues: shareholder,
   });
 
-  async function onSubmit(values: AddShareholderFormSchema) {
-    onAddShareholder(values);
+  async function onSubmit(values: EditShareholderFormSchema) {
+    onEditShareholder({ id: shareholder.id, ...values });
     setOpen(false);
   }
 
@@ -143,8 +147,8 @@ function AddShareholderForm({
           <FormSubmitButton
             isPending={form.formState.isSubmitting}
             disabled={!form.formState.isDirty || !form.formState.isValid}
-            value="Add New Shareholder"
-            loadingValue="Adding..."
+            value="Save Changes"
+            loadingValue="Saving..."
           />
         </DialogFooter>
       </form>

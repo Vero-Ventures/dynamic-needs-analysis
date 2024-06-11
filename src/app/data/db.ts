@@ -50,7 +50,7 @@ export const goals: Goals[] = [
   },
 ];
 
-export const AddGoalSchema = z.object({
+export const addGoalSchema = z.object({
   name: z.string(),
   amount: z.coerce.number(),
   philanthropic: z.string(),
@@ -82,61 +82,49 @@ export const BeneficiarySchema = z.object({
   allocation: z.coerce.number(),
 });
 
-// === Shareholder Data and Schema ===
+// === Business Data and Schema ===
 
 export interface Shareholder {
   id: number;
   name: string;
   sharePercentage: number;
   insuranceCoverage: number;
-  EBITDAPercentContribution: number;
-  EBITDAContribution: number;
-  shareValue: number;
-  liquidationDisparity: number;
+  ebitdaContributionPercentage: number;
 }
 
-export const shareholders: Shareholder[] = [
-  {
-    id: 0,
-    name: "Scott Chen",
-    sharePercentage: 100,
-    insuranceCoverage: 0,
-    EBITDAPercentContribution: 100,
-    EBITDAContribution: 0,
-    shareValue: 0,
-    liquidationDisparity: 0,
-  },
-];
-
-export const AddShareholderSchema = z.object({
-  name: z.string(),
-  sharePercentage: z.coerce.number(),
-  insuranceCoverage: z.coerce.number(),
-  EBITDAPercentContribution: z.coerce.number(),
-});
-
-// === Business Data and Schema ===
 export interface Business {
   id: number;
   name: string;
   valuation: number;
+  ebitda: number;
+  appreciationRate: number;
+  term: number;
+  shareholders: Shareholder[];
 }
 
 export const businesses: Business[] = [
-  { id: 0, name: "BCIT Incorporated", valuation: 1000 },
+  {
+    id: 0,
+    name: "BCIT Incorporated",
+    valuation: 1000,
+    ebitda: 0,
+    appreciationRate: 0,
+    term: 0,
+    shareholders: [
+      {
+        id: 0,
+        name: "John Doe",
+        sharePercentage: 100,
+        insuranceCoverage: 0,
+        ebitdaContributionPercentage: 100,
+      },
+    ],
+  },
 ];
-
-export const AddBusinessSchema = z.object({
-  name: z.string(),
-  valuation: z.coerce.number(),
-  EBITDA: z.coerce.number(),
-  appreciationRate: z.coerce.number(),
-  term: z.coerce.number(),
-});
 
 // === Debts Data and Schema ===
 
-export interface Debt {
+interface Debt {
   id: number;
   name: string;
   initialValue: number;

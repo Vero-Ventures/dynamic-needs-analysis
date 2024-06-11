@@ -27,7 +27,7 @@ export function LiquidityTable() {
   const totalSumGoals = calculateTotalSumGoals(goals);
   const surplusShortfall = calculateSurplusShortfall(0, totalSumGoals);
 
-  const liquidityData = [
+  const tableData = [
     {
       label: "Total Current Value of Fixed Assets",
       totalAmount: "$250.00",
@@ -77,11 +77,11 @@ export function LiquidityTable() {
     <Table>
       <TableHeader />
       <TableBody>
-        {liquidityData.map((invoice) => (
-          <TableRow key={invoice.label}>
-            <TableCell>{invoice.label}:</TableCell>
+        {tableData.map((data) => (
+          <TableRow key={data.label}>
+            <TableCell>{data.label}:</TableCell>
             <TableCell className="text-right text-xl font-medium">
-              {invoice.totalAmount}
+              {data.totalAmount}
             </TableCell>
           </TableRow>
         ))}

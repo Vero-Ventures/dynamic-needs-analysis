@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddGoalSchema, goals } from "@/app/data/db";
+import { addGoalSchema, goals } from "@/app/data/db";
 
 export async function addGoal(data: FormData) {
   const formData = Object.fromEntries(data.entries());
-  const parsed = AddGoalSchema.safeParse(formData);
+  const parsed = addGoalSchema.safeParse(formData);
   if (!parsed.success) {
     const fields: Record<string, string> = {};
     for (const key of Object.keys(formData)) {

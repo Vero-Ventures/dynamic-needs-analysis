@@ -1,18 +1,36 @@
-import { shareholders } from "@/app/data/db";
+import type { Shareholder } from "@/app/data/db";
 import DeleteItemButton from "@/components/delete-item-button";
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteShareholder } from "./actions";
-import { formatMoney } from "@/lib/utils";
 
-export function ShareholderTable() {
+import { formatMoney } from "@/lib/utils";
+import {
+  calculateEbitdaContributionDollars,
+  calculateLiquidationDisparity,
+  calculateShareValue,
+} from "@/lib/businesses/utils";
+import { useState } from "react";
+import EditShareholderDialog from "./edit-shareholder-dialog";
+
+export function ShareholderTable({
+  shareholders,
+  valuation,
+  ebitda,
+  onDeleteShareholder,
+  onEditShareholder,
+}: {
+  shareholders: Shareholder[];
+  valuation: number;
+  ebitda: number;
+  onDeleteShareholder: (id: number) => void;
+  onEditShareholder: (updatedShareholder: Shareholder) => void;
+}) {
   return (
     <Table>
       <TableHeader>
@@ -25,6 +43,7 @@ export function ShareholderTable() {
           <TableHead>Share Value ($)</TableHead>
           <TableHead>Liquidation Disparity ($)</TableHead>
           <TableHead className="text-right"></TableHead>
+          <TableHead className="text-right"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -35,39 +54,78 @@ export function ShareholderTable() {
             </TableCell>
             <TableCell>{shareholder.sharePercentage}%</TableCell>
             <TableCell>{formatMoney(shareholder.insuranceCoverage)}</TableCell>
-            <TableCell>{shareholder.EBITDAPercentContribution}%</TableCell>
-            <TableCell>{formatMoney(shareholder.EBITDAContribution)}</TableCell>
-            <TableCell>{formatMoney(shareholder.shareValue)}</TableCell>
+            <TableCell>{shareholder.ebitdaContributionPercentage}%</TableCell>
             <TableCell>
-              {formatMoney(shareholder.liquidationDisparity)}
+              {formatMoney(
+                calculateEbitdaContributionDollars(shareholder, ebitda)
+              )}
+            </TableCell>
+            <TableCell>
+              {formatMoney(calculateShareValue(shareholder, valuation))}
+            </TableCell>
+            <TableCell>
+              {formatMoney(
+                calculateLiquidationDisparity(shareholder, valuation)
+              )}
             </TableCell>
             <TableCell className="text-right">
-              <DeleteShareholder id={shareholder.id} />
+              <EditShareholderDialog
+                shareholder={shareholder}
+                onEditShareholder={onEditShareholder}
+              />
+            </TableCell>
+            <TableCell className="text-right">
+              <DeleteShareholder
+                onDeleteShareholder={onDeleteShareholder}
+                id={shareholder.id}
+              />
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell>Total</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell>0%</TableCell>
-          <TableCell></TableCell>
-        </TableRow>
-      </TableFooter>
     </Table>
   );
 }
 
-function DeleteShareholder({ id }: { id: number }) {
-  const deleteShareholderWithBind = deleteShareholder.bind(null, id);
+function DeleteShareholder({
+  id,
+  onDeleteShareholder,
+}: {
+  id: number;
+  onDeleteShareholder: (id: number) => void;
+}) {
+  const [isPending, setIsPending] = useState(false);
+  function handleDeleteShareholder() {
+    setIsPending(true);
+    onDeleteShareholder(id);
+    setIsPending(false);
+  }
   return (
-    <form action={deleteShareholderWithBind}>
-      <DeleteItemButton />
-    </form>
+    <DeleteItemButton isPending={isPending} onClick={handleDeleteShareholder} />
+  );
+}
+
+export function TotalShareholderTable({
+  data,
+}: {
+  data: {
+    label: string;
+    totalAmount: string;
+  }[];
+}) {
+  return (
+    <Table className="max-w-lg">
+      <TableHeader />
+      <TableBody>
+        {data.map((item) => (
+          <TableRow key={item.label}>
+            <TableCell>{item.label}:</TableCell>
+            <TableCell className="text-right text-xl font-medium">
+              {item.totalAmount}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
