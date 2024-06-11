@@ -1,5 +1,5 @@
 import type { Business } from "@/app/data/db";
-import { shareholders, type Shareholder } from "@/app/data/db";
+import type { Shareholder } from "@/app/data/db";
 
 export function calculateEbitdaContributionDollars(
   shareholder: Shareholder,
@@ -24,7 +24,7 @@ export function calculateLiquidationDisparity(
   );
 }
 
-export function totalShareholderPercentageOwned(
+export function calculateTotalShareholderPercentageOwned(
   shareholders: Shareholder[]
 ): number {
   return shareholders.reduce(
@@ -33,7 +33,7 @@ export function totalShareholderPercentageOwned(
   );
 }
 
-export function totalEbitdaContribPercentage(
+export function calculateTotalEbitdaContributionPercentage(
   shareholders: Shareholder[]
 ): number {
   return shareholders.reduce(
@@ -42,7 +42,7 @@ export function totalEbitdaContribPercentage(
   );
 }
 
-export function totalMajorShareholderValue(
+export function calculateTotalMajorShareholderValue(
   shareholders: Shareholder[],
   valuation: number
 ): number {
@@ -53,7 +53,9 @@ export function totalMajorShareholderValue(
   );
 }
 
-export function totalMajorShareholderInsurance(): number {
+export function calculateTotalMajorShareholderInsurance(
+  shareholders: Shareholder[]
+): number {
   return shareholders.reduce(
     (acc: number, shareholder: Shareholder) =>
       acc + shareholder.insuranceCoverage,
@@ -61,7 +63,7 @@ export function totalMajorShareholderInsurance(): number {
   );
 }
 
-export function totalMajorShareholderDisparity(
+export function calculateTotalMajorShareholderDisparity(
   totalMajorShareholderValue: number,
   totalMajorShareholderInsurance: number
 ): number {
@@ -75,7 +77,7 @@ export function calculateFinalEbitdaContribution(
   return (
     (shareholder.ebitdaContributionPercentage / 100) *
     business.ebitda *
-    Math.pow(1 + business.rate / 100, business.term)
+    Math.pow(1 + business.appreciationRate / 100, business.term)
   );
 }
 
@@ -86,6 +88,6 @@ export function calculateFinalShareValue(
   return (
     (shareholder.sharePercentage / 100) *
     business.valuation *
-    Math.pow(1 + business.rate / 100, business.term)
+    Math.pow(1 + business.appreciationRate / 100, business.term)
   );
 }
