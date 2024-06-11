@@ -1,14 +1,15 @@
 import BeneficiariesTable from "./beneficiaries-table";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
-import BeneficiaryDialog from "./beneficiary-dialog";
+
+import AddBeneficiaryDialog from "./add-beneficiary-dialog";
 import { beneficiaries } from "@/app/data/db";
 
 export default function Beneficiaries() {
-  const totalAllocationPercentage = beneficiaries.reduce(
+  const totalAllocationParts = beneficiaries.reduce(
     (acc, cur) => acc + cur.allocation,
     0,
   );
-  const remainingAllocationPercentage = +(100 - totalAllocationPercentage)
+  const remainingAllocationParts = +(100 - totalAllocationParts)
     .toFixed(2)
     .replace(/[.,]00$/, "");
 
@@ -16,10 +17,10 @@ export default function Beneficiaries() {
     <section className="p-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-xl items-center justify-between">
         <p className="text-lg font-bold">
-          Total Allocated: <span>{totalAllocationPercentage}%</span>
+          Total Allocation: <span>{totalAllocationParts} parts</span>
         </p>
-        <BeneficiaryDialog
-          remainingAllocationPercentage={remainingAllocationPercentage}
+        <AddBeneficiaryDialog
+          remainingAllocationParts={remainingAllocationParts}
         />
       </div>
       <BeneficiariesTable />

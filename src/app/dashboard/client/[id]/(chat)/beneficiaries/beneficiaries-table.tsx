@@ -11,6 +11,7 @@ import { beneficiaries } from "@/app/data/db";
 import { cn } from "@/lib/utils";
 import { deleteBeneficiary } from "./actions";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
+import EditBeneficiaryDialog from "./edit-beneficiary-dialog";
 
 export default function BeneficiariesTable() {
   return (
@@ -29,7 +30,7 @@ export default function BeneficiariesTable() {
               "text-center": beneficiaries.length !== 0,
             })}
           >
-            Allocation (%)
+            Allocation (parts)
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -52,6 +53,9 @@ function BeneficiaryTableRow({ id, name, allocation }: Beneficiary) {
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
       <TableCell className="text-center font-medium">{allocation}</TableCell>
+      <TableCell className="text-center">
+        <EditBeneficiaryDialog id={id} name={name} allocation={allocation} />
+      </TableCell>
       <TableCell className="text-right">
         <DeleteBeneficiary id={id} />
       </TableCell>
