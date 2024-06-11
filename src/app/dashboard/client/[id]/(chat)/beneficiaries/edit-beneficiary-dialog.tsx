@@ -127,6 +127,7 @@ function EditBeneficiaryForm({
         <DialogFooter>
           <FormSubmitButton
             isPending={form.formState.isSubmitting}
+            disabled={!form.formState.isDirty || !form.formState.isValid}
             value="Save Changes"
             loadingValue="Editing..."
           />
