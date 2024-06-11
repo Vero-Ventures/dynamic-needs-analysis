@@ -1,4 +1,5 @@
 import type { ProvinceInitials } from "@/constants/provinces";
+import type { TaxBracket } from "@/constants/tax";
 import { z } from "zod";
 
 // === Client Data and Schema ===
@@ -27,14 +28,14 @@ export const clients: ClientData[] = [
 
 // === Goals Data and Schema ===
 
-export interface GoalsData {
+export interface Goals {
   id: number;
   name: string;
   amount: number;
   philanthropic: boolean;
 }
 
-export const goalsData: GoalsData[] = [
+export const goals: Goals[] = [
   {
     id: 0,
     name: "Red Cross",
@@ -49,21 +50,15 @@ export const goalsData: GoalsData[] = [
   },
 ];
 
-export const AddGoalSchema = z.object({
-  name: z.string(),
-  amount: z.coerce.number(),
-  philanthropic: z.string(),
-});
-
 // === Beneficiaries Data and Schema ===
 
-export interface BeneficiaryData {
+export interface Beneficiary {
   id: number;
   name: string;
   allocation: number;
 }
 
-export const beneficiariesData: BeneficiaryData[] = [
+export const beneficiaries: Beneficiary[] = [
   {
     id: 0,
     name: "John Harrison",
@@ -81,61 +76,49 @@ export const BeneficiarySchema = z.object({
   allocation: z.coerce.number(),
 });
 
-// === Shareholder Data and Schema ===
+// === Business Data and Schema ===
 
 export interface Shareholder {
   id: number;
   name: string;
   sharePercentage: number;
   insuranceCoverage: number;
-  EBITDAPercentContribution: number;
-  EBITDAContribution: number;
-  shareValue: number;
-  liquidationDisparity: number;
+  ebitdaContributionPercentage: number;
 }
 
-export const shareholders: Shareholder[] = [
-  {
-    id: 0,
-    name: "Scott Chen",
-    sharePercentage: 100,
-    insuranceCoverage: 0,
-    EBITDAPercentContribution: 100,
-    EBITDAContribution: 0,
-    shareValue: 0,
-    liquidationDisparity: 0,
-  },
-];
-
-export const AddShareholderSchema = z.object({
-  name: z.string(),
-  sharePercentage: z.coerce.number(),
-  insuranceCoverage: z.coerce.number(),
-  EBITDAPercentContribution: z.coerce.number(),
-});
-
-// === Business Data and Schema ===
 export interface Business {
   id: number;
   name: string;
   valuation: number;
+  ebitda: number;
+  appreciationRate: number;
+  term: number;
+  shareholders: Shareholder[];
 }
 
 export const businesses: Business[] = [
-  { id: 0, name: "BCIT Incorporated", valuation: 1000 },
+  {
+    id: 0,
+    name: "Vero Ventures",
+    valuation: 1000,
+    ebitda: 0,
+    appreciationRate: 0,
+    term: 0,
+    shareholders: [
+      {
+        id: 0,
+        name: "John Doe",
+        sharePercentage: 100,
+        insuranceCoverage: 0,
+        ebitdaContributionPercentage: 100,
+      },
+    ],
+  },
 ];
-
-export const AddBusinessSchema = z.object({
-  name: z.string(),
-  valuation: z.coerce.number(),
-  EBITDA: z.coerce.number(),
-  appreciationRate: z.coerce.number(),
-  term: z.coerce.number(),
-});
 
 // === Debts Data and Schema ===
 
-export interface DebtData {
+export interface Debt {
   id: number;
   name: string;
   initialValue: number;
@@ -146,7 +129,7 @@ export interface DebtData {
   insurableFutureValueDollars: number;
 }
 
-export const debtsData: DebtData[] = [
+export const debts: Debt[] = [
   {
     id: 0,
     name: "Bank Loan",
@@ -168,3 +151,20 @@ export const AddDebtSchema = z.object({
   annualPayment: z.coerce.number(),
   insurableFutureValueDollars: z.coerce.number(),
 });
+
+export interface Asset {
+  name: string;
+  initialValue: number;
+  currentValue: number;
+  yearAcquired: number;
+  rate: number;
+  term: number;
+  type: string;
+  isTaxable: boolean;
+  isLiquid: boolean;
+  isToBeSold: boolean;
+  beneficiaries: Beneficiary[];
+  selectedTaxBracket: TaxBracket | undefined;
+  capitalGainsTaxRate: number;
+  futureTaxLiabilityDollars?: number;
+}

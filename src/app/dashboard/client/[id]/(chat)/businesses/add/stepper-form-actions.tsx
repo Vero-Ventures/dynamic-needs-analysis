@@ -4,7 +4,11 @@ import { useStepper } from "@/components/ui/stepper/use-stepper";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export function StepperFormActions() {
+export function StepperFormActions({
+  onSubmitBusiness,
+}: {
+  onSubmitBusiness?: () => Promise<void>;
+}) {
   const {
     prevStep,
     nextStep,
@@ -15,6 +19,7 @@ export function StepperFormActions() {
   const router = useRouter();
 
   if (hasCompletedAllSteps) {
+    onSubmitBusiness?.();
     router.replace("/dashboard/client/1/businesses");
   }
 
@@ -29,6 +34,14 @@ export function StepperFormActions() {
         </Button>
       ) : (
         <>
+          <Button
+            onClick={() => router.replace("/dashboard/client/1/businesses")}
+            size="sm"
+            variant="secondary"
+            type="button"
+          >
+            Cancel
+          </Button>
           <Button
             disabled={isDisabledStep}
             onClick={prevStep}

@@ -12,9 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
-import { sleep } from "@/lib/utils";
 import { addGoal } from "./actions";
 
 export default function AddGoalDialog() {
@@ -36,7 +35,6 @@ export default function AddGoalDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
 
 import {
   Form,
@@ -46,18 +44,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddGoalSchema } from "@/app/data/db";
+import { z } from "zod";
 
-type FormSchema = z.infer<typeof AddGoalSchema>;
+const addGoalSchema = z.object({
+  name: z.string().trim(),
+  amount: z.coerce.number(),
+  philanthropic: z.string(),
+});
+
+export type AddGoalFormSchema = z.infer<typeof addGoalSchema>;
 
 function AddGoalForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(AddGoalSchema),
+  const form = useForm<AddGoalFormSchema>({
+    resolver: zodResolver(addGoalSchema),
     defaultValues: {
       name: "",
       amount: 0,
@@ -65,21 +68,14 @@ function AddGoalForm({
     },
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-    const formData = new FormData(formRef.current);
-    await sleep(3000);
-    await addGoal(formData);
+  async function onSubmit(values: AddGoalFormSchema) {
+    await addGoal(values);
     setOpen(false);
   }
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 pt-4">
         <FormField
           control={form.control}
           name="name"

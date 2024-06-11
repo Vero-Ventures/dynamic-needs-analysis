@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { BeneficiarySchema, beneficiariesData } from "@/app/data/db";
+import { BeneficiarySchema, beneficiaries } from "@/app/data/db";
 
 export async function addBeneficiary(data: FormData) {
   const formData = Object.fromEntries(data.entries());
@@ -16,8 +16,8 @@ export async function addBeneficiary(data: FormData) {
 
   const { name, allocation } = parsed.data;
 
-  beneficiariesData.push({
-    id: beneficiariesData.length,
+  beneficiaries.push({
+    id: beneficiaries.length,
     name,
     allocation,
   });
@@ -25,7 +25,7 @@ export async function addBeneficiary(data: FormData) {
 }
 
 export async function editBeneficiary(id: number, data: FormData) {
-  const index = beneficiariesData.findIndex((g) => g.id === id);
+  const index = beneficiaries.findIndex((g) => g.id === id);
   if (index === -1) {
     throw new Error("No beneficiary found with this Id");
   }
@@ -42,7 +42,7 @@ export async function editBeneficiary(id: number, data: FormData) {
 
   const { name, allocation } = parsed.data;
 
-  beneficiariesData[index] = {
+  beneficiaries[index] = {
     id,
     name,
     allocation,
@@ -51,10 +51,10 @@ export async function editBeneficiary(id: number, data: FormData) {
 }
 
 export async function deleteBeneficiary(id: number) {
-  const i = beneficiariesData.findIndex((g) => g.id === id);
+  const i = beneficiaries.findIndex((g) => g.id === id);
   if (i === -1) {
     throw new Error("No beneficiary found at this index");
   }
-  beneficiariesData.splice(i, 1);
+  beneficiaries.splice(i, 1);
   revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }

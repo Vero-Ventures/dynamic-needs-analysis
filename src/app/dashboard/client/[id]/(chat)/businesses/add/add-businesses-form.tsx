@@ -10,40 +10,42 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 import { StepperFormActions } from "./stepper-form-actions";
 import { useStepper } from "@/components/ui/stepper";
-import { AddBusinessSchema } from "@/app/data/db";
 
-type FormSchema = z.infer<typeof AddBusinessSchema>;
+const addBusinessSchema = z.object({
+  name: z.string().trim(),
+  valuation: z.coerce.number(),
+  ebitda: z.coerce.number(),
+  appreciationRate: z.coerce.number(),
+  term: z.coerce.number(),
+});
 
-export default function AddBusinessesForm() {
+export type AddBusinessesFormSchema = z.infer<typeof addBusinessSchema>;
+
+export default function AddBusinessesForm({
+  business,
+  onAddBusiness,
+}: {
+  business: AddBusinessesFormSchema;
+  onAddBusiness: (values: AddBusinessesFormSchema) => void;
+}) {
   const { nextStep } = useStepper();
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(AddBusinessSchema),
-    defaultValues: {
-      name: "",
-      valuation: 0,
-      EBITDA: 0,
-      appreciationRate: 0,
-      term: 0,
-    },
+  const form = useForm<AddBusinessesFormSchema>({
+    resolver: zodResolver(addBusinessSchema),
+    defaultValues: business,
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-    // const formData = new FormData(formRef.current);
+  async function onSubmit(values: AddBusinessesFormSchema) {
+    onAddBusiness(values);
     nextStep();
-    // await addGoal(formData);
   }
 
   return (
     <Form {...form}>
       <form
-        ref={formRef}
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-2 px-2"
       >
@@ -75,7 +77,7 @@ export default function AddBusinessesForm() {
         />
         <FormField
           control={form.control}
-          name="EBITDA"
+          name="ebitda"
           render={({ field }) => (
             <FormItem>
               <FormLabel>EBITDA ($)</FormLabel>

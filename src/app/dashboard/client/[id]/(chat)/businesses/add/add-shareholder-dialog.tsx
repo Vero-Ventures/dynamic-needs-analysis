@@ -11,24 +11,30 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 
-export default function AddShareholderDialog() {
+export default function AddShareholderDialog({
+  onAddShareholder,
+}: {
+  onAddShareholder: (shareholder: AddShareholderFormSchema) => void;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="my-4">Add new Shareholder</Button>
+        <Button>Add new Shareholder</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Shareholder</DialogTitle>
         </DialogHeader>
-        <AddShareholderForm setOpen={setOpen} />
+        <AddShareholderForm
+          onAddShareholder={onAddShareholder}
+          setOpen={setOpen}
+        />
       </DialogContent>
     </Dialog>
   );
 }
 
-import { AddShareholderSchema } from "@/app/data/db";
 import FormSubmitButton from "@/components/form-submit-button";
 import {
   Form,
@@ -39,40 +45,44 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { sleep } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 
-type FormSchema = z.infer<typeof AddShareholderSchema>;
+const addShareholderSchema = z.object({
+  name: z.string().trim(),
+  sharePercentage: z.coerce.number(),
+  insuranceCoverage: z.coerce.number(),
+  ebitdaContributionPercentage: z.coerce.number(),
+});
+
+export type AddShareholderFormSchema = z.infer<typeof addShareholderSchema>;
 
 function AddShareholderForm({
   setOpen,
+  onAddShareholder,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onAddShareholder: (shareholder: AddShareholderFormSchema) => void;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(AddShareholderSchema),
-    defaultValues: {},
+  const form = useForm<AddShareholderFormSchema>({
+    resolver: zodResolver(addShareholderSchema),
+    defaultValues: {
+      name: "",
+      sharePercentage: 0,
+      ebitdaContributionPercentage: 0,
+      insuranceCoverage: 0,
+    },
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-    // const formData = new FormData(formRef.current);
-    await sleep(3000);
-    // await addGoal(formData);
+  async function onSubmit(values: AddShareholderFormSchema) {
+    onAddShareholder(values);
     setOpen(false);
   }
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 pt-4">
         <FormField
           control={form.control}
           name="name"
@@ -118,12 +128,12 @@ function AddShareholderForm({
         />
         <FormField
           control={form.control}
-          name="EBITDAPercentContribution"
+          name="ebitdaContributionPercentage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>% EBITDA Contribution</FormLabel>
               <FormControl>
-                <Input id="EBITDAPercentContribution" {...field} />
+                <Input id="ebitdaContributionPercentage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

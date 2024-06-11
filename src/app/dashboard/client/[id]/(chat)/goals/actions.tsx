@@ -1,35 +1,23 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { AddGoalSchema, goalsData } from "@/app/data/db";
+import { goals } from "@/app/data/db";
+import type { AddGoalFormSchema } from "./add-goal-dialog";
 
-export async function addGoal(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = AddGoalSchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
-
-  const { name, amount, philanthropic } = parsed.data;
-
-  goalsData.push({
-    id: goalsData.length,
-    name,
-    amount,
-    philanthropic: philanthropic === "on",
+export async function addGoal(goal: AddGoalFormSchema) {
+  goals.push({
+    id: goals.length,
+    ...goal,
+    philanthropic: goal.philanthropic === "on",
   });
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }
 
 export async function deleteGoal(id: number) {
-  const i = goalsData.findIndex((g) => g.id === id);
+  const i = goals.findIndex((g) => g.id === id);
   if (i === -1) {
     throw new Error("No goal found at this index");
   }
-  goalsData.splice(i, 1);
+  goals.splice(i, 1);
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }

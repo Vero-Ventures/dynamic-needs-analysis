@@ -3,14 +3,13 @@ import {
   calculateAgeFromDate,
   calculateInsuredIncomeAmount,
   calculateYearsOfActiveIncome,
-  cn,
   findSelectedBracket,
-  formatMoney,
-} from "@/lib/utils";
+} from "@/lib/client/utils";
+import { formatMoney, cn } from "@/lib/utils";
 import Link from "next/link";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import getClient from "@/app/data/client";
+import getClient from "./actions";
 
 export default async function ClientPage() {
   const client = await getClient(0);
@@ -55,7 +54,7 @@ export default async function ClientPage() {
             <p className="text-md font-bold">
               {calculateYearsOfActiveIncome(
                 clientAge,
-                client.expectedRetirementAge,
+                client.expectedRetirementAge
               )}
             </p>
           </div>
@@ -89,7 +88,7 @@ export default async function ClientPage() {
             <p className="text-md font-bold">
               {calculateInsuredIncomeAmount(
                 client.annualIncome,
-                client.incomeMultiplier,
+                client.incomeMultiplier
               )}
             </p>
           </div>

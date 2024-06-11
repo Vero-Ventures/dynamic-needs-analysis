@@ -63,7 +63,7 @@ const HorizontalStep = React.forwardRef<HTMLDivElement, StepSharedProps>(
             "[&:not(:last-child)]:after:me-[var(--step-gap)] [&:not(:last-child)]:after:ms-[var(--step-gap)] [&:not(:last-child)]:after:flex-1",
           variant === "line" &&
             "flex-1 flex-col border-t-[3px] data-[active=true]:border-primary",
-          styles?.["horizontal-step"],
+          styles?.["horizontal-step"]
         )}
         data-optional={steps[index || 0]?.optional}
         data-completed={isCompletedStep}
@@ -79,7 +79,7 @@ const HorizontalStep = React.forwardRef<HTMLDivElement, StepSharedProps>(
             "flex items-center",
             variant === "circle-alt" && "flex-col justify-center gap-1",
             variant === "line" && "w-full",
-            styles?.["horizontal-step-container"],
+            styles?.["horizontal-step-container"]
           )}
         >
           <StepButtonContainer
@@ -107,7 +107,7 @@ const HorizontalStep = React.forwardRef<HTMLDivElement, StepSharedProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 HorizontalStep.displayName = "HorizontalStep";

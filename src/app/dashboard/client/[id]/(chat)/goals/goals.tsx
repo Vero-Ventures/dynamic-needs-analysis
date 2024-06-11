@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon } from "lucide-react";
-import { goalsData } from "@/app/data/db";
+import { goals } from "@/app/data/db";
 import DeleteGoalButton from "@/components/delete-item-button";
 import AddGoalDialog from "./add-goal-dialog";
 import { deleteGoal } from "./actions";
@@ -37,7 +37,7 @@ function GoalsTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {goalsData.map((goal) => (
+        {goals.map((goal) => (
           <TableRow key={goal.name}>
             <TableCell className="w-[200px] font-medium">{goal.name}</TableCell>
             <TableCell>{formatMoney(goal.amount)}</TableCell>

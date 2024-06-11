@@ -56,7 +56,7 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
     const stepCount = items.length;
 
     const isMobile = useMediaQuery(
-      `(max-width: ${mobileBreakpoint || "768px"})`,
+      `(max-width: ${mobileBreakpoint || "768px"})`
     );
 
     const clickable = !!onClickStep;
@@ -95,7 +95,7 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
             orientation === "vertical" ? "flex-col" : "flex-row",
             variant === "line" && orientation === "horizontal" && "gap-4",
             className,
-            styles?.["main-container"],
+            styles?.["main-container"]
           )}
           style={
             {
@@ -115,7 +115,7 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
         {footer}
       </StepperProvider>
     );
-  },
+  }
 );
 
 Stepper.displayName = "Stepper";
@@ -174,7 +174,7 @@ const HorizontalContent = ({ children }: { children: React.ReactNode }) => {
         }
         return React.Children.map(
           node.props.children,
-          (childNode) => childNode,
+          (childNode) => childNode
         );
       })}
     </>

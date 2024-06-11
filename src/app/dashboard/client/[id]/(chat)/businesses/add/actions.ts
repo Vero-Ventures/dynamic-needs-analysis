@@ -1,66 +1,21 @@
 "use server";
 
+import type { Shareholder } from "@/app/data/db";
+import { businesses } from "@/app/data/db";
 import { revalidatePath } from "next/cache";
-import { AddBusinessSchema, businesses, shareholders } from "@/app/data/db";
-import { AddShareholderSchema } from "@/app/data/db";
+import type { AddBusinessesFormSchema } from "./add-businesses-form";
 
-export async function addShareholder(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = AddShareholderSchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
-  const {
-    name,
-    sharePercentage,
-    insuranceCoverage,
-    EBITDAPercentContribution,
-  } = parsed.data;
-
-  shareholders.push({
-    id: shareholders.length,
-    name,
-    sharePercentage,
-    insuranceCoverage,
-    EBITDAPercentContribution,
-    EBITDAContribution: 0,
-    shareValue: 0,
-    liquidationDisparity: 0,
-  });
-
-  revalidatePath("/dashboard/client/[id]/businesses/add", "page");
-}
-
-export async function deleteShareholder(id: number) {
-  const i = shareholders.findIndex((s) => s.id === id);
-  if (i === -1) {
-    throw new Error("No shareholders found at this index");
-  }
-  shareholders.splice(i, 1);
-  revalidatePath("/dashboard/client/[id]/businesses/add", "page");
-}
-
-export async function addBusiness(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = AddBusinessSchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
-  const { name, valuation } = parsed.data;
-
-  businesses.push({
+export async function addBusiness(
+  business: AddBusinessesFormSchema,
+  shareholders: Shareholder[]
+) {
+  const newBusiness = {
     id: businesses.length,
-    name,
-    valuation,
-  });
+    ...business,
+    shareholders,
+  };
+  businesses.push(newBusiness);
+  revalidatePath("/dashboard/client/[id]/businesses", "page");
 }
 
 export async function deleteBusiness(id: number) {

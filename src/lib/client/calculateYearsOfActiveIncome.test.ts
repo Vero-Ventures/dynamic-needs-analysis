@@ -6,7 +6,7 @@ test("should return years of active income of 0 when the age is the same as the 
   const expectedRetirementAge = 65;
   const yearsOfActiveIncome = calculateYearsOfActiveIncome(
     age,
-    expectedRetirementAge,
+    expectedRetirementAge
   );
 
   expect(yearsOfActiveIncome).toBe(0);
@@ -17,7 +17,7 @@ test("should return years of active income of 10 when the age is 55 and the expe
   const expectedRetirementAge = 65;
   const yearsOfActiveIncome = calculateYearsOfActiveIncome(
     age,
-    expectedRetirementAge,
+    expectedRetirementAge
   );
 
   expect(yearsOfActiveIncome).toBe(10);
@@ -28,7 +28,7 @@ test("should return years of active income of 0 when the age is 75 and the expec
   const expectedRetirementAge = 65;
   const yearsOfActiveIncome = calculateYearsOfActiveIncome(
     age,
-    expectedRetirementAge,
+    expectedRetirementAge
   );
 
   expect(yearsOfActiveIncome).toBe(0);
@@ -39,6 +39,6 @@ test("should throw an error when the age is 20 and the expected retirement age i
   const expectedRetirementAge = -65;
 
   expect(() =>
-    calculateYearsOfActiveIncome(age, expectedRetirementAge),
+    calculateYearsOfActiveIncome(age, expectedRetirementAge)
   ).toThrow(new Error("Age and retirement age must be positive"));
 });

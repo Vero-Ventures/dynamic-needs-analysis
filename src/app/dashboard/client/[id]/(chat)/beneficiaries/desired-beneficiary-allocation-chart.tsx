@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import type { BeneficiaryData } from "@/app/data/db";
+import type { Beneficiary } from "@/app/data/db";
 
 const randomHexColorCode = () => {
   const n = (Math.random() * 0xfffff * 1000000).toString(16);
@@ -32,7 +32,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
 export default function DesiredBeneficiaryAllocationChart({
   beneficiariesData,
 }: {
-  beneficiariesData: BeneficiaryData[];
+  beneficiariesData: Beneficiary[];
 }) {
   return (
     <div className="mt-20 space-y-3">

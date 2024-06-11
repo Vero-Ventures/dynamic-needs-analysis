@@ -9,24 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { DebtData } from "@/app/data/db";
-import { debtsData } from "@/app/data/db";
+import type { Debt } from "@/app/data/db";
+import { debts } from "@/app/data/db";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import { deleteDebt } from "./actions";
 import { formatMoney } from "@/lib/utils";
 
-export type Beneficiary = {
-  name: string;
-  allocation: number;
-};
 export default function DebtsTable() {
-  const totalInitialValue = debtsData.reduce(
+  const totalInitialValue = debts.reduce(
     (acc, cur) => acc + cur.initialValue,
-    0,
+    0
   );
-  const totalInsurableFutureValueDollars = debtsData.reduce(
+  const totalInsurableFutureValueDollars = debts.reduce(
     (acc, cur) => acc + cur.insurableFutureValueDollars,
-    0,
+    0
   );
 
   return (
@@ -42,7 +38,7 @@ export default function DebtsTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {debtsData.map((debt) => (
+        {debts.map((debt) => (
           <DebtsTableRow
             key={debt.id}
             id={debt.id}
@@ -73,10 +69,7 @@ function DebtsTableRow({
   name,
   initialValue,
   insurableFutureValueDollars,
-}: Pick<
-  DebtData,
-  "id" | "name" | "initialValue" | "insurableFutureValueDollars"
->) {
+}: Pick<Debt, "id" | "name" | "initialValue" | "insurableFutureValueDollars">) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
