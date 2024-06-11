@@ -7,6 +7,7 @@ export default function Liquidity() {
   );
 }
 
+import { goalsData } from "@/app/data/db";
 import {
   Table,
   TableBody,
@@ -14,55 +15,62 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const liquidityData = [
-  {
-    label: "Total Current Value of Fixed Assets",
-    totalAmount: "$250.00",
-  },
-  {
-    label: "Total Future Value of Fixed Assets",
-    totalAmount: "$150.00",
-  },
-  {
-    label: "Total Current Value of Liquid Assets",
-    totalAmount: "$350.00",
-  },
-  {
-    label: "Total Future Value of Liquid Assets",
-    totalAmount: "$450.00",
-  },
-  {
-    label: "Total Current Value of Assets to be Sold",
-    totalAmount: "$550.00",
-  },
-  {
-    label: "Total Future Value of Assets to be Sold",
-    totalAmount: "$200.00",
-  },
-  {
-    label: "% Liquidity Allocated Towards Goals",
-    totalAmount: "10%",
-  },
-  {
-    label: "Liquidity Preserved",
-    totalAmount: "$300.00",
-  },
-  {
-    label: "Liquidity Allocated Towards Goals",
-    totalAmount: "$300.00",
-  },
-  {
-    label: "Total Sum of All Goals",
-    totalAmount: "$300.00",
-  },
-  {
-    label: "Surplus / Shortfall",
-    totalAmount: "-$150.00",
-  },
-];
+import {
+  calculateSurplusShortfall,
+  calculateTotalSumGoals,
+  formatMoney,
+} from "@/lib/utils";
 
 export function LiquidityTable() {
+  const totalGoals = calculateTotalSumGoals(goalsData);
+  const surplusShortfall = calculateSurplusShortfall(0, totalGoals);
+
+  const liquidityData = [
+    {
+      label: "Total Current Value of Fixed Assets",
+      totalAmount: "$250.00",
+    },
+    {
+      label: "Total Future Value of Fixed Assets",
+      totalAmount: "$150.00",
+    },
+    {
+      label: "Total Current Value of Liquid Assets",
+      totalAmount: "$350.00",
+    },
+    {
+      label: "Total Future Value of Liquid Assets",
+      totalAmount: "$450.00",
+    },
+    {
+      label: "Total Current Value of Assets to be Sold",
+      totalAmount: "$550.00",
+    },
+    {
+      label: "Total Future Value of Assets to be Sold",
+      totalAmount: "$200.00",
+    },
+    {
+      label: "% Liquidity Allocated Towards Goals",
+      totalAmount: "10%",
+    },
+    {
+      label: "Liquidity Preserved",
+      totalAmount: "$300.00",
+    },
+    {
+      label: "Liquidity Allocated Towards Goals",
+      totalAmount: "$300.00",
+    },
+    {
+      label: "Total Sum of All Goals",
+      totalAmount: formatMoney(totalGoals),
+    },
+    {
+      label: "Surplus / Shortfall",
+      totalAmount: formatMoney(surplusShortfall),
+    },
+  ];
   return (
     <Table>
       <TableHeader />
