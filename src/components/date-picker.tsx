@@ -12,8 +12,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { RetirementPlanningForm } from "@/app/dashboard/client/[id]/(chat)/retirement-planning";
-import type { SelectSingleEventHandler } from "react-day-picker";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();
@@ -49,7 +47,7 @@ export function BirthDatePicker({
   onSelect,
 }: {
   date: Date;
-  onSelect: SelectSingleEventHandler;
+  onSelect: (...event: any[]) => void;
 }) {
   return (
     <Popover>
