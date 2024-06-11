@@ -18,11 +18,11 @@ import { formatMoney } from "@/lib/utils";
 export default function DebtsTable() {
   const totalInitialValue = debts.reduce(
     (acc, cur) => acc + cur.initialValue,
-    0,
+    0
   );
   const totalInsurableFutureValueDollars = debts.reduce(
     (acc, cur) => acc + cur.insurableFutureValueDollars,
-    0,
+    0
   );
 
   return (
