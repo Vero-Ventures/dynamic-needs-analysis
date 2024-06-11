@@ -25,12 +25,12 @@ export function calculateSurplusShortfall(
   return liquidityAllocated - totalSumGoals;
 }
 
-export function calculateTotalsFromAssets(assets: Asset[]) {
+export function calculateCurrentFutureTotals(assets: Asset[]) {
   const result = {
-    totalCurrentValueLiquid: 0,
-    totalFutureValueLiquid: 0,
     totalCurrentValueFixed: 0,
     totalFutureValueFixed: 0,
+    totalCurrentValueLiquid: 0,
+    totalFutureValueLiquid: 0,
     totalCurrentValueToBeSold: 0,
     totalFutureValueToBeSold: 0,
   };
