@@ -62,17 +62,23 @@ export default function DebtForm() {
     },
   });
 
+  const [initialValue, yearAcquired, rate, term, annualPayment] = form.watch([
+    "initialValue",
+    "yearAcquired",
+    "rate",
+    "term",
+    "annualPayment",
+  ]);
+
   // derived values
-  const currentYearsHeld = calculateCurrentYearsHeld(
-    form.getValues("yearAcquired")
-  );
+  const currentYearsHeld = calculateCurrentYearsHeld(yearAcquired);
   const amountPaidOff = calculateAmountPaidOffDollars(
-    form.getValues("annualPayment"),
+    annualPayment,
     currentYearsHeld
   );
   const currentDebtValue = calculateCurrentValueOfDebtDollars(
-    form.getValues("initialValue"),
-    form.getValues("rate"),
+    initialValue,
+    rate,
     currentYearsHeld
   );
   const debtRemaining = calculateDebtRemainingDollars(
@@ -80,16 +86,12 @@ export default function DebtForm() {
     amountPaidOff
   );
   const yearsToBePaidOff = calculateYearsToBePaidOff(
-    form.getValues("rate"),
-    form.getValues("annualPayment"),
+    rate,
+    annualPayment,
     debtRemaining
   );
   const insurableFutureValue = calculateInsurableFutureValueDollars(
-    calculateFutureValueOfActualTermDebtDollars(
-      form.getValues("initialValue"),
-      form.getValues("rate"),
-      form.getValues("term")
-    ),
+    calculateFutureValueOfActualTermDebtDollars(initialValue, rate, term),
     amountPaidOff
   );
 
@@ -213,7 +215,9 @@ export default function DebtForm() {
                 <Label htmlFor="years-to-be-paid-off">
                   Years to be Paid Off
                 </Label>
-                <div className="font-bold">{yearsToBePaidOff}</div>
+                <div className="font-bold">
+                  {!isNaN(yearsToBePaidOff) && yearsToBePaidOff}
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
