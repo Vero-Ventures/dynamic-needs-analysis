@@ -2,7 +2,6 @@ export function calculateAgeFromDate(birthDate: Date): number {
   const birthDateObj = new Date(birthDate);
   const today = new Date();
   const age = today.getFullYear() - birthDateObj.getFullYear();
-
   if (age < 0) {
     throw new Error("Age cannot be negative");
   }
