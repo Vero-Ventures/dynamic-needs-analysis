@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
     const { name, value } = payload[0];
 
     return (
-      <div className="custom-tooltip rounded-xl border bg-background p-2 shadow-xl">
+      <div className="custom-tooltip rounded-xl border bg-background p-2 shadow-xl dark:border-secondary-foreground">
         <p className="label font-medium">{`${name}: ${value}`}</p>
       </div>
     );
