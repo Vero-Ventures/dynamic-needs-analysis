@@ -14,6 +14,8 @@ import { debts } from "@/app/data/db";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import { deleteDebt } from "./actions";
 import { formatMoney } from "@/lib/utils";
+import { SquarePenIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function DebtsTable() {
   const totalInitialValue = debts.reduce(
@@ -34,6 +36,7 @@ export default function DebtsTable() {
           <TableHead className="text-center">
             Insurable Future Value ($)
           </TableHead>
+          <TableHead></TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -58,6 +61,7 @@ export default function DebtsTable() {
             {formatMoney(totalInsurableFutureValueDollars)}
           </TableCell>
           <TableCell></TableCell>
+          <TableCell></TableCell>
         </TableRow>
       </TableFooter>
     </Table>
@@ -78,6 +82,11 @@ function DebtsTableRow({
       </TableCell>
       <TableCell className="text-center font-medium">
         {formatMoney(insurableFutureValueDollars)}
+      </TableCell>
+      <TableCell>
+        <Link href={`/dashboard/client/1/debts/edit?id=${id}`}>
+          <SquarePenIcon className="hover:cursor-pointer" />
+        </Link>
       </TableCell>
       <TableCell className="text-right">
         <DeleteDebt id={id} />

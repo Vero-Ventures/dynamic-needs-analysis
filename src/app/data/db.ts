@@ -142,16 +142,6 @@ export const debts: Debt[] = [
   },
 ];
 
-export const AddDebtSchema = z.object({
-  name: z.string(),
-  initialValue: z.coerce.number(),
-  yearAcquired: z.coerce.number(),
-  rate: z.coerce.number(),
-  term: z.coerce.number(),
-  annualPayment: z.coerce.number(),
-  insurableFutureValueDollars: z.coerce.number(),
-});
-
 export interface Asset {
   name: string;
   initialValue: number;

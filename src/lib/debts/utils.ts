@@ -1,16 +1,16 @@
-export function currentYearsHeld(yearAcquired: number): number {
+export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
   return currentYear - yearAcquired;
 }
 
-export function amountPaidOffDollars(
+export function calculateAmountPaidOffDollars(
   annualPayment: number,
   currentYearsHeld: number
 ): number {
   return annualPayment * currentYearsHeld;
 }
 
-export function currentValueOfDebtDollars(
+export function calculateCurrentValueOfDebtDollars(
   initialValue: number,
   interestRate: number,
   currentYearsHeld: number
@@ -18,28 +18,28 @@ export function currentValueOfDebtDollars(
   return initialValue * Math.pow(1 + interestRate / 100, currentYearsHeld);
 }
 
-export function debtRemainingDollars(
+export function calculateDebtRemainingDollars(
   currentValueOfDebtDollars: number,
   amountPaidOffDollars: number
 ): number {
   return Math.max(0, currentValueOfDebtDollars - amountPaidOffDollars);
 }
 
-export function yearsToBePaidOff(
+export function calculateYearsToBePaidOff(
   interestRate: number,
   annualPayment: number,
   debtRemainingDollars: number
 ): number {
   if (annualPayment <= 0 || debtRemainingDollars <= 0) return 0;
 
-  return numberOfPaymentPeriods(
+  return calculateNumberOfPaymentPeriods(
     interestRate,
     annualPayment,
     debtRemainingDollars
   );
 }
 
-export function numberOfPaymentPeriods(
+export function calculateNumberOfPaymentPeriods(
   interestRate: number,
   annualPayment: number,
   presentValue: number
@@ -57,7 +57,7 @@ export function numberOfPaymentPeriods(
   return numerator / denominator;
 }
 
-export function futureValueOfActualTermDebtDollars(
+export function calculateFutureValueOfActualTermDebtDollars(
   initialValue: number,
   interestRate: number,
   term: number
@@ -65,7 +65,7 @@ export function futureValueOfActualTermDebtDollars(
   return initialValue * Math.pow(1 + interestRate / 100, term);
 }
 
-export function insurableFutureValueDollars(
+export function calculateInsurableFutureValueDollars(
   futureValueOfActualTermDebtDollars: number,
   amountPaidOffDollars: number
 ): number {

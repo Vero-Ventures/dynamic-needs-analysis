@@ -12,19 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { cn, formatMoney, sleep } from "@/lib/utils";
-import { addDebt } from "../actions";
+import { editDebt } from "../actions";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useRouter } from "next/navigation";
 import {
@@ -36,8 +30,9 @@ import {
   calculateInsurableFutureValueDollars,
   calculateYearsToBePaidOff,
 } from "@/lib/debts/utils";
+import type { Debt } from "@/app/data/db";
 
-const addDebtSchema = z.object({
+const editDebtSchema = z.object({
   name: z.string().trim(),
   initialValue: z.coerce.number(),
   yearAcquired: z.coerce.number(),
@@ -46,20 +41,17 @@ const addDebtSchema = z.object({
   annualPayment: z.coerce.number(),
 });
 
-export type AddDebtFormSchema = z.infer<typeof addDebtSchema>;
+export type EditDebtFormSchema = z.infer<typeof editDebtSchema>;
 
-export default function DebtForm() {
+export default function EditDebtForm({
+  defaultFormValues,
+}: {
+  defaultFormValues: Debt;
+}) {
   const router = useRouter();
-  const form = useForm<AddDebtFormSchema>({
-    resolver: zodResolver(addDebtSchema),
-    defaultValues: {
-      name: "",
-      initialValue: 0,
-      yearAcquired: new Date().getFullYear(),
-      rate: 0,
-      term: 0,
-      annualPayment: 0,
-    },
+  const form = useForm<EditDebtFormSchema>({
+    resolver: zodResolver(editDebtSchema),
+    defaultValues: defaultFormValues,
   });
 
   const [initialValue, yearAcquired, rate, term, annualPayment] = form.watch([
@@ -95,20 +87,14 @@ export default function DebtForm() {
     amountPaidOff
   );
 
-  async function onSubmit(values: AddDebtFormSchema) {
+  async function onSubmit(values: EditDebtFormSchema) {
     await sleep(3000);
-    await addDebt(values);
+    await editDebt(0, values);
     router.replace("/dashboard/client/1/debts");
   }
 
   return (
-    <Card className="w-full border-none shadow-none">
-      <CardHeader className="mb-3">
-        <CardTitle>Debt</CardTitle>
-        <CardDescription>
-          Enter your debt to see a clear picture of your financial situation.
-        </CardDescription>
-      </CardHeader>
+    <Card className="mt-2 w-full border-none shadow-none">
       <CardContent className="grid gap-6">
         <Form {...form}>
           <form
@@ -262,8 +248,8 @@ export default function DebtForm() {
                   disabled={!form.formState.isDirty || !form.formState.isValid}
                   className="order-1 w-full lg:order-2"
                   isPending={form.formState.isSubmitting}
-                  value="Add Debt"
-                  loadingValue="Adding..."
+                  value="Save Changes"
+                  loadingValue="Saving..."
                 />
               </div>
             </div>
