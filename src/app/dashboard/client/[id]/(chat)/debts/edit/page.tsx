@@ -7,9 +7,9 @@ export default async function EditDebtPage({
 }: {
   searchParams: { id: string };
 }) {
-  const { id: editId } = searchParams;
+  const { id: debtId } = searchParams;
 
-  const debt = await getDebt(+editId);
+  const debt = await getDebt(+debtId);
   if (!debt) notFound();
 
   return (
