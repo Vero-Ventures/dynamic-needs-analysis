@@ -34,6 +34,35 @@ export async function addDebt(data: AddDebtFormSchema) {
   revalidatePath("/dashboard/client/[id]/debts", "page");
 }
 
+export async function editDebt(id: number, data: AddDebtFormSchema) {
+  const i = debts.findIndex((g) => g.id === id);
+  if (i === -1) {
+    throw new Error("No debt found at this index");
+  }
+
+  const { name, initialValue, yearAcquired, rate, term, annualPayment } = data;
+
+  const insurableFutureValueDollars = calculateInsurableFutureValueDollars(
+    calculateFutureValueOfActualTermDebtDollars(initialValue, rate, term),
+    calculateAmountPaidOffDollars(
+      annualPayment,
+      calculateCurrentYearsHeld(yearAcquired)
+    )
+  );
+
+  debts[i] = {
+    id,
+    name,
+    initialValue,
+    yearAcquired,
+    rate,
+    term,
+    annualPayment,
+    insurableFutureValueDollars,
+  };
+  revalidatePath("/dashboard/client/[id]/debts", "page");
+}
+
 export async function deleteDebt(id: number) {
   const i = debts.findIndex((g) => g.id === id);
   if (i === -1) {
