@@ -32,6 +32,8 @@ export default function BeneficiariesTable() {
           >
             Allocation (parts)
           </TableHead>
+          <TableHead></TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
