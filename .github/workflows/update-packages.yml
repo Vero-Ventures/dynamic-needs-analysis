@@ -1,0 +1,32 @@
+name: Update Lockfile
+on:
+  pull_request:
+    branches:
+      - dependabot/**
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  update-lockfile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun i
+
+      - name: Commit updated lockfile back to the repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update lockfile
+          branch: ${{ github.head_ref }}

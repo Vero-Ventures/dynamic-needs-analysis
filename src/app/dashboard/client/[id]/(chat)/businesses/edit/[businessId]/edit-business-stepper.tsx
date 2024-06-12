@@ -2,12 +2,7 @@
 
 import { Step, Stepper, type StepItem } from "@/components/ui/stepper";
 import { Building2Icon, Users2Icon } from "lucide-react";
-import type { AddShareholderFormSchema } from "./add-shareholder-dialog";
-import AddShareholderDialog from "./add-shareholder-dialog";
-import type { AddBusinessesFormSchema } from "./add-businesses-form";
-import AddBusinessesForm from "./add-businesses-form";
-import { ShareholderTable, TotalShareholderTable } from "./shareholder-table";
-import { StepperFormActions } from "./stepper-form-actions";
+
 import { formatMoney } from "@/lib/utils";
 import {
   calculateTotalEbitdaContributionPercentage,
@@ -17,42 +12,46 @@ import {
   calculateTotalShareholderPercentageOwned,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
-import type { Shareholder } from "@/app/data/db";
-import { addBusiness } from "./actions";
+import type { Business, Shareholder } from "@/app/data/db";
+import type { AddShareholderFormSchema } from "../../add/add-shareholder-dialog";
+import type { AddBusinessesFormSchema } from "../../add/add-businesses-form";
+import { editBusiness } from "./actions";
+import AddBusinessesForm from "../../add/add-businesses-form";
+import AddShareholderDialog from "../../add/add-shareholder-dialog";
+import {
+  ShareholderTable,
+  TotalShareholderTable,
+} from "../../add/shareholder-table";
+import { StepperFormActions } from "../../add/stepper-form-actions";
 
 const steps = [
-  { label: "Add Business" },
-  { label: "Add Shareholders" },
+  { label: "Edit Business" },
+  { label: "Edit Shareholders" },
 ] satisfies StepItem[];
 
-export default function AddBusinessStepper({
-  clientName,
+export default function EditBusinessStepper({
+  business,
 }: {
-  clientName: string;
+  business: Business;
 }) {
-  const [business, setBusiness] = useState<AddBusinessesFormSchema>({
-    name: "",
-    appreciationRate: 0,
-    ebitda: 0,
-    valuation: 0,
-    term: 0,
-  });
-  const [shareholders, setShareholders] = useState<Shareholder[]>([
-    {
-      id: 0,
-      name: clientName,
-      sharePercentage: 100,
-      ebitdaContributionPercentage: 100,
-      insuranceCoverage: 0,
-    },
-  ]);
+  const [updatedBusiness, setUpdatedBusiness] =
+    useState<AddBusinessesFormSchema>({
+      name: business.name,
+      valuation: business.valuation,
+      ebitda: business.ebitda,
+      appreciationRate: business.appreciationRate,
+      term: business.term,
+    });
+  const [shareholders, setShareholders] = useState<Shareholder[]>(
+    business.shareholders
+  );
 
-  async function handleAddBusiness() {
-    await addBusiness(business, shareholders);
+  async function handleEditBusiness() {
+    await editBusiness(business.id, updatedBusiness, shareholders);
   }
 
   function handleSubmitBusiness(values: AddBusinessesFormSchema) {
-    setBusiness({ ...business, ...values });
+    setUpdatedBusiness({ ...updatedBusiness, ...values });
   }
 
   function onAddShareholder(shareholder: AddShareholderFormSchema) {
@@ -83,7 +82,7 @@ export default function AddBusinessStepper({
 
   const totalMajorShareholderValue = calculateTotalMajorShareholderValue(
     shareholders,
-    business.valuation
+    updatedBusiness.valuation
   );
 
   const totalMajorShareholderInsurance =
@@ -100,7 +99,7 @@ export default function AddBusinessStepper({
       <Stepper orientation="vertical" initialStep={0} steps={steps}>
         <Step icon={Building2Icon} label="Add Business">
           <AddBusinessesForm
-            business={business}
+            business={updatedBusiness}
             onAddBusiness={handleSubmitBusiness}
           />
         </Step>
@@ -109,8 +108,8 @@ export default function AddBusinessStepper({
             <AddShareholderDialog onAddShareholder={onAddShareholder} />
             <ShareholderTable
               shareholders={shareholders}
-              valuation={business.valuation}
-              ebitda={business.ebitda}
+              valuation={updatedBusiness.valuation}
+              ebitda={updatedBusiness.ebitda}
               onEditShareholder={onEditShareholder}
               onDeleteShareholder={onDeleteShareholder}
             />
@@ -139,7 +138,7 @@ export default function AddBusinessStepper({
               ]}
             />
           </div>
-          <StepperFormActions onSubmitBusiness={handleAddBusiness} />
+          <StepperFormActions onSubmitBusiness={handleEditBusiness} />
         </Step>
       </Stepper>
     </div>

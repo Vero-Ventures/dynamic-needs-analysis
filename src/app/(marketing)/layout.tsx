@@ -41,7 +41,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
                       "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
                       item.href.startsWith(`/${segment}`)
                         ? "text-foreground"
-                        : "text-foreground/60",
+                        : "text-foreground/60"
                     )}
                   >
                     {item.title}
@@ -55,7 +55,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
               href="/dashboard/clients"
               className={cn(
                 buttonVariants({ variant: "secondary", size: "sm" }),
-                "px-4",
+                "px-4"
               )}
             >
               Login

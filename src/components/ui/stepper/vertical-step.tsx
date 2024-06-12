@@ -28,12 +28,12 @@ const verticalStepVariants = cva(
           "[&:not(:last-child)]:after:absolute",
           "[&:not(:last-child)]:after:top-[calc(var(--step-icon-size)+var(--step-gap))]",
           "[&:not(:last-child)]:after:bottom-[var(--step-gap)]",
-          "[&:not(:last-child)]:after:transition-all [&:not(:last-child)]:after:duration-200",
+          "[&:not(:last-child)]:after:transition-all [&:not(:last-child)]:after:duration-200"
         ),
         line: "flex-1 border-t-0 mb-4",
       },
     },
-  },
+  }
 );
 
 const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
@@ -124,7 +124,7 @@ const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
             variant: variant?.includes("circle") ? "circle" : "line",
           }),
           isLastStepCurrentStep && "gap-[var(--step-gap)]",
-          styles?.["vertical-step"],
+          styles?.["vertical-step"]
         )}
         data-optional={steps[index || 0]?.optional}
         data-completed={isCompletedStep}
@@ -144,7 +144,7 @@ const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
             "flex items-center",
             variant === "line" &&
               "border-s-[3px] py-2 ps-3 data-[active=true]:border-primary",
-            styles?.["vertical-step-container"],
+            styles?.["vertical-step-container"]
           )}
         >
           <StepButtonContainer
@@ -175,14 +175,14 @@ const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
             !isLastStep && "min-h-4",
             variant !== "line" && "ps-[--step-icon-size]",
             variant === "line" && orientation === "vertical" && "min-h-0",
-            styles?.["vertical-step-content"],
+            styles?.["vertical-step-content"]
           )}
         >
           {renderChildren()}
         </div>
       </div>
     );
-  },
+  }
 );
 
 VerticalStep.displayName = "VerticalStep";

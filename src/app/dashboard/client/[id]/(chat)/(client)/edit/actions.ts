@@ -6,7 +6,7 @@ import type { EditClientFormSchema } from "./edit-client.form";
 
 export async function editClient(
   id: number,
-  updatedClient: EditClientFormSchema,
+  updatedClient: EditClientFormSchema
 ) {
   clients[id] = { id, ...updatedClient };
   revalidatePath("/dashboard/client/[id]", "page");

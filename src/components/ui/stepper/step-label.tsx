@@ -54,7 +54,7 @@ const StepLabel = ({
         variant === "circle-alt" && "text-center",
         variant === "circle-alt" && orientation === "horizontal" && "ms-0",
         variant === "circle-alt" && orientation === "vertical" && "text-start",
-        styles?.["step-label-container"],
+        styles?.["step-label-container"]
       )}
       style={{
         opacity,
@@ -65,7 +65,7 @@ const StepLabel = ({
           className={cn(
             "stepper__step-label",
             labelVariants({ size }),
-            styles?.["step-label"],
+            styles?.["step-label"]
           )}
         >
           {label}
@@ -77,7 +77,7 @@ const StepLabel = ({
             "stepper__step-description",
             "text-muted-foreground",
             descriptionVariants({ size }),
-            styles?.["step-description"],
+            styles?.["step-description"]
           )}
         >
           {description}

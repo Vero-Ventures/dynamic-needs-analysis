@@ -48,17 +48,17 @@ const StepIcon = React.forwardRef<HTMLDivElement, StepIconProps>(
 
     const Icon = React.useMemo(
       () => (CustomIcon ? CustomIcon : null),
-      [CustomIcon],
+      [CustomIcon]
     );
 
     const ErrorIcon = React.useMemo(
       () => (CustomErrorIcon ? CustomErrorIcon : null),
-      [CustomErrorIcon],
+      [CustomErrorIcon]
     );
 
     const Check = React.useMemo(
       () => (CustomCheckIcon ? CustomCheckIcon : CheckIcon),
-      [CustomCheckIcon],
+      [CustomCheckIcon]
     );
 
     return React.useMemo(() => {
@@ -126,7 +126,7 @@ const StepIcon = React.forwardRef<HTMLDivElement, StepIconProps>(
       ref,
       size,
     ]);
-  },
+  }
 );
 
 StepIcon.displayName = "StepIcon";
