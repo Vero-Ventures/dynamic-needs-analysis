@@ -92,3 +92,16 @@ function valueSeries(asset: Asset, startYear: number, endYear: number) {
   }
   return series;
 }
+export function generateDiversificationSeries(assets: Asset[]) {
+  const totalByType: Record<string, number> = {};
+
+  assets.forEach((asset: Asset): void => {
+    totalByType[asset.type] =
+      (totalByType[asset.type] || 0) + asset.currentValue;
+  });
+
+  const series = Object.values(totalByType);
+  const labels = Object.keys(totalByType);
+
+  return { series, labels };
+}

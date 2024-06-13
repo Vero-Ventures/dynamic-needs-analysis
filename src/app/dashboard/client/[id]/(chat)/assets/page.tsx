@@ -18,6 +18,7 @@ export default function Assets() {
       </div>
       <div className="mt-4">
         <NetWorthChart assets={assets} />
+        <DiversificationChart assets={assets} />
       </div>
     </div>
   );
@@ -38,6 +39,7 @@ import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
 import NetWorthChart from "./net-worth-chart";
 import { assets } from "@/app/data/db";
+import DiversificationChart from "./diversification-chart";
 
 function AssetsTable() {
   return (
