@@ -16,6 +16,10 @@ export default function Assets() {
         <AssetsTable />
         <BeneficiaryDistributionTable />
       </div>
+      <div className="mt-4">
+        <NetWorthChart assets={assets} />
+        <DiversificationChart assets={assets} />
+      </div>
     </div>
   );
 }
@@ -33,6 +37,9 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteAsset } from "./actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
+import NetWorthChart from "./net-worth-chart";
+import { assets } from "@/app/data/db";
+import DiversificationChart from "./diversification-chart";
 
 function AssetsTable() {
   return (

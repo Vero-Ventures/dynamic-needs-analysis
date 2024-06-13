@@ -1,8 +1,10 @@
 import BeneficiariesTable from "./beneficiaries-table";
-import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-allocation-chart";
 
 import AddBeneficiaryDialog from "./add-beneficiary-dialog";
-import { beneficiaries } from "@/app/data/db";
+import { assets, beneficiaries } from "@/app/data/db";
+import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-distribution-chart";
+import RealBeneficiaryDistributionChart from "./real-beneficiary-distribution-chart";
+import AssetValueDistributionChart from "./asset-value-distribution-chart";
 
 export default function Beneficiaries() {
   const totalAllocationParts = beneficiaries.reduce(
@@ -24,7 +26,9 @@ export default function Beneficiaries() {
         />
       </div>
       <BeneficiariesTable />
-      <DesiredBeneficiaryAllocationChart beneficiariesData={beneficiaries} />
+      <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
+      <RealBeneficiaryDistributionChart assets={assets} />
+      <AssetValueDistributionChart assets={assets} />
     </section>
   );
 }
