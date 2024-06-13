@@ -67,7 +67,7 @@ export default function EditAssetStepper({ asset }: { asset: Asset }) {
           <AddAssetsForm asset={asset} onAddAsset={handleEditAsset} />
         </Step>
         <Step icon={Users2Icon} label="Edit Beneficiaries">
-          <div className="my-4 space-y-6">
+          <div className="mb-10 mt-4 space-y-6">
             <BeneficiaryTable
               assetBeneficiaries={beneficiaries}
               onEditBeneficiary={onEditBeneficiary}
