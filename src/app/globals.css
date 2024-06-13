@@ -79,10 +79,6 @@
   background: transparent !important;
 }
 
-div[type="pie"] > .apexcharts-theme-light > .apexcharts-tooltip-text {
-  color: white !important;
-}
-
 .rdp [aria-hidden="true"] {
   @apply hidden;
 }

@@ -54,7 +54,7 @@ export default function DiversificationChart({ assets }: { assets: Asset[] }) {
         labels,
         theme: {
           mode: chartTheme,
-          palette: "palette3",
+          palette: "palette5",
         },
         title: { text: "Asset Diversification" },
         legend: { position: "bottom" },
