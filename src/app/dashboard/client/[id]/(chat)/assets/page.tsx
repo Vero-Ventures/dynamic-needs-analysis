@@ -33,16 +33,21 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteAsset } from "./actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
-import { assets, businesses } from "@/app/data/db";
+import { assets, beneficiaries, businesses } from "@/app/data/db";
+import {
+  calculateAdditionalMoneyRequired,
+  calculateBeneficiaryDistributions,
+  calculateFutureValue,
+  calculateIdealDistributions,
+  calculateTotalAdditionalMoneyRequired,
+  calculateTotalCurrentValue,
+  calculateTotalFutureValue,
+  calculateTotalIdealPercentage,
+  calculateTotalPercentage,
+} from "@/lib/asset/manager-utils";
 
 function AssetsTable() {
-  const totalAssetCurrentValue = assets.reduce((acc, asset) => {
-    return acc + asset.currentValue;
-  }, 0);
-  const totalBusinessCurrentValue = businesses.reduce((acc, business) => {
-    return acc + business.valuation;
-  }, 0);
-  const totalCurrentValue = totalAssetCurrentValue + totalBusinessCurrentValue;
+  const totalCurrentValue = calculateTotalCurrentValue(assets, businesses);
 
   return (
     <Table className="mx-auto max-w-2xl">
@@ -117,35 +122,72 @@ function DeleteAsset({ id }: { id: number }) {
 }
 
 function BeneficiaryDistributionTable() {
+  const beneficiaryDistributions = calculateBeneficiaryDistributions(
+    assets,
+    calculateFutureValue
+  );
+  const idealDistributions = calculateIdealDistributions(beneficiaries);
+  const additionalMoneyRequired = calculateAdditionalMoneyRequired(
+    idealDistributions,
+    beneficiaryDistributions
+  );
+  const totalFutureValue = calculateTotalFutureValue(
+    assets,
+    calculateFutureValue
+  );
+
   return (
     <Table className="mx-auto max-w-2xl">
       <TableHeader>
         <TableRow>
           <TableHead className="text-center">Beneficiary</TableHead>
           <TableHead className="text-center">Amount ($)</TableHead>
-          <TableHead className="text-center">Percentage (%)</TableHead>
-          <TableHead className="text-center">Ideal Distribution (%)</TableHead>
+          <TableHead className="text-center">Parts</TableHead>
+          <TableHead className="text-center">
+            Ideal Distribution (parts)
+          </TableHead>
           <TableHead className="text-center">Additional Required ($)</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="text-center font-medium">
-            {"John Harrison"}
-          </TableCell>
-          <TableCell className="text-center">{formatMoney(8474.75)}</TableCell>
-          <TableCell className="text-center">{`${25}%`}</TableCell>
-          <TableCell className="text-center">{`${25}%`}</TableCell>
-          <TableCell className="text-center">{formatMoney(0)}</TableCell>
-        </TableRow>
+        {Object.keys(beneficiaryDistributions).map((name) => (
+          <TableRow key={name}>
+            <TableCell className="text-center font-medium">{name}</TableCell>
+            <TableCell className="text-center">
+              {formatMoney(beneficiaryDistributions[name])}
+            </TableCell>
+            <TableCell className="text-center">
+              {`${(beneficiaryDistributions[name] / totalFutureValue) * 100}`}
+            </TableCell>
+            <TableCell className="text-center">
+              {`${idealDistributions[name]}`}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatMoney(additionalMoneyRequired[name] ?? 0)}
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
       <TableFooter>
         <TableRow>
           <TableCell className="text-center">Total</TableCell>
-          <TableCell className="text-center">{formatMoney(8474.75)}</TableCell>
-          <TableCell className="text-center">{`${25}%`}</TableCell>
-          <TableCell className="text-center">{`${25}%`}</TableCell>
-          <TableCell className="text-center">{formatMoney(0)}</TableCell>
+          <TableCell className="text-center">
+            {formatMoney(totalFutureValue)}
+          </TableCell>
+          <TableCell className="text-center">
+            {calculateTotalPercentage(
+              beneficiaryDistributions,
+              totalFutureValue
+            )}
+          </TableCell>
+          <TableCell className="text-center">
+            {calculateTotalIdealPercentage(idealDistributions)}
+          </TableCell>
+          <TableCell className="text-center">
+            {formatMoney(
+              calculateTotalAdditionalMoneyRequired(additionalMoneyRequired)
+            )}
+          </TableCell>
         </TableRow>
       </TableFooter>
     </Table>
