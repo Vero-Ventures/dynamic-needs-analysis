@@ -2,6 +2,8 @@
 
 import type { Asset } from "@/app/data/db";
 import { generateRealDistributionSeriesAndLabels } from "@/lib/beneficiaries/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function RealBeneficiaryDistributionChart({
@@ -9,7 +11,24 @@ export default function RealBeneficiaryDistributionChart({
 }: {
   assets: Asset[];
 }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
   const { series, labels } = generateRealDistributionSeriesAndLabels(assets);
+
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <ReactApexChart
       options={{
@@ -27,6 +46,10 @@ export default function RealBeneficiaryDistributionChart({
         title: { text: "Real Beneficiary Distribution" },
         legend: { position: "bottom" },
         labels,
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
+        },
         xaxis: { type: "category", categories: [] },
         yaxis: { title: { text: "" } },
         plotOptions: { bar: { horizontal: true } },

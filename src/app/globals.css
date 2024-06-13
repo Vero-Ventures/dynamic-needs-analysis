@@ -75,6 +75,10 @@
   }
 }
 
+.apexcharts-svg {
+  background: transparent !important;
+}
+
 .rdp [aria-hidden="true"] {
   @apply hidden;
 }
