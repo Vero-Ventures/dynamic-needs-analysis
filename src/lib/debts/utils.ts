@@ -1,3 +1,5 @@
+import type { Debt } from "@/app/data/db";
+
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
   return currentYear - yearAcquired;
@@ -70,4 +72,64 @@ export function calculateInsurableFutureValueDollars(
   amountPaidOffDollars: number
 ): number {
   return futureValueOfActualTermDebtDollars - amountPaidOffDollars;
+}
+
+export function generateDebtsSeries(debts: Debt[]) {
+  const series: ApexAxisChartSeries = [];
+  let latestYear: number = 0;
+
+  debts.forEach((debt: Debt): void => {
+    const dataPoints: [number, number][] = [];
+    let year: number = debt.yearAcquired;
+    let value: number;
+
+    let debtRemaining: boolean = true;
+    do {
+      value = calculateDebtValueOverTime(debt, year, new Map<string, number>());
+      if (value > 0) {
+        dataPoints.push([year, value]);
+      } else {
+        latestYear = Math.max(latestYear, year);
+        debtRemaining = false;
+      }
+      year++;
+    } while (debtRemaining);
+
+    series.push({
+      name: debt.name,
+      data: dataPoints,
+    });
+  });
+  return series;
+}
+
+export function calculateDebtValueOverTime(
+  debt: Debt,
+  year: number,
+  debtValuesCache: Map<string, number>
+): number {
+  const cacheKey: string = `${debt.name}-${year}`;
+  if (debtValuesCache.has(cacheKey)) {
+    return debtValuesCache.get(cacheKey)!;
+  }
+
+  if (year > new Date().getFullYear() + Math.max(debt.term, 10)) {
+    return 0;
+  }
+
+  let remainingDebt: number =
+    year === debt.yearAcquired
+      ? debt.initialValue
+      : calculateDebtValueOverTime(debt, year - 1, debtValuesCache);
+
+  if (remainingDebt <= 0) {
+    debtValuesCache.set(cacheKey, 0);
+    return 0;
+  }
+
+  remainingDebt *= Math.pow(1 + debt.rate / 100, 1);
+  remainingDebt = Math.max(0, remainingDebt - debt.annualPayment);
+
+  debtValuesCache.set(cacheKey, remainingDebt);
+  return remainingDebt;
 }

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import DebtsTable from "./debts-table";
-import DebtsChart from "./debts-chart";
 import { cn } from "@/lib/utils";
+import DebtsChart from "./debts-chart";
+import { debts } from "@/app/data/db";
 
 export default function Debts() {
   return (
@@ -17,7 +18,7 @@ export default function Debts() {
       </div>
       <DebtsTable />
       <div className="mt-14">
-        <DebtsChart />
+        <DebtsChart debts={debts} />
       </div>
     </section>
   );
