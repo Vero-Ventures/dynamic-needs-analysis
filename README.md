@@ -5,11 +5,15 @@
 To start up the local supabase instance.
 
 ```bash
-supabase start
+bun db:start
 ```
+
+- Place the `API URL` and `anon key` in a `.env.local`
+
+- Click on `Studio URL` to open the local Supabase Dashboard.
 
 To stop the local supabase instance.
 
 ```bash
-supabase stop
+bun db:stop
 ```
