@@ -3,10 +3,28 @@
 import type { Debt } from "@/app/data/db";
 import { generateDebtsSeries } from "@/lib/debts/utils";
 import { formatMoney } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function DebtsChart({ debts }: { debts: Debt[] }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
   const { series, xAxisOptions } = generateDebtsSeries(debts);
+
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   return (
     <ReactApexChart
       options={{
@@ -40,6 +58,10 @@ export default function DebtsChart({ debts }: { debts: Debt[] }) {
           y: {
             formatter: (value: number): string => formatMoney(value),
           },
+        },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
         },
         title: { text: "Debt Value Per Year" },
         dataLabels: { enabled: false },

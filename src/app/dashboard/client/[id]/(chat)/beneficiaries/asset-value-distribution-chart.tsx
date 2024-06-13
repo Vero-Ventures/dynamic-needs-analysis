@@ -2,6 +2,8 @@
 
 import type { Asset } from "@/app/data/db";
 import { generateAssetValueDistributionSeries } from "@/lib/beneficiaries/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function AssetValueDistributionChart({
@@ -9,7 +11,24 @@ export default function AssetValueDistributionChart({
 }: {
   assets: Asset[];
 }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
   const series = generateAssetValueDistributionSeries(assets);
+
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <ReactApexChart
       options={{
@@ -40,6 +59,10 @@ export default function AssetValueDistributionChart({
               })}`;
             },
           },
+        },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
         },
         title: { text: "Asset Value Distribution" },
         legend: { position: "bottom" },

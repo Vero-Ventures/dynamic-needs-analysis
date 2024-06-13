@@ -2,23 +2,28 @@
 
 import type { Asset } from "@/app/data/db";
 import { generateDiversificationSeries } from "@/lib/asset/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const CUSTOM_COLORS: string[] = [
-  "#1f77b4",
-  "#ff7f0e",
-  "#2ca02c",
-  "#d62728",
-  "#9467bd",
-  "#8c564b",
-  "#e377c2",
-  "#7f7f7f",
-  "#bcbd22",
-  "#17becf",
-];
-
 export default function DiversificationChart({ assets }: { assets: Asset[] }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
   const { series, labels } = generateDiversificationSeries(assets);
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <ReactApexChart
       options={{
@@ -47,9 +52,12 @@ export default function DiversificationChart({ assets }: { assets: Asset[] }) {
           },
         ],
         labels,
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
+        },
         title: { text: "Asset Diversification" },
         legend: { position: "bottom" },
-        colors: CUSTOM_COLORS,
       }}
       series={series}
       type="pie"

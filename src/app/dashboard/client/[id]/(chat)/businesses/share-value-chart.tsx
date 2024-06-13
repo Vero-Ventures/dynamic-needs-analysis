@@ -5,6 +5,8 @@ import {
   generateYearsArray,
 } from "@/lib/businesses/utils";
 import { formatMoney } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import ReactApexChart from "react-apexcharts";
 
 export default function ShareValueChart({
@@ -12,6 +14,21 @@ export default function ShareValueChart({
 }: {
   businesses: Business[];
 }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   return (
     <ReactApexChart
       options={{
@@ -22,6 +39,10 @@ export default function ShareValueChart({
           toolbar: {
             show: false,
           },
+        },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
         },
         title: { text: "Share Value Per Year" },
         xaxis: { type: "category", categories: generateYearsArray() },
