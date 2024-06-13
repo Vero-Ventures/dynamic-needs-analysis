@@ -1,12 +1,12 @@
 "use client";
 
-import type { Debt } from "@/app/data/db";
-import { generateDebtsSeries } from "@/lib/debts/utils";
+import type { Asset } from "@/app/data/db";
+import { generateNetWorthSeries } from "@/lib/asset/utils";
 import { formatMoney } from "@/lib/utils";
 import ReactApexChart from "react-apexcharts";
 
-export default function DebtsChart({ debts }: { debts: Debt[] }) {
-  const { series, xAxisOptions } = generateDebtsSeries(debts);
+export default function NetWorthChart({ assets }: { assets: Asset[] }) {
+  const { series, xAxisOptions } = generateNetWorthSeries(assets);
   return (
     <ReactApexChart
       options={{
@@ -19,32 +19,38 @@ export default function DebtsChart({ debts }: { debts: Debt[] }) {
           },
           stacked: false,
         },
+        title: { text: "Net Worth Per Year" },
         xaxis: {
           type: "numeric",
-          title: { text: "Years" },
           labels: {
             formatter: (value: string): string => {
-              const yearValue: number = Math.round(parseFloat(value));
-              return yearValue.toString();
+              const valAsNumber: number = parseFloat(value);
+              return isNaN(valAsNumber)
+                ? value
+                : Math.round(valAsNumber).toString().slice(-4);
             },
             ...xAxisOptions,
           },
         },
         yaxis: {
-          title: { text: "Debt Value ($)" },
           labels: {
             formatter: (value: number): string => formatMoney(value),
           },
         },
-        tooltip: {
-          y: {
-            formatter: (value: number): string => formatMoney(value),
-          },
+        dataLabels: {
+          enabled: false,
         },
-        title: { text: "Debt Value Per Year" },
-        dataLabels: { enabled: false },
+        fill: {
+          type: "solid",
+        },
         legend: {
           position: "top",
+          horizontalAlign: "left",
+        },
+        tooltip: {
+          y: {
+            formatter: (val: number): string => `$${val.toFixed(0)}`,
+          },
         },
       }}
       series={series}

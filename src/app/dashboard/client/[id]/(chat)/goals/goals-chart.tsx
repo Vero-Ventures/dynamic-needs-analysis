@@ -51,6 +51,7 @@ export default function GoalsChart({
             },
           },
         },
+        title: { text: "Goal Allocation and Liquidity Distribution" },
         dataLabels: { enabled: false },
         plotOptions: { bar: { horizontal: false } },
       }}

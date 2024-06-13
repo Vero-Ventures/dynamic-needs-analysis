@@ -1,15 +1,16 @@
 "use client";
 
-import type { Asset } from "@/app/data/db";
-import { generateRealDistributionSeriesAndLabels } from "@/lib/beneficiaries/utils";
+import type { Beneficiary } from "@/app/data/db";
+import { generateDesiredDistributionSeriesAndLabels } from "@/lib/beneficiaries/utils";
 import ReactApexChart from "react-apexcharts";
 
-export default function RealBeneficiaryDistributionChart({
-  assets,
+export default function DesiredBeneficiaryDistributionChart({
+  beneficiaries,
 }: {
-  assets: Asset[];
+  beneficiaries: Beneficiary[];
 }) {
-  const { series, labels } = generateRealDistributionSeriesAndLabels(assets);
+  const { series, labels } =
+    generateDesiredDistributionSeriesAndLabels(beneficiaries);
   return (
     <ReactApexChart
       options={{
@@ -24,7 +25,7 @@ export default function RealBeneficiaryDistributionChart({
         dataLabels: {
           enabled: true,
         },
-        title: { text: "Real Beneficiary Distribution" },
+        title: { text: "Desired Beneficiary Distribution" },
         legend: { position: "bottom" },
         labels,
         xaxis: { type: "category", categories: [] },

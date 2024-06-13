@@ -16,6 +16,10 @@ export default function Assets() {
         <AssetsTable />
         <BeneficiaryDistributionTable />
       </div>
+      <div className="mt-4">
+        <NetWorthChart assets={assets} />
+        <DiversificationChart assets={assets} />
+      </div>
     </div>
   );
 }
@@ -45,6 +49,8 @@ import {
   calculateTotalIdealPercentage,
   calculateTotalPercentage,
 } from "@/lib/asset/manager-utils";
+import NetWorthChart from "./net-worth-chart";
+import DiversificationChart from "./diversification-chart";
 
 function AssetsTable() {
   const totalCurrentValue = calculateTotalCurrentValue(assets, businesses);
