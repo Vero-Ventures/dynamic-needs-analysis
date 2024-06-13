@@ -28,14 +28,14 @@ export const clients: ClientData[] = [
 
 // === Goals Data and Schema ===
 
-export interface Goals {
+export interface Goal {
   id: number;
   name: string;
   amount: number;
   philanthropic: boolean;
 }
 
-export const goals: Goals[] = [
+export const goals: Goal[] = [
   {
     id: 0,
     name: "Red Cross",
@@ -101,16 +101,23 @@ export const businesses: Business[] = [
     id: 0,
     name: "Vero Ventures",
     valuation: 1000,
-    ebitda: 0,
-    appreciationRate: 0,
-    term: 0,
+    ebitda: 100,
+    appreciationRate: 2,
+    term: 5,
     shareholders: [
       {
         id: 0,
         name: "John Doe",
-        sharePercentage: 100,
+        sharePercentage: 50,
         insuranceCoverage: 0,
         ebitdaContributionPercentage: 100,
+      },
+      {
+        id: 0,
+        name: "Jane Doe",
+        sharePercentage: 20,
+        insuranceCoverage: 0,
+        ebitdaContributionPercentage: 30,
       },
     ],
   },
@@ -175,6 +182,33 @@ export const assets: Asset[] = [
     isTaxable: true,
     isLiquid: false,
     isToBeSold: false,
+    assetBeneficiaries: [
+      {
+        id: 0,
+        name: "John Harrison",
+        allocation: 25,
+        isAssetAssigned: true,
+      },
+      {
+        id: 1,
+        name: "James Smith",
+        allocation: 50,
+        isAssetAssigned: false,
+      },
+    ],
+  },
+  {
+    id: 1,
+    name: "Apple Stocks",
+    initialValue: 2000000,
+    currentValue: 600000,
+    yearAcquired: 2016,
+    rate: 3,
+    term: 15,
+    type: "Stocks",
+    isTaxable: true,
+    isLiquid: true,
+    isToBeSold: true,
     assetBeneficiaries: [
       {
         id: 0,

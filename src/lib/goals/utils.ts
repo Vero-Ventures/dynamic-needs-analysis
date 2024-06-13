@@ -1,28 +1,28 @@
-import type { Asset, Goals } from "@/app/data/db";
+import type { Asset, Goal } from "@/app/data/db";
 
-export function calculateTotalSumGoals(data: Goals[]) {
+export function calculateTotalSumGoals(data: Goal[]) {
   return data.reduce((total, goal) => total + goal.amount, 0);
 }
 
 export function calculateLiquidityPreserved(
   allocationFactor: number,
-  totalFutureValueLiquid: number
+  totalFutureValueLiquidAssets: number
 ): number {
-  return totalFutureValueLiquid * (1 - allocationFactor);
+  return totalFutureValueLiquidAssets * (1 - allocationFactor);
 }
 
 export function calculateLiquidityAllocatedToGoals(
   allocationFactor: number,
-  totalFutureValueLiquid: number
+  totalFutureValueLiquidAssets: number
 ): number {
-  return totalFutureValueLiquid * allocationFactor;
+  return totalFutureValueLiquidAssets * allocationFactor;
 }
 
 export function calculateSurplusShortfall(
-  liquidityAllocated: number,
+  liquidityAllocatedToGoals: number,
   totalSumGoals: number
 ): number {
-  return liquidityAllocated - totalSumGoals;
+  return liquidityAllocatedToGoals - totalSumGoals;
 }
 
 export function calculateCurrentFutureTotals(assets: Asset[]) {
@@ -30,7 +30,7 @@ export function calculateCurrentFutureTotals(assets: Asset[]) {
     totalCurrentValueFixed: 0,
     totalFutureValueFixed: 0,
     totalCurrentValueLiquid: 0,
-    totalFutureValueLiquid: 0,
+    totalFutureValueLiquidAssets: 0,
     totalCurrentValueToBeSold: 0,
     totalFutureValueToBeSold: 0,
   };
@@ -40,7 +40,7 @@ export function calculateCurrentFutureTotals(assets: Asset[]) {
 
     if (asset.isLiquid) {
       result.totalCurrentValueLiquid += asset.currentValue;
-      result.totalFutureValueLiquid += futureValue;
+      result.totalFutureValueLiquidAssets += futureValue;
     }
 
     if (!asset.isLiquid && !asset.isToBeSold) {
@@ -54,4 +54,19 @@ export function calculateCurrentFutureTotals(assets: Asset[]) {
     }
   });
   return result;
+}
+
+export function generateGoalsSeries(
+  values: number[],
+  categories: string[],
+  positiveColor: string,
+  negativeColor: string
+) {
+  return values.map((value: number, index: number) => {
+    return {
+      x: categories[index],
+      y: value,
+      fillColor: value >= 0 ? positiveColor : negativeColor,
+    };
+  });
 }

@@ -1,17 +1,26 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import EBITDAContributionChart from "./ebitda-contribution-chart";
+import ShareValueChart from "./share-value-chart";
+import { businesses, type Business } from "@/app/data/db";
 
 export default function Businesses() {
   return (
-    <div className="p-4">
+    <div className="space-y-6 p-4">
       <Link
         className={cn(buttonVariants())}
         href="/dashboard/client/1/businesses/add"
       >
         Add New Business
       </Link>
-      <div className="mt-4">
-        <BusinessTable />
+      <div>
+        <BusinessTable businesses={businesses} />
+      </div>
+      <div>
+        <EBITDAContributionChart businesses={businesses} />
+      </div>
+      <div>
+        <ShareValueChart businesses={businesses} />
       </div>
     </div>
   );
@@ -25,13 +34,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { businesses } from "@/app/data/db";
 import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
 
-function BusinessTable() {
+function BusinessTable({ businesses }: { businesses: Business[] }) {
   return (
     <Table className="max-w-lg">
       <TableHeader>
