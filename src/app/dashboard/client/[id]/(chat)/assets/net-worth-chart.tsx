@@ -18,7 +18,8 @@ export default function NetWorthChart({ assets }: { assets: Asset[] }) {
             show: false,
           },
           stacked: false,
-        } as ApexChart,
+        },
+        title: { text: "Net Worth Per Year" },
         xaxis: {
           type: "numeric",
           labels: {

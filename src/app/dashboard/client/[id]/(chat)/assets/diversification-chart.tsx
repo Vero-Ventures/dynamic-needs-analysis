@@ -47,6 +47,7 @@ export default function DiversificationChart({ assets }: { assets: Asset[] }) {
           },
         ],
         labels,
+        title: { text: "Asset Diversification" },
         legend: { position: "bottom" },
         colors: CUSTOM_COLORS,
       }}

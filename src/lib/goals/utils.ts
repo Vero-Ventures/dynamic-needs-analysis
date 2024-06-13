@@ -1,7 +1,7 @@
 import type { Asset, Goal } from "@/app/data/db";
 
-export function calculateTotalSumGoals(data: Goal[]) {
-  return data.reduce((total, goal) => total + goal.amount, 0);
+export function calculateTotalSumGoals(goals: Goal[]) {
+  return goals.reduce((total, goal) => total + goal.amount, 0);
 }
 
 export function calculateLiquidityPreserved(

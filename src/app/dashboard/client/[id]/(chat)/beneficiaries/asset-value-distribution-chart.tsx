@@ -28,8 +28,20 @@ export default function AssetValueDistributionChart({
           type: "category",
           categories: assets.map((asset: Asset) => asset.name),
         },
-        yaxis: { title: { text: "Percentage" }, max: 100 },
-        title: { text: "Beneficiary Allocation Percentage" },
+        yaxis: {
+          title: { text: "Asset Value" },
+        },
+        tooltip: {
+          y: {
+            formatter: (val: number): string => {
+              return `$${val.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`;
+            },
+          },
+        },
+        title: { text: "Asset Value Distribution" },
         legend: { position: "bottom" },
         labels: [],
       }}

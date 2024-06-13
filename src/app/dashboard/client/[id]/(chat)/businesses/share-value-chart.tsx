@@ -23,6 +23,7 @@ export default function ShareValueChart({
             show: false,
           },
         },
+        title: { text: "Share Value Per Year" },
         xaxis: { type: "category", categories: generateYearsArray() },
         yaxis: {
           title: { text: "Share Value ($)" },

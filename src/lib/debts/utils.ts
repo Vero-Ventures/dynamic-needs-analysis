@@ -100,7 +100,23 @@ export function generateDebtsSeries(debts: Debt[]) {
       data: dataPoints,
     });
   });
-  return series;
+
+  const minYear: number = Math.min(...debts.map((d: Debt) => d.yearAcquired));
+  const maxYear: number = latestYear;
+
+  let tickAmount: number = maxYear - minYear + 1;
+  while (tickAmount > 20) {
+    tickAmount = tickAmount / 2;
+  }
+
+  return {
+    series,
+    xAxisOptions: {
+      min: minYear,
+      max: maxYear,
+      tickAmount,
+    },
+  };
 }
 
 export function calculateDebtValueOverTime(

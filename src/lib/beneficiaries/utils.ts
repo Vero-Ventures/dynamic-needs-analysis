@@ -57,7 +57,9 @@ export function generateAssetValueDistributionSeries(assets: Asset[]) {
         asset.assetBeneficiaries.find(
           (b: Beneficiary): boolean => b.name === series.name
         );
-      series.data.push(beneficiary ? beneficiary.allocation : 0);
+      series.data.push(
+        beneficiary ? (beneficiary.allocation / 100) * asset.currentValue : 0
+      );
     });
   });
 

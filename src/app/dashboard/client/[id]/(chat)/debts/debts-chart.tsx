@@ -6,7 +6,7 @@ import { formatMoney } from "@/lib/utils";
 import ReactApexChart from "react-apexcharts";
 
 export default function DebtsChart({ debts }: { debts: Debt[] }) {
-  const series = generateDebtsSeries(debts);
+  const { series, xAxisOptions } = generateDebtsSeries(debts);
   return (
     <ReactApexChart
       options={{
@@ -27,6 +27,7 @@ export default function DebtsChart({ debts }: { debts: Debt[] }) {
               const yearValue: number = Math.round(parseFloat(value));
               return yearValue.toString();
             },
+            ...xAxisOptions,
           },
         },
         yaxis: {
@@ -40,6 +41,7 @@ export default function DebtsChart({ debts }: { debts: Debt[] }) {
             formatter: (value: number): string => formatMoney(value),
           },
         },
+        title: { text: "Debt Value Per Year" },
         dataLabels: { enabled: false },
         legend: {
           position: "top",
