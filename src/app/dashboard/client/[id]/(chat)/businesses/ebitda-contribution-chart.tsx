@@ -16,8 +16,6 @@ export default function EBITDAContributionChart({
     <ReactApexChart
       options={{
         chart: {
-          type: "line",
-          height: 350,
           animations: {
             enabled: false,
           },

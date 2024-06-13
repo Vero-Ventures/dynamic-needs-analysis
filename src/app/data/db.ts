@@ -197,4 +197,31 @@ export const assets: Asset[] = [
       },
     ],
   },
+  {
+    id: 1,
+    name: "Apple Stocks",
+    initialValue: 2000000,
+    currentValue: 600000,
+    yearAcquired: 2016,
+    rate: 3,
+    term: 15,
+    type: "Stocks",
+    isTaxable: true,
+    isLiquid: true,
+    isToBeSold: true,
+    assetBeneficiaries: [
+      {
+        id: 0,
+        name: "John Harrison",
+        allocation: 25,
+        isAssetAssigned: true,
+      },
+      {
+        id: 1,
+        name: "James Smith",
+        allocation: 50,
+        isAssetAssigned: false,
+      },
+    ],
+  },
 ];

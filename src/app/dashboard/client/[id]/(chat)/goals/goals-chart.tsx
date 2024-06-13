@@ -27,8 +27,6 @@ export default function GoalsChart({
     <ReactApexChart
       options={{
         chart: {
-          type: "bar",
-          height: 350,
           animations: {
             enabled: false,
           },
@@ -53,7 +51,6 @@ export default function GoalsChart({
             },
           },
         },
-
         dataLabels: { enabled: false },
         plotOptions: { bar: { horizontal: false } },
       }}
@@ -73,7 +70,7 @@ export default function GoalsChart({
           ),
         },
       ]}
-      type="line"
+      type="bar"
       height={350}
     />
   );

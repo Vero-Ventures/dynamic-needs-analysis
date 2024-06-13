@@ -56,8 +56,8 @@ export default function Liquidity({
         <div className="flex items-center gap-2">
           <Label>% Liquidity Allocated to Goals:</Label>
           <Input
-            type="number"
-            value={liquidityAllocatedToGoals}
+            className="w-24"
+            value={liquidityToGoalsPercent}
             onChange={(e) => setLiquidityToGoalsPercent(+e.target.value)}
           />
         </div>

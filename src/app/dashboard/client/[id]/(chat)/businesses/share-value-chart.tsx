@@ -16,8 +16,6 @@ export default function ShareValueChart({
     <ReactApexChart
       options={{
         chart: {
-          type: "line",
-          height: 350,
           animations: {
             enabled: false,
           },
