@@ -3,10 +3,27 @@
 import type { Asset } from "@/app/data/db";
 import { generateNetWorthSeries } from "@/lib/asset/utils";
 import { formatMoney } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function NetWorthChart({ assets }: { assets: Asset[] }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
   const { series, xAxisOptions } = generateNetWorthSeries(assets);
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   return (
     <ReactApexChart
       options={{
@@ -18,6 +35,10 @@ export default function NetWorthChart({ assets }: { assets: Asset[] }) {
             show: false,
           },
           stacked: false,
+        },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
         },
         title: { text: "Net Worth Per Year" },
         xaxis: {

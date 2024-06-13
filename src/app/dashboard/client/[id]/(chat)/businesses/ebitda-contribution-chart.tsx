@@ -5,6 +5,8 @@ import {
   generateYearsArray,
 } from "@/lib/businesses/utils";
 import { formatMoney } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function EBITDAContributionChart({
@@ -12,6 +14,23 @@ export default function EBITDAContributionChart({
 }: {
   businesses: Business[];
 }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const chartTheme = theme
+    ? theme === "system"
+      ? systemTheme
+      : (theme as "light" | "dark")
+    : "dark";
+
+  // Prevent hydration warnings
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <ReactApexChart
       options={{
@@ -22,6 +41,10 @@ export default function EBITDAContributionChart({
           toolbar: {
             show: false,
           },
+        },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
         },
         title: { text: "EBITDA Contribution Per Year" },
         xaxis: { type: "category", categories: generateYearsArray() },
