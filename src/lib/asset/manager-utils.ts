@@ -38,14 +38,19 @@ export function calculateBeneficiaryDistributions(
 
   assets.forEach((asset: Asset): void => {
     const futureValue: number = calculateFutureValue(asset);
-    asset.assetBeneficiaries.forEach(
-      (assetBeneficiary: AssetBeneficiary): void => {
-        const distribution: number =
-          (assetBeneficiary.allocation / 100) * futureValue;
-        distributions[assetBeneficiary.name] =
-          (distributions[assetBeneficiary.name] || 0) + distribution;
-      }
+    const totalAllocation: number = asset.assetBeneficiaries.reduce(
+      (sum: number, beneficiary: AssetBeneficiary) => {
+        if (beneficiary.isAssetAssigned) return sum + beneficiary.allocation;
+        return sum;
+      },
+      0
     );
+    asset.assetBeneficiaries.forEach((assetBeneficiary: Beneficiary): void => {
+      const distribution: number =
+        (assetBeneficiary.allocation / totalAllocation) * futureValue;
+      distributions[assetBeneficiary.name] =
+        (distributions[assetBeneficiary.name] || 0) + distribution;
+    });
   });
 
   return distributions;
