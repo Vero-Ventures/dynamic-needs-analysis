@@ -100,7 +100,7 @@ create table "public"."shareholders" (
     "name" text not null,
     "share_percentage" smallint not null,
     "insurance_coverage" numeric not null,
-    "ebitda_contributionPercentage" smallint not null,
+    "ebitda_contribution_percentage" smallint not null,
     "business_id" bigint not null
 );
 
