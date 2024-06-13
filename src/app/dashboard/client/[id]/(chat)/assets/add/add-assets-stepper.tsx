@@ -18,7 +18,7 @@ const steps = [
 export interface AssetBeneficiary extends Beneficiary {
   isAssetAssigned: boolean;
 }
-export default function AddAssetsStepper({
+export default function AddAssetStepper({
   assetBeneficiaries,
 }: {
   assetBeneficiaries: AssetBeneficiary[];
