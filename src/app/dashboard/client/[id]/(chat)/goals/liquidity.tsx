@@ -53,7 +53,7 @@ export default function Liquidity({
     <>
       <section>
         <h2 className="mb-2 text-2xl font-bold">Liquidity</h2>
-        <div className="flex items-center gap-2">
+        <div className="my-4 flex items-center gap-2">
           <Label>% Liquidity Allocated to Goals:</Label>
           <Input
             className="w-24"
