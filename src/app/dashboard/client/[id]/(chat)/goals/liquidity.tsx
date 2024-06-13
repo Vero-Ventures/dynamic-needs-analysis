@@ -10,6 +10,9 @@ import {
 } from "@/lib/goals/utils";
 import type { Asset, Goal } from "@/app/data/db";
 import { useState } from "react";
+import GoalsChart from "./goals-chart";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function Liquidity({
   goals,
@@ -127,9 +130,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import GoalsChart from "./goals-chart";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 
 export function LiquidityTable({
   data,
