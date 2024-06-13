@@ -4,12 +4,14 @@ import Link from "next/link";
 export default function Assets() {
   return (
     <div className="p-4">
-      <Link
-        className={cn(buttonVariants())}
-        href="/dashboard/client/1/assets/add"
-      >
-        Add New Asset
-      </Link>
+      <div className="mx-auto mb-5 mt-3 flex max-w-2xl items-center justify-between">
+        <Link
+          className={cn(buttonVariants())}
+          href="/dashboard/client/1/assets/add"
+        >
+          Add New Asset
+        </Link>
+      </div>
       <div className="mt-9 space-y-12">
         <AssetsTable />
         <BeneficiaryDistributionTable />
@@ -34,7 +36,7 @@ import { SquarePenIcon } from "lucide-react";
 
 function AssetsTable() {
   return (
-    <Table className="max-w-lg">
+    <Table className="mx-auto max-w-2xl">
       <TableHeader>
         <TableRow>
           <TableHead className="text-center">Name</TableHead>
@@ -86,7 +88,7 @@ function DeleteAsset({ id }: { id: number }) {
 
 function BeneficiaryDistributionTable() {
   return (
-    <Table className="max-w-lg">
+    <Table className="mx-auto max-w-2xl">
       <TableHeader>
         <TableRow>
           <TableHead className="w-[200px]">Beneficiary</TableHead>
