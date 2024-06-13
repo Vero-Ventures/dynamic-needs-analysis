@@ -3,7 +3,8 @@ create table "public"."assetBeneficiaries" (
     "createdAt" timestamp with time zone not null default now(),
     "name" text not null,
     "allocation" smallint not null,
-    "alreadyAssigned" boolean not null
+    "alreadyAssigned" boolean not null,
+    "assetId" bigint not null
 );
 
 
@@ -134,6 +135,10 @@ alter table "public"."debts" add constraint "debts_pkey" PRIMARY KEY using index
 alter table "public"."goals" add constraint "goals_pkey" PRIMARY KEY using index "goals_pkey";
 
 alter table "public"."shareholders" add constraint "shareholders_pkey" PRIMARY KEY using index "shareholders_pkey";
+
+alter table "public"."assetBeneficiaries" add constraint "public_assetBeneficiaries_assetId_fkey" FOREIGN KEY ("assetId") REFERENCES assets(id) ON DELETE CASCADE not valid;
+
+alter table "public"."assetBeneficiaries" validate constraint "public_assetBeneficiaries_assetId_fkey";
 
 alter table "public"."shareholders" add constraint "public_shareholders_businessId_fkey" FOREIGN KEY ("businessId") REFERENCES businesses(id) ON DELETE CASCADE not valid;
 
