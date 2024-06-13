@@ -7,7 +7,8 @@ create table "public"."asset_beneficiaries" (
     "created_at" timestamp with time zone not null default now(),
     "allocation" smallint not null,
     "asset_id" bigint not null,
-    "beneficary_id" bigint not null
+    "beneficary_id" bigint not null,
+    "already_assigned" boolean not null default true
 );
 
 
