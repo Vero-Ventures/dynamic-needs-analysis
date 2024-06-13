@@ -2,7 +2,16 @@
 
 ## Local Supabase Setup
 
+Login to supabase cli
+
+```bash
+bunx supabase login
+```
+
 To start up the local supabase instance.
+
+> [!NOTE]  
+> (Make sure Docker is installed and running)
 
 ```bash
 bun db:start
