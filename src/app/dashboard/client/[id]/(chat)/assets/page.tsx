@@ -33,44 +33,74 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteAsset } from "./actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
+import { assets, businesses } from "@/app/data/db";
 
 function AssetsTable() {
+  const totalAssetCurrentValue = assets.reduce((acc, asset) => {
+    return acc + asset.currentValue;
+  }, 0);
+  const totalBusinessCurrentValue = businesses.reduce((acc, business) => {
+    return acc + business.valuation;
+  }, 0);
+  const totalCurrentValue = totalAssetCurrentValue + totalBusinessCurrentValue;
+
   return (
     <Table className="mx-auto max-w-2xl">
       <TableHeader>
         <TableRow>
           <TableHead className="text-center">Name</TableHead>
           <TableHead className="text-center">Current Value ($)</TableHead>
-          <TableHead className="text-center">
-            Future Tax Liability ($)
-          </TableHead>
+          <TableHead className="text-center">Appreciation Rate (%)</TableHead>
           <TableHead className="text-right"></TableHead>
           <TableHead className="text-right"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">{"AAPL"}</TableCell>
-          <TableCell className="text-center">{formatMoney(110)}</TableCell>
-          <TableCell className="text-center">{formatMoney(23.21)}</TableCell>
-          <TableCell>
-            <Link
-              href={`/dashboard/client/1/assets/edit/${0}`}
-              className="hover:cursor-pointer"
-            >
-              <SquarePenIcon />
-            </Link>
-          </TableCell>
-          <TableCell>
-            <DeleteAsset id={0} />
-          </TableCell>
-        </TableRow>
+        {businesses.map((business) => (
+          <TableRow key={business.id}>
+            <TableCell className="text-center font-medium">
+              {business.name}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatMoney(business.valuation)}
+            </TableCell>
+            <TableCell className="text-center">
+              {`${business.appreciationRate}%`}
+            </TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        ))}
+        {assets.map((asset) => (
+          <TableRow key={asset.id}>
+            <TableCell className="text-center font-medium">
+              {asset.name}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatMoney(asset.currentValue)}
+            </TableCell>
+            <TableCell className="text-center">{`${asset.rate}%`}</TableCell>
+            <TableCell>
+              <Link
+                href={`/dashboard/client/1/assets/edit/${asset.id}`}
+                className="hover:cursor-pointer"
+              >
+                <SquarePenIcon />
+              </Link>
+            </TableCell>
+            <TableCell>
+              <DeleteAsset id={asset.id} />
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell>Total</TableCell>
-          <TableCell className="text-center">{formatMoney(110)}</TableCell>
-          <TableCell className="text-center">{formatMoney(23.21)}</TableCell>
+          <TableCell className="text-center">Total</TableCell>
+          <TableCell className="text-center">
+            {formatMoney(totalCurrentValue)}
+          </TableCell>
+          <TableCell></TableCell>
           <TableCell colSpan={2}></TableCell>
         </TableRow>
       </TableFooter>
@@ -91,7 +121,7 @@ function BeneficiaryDistributionTable() {
     <Table className="mx-auto max-w-2xl">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Beneficiary</TableHead>
+          <TableHead className="text-center">Beneficiary</TableHead>
           <TableHead className="text-center">Amount ($)</TableHead>
           <TableHead className="text-center">Percentage (%)</TableHead>
           <TableHead className="text-center">Ideal Distribution (%)</TableHead>
@@ -100,7 +130,9 @@ function BeneficiaryDistributionTable() {
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell className="font-medium">{"John Harrison"}</TableCell>
+          <TableCell className="text-center font-medium">
+            {"John Harrison"}
+          </TableCell>
           <TableCell className="text-center">{formatMoney(8474.75)}</TableCell>
           <TableCell className="text-center">{`${25}%`}</TableCell>
           <TableCell className="text-center">{`${25}%`}</TableCell>
@@ -109,7 +141,7 @@ function BeneficiaryDistributionTable() {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell>Total</TableCell>
+          <TableCell className="text-center">Total</TableCell>
           <TableCell className="text-center">{formatMoney(8474.75)}</TableCell>
           <TableCell className="text-center">{`${25}%`}</TableCell>
           <TableCell className="text-center">{`${25}%`}</TableCell>
