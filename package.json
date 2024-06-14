@@ -19,7 +19,8 @@
     "db:link": "supabase link --project-ref",
     "db:pull": "supabase db pull",
     "db:diff": "supabase db diff",
-    "db:push": "supabase db push"
+    "db:push": "supabase db push",
+    "db:glt": "supabase gen types typescript --local > types/supabase.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
