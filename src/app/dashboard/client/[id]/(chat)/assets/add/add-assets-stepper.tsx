@@ -5,17 +5,18 @@ import { Step, Stepper, type StepItem } from "@/components/ui/stepper";
 import { LandmarkIcon, Users2Icon } from "lucide-react";
 import type { AddAssetsFormSchema } from "./add-assets-form";
 import AddAssetsForm from "./add-assets-form";
-import type { Beneficiary } from "@/app/data/db";
 import { BeneficiaryTable } from "./beneficiary-table";
 import { StepperFormActions } from "./stepper-form-actions";
 import { addAsset } from "../actions";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 const steps = [
   { label: "Add Asset" },
   { label: "Add Beneficiaries" },
 ] satisfies StepItem[];
 
-export interface AssetBeneficiary extends Beneficiary {
+export interface AssetBeneficiary
+  extends Omit<Tables<"beneficiaries">, "created_at"> {
   isAssetAssigned: boolean;
 }
 export default function AddAssetStepper({
@@ -35,7 +36,7 @@ export default function AddAssetStepper({
     isLiquid: false,
     isToBeSold: false,
   });
-  console.log(asset);
+
   const [beneficiaries, setBeneficiaries] =
     useState<AssetBeneficiary[]>(assetBeneficiaries);
 

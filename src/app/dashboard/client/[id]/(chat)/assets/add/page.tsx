@@ -1,8 +1,16 @@
-import { beneficiaries } from "@/app/data/db";
 import AddAssetStepper from "./add-assets-stepper";
+import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
 
 export default async function AddAssetsPage() {
-  // make a copy of the beneficiaries
+  const sb = createClient();
+  const { data: beneficiaries } = await sb
+    .from("beneficiaries")
+    .select("id, name, allocation");
+  if (!beneficiaries) {
+    notFound();
+  }
+
   const assetBeneficiaries = beneficiaries.map((b) => ({
     ...b,
     isAssetAssigned: true,
