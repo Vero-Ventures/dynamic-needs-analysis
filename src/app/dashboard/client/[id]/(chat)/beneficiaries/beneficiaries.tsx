@@ -15,7 +15,6 @@ export default async function Beneficiaries() {
   if (!beneficiaries || !assets) {
     notFound();
   }
-  console.log(assets);
 
   const totalAllocationParts = beneficiaries.reduce(
     (acc, cur) => acc + cur.allocation,
