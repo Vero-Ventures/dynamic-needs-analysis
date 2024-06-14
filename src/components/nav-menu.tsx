@@ -3,12 +3,12 @@
 import { cn } from "@/lib/utils";
 import {
   Building2Icon,
-  CalculatorIcon,
+  // CalculatorIcon,
   CircleUserIcon,
   CreditCardIcon,
-  LandmarkIcon,
+  // LandmarkIcon,
   TargetIcon,
-  Users2Icon,
+  // Users2Icon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
