@@ -11,12 +11,16 @@ import { format } from "date-fns";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function ClientPage() {
+export default async function ClientPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const sb = createClient();
   const { data: client, error } = await sb
     .from("clients")
     .select()
-    .eq("id", 1)
+    .eq("id", +params.id)
     .limit(1)
     .single();
   if (error) {

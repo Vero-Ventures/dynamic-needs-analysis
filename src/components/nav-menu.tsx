@@ -25,21 +25,21 @@ const NavLinks: NavLink[] = [
     icon: <CircleUserIcon className="mr-3 h-5 w-5" />,
     label: "Client",
   },
-  {
-    href: "/dashboard/client/1/beneficiaries",
-    icon: <Users2Icon className="mr-3 h-5 w-5" />,
-    label: "Beneficiaries",
-  },
+  // {
+  //   href: "/dashboard/client/1/beneficiaries",
+  //   icon: <Users2Icon className="mr-3 h-5 w-5" />,
+  //   label: "Beneficiaries",
+  // },
   {
     href: "/dashboard/client/1/businesses",
     icon: <Building2Icon className="mr-3 h-5 w-5" />,
     label: "Businesses",
   },
-  {
-    href: "/dashboard/client/1/assets",
-    icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
-    label: "Assets",
-  },
+  // {
+  //   href: "/dashboard/client/1/assets",
+  //   icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
+  //   label: "Assets",
+  // },
   {
     href: "/dashboard/client/1/debts",
     icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
@@ -50,11 +50,11 @@ const NavLinks: NavLink[] = [
     icon: <TargetIcon className="mr-3 h-5 w-5" />,
     label: "Goals",
   },
-  {
-    href: "/dashboard/client/1/total-needs",
-    icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
-    label: "Total Needs",
-  },
+  // {
+  //   href: "/dashboard/client/1/total-needs",
+  //   icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
+  //   label: "Total Needs",
+  // },
 ];
 
 export default function NavMenu() {
