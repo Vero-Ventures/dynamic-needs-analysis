@@ -2,15 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function getAssetsWithBeneficiaries() {
   const sb = createClient();
-  const { data: assets, error } = await sb.from("asset_beneficiaries").select(`
-    *,
-    assets (
-     *
-    ),
-    beneficiaries (
-      *
-    )
-  `);
+  const { data: assets, error } = await sb
+    .from("assets")
+    .select(`*, asset_beneficiaries(*, beneficiaries(*))`);
   if (error) throw error;
   return assets;
 }
