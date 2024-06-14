@@ -9,21 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Debt } from "@/app/data/db";
-import { debts } from "@/app/data/db";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import { deleteDebt } from "./actions";
 import { formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
 import Link from "next/link";
+import type { Tables } from "../../../../../../../types/supabase";
 
-export default function DebtsTable() {
+export default function DebtsTable({ debts }: { debts: Tables<"debts">[] }) {
   const totalInitialValue = debts.reduce(
-    (acc, cur) => acc + cur.initialValue,
+    (acc, cur) => acc + cur.initial_value,
     0
   );
   const totalInsurableFutureValueDollars = debts.reduce(
-    (acc, cur) => acc + cur.insurableFutureValueDollars,
+    (acc, cur) => acc + cur.insurable_future_value_dollars,
     0
   );
 
@@ -46,8 +45,8 @@ export default function DebtsTable() {
             key={debt.id}
             id={debt.id}
             name={debt.name}
-            initialValue={debt.initialValue}
-            insurableFutureValueDollars={debt.insurableFutureValueDollars}
+            initial_value={debt.initial_value}
+            insurable_future_value_dollars={debt.insurable_future_value_dollars}
           />
         ))}
       </TableBody>
@@ -71,17 +70,20 @@ export default function DebtsTable() {
 function DebtsTableRow({
   id,
   name,
-  initialValue,
-  insurableFutureValueDollars,
-}: Pick<Debt, "id" | "name" | "initialValue" | "insurableFutureValueDollars">) {
+  initial_value,
+  insurable_future_value_dollars,
+}: Pick<
+  Tables<"debts">,
+  "id" | "name" | "initial_value" | "insurable_future_value_dollars"
+>) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
       <TableCell className="text-center font-medium">
-        {formatMoney(initialValue)}
+        {formatMoney(initial_value)}
       </TableCell>
       <TableCell className="text-center font-medium">
-        {formatMoney(insurableFutureValueDollars)}
+        {formatMoney(insurable_future_value_dollars)}
       </TableCell>
       <TableCell>
         <Link href={`/dashboard/client/1/debts/edit?id=${id}`}>

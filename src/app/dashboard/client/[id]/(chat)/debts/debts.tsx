@@ -3,9 +3,16 @@ import { buttonVariants } from "@/components/ui/button";
 import DebtsTable from "./debts-table";
 import { cn } from "@/lib/utils";
 import DebtsChart from "./debts-chart";
-import { debts } from "@/app/data/db";
+import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
 
-export default function Debts() {
+export default async function Debts() {
+  const sb = createClient();
+  const { data: debts } = await sb.from("debts").select();
+  if (!debts) {
+    return notFound();
+  }
+
   return (
     <section className="px-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-2xl items-center justify-between">
@@ -16,7 +23,7 @@ export default function Debts() {
           Add New Debt
         </Link>
       </div>
-      <DebtsTable />
+      <DebtsTable debts={debts} />
       <div className="mt-14">
         <DebtsChart debts={debts} />
       </div>
