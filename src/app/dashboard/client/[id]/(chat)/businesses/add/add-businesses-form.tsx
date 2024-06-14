@@ -19,7 +19,7 @@ const addBusinessSchema = z.object({
   name: z.string().trim(),
   valuation: z.coerce.number(),
   ebitda: z.coerce.number(),
-  appreciationRate: z.coerce.number(),
+  appreciation_rate: z.coerce.number(),
   term: z.coerce.number(),
 });
 
@@ -90,12 +90,12 @@ export default function AddBusinessesForm({
         />
         <FormField
           control={form.control}
-          name="appreciationRate"
+          name="appreciation_rate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Appreciation Rate (%)</FormLabel>
               <FormControl>
-                <Input id="appreciationRate" {...field} />
+                <Input id="appreciation_rate" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

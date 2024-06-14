@@ -1,4 +1,4 @@
-import type { Asset } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
 
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
@@ -34,12 +34,10 @@ export function calculateFutureValueGrowthPercentage(
   return initialValue === 0 ? 0 : (futureValueDollars / initialValue - 1) * 100;
 }
 
-export function generateNetWorthSeries(assets: Asset[]) {
-  const startYear: number = Math.min(
-    ...assets.map((a: Asset) => a.yearAcquired)
-  );
+export function generateNetWorthSeries(assets: Tables<"assets">[]) {
+  const startYear: number = Math.min(...assets.map((a) => a.year_acquired));
   const endYear: number = Math.max(
-    ...assets.map((a: Asset) => a.yearAcquired + a.term)
+    ...assets.map((a) => a.year_acquired + a.term)
   );
 
   let tickAmount: number = endYear - startYear + 1;
@@ -48,7 +46,7 @@ export function generateNetWorthSeries(assets: Asset[]) {
   }
   const xAxisOptions = { min: startYear, max: endYear, tickAmount };
 
-  const series = assets.map((asset: Asset) => ({
+  const series = assets.map((asset) => ({
     name: asset.name,
     data: valueSeries(asset, startYear, endYear).map((yv) => [
       yv.year,
@@ -59,32 +57,37 @@ export function generateNetWorthSeries(assets: Asset[]) {
   return { series, xAxisOptions };
 }
 
-function valueAtYear(asset: Asset, yearGiven: number): number {
+function valueAtYear(asset: Tables<"assets">, yearGiven: number): number {
   const currentYear: number = new Date().getFullYear();
-  if (yearGiven < asset.yearAcquired) {
+  if (yearGiven < asset.year_acquired) {
     return 0;
   }
-  if (currentYear === asset.yearAcquired) {
-    return asset.initialValue;
+  if (currentYear === asset.year_acquired) {
+    return asset.initial_value;
   }
-  if (asset.yearAcquired <= yearGiven && yearGiven <= currentYear) {
+  if (asset.year_acquired <= yearGiven && yearGiven <= currentYear) {
     return (
-      asset.initialValue *
+      asset.initial_value *
       Math.pow(
-        asset.currentValue / asset.initialValue,
-        (yearGiven - asset.yearAcquired) / (currentYear - asset.yearAcquired)
+        asset.current_value / asset.initial_value,
+        (yearGiven - asset.year_acquired) / (currentYear - asset.year_acquired)
       )
     );
   }
   return (
-    asset.currentValue * Math.pow(1 + asset.rate / 100, yearGiven - currentYear)
+    asset.current_value *
+    Math.pow(1 + asset.rate / 100, yearGiven - currentYear)
   );
 }
 
-function valueSeries(asset: Asset, startYear: number, endYear: number) {
+function valueSeries(
+  asset: Tables<"assets">,
+  startYear: number,
+  endYear: number
+) {
   const series = [];
   for (
-    let year: number = Math.max(startYear, asset.yearAcquired);
+    let year: number = Math.max(startYear, asset.year_acquired);
     year <= endYear;
     year++
   ) {
@@ -92,12 +95,12 @@ function valueSeries(asset: Asset, startYear: number, endYear: number) {
   }
   return series;
 }
-export function generateDiversificationSeries(assets: Asset[]) {
+export function generateDiversificationSeries(assets: Tables<"assets">[]) {
   const totalByType: Record<string, number> = {};
 
-  assets.forEach((asset: Asset): void => {
+  assets.forEach((asset): void => {
     totalByType[asset.type] =
-      (totalByType[asset.type] || 0) + asset.currentValue;
+      (totalByType[asset.type] || 0) + asset.current_value;
   });
 
   const series = Object.values(totalByType);

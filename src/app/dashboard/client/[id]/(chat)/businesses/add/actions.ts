@@ -13,11 +13,7 @@ export async function addBusiness(
   const { data: addedBusiness } = await sb
     .from("businesses")
     .insert({
-      name: business.name,
-      appreciation_rate: business.appreciationRate,
-      ebitda: business.ebitda,
-      term: business.term,
-      valuation: business.term,
+      ...business,
     })
     .select()
     .single();

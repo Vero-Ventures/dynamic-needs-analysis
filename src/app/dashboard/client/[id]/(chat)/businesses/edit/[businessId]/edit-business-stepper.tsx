@@ -36,13 +36,7 @@ export default function EditBusinessStepper({
   business: SingleBusinessWithShareholders;
 }) {
   const [updatedBusiness, setUpdatedBusiness] =
-    useState<AddBusinessesFormSchema>({
-      name: business.name,
-      valuation: business.valuation,
-      ebitda: business.ebitda,
-      appreciationRate: business.appreciation_rate,
-      term: business.term,
-    });
+    useState<AddBusinessesFormSchema>(business);
   const [shareholders, setShareholders] = useState<
     Omit<Tables<"shareholders">, "created_at" | "business_id">[]
   >(business.shareholders);
@@ -61,10 +55,10 @@ export default function EditBusinessStepper({
       {
         id: shareholders.length,
         name: shareholder.name,
-        share_percentage: shareholder.sharePercentage,
-        insurance_coverage: shareholder.insuranceCoverage,
+        share_percentage: shareholder.share_percentage,
+        insurance_coverage: shareholder.insurance_coverage,
         ebitda_contribution_percentage:
-          shareholder.ebitdaContributionPercentage,
+          shareholder.ebitda_contribution_percentage,
       },
     ]);
   }

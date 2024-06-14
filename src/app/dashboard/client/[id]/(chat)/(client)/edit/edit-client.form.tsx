@@ -40,8 +40,8 @@ import type { Tables } from "../../../../../../../../types/supabase";
 
 const editClientFormSchema = z.object({
   name: z.string(),
-  birthDate: z.string(),
-  expectedRetirementAge: z.coerce.number(),
+  birth_date: z.string(),
+  expected_retirement_age: z.coerce.number(),
   province: z.union([
     z.literal("AB"),
     z.literal("BC"),
@@ -57,8 +57,8 @@ const editClientFormSchema = z.object({
     z.literal("SK"),
     z.literal("YT"),
   ]),
-  annualIncome: z.coerce.number(),
-  incomeMultiplier: z.coerce.number(),
+  annual_income: z.coerce.number(),
+  income_mutipler: z.coerce.number(),
 });
 
 export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
@@ -73,10 +73,10 @@ export default function EditClientForm({
     resolver: zodResolver(editClientFormSchema),
     defaultValues: defaultFormValues,
   });
-  const age = calculateAgeFromDate(form.watch("birthDate"));
+  const age = calculateAgeFromDate(form.watch("birth_date"));
   const taxBracket = findSelectedBracket(
     form.watch("province"),
-    form.watch("annualIncome")
+    form.watch("annual_income")
   );
   async function onSubmit(values: EditClientFormSchema) {
     await editClient(0, values);
@@ -101,7 +101,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="birthDate"
+            name="birth_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Birthdate</FormLabel>
@@ -121,7 +121,7 @@ export default function EditClientForm({
           </div>
           <FormField
             control={form.control}
-            name="expectedRetirementAge"
+            name="expected_retirement_age"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Expected Retirement Age</FormLabel>
@@ -139,7 +139,7 @@ export default function EditClientForm({
             <p className="font-bold">
               {calculateYearsOfActiveIncome(
                 age,
-                form.watch("expectedRetirementAge")
+                form.watch("expected_retirement_age")
               )}
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="annualIncome"
+            name="annual_income"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Annual Income ($)</FormLabel>
@@ -187,7 +187,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="incomeMultiplier"
+            name="income_mutipler"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Income Replacement Multiplier</FormLabel>
@@ -204,8 +204,8 @@ export default function EditClientForm({
             </Label>
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
-                form.watch("annualIncome"),
-                form.watch("incomeMultiplier")
+                form.watch("annual_income"),
+                form.watch("income_mutipler")
               )}
             </div>
           </div>

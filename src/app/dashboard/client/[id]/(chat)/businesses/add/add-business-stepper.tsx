@@ -32,7 +32,7 @@ export default function AddBusinessStepper({
 }) {
   const [business, setBusiness] = useState<AddBusinessesFormSchema>({
     name: "",
-    appreciationRate: 0,
+    appreciation_rate: 0,
     ebitda: 0,
     valuation: 0,
     term: 0,
@@ -64,9 +64,9 @@ export default function AddBusinessStepper({
         id: shareholders.length,
         name: shareholder.name,
         ebitda_contribution_percentage:
-          shareholder.ebitdaContributionPercentage,
-        insurance_coverage: shareholder.insuranceCoverage,
-        share_percentage: shareholder.sharePercentage,
+          shareholder.ebitda_contribution_percentage,
+        insurance_coverage: shareholder.insurance_coverage,
+        share_percentage: shareholder.share_percentage,
       },
     ]);
   }

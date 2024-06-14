@@ -1,12 +1,12 @@
 import type { AssetBeneficiary } from "@/app/dashboard/client/[id]/(chat)/assets/add/add-assets-stepper";
-import type { Asset, Beneficiary } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
 
 export function generateDesiredDistributionSeriesAndLabels(
-  beneficiaries: Beneficiary[]
+  beneficiaries: Tables<"beneficiaries">[]
 ) {
   const beneficiaryTotals: Record<string, number> = {};
 
-  beneficiaries.forEach((beneficiary: Beneficiary): void => {
+  beneficiaries.forEach((beneficiary): void => {
     if (!beneficiaryTotals[beneficiary.name]) {
       beneficiaryTotals[beneficiary.name] = 0;
     }

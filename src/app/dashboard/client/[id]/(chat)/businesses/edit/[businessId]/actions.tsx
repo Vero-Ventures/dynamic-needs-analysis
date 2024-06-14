@@ -14,7 +14,7 @@ export async function editBusiness(
 
   await sb
     .from("businesses")
-    .update({ ...business, appreciation_rate: business.appreciationRate })
+    .update({ ...business, appreciation_rate: business.appreciation_rate })
     .eq("id", id);
 
   const shareholdersWithBusinessId = shareholders.map((s) => {

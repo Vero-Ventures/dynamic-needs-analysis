@@ -1,6 +1,6 @@
-import type { Asset, Goal } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
 
-export function calculateTotalSumGoals(goals: Goal[]) {
+export function calculateTotalSumGoals(goals: Tables<"goals">[]) {
   return goals.reduce((total, goal) => total + goal.amount, 0);
 }
 
@@ -25,7 +25,7 @@ export function calculateSurplusShortfall(
   return liquidityAllocatedToGoals - totalSumGoals;
 }
 
-export function calculateCurrentFutureTotals(assets: Asset[]) {
+export function calculateCurrentFutureTotals(assets: Tables<"assets">[]) {
   const result = {
     totalCurrentValueFixed: 0,
     totalFutureValueFixed: 0,
@@ -34,22 +34,22 @@ export function calculateCurrentFutureTotals(assets: Asset[]) {
     totalCurrentValueToBeSold: 0,
     totalFutureValueToBeSold: 0,
   };
-  assets.forEach((asset: Asset): void => {
+  assets.forEach((asset): void => {
     const futureValue: number =
-      asset.currentValue * Math.pow(1 + asset.rate / 100, asset.term);
+      asset.current_value * Math.pow(1 + asset.rate / 100, asset.term);
 
-    if (asset.isLiquid) {
-      result.totalCurrentValueLiquid += asset.currentValue;
+    if (asset.liquid) {
+      result.totalCurrentValueLiquid += asset.current_value;
       result.totalFutureValueLiquidAssets += futureValue;
     }
 
-    if (!asset.isLiquid && !asset.isToBeSold) {
-      result.totalCurrentValueFixed += asset.currentValue;
+    if (!asset.liquid && !asset.to_be_sold) {
+      result.totalCurrentValueFixed += asset.current_value;
       result.totalFutureValueFixed += futureValue;
     }
 
-    if (asset.isToBeSold) {
-      result.totalCurrentValueToBeSold += asset.currentValue;
+    if (asset.to_be_sold) {
+      result.totalCurrentValueToBeSold += asset.current_value;
       result.totalFutureValueToBeSold += futureValue;
     }
   });

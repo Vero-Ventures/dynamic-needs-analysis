@@ -1,4 +1,4 @@
-import type { Debt } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
 
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
@@ -74,13 +74,13 @@ export function calculateInsurableFutureValueDollars(
   return futureValueOfActualTermDebtDollars - amountPaidOffDollars;
 }
 
-export function generateDebtsSeries(debts: Debt[]) {
+export function generateDebtsSeries(debts: Tables<"debts">[]) {
   const series: ApexAxisChartSeries = [];
   let latestYear: number = 0;
 
-  debts.forEach((debt: Debt): void => {
+  debts.forEach((debt: Tables<"debts">): void => {
     const dataPoints: [number, number][] = [];
-    let year: number = debt.yearAcquired;
+    let year: number = debt.year_acquired;
     let value: number;
 
     let debtRemaining: boolean = true;
@@ -101,7 +101,7 @@ export function generateDebtsSeries(debts: Debt[]) {
     });
   });
 
-  const minYear: number = Math.min(...debts.map((d: Debt) => d.yearAcquired));
+  const minYear: number = Math.min(...debts.map((d) => d.year_acquired));
   const maxYear: number = latestYear;
 
   let tickAmount: number = maxYear - minYear + 1;
@@ -120,7 +120,7 @@ export function generateDebtsSeries(debts: Debt[]) {
 }
 
 export function calculateDebtValueOverTime(
-  debt: Debt,
+  debt: Tables<"debts">,
   year: number,
   debtValuesCache: Map<string, number>
 ): number {
@@ -134,8 +134,8 @@ export function calculateDebtValueOverTime(
   }
 
   let remainingDebt: number =
-    year === debt.yearAcquired
-      ? debt.initialValue
+    year === debt.year_acquired
+      ? debt.initial_value
       : calculateDebtValueOverTime(debt, year - 1, debtValuesCache);
 
   if (remainingDebt <= 0) {
@@ -144,7 +144,7 @@ export function calculateDebtValueOverTime(
   }
 
   remainingDebt *= Math.pow(1 + debt.rate / 100, 1);
-  remainingDebt = Math.max(0, remainingDebt - debt.annualPayment);
+  remainingDebt = Math.max(0, remainingDebt - debt.annual_payment);
 
   debtValuesCache.set(cacheKey, remainingDebt);
   return remainingDebt;
