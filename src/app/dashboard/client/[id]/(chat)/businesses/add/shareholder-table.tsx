@@ -16,7 +16,7 @@ import {
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import EditShareholderDialog from "./edit-shareholder-dialog";
-import type { Tables } from "../../../../../../../../types/supabase";
+import type { EditShareholder } from "./types";
 
 export function ShareholderTable({
   shareholders,
@@ -25,16 +25,11 @@ export function ShareholderTable({
   onDeleteShareholder,
   onEditShareholder,
 }: {
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[];
+  shareholders: EditShareholder[];
   valuation: number;
   ebitda: number;
-  onDeleteShareholder: (id: number) => void;
-  onEditShareholder: (
-    updatedShareholder: Omit<
-      Tables<"shareholders">,
-      "created_at" | "business_id"
-    >
-  ) => void;
+  onDeleteShareholder: (name: string) => void;
+  onEditShareholder: (updatedShareholder: EditShareholder) => void;
 }) {
   return (
     <Table>
@@ -53,7 +48,7 @@ export function ShareholderTable({
       </TableHeader>
       <TableBody>
         {shareholders.map((shareholder) => (
-          <TableRow key={shareholder.id}>
+          <TableRow key={shareholder.name}>
             <TableCell className="w-[150px] font-medium">
               {shareholder.name}
             </TableCell>
@@ -82,7 +77,7 @@ export function ShareholderTable({
             <TableCell className="text-right">
               <DeleteShareholder
                 onDeleteShareholder={onDeleteShareholder}
-                id={shareholder.id}
+                name={shareholder.name}
               />
             </TableCell>
           </TableRow>
@@ -93,16 +88,16 @@ export function ShareholderTable({
 }
 
 function DeleteShareholder({
-  id,
+  name,
   onDeleteShareholder,
 }: {
-  id: number;
-  onDeleteShareholder: (id: number) => void;
+  name: string;
+  onDeleteShareholder: (name: string) => void;
 }) {
   const [isPending, setIsPending] = useState(false);
   function handleDeleteShareholder() {
     setIsPending(true);
-    onDeleteShareholder(id);
+    onDeleteShareholder(name);
     setIsPending(false);
   }
   return (

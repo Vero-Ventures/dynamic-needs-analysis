@@ -16,11 +16,14 @@ export default function EditShareholderDialog({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">;
+  shareholder: Omit<
+    Tables<"shareholders">,
+    "created_at" | "business_id" | "id"
+  >;
   onEditShareholder: (
     updatedShareholder: Omit<
       Tables<"shareholders">,
-      "created_at" | "business_id"
+      "created_at" | "business_id" | "id"
     >
   ) => void;
 }) {
@@ -72,12 +75,15 @@ function EditShareholderForm({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">;
+  shareholder: Omit<
+    Tables<"shareholders">,
+    "created_at" | "business_id" | "id"
+  >;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onEditShareholder: (
     updatedShareholder: Omit<
       Tables<"shareholders">,
-      "created_at" | "business_id"
+      "created_at" | "business_id" | "id"
     >
   ) => void;
 }) {
@@ -87,10 +93,7 @@ function EditShareholderForm({
   });
 
   async function onSubmit(values: EditShareholderFormSchema) {
-    onEditShareholder({
-      id: shareholder.id,
-      ...values,
-    });
+    onEditShareholder(values);
     setOpen(false);
   }
 

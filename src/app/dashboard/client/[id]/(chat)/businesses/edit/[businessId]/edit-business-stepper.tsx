@@ -22,8 +22,8 @@ import {
   TotalShareholderTable,
 } from "../../add/shareholder-table";
 import { StepperFormActions } from "../../add/stepper-form-actions";
-import type { Tables } from "../../../../../../../../../types/supabase";
 import type { SingleBusinessWithShareholders } from "@/data/businesses";
+import type { EditShareholder } from "../../add/types";
 
 const steps = [
   { label: "Edit Business" },
@@ -37,9 +37,9 @@ export default function EditBusinessStepper({
 }) {
   const [updatedBusiness, setUpdatedBusiness] =
     useState<AddBusinessesFormSchema>(business);
-  const [shareholders, setShareholders] = useState<
-    Omit<Tables<"shareholders">, "created_at" | "business_id">[]
-  >(business.shareholders);
+  const [shareholders, setShareholders] = useState<EditShareholder[]>(
+    business.shareholders
+  );
 
   async function handleEditBusiness() {
     await editBusiness(business.id, updatedBusiness, shareholders);
@@ -53,7 +53,6 @@ export default function EditBusinessStepper({
     setShareholders([
       ...shareholders,
       {
-        id: shareholders.length,
         name: shareholder.name,
         share_percentage: shareholder.share_percentage,
         insurance_coverage: shareholder.insurance_coverage,
@@ -63,18 +62,13 @@ export default function EditBusinessStepper({
     ]);
   }
 
-  function onDeleteShareholder(id: number) {
-    setShareholders(shareholders.filter((s) => s.id !== id));
+  function onDeleteShareholder(name: string) {
+    setShareholders(shareholders.filter((s) => s.name !== name));
   }
-  function onEditShareholder(
-    updatedShareholder: Omit<
-      Tables<"shareholders">,
-      "created_at" | "business_id"
-    >
-  ) {
+  function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
-        s.id === updatedShareholder.id ? updatedShareholder : s
+        s.name === updatedShareholder.name ? updatedShareholder : s
       )
     );
   }

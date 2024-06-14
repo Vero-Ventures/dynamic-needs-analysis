@@ -2,12 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import type { AddBusinessesFormSchema } from "./add-businesses-form";
-import type { Tables } from "../../../../../../../../types/supabase";
 import { createClient } from "@/lib/supabase/server";
+import type { EditShareholder } from "./types";
 
 export async function addBusiness(
   business: AddBusinessesFormSchema,
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  shareholders: EditShareholder[]
 ) {
   const sb = createClient();
   const { data: addedBusiness } = await sb

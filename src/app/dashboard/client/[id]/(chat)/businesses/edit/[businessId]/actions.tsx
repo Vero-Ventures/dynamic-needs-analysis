@@ -1,20 +1,26 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { Tables } from "../../../../../../../../../types/supabase";
 import type { AddBusinessesFormSchema } from "../../add/add-businesses-form";
 import { revalidatePath } from "next/cache";
+import type { EditShareholder } from "../../add/types";
 
 export async function editBusiness(
   id: number,
   business: AddBusinessesFormSchema,
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  shareholders: EditShareholder[]
 ) {
   const sb = createClient();
 
   await sb
     .from("businesses")
-    .update({ ...business, appreciation_rate: business.appreciation_rate })
+    .update({
+      name: business.name,
+      valuation: business.valuation,
+      ebitda: business.ebitda,
+      term: business.term,
+      appreciation_rate: business.appreciation_rate,
+    })
     .eq("id", id);
 
   const shareholdersWithBusinessId = shareholders.map((s) => {

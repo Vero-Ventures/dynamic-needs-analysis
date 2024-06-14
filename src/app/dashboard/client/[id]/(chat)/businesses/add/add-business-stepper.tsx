@@ -18,7 +18,7 @@ import {
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import { addBusiness } from "./actions";
-import type { Tables } from "../../../../../../../../types/supabase";
+import type { EditShareholder } from "./types";
 
 const steps = [
   { label: "Add Business" },
@@ -37,11 +37,8 @@ export default function AddBusinessStepper({
     valuation: 0,
     term: 0,
   });
-  const [shareholders, setShareholders] = useState<
-    Omit<Tables<"shareholders">, "created_at" | "business_id">[]
-  >([
+  const [shareholders, setShareholders] = useState<EditShareholder[]>([
     {
-      id: 1,
       name: clientName,
       share_percentage: 100,
       ebitda_contribution_percentage: 100,
@@ -61,7 +58,6 @@ export default function AddBusinessStepper({
     setShareholders([
       ...shareholders,
       {
-        id: shareholders.length,
         name: shareholder.name,
         ebitda_contribution_percentage:
           shareholder.ebitda_contribution_percentage,
@@ -71,18 +67,13 @@ export default function AddBusinessStepper({
     ]);
   }
 
-  function onDeleteShareholder(id: number) {
-    setShareholders(shareholders.filter((s) => s.id !== id));
+  function onDeleteShareholder(name: string) {
+    setShareholders(shareholders.filter((s) => s.name !== name));
   }
-  function onEditShareholder(
-    updatedShareholder: Omit<
-      Tables<"shareholders">,
-      "created_at" | "business_id"
-    >
-  ) {
+  function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
-        s.id === updatedShareholder.id ? updatedShareholder : s
+        s.name === updatedShareholder.name ? updatedShareholder : s
       )
     );
   }
