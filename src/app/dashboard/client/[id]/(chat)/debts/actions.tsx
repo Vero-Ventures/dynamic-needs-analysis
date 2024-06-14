@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { debts } from "@/app/data/db";
 import type { AddDebtFormSchema } from "./add/debt-form";
 import {
   calculateAmountPaidOffDollars,
@@ -9,65 +8,78 @@ import {
   calculateFutureValueOfActualTermDebtDollars,
   calculateInsurableFutureValueDollars,
 } from "@/lib/debts/utils";
+import { createClient } from "@/lib/supabase/server";
 
-export async function addDebt(data: AddDebtFormSchema) {
-  const { name, initialValue, yearAcquired, rate, term, annualPayment } = data;
+export async function addDebt(debt: AddDebtFormSchema) {
+  const sb = createClient();
 
+  const {
+    name,
+    initialValue: initial_value,
+    yearAcquired: year_acquired,
+    rate,
+    term,
+    annualPayment: annual_payment,
+  } = debt;
   const insurableFutureValueDollars = calculateInsurableFutureValueDollars(
-    calculateFutureValueOfActualTermDebtDollars(initialValue, rate, term),
+    calculateFutureValueOfActualTermDebtDollars(initial_value, rate, term),
     calculateAmountPaidOffDollars(
-      annualPayment,
-      calculateCurrentYearsHeld(yearAcquired)
+      annual_payment,
+      calculateCurrentYearsHeld(year_acquired)
     )
   );
 
-  debts.push({
-    id: debts.length,
+  const { data: addedDebt } = await sb.from("debts").insert({
     name,
-    initialValue,
-    yearAcquired,
+    initial_value,
+    year_acquired,
     rate,
     term,
-    annualPayment,
-    insurableFutureValueDollars,
+    annual_payment,
+    insurable_future_value_dollars: insurableFutureValueDollars,
   });
+  if (!addedDebt) {
+    throw new Error();
+  }
   revalidatePath("/dashboard/client/[id]/debts", "page");
 }
 
-export async function editDebt(id: number, data: AddDebtFormSchema) {
-  const i = debts.findIndex((g) => g.id === id);
-  if (i === -1) {
-    throw new Error("No debt found at this index");
-  }
+export async function editDebt(id: number, debt: AddDebtFormSchema) {
+  const sb = createClient();
 
-  const { name, initialValue, yearAcquired, rate, term, annualPayment } = data;
-
+  const {
+    name,
+    initialValue: initial_value,
+    yearAcquired: year_acquired,
+    rate,
+    term,
+    annualPayment: annual_payment,
+  } = debt;
   const insurableFutureValueDollars = calculateInsurableFutureValueDollars(
-    calculateFutureValueOfActualTermDebtDollars(initialValue, rate, term),
+    calculateFutureValueOfActualTermDebtDollars(initial_value, rate, term),
     calculateAmountPaidOffDollars(
-      annualPayment,
-      calculateCurrentYearsHeld(yearAcquired)
+      annual_payment,
+      calculateCurrentYearsHeld(year_acquired)
     )
   );
 
-  debts[i] = {
-    id,
-    name,
-    initialValue,
-    yearAcquired,
-    rate,
-    term,
-    annualPayment,
-    insurableFutureValueDollars,
-  };
+  await sb
+    .from("debts")
+    .update({
+      name,
+      initial_value,
+      year_acquired,
+      rate,
+      term,
+      annual_payment,
+      insurable_future_value_dollars: insurableFutureValueDollars,
+    })
+    .eq("id", id);
   revalidatePath("/dashboard/client/[id]/debts", "page");
 }
 
 export async function deleteDebt(id: number) {
-  const i = debts.findIndex((g) => g.id === id);
-  if (i === -1) {
-    throw new Error("No debt found at this index");
-  }
-  debts.splice(i, 1);
+  const sb = createClient();
+  await sb.from("debts").delete().eq("id", id);
   revalidatePath("/dashboard/client/[id]/debts", "page");
 }
