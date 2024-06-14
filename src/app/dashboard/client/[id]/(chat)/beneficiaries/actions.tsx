@@ -1,60 +1,40 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { BeneficiarySchema, beneficiaries } from "@/app/data/db";
+import type { AddBeneficiaryFormSchema } from "./add-beneficiary-dialog";
+import { createClient } from "@/lib/supabase/server";
 
-export async function addBeneficiary(data: FormData) {
-  const formData = Object.fromEntries(data.entries());
-  const parsed = BeneficiarySchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
+export async function addBeneficiary(beneficiary: AddBeneficiaryFormSchema) {
+  const { name, allocation } = beneficiary;
+
+  const sb = createClient();
+  const { data: addedBeneficiary } = await sb
+    .from("beneficiaries")
+    .insert({
+      name,
+      allocation,
+    })
+    .select()
+    .single();
+  if (!addedBeneficiary) {
+    throw new Error();
   }
-
-  const { name, allocation } = parsed.data;
-
-  beneficiaries.push({
-    id: beneficiaries.length,
-    name,
-    allocation,
-  });
   revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }
 
-export async function editBeneficiary(id: number, data: FormData) {
-  const index = beneficiaries.findIndex((g) => g.id === id);
-  if (index === -1) {
-    throw new Error("No beneficiary found with this Id");
-  }
+export async function editBeneficiary(
+  id: number,
+  beneficiary: AddBeneficiaryFormSchema
+) {
+  const { name, allocation } = beneficiary;
 
-  const formData = Object.fromEntries(data.entries());
-  const parsed = BeneficiarySchema.safeParse(formData);
-  if (!parsed.success) {
-    const fields: Record<string, string> = {};
-    for (const key of Object.keys(formData)) {
-      fields[key] = formData[key].toString();
-    }
-    return { message: "Invalid form data", fields };
-  }
-
-  const { name, allocation } = parsed.data;
-
-  beneficiaries[index] = {
-    id,
-    name,
-    allocation,
-  };
+  const sb = createClient();
+  await sb.from("beneficiaries").update({ name, allocation }).eq("id", id);
   revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }
 
 export async function deleteBeneficiary(id: number) {
-  const i = beneficiaries.findIndex((g) => g.id === id);
-  if (i === -1) {
-    throw new Error("No beneficiary found at this index");
-  }
-  beneficiaries.splice(i, 1);
+  const sb = createClient();
+  await sb.from("beneficiaries").delete().eq("id", id);
   revalidatePath("/dashboard/client/[id]/beneficiaries", "page");
 }
