@@ -1,9 +1,18 @@
-import getClient from "../../(client)/actions";
+import { createClient } from "@/lib/supabase/server";
 import AddBusinessStepper from "./add-business-stepper";
 import { notFound } from "next/navigation";
 
 export default async function AddBusinessesPage() {
-  const client = await getClient(0);
+  const sb = createClient();
+  const { data: client } = await sb
+    .from("clients")
+    .select()
+    .eq("id", 1)
+    .limit(1)
+    .single();
+  if (!client) {
+    notFound();
+  }
   if (!client) {
     notFound();
   }

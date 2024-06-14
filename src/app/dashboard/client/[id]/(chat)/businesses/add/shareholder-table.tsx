@@ -1,4 +1,3 @@
-import type { Shareholder } from "@/app/data/db";
 import DeleteItemButton from "@/components/delete-item-button";
 import {
   Table,
@@ -17,6 +16,7 @@ import {
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import EditShareholderDialog from "./edit-shareholder-dialog";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 export function ShareholderTable({
   shareholders,
@@ -25,11 +25,16 @@ export function ShareholderTable({
   onDeleteShareholder,
   onEditShareholder,
 }: {
-  shareholders: Shareholder[];
+  shareholders: Tables<"shareholders">[];
   valuation: number;
   ebitda: number;
   onDeleteShareholder: (id: number) => void;
-  onEditShareholder: (updatedShareholder: Shareholder) => void;
+  onEditShareholder: (
+    updatedShareholder: Omit<
+      Tables<"shareholders">,
+      "created_at" | "business_id"
+    >
+  ) => void;
 }) {
   return (
     <Table>
@@ -52,9 +57,9 @@ export function ShareholderTable({
             <TableCell className="w-[150px] font-medium">
               {shareholder.name}
             </TableCell>
-            <TableCell>{shareholder.sharePercentage}%</TableCell>
-            <TableCell>{formatMoney(shareholder.insuranceCoverage)}</TableCell>
-            <TableCell>{shareholder.ebitdaContributionPercentage}%</TableCell>
+            <TableCell>{shareholder.share_percentage}%</TableCell>
+            <TableCell>{formatMoney(shareholder.insurance_coverage)}</TableCell>
+            <TableCell>{shareholder.ebitda_contribution_percentage}%</TableCell>
             <TableCell>
               {formatMoney(
                 calculateEbitdaContributionDollars(shareholder, ebitda)

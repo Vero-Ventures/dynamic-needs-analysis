@@ -10,13 +10,19 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { SquarePenIcon } from "lucide-react";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 export default function EditShareholderDialog({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Shareholder;
-  onEditShareholder: (updatedShareholder: Shareholder) => void;
+  shareholder: Tables<"shareholders">;
+  onEditShareholder: (
+    updatedShareholder: Omit<
+      Tables<"shareholders">,
+      "created_at" | "business_id"
+    >
+  ) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -51,7 +57,6 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import type { Shareholder } from "@/app/data/db";
 
 const EditShareholderSchema = z.object({
   name: z.string().trim(),
@@ -67,9 +72,14 @@ function EditShareholderForm({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Shareholder;
+  shareholder: Tables<"shareholders">;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onEditShareholder: (updatedShareholder: Shareholder) => void;
+  onEditShareholder: (
+    updatedShareholder: Omit<
+      Tables<"shareholders">,
+      "created_at" | "business_id"
+    >
+  ) => void;
 }) {
   const form = useForm<EditShareholderFormSchema>({
     resolver: zodResolver(EditShareholderSchema),
@@ -77,7 +87,14 @@ function EditShareholderForm({
   });
 
   async function onSubmit(values: EditShareholderFormSchema) {
-    onEditShareholder({ id: shareholder.id, ...values });
+    onEditShareholder({
+      id: shareholder.id,
+      name: shareholder.name,
+      share_percentage: values.sharePercentage,
+      ebitda_contribution_percentage:
+        shareholder.ebitda_contribution_percentage,
+      insurance_coverage: shareholder.insurance_coverage,
+    });
     setOpen(false);
   }
 
