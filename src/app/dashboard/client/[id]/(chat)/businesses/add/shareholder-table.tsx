@@ -25,7 +25,7 @@ export function ShareholderTable({
   onDeleteShareholder,
   onEditShareholder,
 }: {
-  shareholders: Tables<"shareholders">[];
+  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[];
   valuation: number;
   ebitda: number;
   onDeleteShareholder: (id: number) => void;

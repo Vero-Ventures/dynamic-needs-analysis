@@ -16,7 +16,7 @@ export default function EditShareholderDialog({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Tables<"shareholders">;
+  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">;
   onEditShareholder: (
     updatedShareholder: Omit<
       Tables<"shareholders">,
@@ -72,7 +72,7 @@ function EditShareholderForm({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Tables<"shareholders">;
+  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onEditShareholder: (
     updatedShareholder: Omit<

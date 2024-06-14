@@ -44,7 +44,7 @@ export default function EditBusinessStepper({
       term: business.term,
     });
   const [shareholders, setShareholders] = useState<
-    Omit<Tables<"shareholders">, "created_at">[]
+    Omit<Tables<"shareholders">, "created_at" | "business_id">[]
   >(business.shareholders);
 
   async function handleEditBusiness() {
@@ -65,7 +65,6 @@ export default function EditBusinessStepper({
         insurance_coverage: shareholder.insuranceCoverage,
         ebitda_contribution_percentage:
           shareholder.ebitdaContributionPercentage,
-        business_id: business.id,
       },
     ]);
   }
@@ -73,7 +72,12 @@ export default function EditBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
-  function onEditShareholder(updatedShareholder: Tables<"shareholders">) {
+  function onEditShareholder(
+    updatedShareholder: Omit<
+      Tables<"shareholders">,
+      "created_at" | "business_id"
+    >
+  ) {
     setShareholders(
       shareholders.map((s) =>
         s.id === updatedShareholder.id ? updatedShareholder : s

@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function editBusiness(
   id: number,
   business: AddBusinessesFormSchema,
-  shareholders: Omit<Tables<"shareholders">, "created_at">[]
+  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
 ) {
   const sb = createClient();
 
@@ -17,7 +17,13 @@ export async function editBusiness(
     .update({ ...business, appreciation_rate: business.appreciationRate })
     .eq("id", id);
 
-  await sb.from("shareholders").upsert(shareholders);
+  const shareholdersWithBusinessId = shareholders.map((s) => {
+    return {
+      ...s,
+      business_id: id,
+    };
+  });
+  await sb.from("shareholders").upsert(shareholdersWithBusinessId);
 
   revalidatePath("/dashboard/client/[id]/businesses", "page");
 }
