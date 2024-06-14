@@ -9,15 +9,21 @@ import { formatMoney, cn } from "@/lib/utils";
 import Link from "next/link";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import getClient from "./actions";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function ClientPage() {
-  const client = await getClient(0);
+  const sb = createClient();
+  const { data: client } = await sb
+    .from("clients")
+    .select("*")
+    .eq("id", 1)
+    .limit(1)
+    .single();
   if (!client) {
     notFound();
   }
-  const clientAge = calculateAgeFromDate(client.birthDate);
-  const taxBracket = findSelectedBracket(client.province, client.annualIncome);
+  const clientAge = calculateAgeFromDate(client.birth_date);
+  const taxBracket = findSelectedBracket(client.province, client.annual_income);
 
   return (
     <div className="p-4">
@@ -30,7 +36,7 @@ export default async function ClientPage() {
           <div className="space-y-2">
             <h2 className="text-sm font-medium leading-none">Birthdate</h2>
             <p className="text-md font-bold">
-              {format(client.birthDate, "PPP")}
+              {format(client.birth_date, "PPP")}
             </p>
           </div>
         </div>
@@ -43,7 +49,9 @@ export default async function ClientPage() {
             <h2 className="text-sm font-medium leading-none">
               Expected Retirement Age
             </h2>
-            <p className="text-md font-bold">{client.expectedRetirementAge}</p>
+            <p className="text-md font-bold">
+              {client.expected_retirement_age}
+            </p>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -54,7 +62,7 @@ export default async function ClientPage() {
             <p className="text-md font-bold">
               {calculateYearsOfActiveIncome(
                 clientAge,
-                client.expectedRetirementAge
+                client.expected_retirement_age
               )}
             </p>
           </div>
@@ -69,14 +77,14 @@ export default async function ClientPage() {
               Annual Income ($)
             </h2>
             <p className="text-md font-bold">
-              {formatMoney(client.annualIncome)}
+              {formatMoney(client.annual_income)}
             </p>
           </div>
           <div className="space-y-2">
             <h2 className="text-sm font-medium leading-none">
               Income Multiplier
             </h2>
-            <p className="text-md font-bold">{client.incomeMultiplier}</p>
+            <p className="text-md font-bold">{client.income_mutiplier}</p>
           </div>
         </div>
 
@@ -87,8 +95,8 @@ export default async function ClientPage() {
             </h2>
             <p className="text-md font-bold">
               {calculateInsuredIncomeAmount(
-                client.annualIncome,
-                client.incomeMultiplier
+                client.annual_income,
+                client.income_mutiplier
               )}
             </p>
           </div>
