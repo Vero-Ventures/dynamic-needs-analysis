@@ -13,15 +13,19 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function ClientPage() {
   const sb = createClient();
-  const { data: client } = await sb
+  const { data: client, error } = await sb
     .from("clients")
     .select()
     .eq("id", 1)
     .limit(1)
     .single();
+  if (error) {
+    throw error;
+  }
   if (!client) {
     notFound();
   }
+
   const clientAge = calculateAgeFromDate(client.birth_date);
   const taxBracket = findSelectedBracket(client.province, client.annual_income);
 
@@ -94,9 +98,11 @@ export default async function ClientPage() {
               Amount Insured for Income ($)
             </h2>
             <p className="text-md font-bold">
-              {calculateInsuredIncomeAmount(
-                client.annual_income,
-                client.income_mutiplier
+              {formatMoney(
+                calculateInsuredIncomeAmount(
+                  client.annual_income,
+                  client.income_mutiplier
+                )
               )}
             </p>
           </div>

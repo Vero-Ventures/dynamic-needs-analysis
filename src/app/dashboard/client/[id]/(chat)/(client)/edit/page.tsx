@@ -17,7 +17,7 @@ export default async function EditClientPage() {
 
   return (
     <div className="p-4">
-      <EditClientForm defaultFormValues={client} />
+      <EditClientForm client={client} />
     </div>
   );
 }

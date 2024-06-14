@@ -1,6 +1,5 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -64,24 +63,34 @@ const editClientFormSchema = z.object({
 export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
 
 export default function EditClientForm({
-  defaultFormValues,
+  client,
 }: {
-  defaultFormValues: Tables<"clients">;
+  client: Tables<"clients">;
 }) {
   const router = useRouter();
   const form = useForm<EditClientFormSchema>({
     resolver: zodResolver(editClientFormSchema),
-    defaultValues: defaultFormValues,
+    defaultValues: {
+      name: client.name,
+      annual_income: client.annual_income,
+      birth_date: client.birth_date,
+      expected_retirement_age: client.expected_retirement_age,
+      income_mutipler: client.income_mutiplier,
+      province: client.province,
+    },
   });
+
   const age = calculateAgeFromDate(form.watch("birth_date"));
   const taxBracket = findSelectedBracket(
     form.watch("province"),
     form.watch("annual_income")
   );
+
   async function onSubmit(values: EditClientFormSchema) {
-    await editClient(0, values);
+    await editClient(1, values);
     router.replace("/dashboard/client/1");
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -199,9 +208,9 @@ export default function EditClientForm({
             )}
           />
           <div className="space-y-2">
-            <Label htmlFor="estimated-retirement">
+            <h2 className="text-sm font-medium leading-none">
               Amount Insured for Income ($)
-            </Label>
+            </h2>
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
                 form.watch("annual_income"),
@@ -210,7 +219,7 @@ export default function EditClientForm({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="tax-bracket">Tax Bracket</Label>
+            <h2 className="text-sm font-medium leading-none">Tax Bracket</h2>
             <div className="font-bold">
               ${taxBracket.minIncome} and up - {taxBracket.taxRate}%
             </div>
