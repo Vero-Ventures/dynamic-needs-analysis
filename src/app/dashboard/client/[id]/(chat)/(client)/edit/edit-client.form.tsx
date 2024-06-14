@@ -214,7 +214,7 @@ export default function EditClientForm({
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
                 form.watch("annual_income"),
-                form.watch("income_mutipler")
+                form.watch("income_mutiplier")
               )}
             </div>
           </div>
