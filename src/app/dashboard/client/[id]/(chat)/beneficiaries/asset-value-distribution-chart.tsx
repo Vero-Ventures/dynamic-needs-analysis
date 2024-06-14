@@ -1,9 +1,6 @@
 "use client";
 
-import type {
-  AssetsWithBeneficiaries,
-  SingleAssetWithBeneficiary,
-} from "@/data/assets";
+import type { AssetsWithBeneficiaries } from "@/data/assets";
 import { generateAssetValueDistributionSeries } from "@/lib/beneficiaries/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -48,9 +45,7 @@ export default function AssetValueDistributionChart({
         dataLabels: { enabled: false },
         xaxis: {
           type: "category",
-          categories: assets.map(
-            (asset: SingleAssetWithBeneficiary) => asset.assets?.name
-          ),
+          categories: assets.map((asset) => asset.assets?.name),
         },
         yaxis: {
           title: { text: "Asset Value" },
