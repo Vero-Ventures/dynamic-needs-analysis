@@ -1,5 +1,3 @@
-import type { Business } from "@/app/data/db";
-import type { Shareholder } from "@/app/data/db";
 import type { Tables } from "../../../types/supabase";
 
 export function calculateEbitdaContributionDollars(
