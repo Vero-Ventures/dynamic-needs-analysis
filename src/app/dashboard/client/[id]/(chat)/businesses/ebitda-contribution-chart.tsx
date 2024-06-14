@@ -1,5 +1,4 @@
 "use client";
-import type { Business } from "@/app/data/db";
 import {
   generateEbitdaSeries,
   generateYearsArray,
@@ -8,11 +7,12 @@ import { formatMoney } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export default function EBITDAContributionChart({
   businesses,
 }: {
-  businesses: Business[];
+  businesses: Tables<"businesses">[];
 }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();

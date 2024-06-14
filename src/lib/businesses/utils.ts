@@ -1,5 +1,4 @@
-import type { Business } from "@/app/data/db";
-import type { Shareholder } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
 
 export function calculateEbitdaContributionDollars(
   shareholder: Shareholder,
@@ -145,7 +144,7 @@ export function calculateShareValueOverTime(
 }
 
 export function generateShareValueSeries(
-  businesses: Business[]
+  businesses: Tables<"businesses">[]
 ): ApexAxisChartSeries {
   const series: ApexAxisChartSeries = [];
 

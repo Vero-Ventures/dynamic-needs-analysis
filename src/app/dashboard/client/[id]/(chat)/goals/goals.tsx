@@ -1,11 +1,11 @@
-export default function Goals() {
+export default function Goals({ goals }: { goals: Tables<"goals">[] }) {
   return (
     <section className="mb-8">
       <div className="flex justify-between gap-2">
         <h2 className="mb-2 text-2xl font-bold">Goals</h2>
       </div>
       <AddGoalDialog />
-      <GoalsTable />
+      <GoalsTable goals={goals} />
     </section>
   );
 }
@@ -20,12 +20,12 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon } from "lucide-react";
-import { goals } from "@/app/data/db";
 import DeleteGoalButton from "@/components/delete-item-button";
 import AddGoalDialog from "./add-goal-dialog";
 import { deleteGoal } from "./actions";
+import type { Tables } from "../../../../../../../types/supabase";
 
-function GoalsTable() {
+function GoalsTable({ goals }: { goals: Tables<"goals">[] }) {
   return (
     <Table className="w-full">
       <TableHeader>

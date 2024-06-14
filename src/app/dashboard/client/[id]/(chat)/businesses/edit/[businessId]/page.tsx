@@ -1,13 +1,13 @@
-import { businesses } from "@/app/data/db";
 import EditBusinessStepper from "./edit-business-stepper";
 import { notFound } from "next/navigation";
+import { getSingleBusinessWithShareholder } from "@/data/businesses";
 
-export default function EditBusinessPage({
+export default async function EditBusinessPage({
   params,
 }: {
   params: { businessId: string };
 }) {
-  const business = businesses.at(+params.businessId);
+  const business = await getSingleBusinessWithShareholder(+params.businessId);
   if (!business) {
     notFound();
   }

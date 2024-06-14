@@ -17,8 +17,8 @@ import {
   calculateTotalShareholderPercentageOwned,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
-import type { Shareholder } from "@/app/data/db";
 import { addBusiness } from "./actions";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 const steps = [
   { label: "Add Business" },
@@ -37,13 +37,15 @@ export default function AddBusinessStepper({
     valuation: 0,
     term: 0,
   });
-  const [shareholders, setShareholders] = useState<Shareholder[]>([
+  const [shareholders, setShareholders] = useState<
+    Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  >([
     {
-      id: 0,
+      id: 1,
       name: clientName,
-      sharePercentage: 100,
-      ebitdaContributionPercentage: 100,
-      insuranceCoverage: 0,
+      share_percentage: 100,
+      ebitda_contribution_percentage: 100,
+      insurance_coverage: 0,
     },
   ]);
 
@@ -60,7 +62,11 @@ export default function AddBusinessStepper({
       ...shareholders,
       {
         id: shareholders.length,
-        ...shareholder,
+        name: shareholder.name,
+        ebitda_contribution_percentage:
+          shareholder.ebitdaContributionPercentage,
+        insurance_coverage: shareholder.insuranceCoverage,
+        share_percentage: shareholder.sharePercentage,
       },
     ]);
   }
@@ -68,7 +74,12 @@ export default function AddBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
-  function onEditShareholder(updatedShareholder: Shareholder) {
+  function onEditShareholder(
+    updatedShareholder: Omit<
+      Tables<"shareholders">,
+      "created_at" | "business_id"
+    >
+  ) {
     setShareholders(
       shareholders.map((s) =>
         s.id === updatedShareholder.id ? updatedShareholder : s
