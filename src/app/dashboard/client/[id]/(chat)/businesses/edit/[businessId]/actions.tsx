@@ -29,7 +29,10 @@ export async function editBusiness(
       business_id: id,
     };
   });
-  await sb.from("shareholders").upsert(shareholdersWithBusinessId);
+
+  await sb
+    .from("shareholders")
+    .upsert(shareholdersWithBusinessId, { ignoreDuplicates: false });
 
   revalidatePath("/dashboard/client/[id]/businesses", "page");
 }

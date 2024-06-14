@@ -159,3 +159,7 @@ export function generateShareValueSeries(
   });
   return series;
 }
+
+export function generateRandomShareholderId() {
+  return Date.now() + Math.floor(Math.random() * 1000000);
+}

@@ -1,6 +1,3 @@
 import type { Tables } from "../../../../../../../../types/supabase";
 
-export type EditShareholder = Omit<
-  Tables<"shareholders">,
-  "created_at" | "business_id" | "id"
->;
+export type EditShareholder = Omit<Tables<"shareholders">, "business_id">;

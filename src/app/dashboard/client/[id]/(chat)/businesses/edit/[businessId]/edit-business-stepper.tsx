@@ -10,6 +10,7 @@ import {
   calculateTotalMajorShareholderInsurance,
   calculateTotalMajorShareholderValue,
   calculateTotalShareholderPercentageOwned,
+  generateRandomShareholderId,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import type { AddShareholderFormSchema } from "../../add/add-shareholder-dialog";
@@ -53,22 +54,24 @@ export default function EditBusinessStepper({
     setShareholders([
       ...shareholders,
       {
+        id: generateRandomShareholderId(),
         name: shareholder.name,
         share_percentage: shareholder.share_percentage,
         insurance_coverage: shareholder.insurance_coverage,
         ebitda_contribution_percentage:
           shareholder.ebitda_contribution_percentage,
+        created_at: new Date().toISOString(),
       },
     ]);
   }
 
-  function onDeleteShareholder(name: string) {
-    setShareholders(shareholders.filter((s) => s.name !== name));
+  function onDeleteShareholder(id: number) {
+    setShareholders(shareholders.filter((s) => s.id !== id));
   }
   function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
-        s.name === updatedShareholder.name ? updatedShareholder : s
+        s.id === updatedShareholder.id ? updatedShareholder : s
       )
     );
   }
@@ -95,13 +98,13 @@ export default function EditBusinessStepper({
   return (
     <div className="flex w-full flex-col gap-4">
       <Stepper orientation="vertical" initialStep={0} steps={steps}>
-        <Step icon={Building2Icon} label="Add Business">
+        <Step icon={Building2Icon} label="Edit Business">
           <AddBusinessesForm
             business={updatedBusiness}
             onAddBusiness={handleSubmitBusiness}
           />
         </Step>
-        <Step icon={Users2Icon} label="Add Shareholders">
+        <Step icon={Users2Icon} label="Edit Shareholders">
           <div className="my-4 space-y-6">
             <AddShareholderDialog onAddShareholder={onAddShareholder} />
             <ShareholderTable

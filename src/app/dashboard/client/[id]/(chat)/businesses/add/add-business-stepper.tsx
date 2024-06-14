@@ -15,6 +15,7 @@ import {
   calculateTotalMajorShareholderInsurance,
   calculateTotalMajorShareholderValue,
   calculateTotalShareholderPercentageOwned,
+  generateRandomShareholderId,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
 import { addBusiness } from "./actions";
@@ -39,10 +40,12 @@ export default function AddBusinessStepper({
   });
   const [shareholders, setShareholders] = useState<EditShareholder[]>([
     {
+      id: generateRandomShareholderId(),
       name: clientName,
       share_percentage: 100,
       ebitda_contribution_percentage: 100,
       insurance_coverage: 0,
+      created_at: new Date().toISOString(),
     },
   ]);
 
@@ -58,22 +61,20 @@ export default function AddBusinessStepper({
     setShareholders([
       ...shareholders,
       {
-        name: shareholder.name,
-        ebitda_contribution_percentage:
-          shareholder.ebitda_contribution_percentage,
-        insurance_coverage: shareholder.insurance_coverage,
-        share_percentage: shareholder.share_percentage,
+        ...shareholder,
+        id: generateRandomShareholderId(),
+        created_at: new Date().toISOString(),
       },
     ]);
   }
 
-  function onDeleteShareholder(name: string) {
-    setShareholders(shareholders.filter((s) => s.name !== name));
+  function onDeleteShareholder(id: number) {
+    setShareholders(shareholders.filter((s) => s.id !== id));
   }
   function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
-        s.name === updatedShareholder.name ? updatedShareholder : s
+        s.id === updatedShareholder.id ? updatedShareholder : s
       )
     );
   }

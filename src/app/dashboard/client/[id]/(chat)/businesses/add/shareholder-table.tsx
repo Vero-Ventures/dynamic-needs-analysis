@@ -28,7 +28,7 @@ export function ShareholderTable({
   shareholders: EditShareholder[];
   valuation: number;
   ebitda: number;
-  onDeleteShareholder: (name: string) => void;
+  onDeleteShareholder: (id: number) => void;
   onEditShareholder: (updatedShareholder: EditShareholder) => void;
 }) {
   return (
@@ -77,7 +77,7 @@ export function ShareholderTable({
             <TableCell className="text-right">
               <DeleteShareholder
                 onDeleteShareholder={onDeleteShareholder}
-                name={shareholder.name}
+                id={shareholder.id}
               />
             </TableCell>
           </TableRow>
@@ -88,16 +88,16 @@ export function ShareholderTable({
 }
 
 function DeleteShareholder({
-  name,
+  id,
   onDeleteShareholder,
 }: {
-  name: string;
-  onDeleteShareholder: (name: string) => void;
+  id: number;
+  onDeleteShareholder: (id: number) => void;
 }) {
   const [isPending, setIsPending] = useState(false);
   function handleDeleteShareholder() {
     setIsPending(true);
-    onDeleteShareholder(name);
+    onDeleteShareholder(id);
     setIsPending(false);
   }
   return (
