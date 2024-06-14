@@ -29,6 +29,9 @@ export default function ShareValueChart({
   if (!mounted) {
     return null;
   }
+
+  const series = generateShareValueSeries(businesses);
+
   return (
     <ReactApexChart
       options={{
@@ -53,7 +56,7 @@ export default function ShareValueChart({
           },
         },
       }}
-      series={generateShareValueSeries(businesses)}
+      series={series}
       type="line"
       height={350}
     />
