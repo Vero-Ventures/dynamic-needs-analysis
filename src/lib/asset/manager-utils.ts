@@ -1,67 +1,81 @@
-import type { AssetBeneficiary } from "@/app/dashboard/client/[id]/(chat)/assets/add/add-assets-stepper";
-import type { Asset, Beneficiary, Business } from "@/app/data/db";
+import type { Tables } from "../../../types/supabase";
+import type {
+  AssetsWithBeneficiaries,
+  SingleAssetWithBeneficiaries,
+  AssetBeneficiary,
+} from "@/data/assets";
 
 export function calculateTotalCurrentValue(
-  assets: Asset[],
-  businesses: Business[]
+  assets: Tables<"assets">[],
+  businesses: Tables<"businesses">[]
 ): number {
   const totalAssetValue: number = assets.reduce(
-    (acc: number, asset: Asset) => acc + (asset.currentValue || 0),
+    (acc: number, asset: Tables<"assets">) => acc + (asset.current_value || 0),
     0
   );
   const totalBusinessValue: number = businesses.reduce(
-    (acc: number, business: Business) => acc + (business.valuation || 0),
+    (acc: number, business: Tables<"businesses">) =>
+      acc + (business.valuation || 0),
     0
   );
   return totalAssetValue + totalBusinessValue;
 }
 
 export function calculateTotalFutureValue(
-  assets: Asset[],
-  calculateFutureValue: (asset: Asset) => number
+  assets: Tables<"assets">[],
+  calculateFutureValue: (asset: Tables<"assets">) => number
 ): number {
   return assets.reduce(
-    (acc: number, asset: Asset) => acc + calculateFutureValue(asset),
+    (acc: number, asset: Tables<"assets">) => acc + calculateFutureValue(asset),
     0
   );
 }
 
-export function calculateFutureValue(asset: Asset): number {
-  return asset.currentValue * Math.pow(1 + asset.rate / 100, asset.term);
+export function calculateFutureValue(asset: Tables<"assets">): number {
+  return asset.current_value * Math.pow(1 + asset.rate / 100, asset.term);
 }
 
 export function calculateBeneficiaryDistributions(
-  assets: Asset[],
-  calculateFutureValue: (asset: Asset) => number
+  assets: AssetsWithBeneficiaries,
+  calculateFutureValue: (asset: Tables<"assets">) => number
 ): Record<string, number> {
   const distributions: Record<string, number> = {};
 
-  assets.forEach((asset: Asset): void => {
+  assets.forEach((asset: SingleAssetWithBeneficiaries): void => {
     const futureValue: number = calculateFutureValue(asset);
-    const totalAllocation: number = asset.assetBeneficiaries.reduce(
-      (sum: number, beneficiary: AssetBeneficiary) => {
-        if (beneficiary.isAssetAssigned) return sum + beneficiary.allocation;
-        return sum;
-      },
+
+    // Filter out beneficiaries that have already been assigned
+    const filteredAssetBeneficiaries = asset.asset_beneficiaries.filter(
+      (assetBeneficiary) => assetBeneficiary.already_assigned
+    );
+    const totalAllocation: number = filteredAssetBeneficiaries.reduce(
+      (sum: number, beneficiary: { allocation: number }) =>
+        sum + beneficiary.allocation,
       0
     );
-    asset.assetBeneficiaries.forEach((assetBeneficiary: Beneficiary): void => {
-      const distribution: number =
-        (assetBeneficiary.allocation / totalAllocation) * futureValue;
-      distributions[assetBeneficiary.name] =
-        (distributions[assetBeneficiary.name] || 0) + distribution;
-    });
+    filteredAssetBeneficiaries.forEach(
+      (assetBeneficiary: AssetBeneficiary): void => {
+        const distribution: number =
+          (assetBeneficiary.allocation / totalAllocation) * futureValue;
+
+        if (assetBeneficiary.beneficiaries) {
+          distributions[assetBeneficiary.beneficiaries.name] =
+            (distributions[assetBeneficiary.beneficiaries.name] || 0) +
+            distribution;
+        }
+      }
+    );
   });
 
   return distributions;
 }
 
 export function calculateIdealDistributions(
-  beneficiaries: Beneficiary[]
+  beneficiaries: Tables<"beneficiaries">[]
 ): Record<string, number> {
   const idealDistributions: Record<string, number> = {};
 
-  beneficiaries.forEach((beneficiary: Beneficiary): void => {
+  beneficiaries.forEach((beneficiary: Tables<"beneficiaries">): void => {
     idealDistributions[beneficiary.name] = beneficiary.allocation;
   });
 
