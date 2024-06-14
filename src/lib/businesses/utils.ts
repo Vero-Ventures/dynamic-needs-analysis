@@ -1,22 +1,23 @@
 import type { BusinessesWithShareholders } from "@/data/businesses";
 import type { Tables } from "../../../types/supabase";
+import type { EditShareholder } from "@/app/dashboard/client/[id]/(chat)/businesses/add/types";
 
 export function calculateEbitdaContributionDollars(
-  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">,
+  shareholder: EditShareholder,
   ebitda: number
 ): number {
   return ebitda * (shareholder.ebitda_contribution_percentage / 100);
 }
 
 export function calculateShareValue(
-  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">,
+  shareholder: EditShareholder,
   valuation: number
 ): number {
   return (shareholder.share_percentage / 100) * valuation;
 }
 
 export function calculateLiquidationDisparity(
-  shareholder: Omit<Tables<"shareholders">, "created_at" | "business_id">,
+  shareholder: EditShareholder,
   valuation: number
 ): number {
   return (
@@ -25,7 +26,7 @@ export function calculateLiquidationDisparity(
 }
 
 export function calculateTotalShareholderPercentageOwned(
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
     (acc, shareholder) => acc + shareholder.share_percentage,
@@ -34,7 +35,7 @@ export function calculateTotalShareholderPercentageOwned(
 }
 
 export function calculateTotalEbitdaContributionPercentage(
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
     (acc, shareholder) => acc + shareholder.ebitda_contribution_percentage,
@@ -43,7 +44,7 @@ export function calculateTotalEbitdaContributionPercentage(
 }
 
 export function calculateTotalMajorShareholderValue(
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[],
+  shareholders: EditShareholder[],
   valuation: number
 ): number {
   return shareholders.reduce(
@@ -54,7 +55,7 @@ export function calculateTotalMajorShareholderValue(
 }
 
 export function calculateTotalMajorShareholderInsurance(
-  shareholders: Omit<Tables<"shareholders">, "created_at" | "business_id">[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
     (acc: number, shareholder) => acc + shareholder.insurance_coverage,
@@ -157,4 +158,8 @@ export function generateShareValueSeries(
     });
   });
   return series;
+}
+
+export function generateRandomShareholderId() {
+  return Date.now() + Math.floor(Math.random() * 1000000);
 }

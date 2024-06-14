@@ -22,8 +22,7 @@ INSERT INTO public.businesses (name, valuation, ebitda, appreciation_rate, term)
 
 -- Insert seed data into clients table
 INSERT INTO public.clients (name, birth_date, expected_retirement_age, province, annual_income, income_mutiplier) VALUES
-('John Doe', '1980-05-15', 65, 'BC', 75000.00, 2),
-('Jane Smith', '1975-08-25', 60, 'ON', 85000.00, 1);
+('John Doe', '1980-05-15', 65, 'BC', 75000.00, 2);
 
 -- Insert seed data into debts table
 INSERT INTO public.debts (name, initial_value, year_acquired, rate, term, annual_payment, insurable_future_value_dollars) VALUES

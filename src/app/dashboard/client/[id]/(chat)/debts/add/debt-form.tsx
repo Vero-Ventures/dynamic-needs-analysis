@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { cn, formatMoney, sleep } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { addDebt } from "../actions";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useRouter } from "next/navigation";
@@ -96,7 +96,6 @@ export default function DebtForm() {
   );
 
   async function onSubmit(values: AddDebtFormSchema) {
-    await sleep(3000);
     await addDebt(values);
     router.replace("/dashboard/client/1/debts");
   }

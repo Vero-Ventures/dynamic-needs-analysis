@@ -29,7 +29,7 @@ export async function addDebt(debt: AddDebtFormSchema) {
     )
   );
 
-  const { data: addedDebt } = await sb.from("debts").insert({
+  await sb.from("debts").insert({
     name,
     initial_value,
     year_acquired,
@@ -38,9 +38,7 @@ export async function addDebt(debt: AddDebtFormSchema) {
     annual_payment,
     insurable_future_value_dollars: insurableFutureValueDollars,
   });
-  if (!addedDebt) {
-    throw new Error();
-  }
+
   revalidatePath("/dashboard/client/[id]/debts", "page");
 }
 

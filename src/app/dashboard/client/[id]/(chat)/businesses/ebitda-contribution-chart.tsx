@@ -31,6 +31,8 @@ export default function EBITDAContributionChart({
     return null;
   }
 
+  const series = generateEbitdaSeries(businesses);
+
   return (
     <ReactApexChart
       options={{
@@ -55,7 +57,7 @@ export default function EBITDAContributionChart({
           },
         },
       }}
-      series={generateEbitdaSeries(businesses)}
+      series={series}
       type="line"
       height={350}
     />

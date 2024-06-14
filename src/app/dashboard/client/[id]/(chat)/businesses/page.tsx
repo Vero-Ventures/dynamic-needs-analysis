@@ -3,6 +3,8 @@ import Link from "next/link";
 import EBITDAContributionChart from "./ebitda-contribution-chart";
 import ShareValueChart from "./share-value-chart";
 
+export const dynamic = "force-dynamic";
+
 export default async function Businesses() {
   const businesses = await getBusinessesWithShareholders();
   if (!businesses) {

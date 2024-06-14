@@ -49,7 +49,7 @@ import { z } from "zod";
 const addGoalSchema = z.object({
   name: z.string().trim(),
   amount: z.coerce.number(),
-  philanthropic: z.string(),
+  philanthropic: z.boolean(),
 });
 
 export type AddGoalFormSchema = z.infer<typeof addGoalSchema>;
@@ -64,7 +64,7 @@ function AddGoalForm({
     defaultValues: {
       name: "",
       amount: 0,
-      philanthropic: "",
+      philanthropic: false,
     },
   });
 
@@ -110,7 +110,11 @@ function AddGoalForm({
               <div className="flex items-center gap-2">
                 <FormLabel>Philanthropic:</FormLabel>
                 <FormControl>
-                  <Switch id="philanthropic" {...field} />
+                  <Switch
+                    id="philanthropic"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
               </div>
               <FormMessage />

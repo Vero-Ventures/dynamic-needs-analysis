@@ -49,7 +49,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { sleep } from "@/lib/utils";
 import { addBeneficiary } from "./actions";
 import { useState } from "react";
 
@@ -76,7 +75,6 @@ function AddBeneficiaryForm({
   });
 
   async function onSubmit(values: AddBeneficiaryFormSchema) {
-    await sleep(3000);
     await addBeneficiary(values);
     setOpen(false);
   }

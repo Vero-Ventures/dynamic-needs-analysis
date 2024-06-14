@@ -7,7 +7,7 @@ beforeAll(() => {
 });
 
 test("should return age of 0 when the birthday is today", () => {
-  const birthDate = new Date().toString();
+  const birthDate = new Date().toISOString();
   const age = calculateAgeFromDate(birthDate);
 
   expect(age).toBe(0);
