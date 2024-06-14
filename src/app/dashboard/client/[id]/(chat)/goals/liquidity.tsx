@@ -8,7 +8,6 @@ import {
   calculateSurplusShortfall,
   calculateTotalSumGoals,
 } from "@/lib/goals/utils";
-import type { Asset, Goal } from "@/app/data/db";
 import { useState } from "react";
 import GoalsChart from "./goals-chart";
 import { Label } from "@/components/ui/label";
@@ -18,8 +17,8 @@ export default function Liquidity({
   goals,
   assets,
 }: {
-  goals: Goal[];
-  assets: Asset[];
+  goals: Tables<"goals">[];
+  assets: Tables<"assets">[];
 }) {
   const [liquidityToGoalsPercent, setLiquidityToGoalsPercent] = useState(0);
   const {
@@ -130,6 +129,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export function LiquidityTable({
   data,
