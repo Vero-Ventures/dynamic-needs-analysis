@@ -1,13 +1,13 @@
 "use client";
 
-import type { Debt } from "@/app/data/db";
 import { generateDebtsSeries } from "@/lib/debts/utils";
 import { formatMoney } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import type { Tables } from "../../../../../../../types/supabase";
 
-export default function DebtsChart({ debts }: { debts: Debt[] }) {
+export default function DebtsChart({ debts }: { debts: Tables<"debts">[] }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
   const chartTheme = theme
