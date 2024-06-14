@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useStepper } from "@/components/ui/stepper/use-stepper";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function StepperFormActions({
   onSubmitBusiness,
@@ -18,10 +19,15 @@ export function StepperFormActions({
   } = useStepper();
   const router = useRouter();
 
-  if (hasCompletedAllSteps) {
-    onSubmitBusiness?.();
-    router.replace("/dashboard/client/1/businesses");
-  }
+  useEffect(() => {
+    async function handleSubmitBusiness() {
+      if (hasCompletedAllSteps) {
+        await onSubmitBusiness?.();
+        router.replace("/dashboard/client/1/businesses");
+      }
+    }
+    handleSubmitBusiness();
+  }, [router, onSubmitBusiness, hasCompletedAllSteps]);
 
   return (
     <div className="flex w-full justify-end gap-2">
