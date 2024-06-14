@@ -12,7 +12,6 @@ import {
   calculateTotalShareholderPercentageOwned,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
-import type { Business, Shareholder } from "@/app/data/db";
 import type { AddShareholderFormSchema } from "../../add/add-shareholder-dialog";
 import type { AddBusinessesFormSchema } from "../../add/add-businesses-form";
 import { editBusiness } from "./actions";
@@ -23,6 +22,8 @@ import {
   TotalShareholderTable,
 } from "../../add/shareholder-table";
 import { StepperFormActions } from "../../add/stepper-form-actions";
+import type { Tables } from "../../../../../../../../../types/supabase";
+import type { SingleBusinessWithShareholders } from "@/data/businesses";
 
 const steps = [
   { label: "Edit Business" },
@@ -32,19 +33,19 @@ const steps = [
 export default function EditBusinessStepper({
   business,
 }: {
-  business: Business;
+  business: SingleBusinessWithShareholders;
 }) {
   const [updatedBusiness, setUpdatedBusiness] =
     useState<AddBusinessesFormSchema>({
       name: business.name,
       valuation: business.valuation,
       ebitda: business.ebitda,
-      appreciationRate: business.appreciationRate,
+      appreciationRate: business.appreciation_rate,
       term: business.term,
     });
-  const [shareholders, setShareholders] = useState<Shareholder[]>(
-    business.shareholders
-  );
+  const [shareholders, setShareholders] = useState<
+    Omit<Tables<"shareholders">, "created_at">[]
+  >(business.shareholders);
 
   async function handleEditBusiness() {
     await editBusiness(business.id, updatedBusiness, shareholders);
@@ -59,7 +60,12 @@ export default function EditBusinessStepper({
       ...shareholders,
       {
         id: shareholders.length,
-        ...shareholder,
+        name: shareholder.name,
+        share_percentage: shareholder.sharePercentage,
+        insurance_coverage: shareholder.insuranceCoverage,
+        ebitda_contribution_percentage:
+          shareholder.ebitdaContributionPercentage,
+        business_id: business.id,
       },
     ]);
   }
@@ -67,7 +73,7 @@ export default function EditBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
-  function onEditShareholder(updatedShareholder: Shareholder) {
+  function onEditShareholder(updatedShareholder: Tables<"shareholders">) {
     setShareholders(
       shareholders.map((s) =>
         s.id === updatedShareholder.id ? updatedShareholder : s
