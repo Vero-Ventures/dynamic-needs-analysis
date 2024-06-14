@@ -4,10 +4,10 @@ export async function getAssetsWithBeneficiaries() {
   const sb = createClient();
   const { data: assets, error } = await sb.from("asset_beneficiaries").select(`
     *,
-    asset_id (
+    assets (
      *
     ),
-    beneficary_id (
+    beneficiaries (
       *
     )
   `);
@@ -17,4 +17,30 @@ export async function getAssetsWithBeneficiaries() {
 
 export type AssetsWithBeneficiaries = Awaited<
   ReturnType<typeof getAssetsWithBeneficiaries>
+>;
+
+export async function getSingleAssetWithBeneficiary(id: number) {
+  const sb = createClient();
+  const { data, error } = await sb
+    .from("asset_beneficiaries")
+    .select(
+      `
+    *,
+    assets (
+     *
+    ),
+    beneficiaries (
+      *
+    )
+  `
+    )
+    .eq("id", id)
+    .limit(1)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export type SingleAssetWithBeneficiary = Awaited<
+  ReturnType<typeof getSingleAssetWithBeneficiary>
 >;
