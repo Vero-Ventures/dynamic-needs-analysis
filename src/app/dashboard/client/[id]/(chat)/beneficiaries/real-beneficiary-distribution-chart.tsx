@@ -1,6 +1,6 @@
 "use client";
 
-import type { Asset } from "@/app/data/db";
+import type { AssetsWithBeneficiaries } from "@/data/assets";
 import { generateRealDistributionSeriesAndLabels } from "@/lib/beneficiaries/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import ReactApexChart from "react-apexcharts";
 export default function RealBeneficiaryDistributionChart({
   assets,
 }: {
-  assets: Asset[];
+  assets: AssetsWithBeneficiaries;
 }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
