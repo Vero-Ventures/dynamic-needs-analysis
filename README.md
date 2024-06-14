@@ -5,7 +5,7 @@
 Login to supabase cli
 
 ```bash
-bunx supabase login
+bun supabase login
 ```
 
 To start up the local supabase instance.
