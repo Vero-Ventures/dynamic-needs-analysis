@@ -1,15 +1,15 @@
 "use client";
 
-import type { Beneficiary } from "@/app/data/db";
 import { generateDesiredDistributionSeriesAndLabels } from "@/lib/beneficiaries/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export default function DesiredBeneficiaryDistributionChart({
   beneficiaries,
 }: {
-  beneficiaries: Beneficiary[];
+  beneficiaries: Tables<"beneficiaries">[];
 }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
@@ -19,7 +19,6 @@ export default function DesiredBeneficiaryDistributionChart({
       : (theme as "light" | "dark")
     : "dark";
 
-  console.log(chartTheme);
   const { series, labels } =
     generateDesiredDistributionSeriesAndLabels(beneficiaries);
 
