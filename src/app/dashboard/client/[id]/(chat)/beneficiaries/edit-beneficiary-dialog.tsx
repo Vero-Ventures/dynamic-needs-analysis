@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
 export default function EditBeneficiaryDialog({
@@ -64,7 +64,7 @@ const BeneficiarySchema = z.object({
   allocation: z.coerce.number(),
 });
 
-type FormSchema = z.infer<typeof BeneficiarySchema>;
+export type AddBeneficiaryFormSchema = z.infer<typeof BeneficiarySchema>;
 
 function EditBeneficiaryForm({
   id,
@@ -77,8 +77,7 @@ function EditBeneficiaryForm({
   allocation: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
+  const form = useForm<AddBeneficiaryFormSchema>({
     resolver: zodResolver(BeneficiarySchema),
     defaultValues: {
       name,
@@ -86,22 +85,15 @@ function EditBeneficiaryForm({
     },
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-
-    const formData = new FormData(formRef.current);
+  async function onSubmit(values: AddBeneficiaryFormSchema) {
     await sleep(3000);
-    await editBeneficiary(id, formData);
+    await editBeneficiary(id, values);
     setOpen(false);
   }
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 pt-4">
         <FormField
           control={form.control}
           name="name"
