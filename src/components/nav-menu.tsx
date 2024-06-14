@@ -3,12 +3,12 @@
 import { cn } from "@/lib/utils";
 import {
   Building2Icon,
-  // CalculatorIcon,
+  CalculatorIcon,
   CircleUserIcon,
   CreditCardIcon,
-  // LandmarkIcon,
+  LandmarkIcon,
   TargetIcon,
-  // Users2Icon,
+  Users2Icon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,11 +25,11 @@ const NavLinks: NavLink[] = [
     icon: <CircleUserIcon className="mr-3 h-5 w-5" />,
     label: "Client",
   },
-  // {
-  //   href: "/dashboard/client/1/beneficiaries",
-  //   icon: <Users2Icon className="mr-3 h-5 w-5" />,
-  //   label: "Beneficiaries",
-  // },
+  {
+    href: "/dashboard/client/1/beneficiaries",
+    icon: <Users2Icon className="mr-3 h-5 w-5" />,
+    label: "Beneficiaries",
+  },
   {
     href: "/dashboard/client/1/businesses",
     icon: <Building2Icon className="mr-3 h-5 w-5" />,
