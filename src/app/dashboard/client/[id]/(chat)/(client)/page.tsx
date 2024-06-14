@@ -15,7 +15,7 @@ export default async function ClientPage() {
   const sb = createClient();
   const { data: client } = await sb
     .from("clients")
-    .select("*")
+    .select()
     .eq("id", 1)
     .limit(1)
     .single();

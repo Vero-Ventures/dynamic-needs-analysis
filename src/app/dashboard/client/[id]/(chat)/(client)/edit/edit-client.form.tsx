@@ -20,7 +20,6 @@ import {
 
 import type { ProvinceInitials } from "@/constants/provinces";
 import { CANADIAN_PROVINCES } from "@/constants/provinces";
-import type { ClientData } from "@/app/data/db";
 import Link from "next/link";
 
 import { z } from "zod";
@@ -37,10 +36,11 @@ import {
 import { editClient } from "./actions";
 import { useRouter } from "next/navigation";
 import FormSubmitButton from "@/components/form-submit-button";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 const editClientFormSchema = z.object({
   name: z.string(),
-  birthDate: z.date(),
+  birthDate: z.string(),
   expectedRetirementAge: z.coerce.number(),
   province: z.union([
     z.literal("AB"),
@@ -66,7 +66,7 @@ export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
 export default function EditClientForm({
   defaultFormValues,
 }: {
-  defaultFormValues: ClientData;
+  defaultFormValues: Tables<"clients">;
 }) {
   const router = useRouter();
   const form = useForm<EditClientFormSchema>({
@@ -107,7 +107,7 @@ export default function EditClientForm({
                 <FormLabel>Birthdate</FormLabel>
                 <FormControl>
                   <BirthDatePicker
-                    date={field.value}
+                    date={new Date(field.value)}
                     onSelect={field.onChange}
                   />
                 </FormControl>
