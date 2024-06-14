@@ -57,7 +57,7 @@ const editClientFormSchema = z.object({
     z.literal("YT"),
   ]),
   annual_income: z.coerce.number(),
-  income_mutipler: z.coerce.number(),
+  income_mutiplier: z.coerce.number(),
 });
 
 export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
@@ -75,7 +75,7 @@ export default function EditClientForm({
       annual_income: client.annual_income,
       birth_date: client.birth_date,
       expected_retirement_age: client.expected_retirement_age,
-      income_mutipler: client.income_mutiplier,
+      income_mutiplier: client.income_mutiplier,
       province: client.province,
     },
   });
@@ -87,7 +87,7 @@ export default function EditClientForm({
   );
 
   async function onSubmit(values: EditClientFormSchema) {
-    await editClient(1, values);
+    await editClient(client.id, values);
     router.replace("/dashboard/client/1");
   }
 
@@ -196,7 +196,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="income_mutipler"
+            name="income_mutiplier"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Income Replacement Multiplier</FormLabel>
@@ -236,7 +236,7 @@ export default function EditClientForm({
             <FormSubmitButton
               loadingValue="Saving..."
               value="Save Changes"
-              disabled={!form.formState.isDirty || !form.formState.isValid}
+              disabled={!form.formState.isValid}
               isPending={form.formState.isSubmitting}
             />
           </div>

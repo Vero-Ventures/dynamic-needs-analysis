@@ -2,24 +2,18 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
-import type { TablesUpdate } from "../../../../../../../../types/supabase";
+import type { EditClientFormSchema } from "./edit-client.form";
 
 export async function editClient(
   id: number,
-  updatedClient: TablesUpdate<"clients">
+  updatedClient: EditClientFormSchema
 ) {
   const sb = createClient();
-  const { data: client } = await sb
-    .from("clients")
-    .update(updatedClient)
-    .eq("id", id)
-    .select()
-    .single();
+  const { error } = await sb.from("clients").update(updatedClient).eq("id", id);
 
-  if (!client) {
-    return notFound();
+  if (error) {
+    throw error;
   }
 
-  revalidatePath(`/dashboard/client/${client.id}`);
+  revalidatePath(`/dashboard/client/${id}`);
 }
