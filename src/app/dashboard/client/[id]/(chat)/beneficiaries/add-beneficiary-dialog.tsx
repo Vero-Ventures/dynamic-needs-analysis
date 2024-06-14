@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
 export default function AddBeneficiaryDialog({
@@ -52,13 +51,14 @@ import {
 } from "@/components/ui/form";
 import { sleep } from "@/lib/utils";
 import { addBeneficiary } from "./actions";
+import { useState } from "react";
 
 const BeneficiarySchema = z.object({
   name: z.string(),
   allocation: z.coerce.number(),
 });
 
-type FormSchema = z.infer<typeof BeneficiarySchema>;
+export type AddBeneficiaryFormSchema = z.infer<typeof BeneficiarySchema>;
 
 function AddBeneficiaryForm({
   remainingAllocationParts,
@@ -67,8 +67,7 @@ function AddBeneficiaryForm({
   remainingAllocationParts: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
+  const form = useForm<AddBeneficiaryFormSchema>({
     resolver: zodResolver(BeneficiarySchema),
     defaultValues: {
       name: "",
@@ -76,22 +75,15 @@ function AddBeneficiaryForm({
     },
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-
-    const formData = new FormData(formRef.current);
+  async function onSubmit(values: AddBeneficiaryFormSchema) {
     await sleep(3000);
-    await addBeneficiary(formData);
+    await addBeneficiary(values);
     setOpen(false);
   }
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 pt-4">
         <FormField
           control={form.control}
           name="name"
