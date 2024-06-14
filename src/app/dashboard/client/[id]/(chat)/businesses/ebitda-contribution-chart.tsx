@@ -7,12 +7,12 @@ import { formatMoney } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import type { Tables } from "../../../../../../../types/supabase";
+import type { BusinessesWithShareholders } from "@/data/businesses";
 
 export default function EBITDAContributionChart({
   businesses,
 }: {
-  businesses: Tables<"businesses">[];
+  businesses: BusinessesWithShareholders;
 }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
