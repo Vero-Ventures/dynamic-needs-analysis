@@ -51,9 +51,9 @@ import { z } from "zod";
 
 const addShareholderSchema = z.object({
   name: z.string().trim(),
-  sharePercentage: z.coerce.number(),
-  insuranceCoverage: z.coerce.number(),
-  ebitdaContributionPercentage: z.coerce.number(),
+  share_percentage: z.coerce.number(),
+  insurance_coverage: z.coerce.number(),
+  ebitda_contribution_percentage: z.coerce.number(),
 });
 
 export type AddShareholderFormSchema = z.infer<typeof addShareholderSchema>;
@@ -69,9 +69,9 @@ function AddShareholderForm({
     resolver: zodResolver(addShareholderSchema),
     defaultValues: {
       name: "",
-      sharePercentage: 0,
-      ebitdaContributionPercentage: 0,
-      insuranceCoverage: 0,
+      share_percentage: 0,
+      ebitda_contribution_percentage: 0,
+      insurance_coverage: 0,
     },
   });
 
@@ -102,12 +102,12 @@ function AddShareholderForm({
         />
         <FormField
           control={form.control}
-          name="sharePercentage"
+          name="share_percentage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Share Percentage (%)</FormLabel>
               <FormControl>
-                <Input id="sharePercentage" {...field} />
+                <Input id="share_percentage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,12 +115,12 @@ function AddShareholderForm({
         />
         <FormField
           control={form.control}
-          name="insuranceCoverage"
+          name="insurance_coverage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Insurance Coverage ($)</FormLabel>
               <FormControl>
-                <Input id="insuranceCoverage" {...field} />
+                <Input id="insurance_coverage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -128,12 +128,12 @@ function AddShareholderForm({
         />
         <FormField
           control={form.control}
-          name="ebitdaContributionPercentage"
+          name="ebitda_contribution_percentage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>% EBITDA Contribution</FormLabel>
               <FormControl>
-                <Input id="ebitdaContributionPercentage" {...field} />
+                <Input id="ebitda_contribution_percentage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
