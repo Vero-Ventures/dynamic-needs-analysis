@@ -46,7 +46,7 @@ export default function EditBeneficiaryDialog({
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 
 import {
   Form,
@@ -57,8 +57,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { sleep } from "@/lib/utils";
-import { BeneficiarySchema } from "@/app/data/db";
 import { editBeneficiary } from "./actions";
+
+const BeneficiarySchema = z.object({
+  name: z.string(),
+  allocation: z.coerce.number(),
+});
 
 type FormSchema = z.infer<typeof BeneficiarySchema>;
 
