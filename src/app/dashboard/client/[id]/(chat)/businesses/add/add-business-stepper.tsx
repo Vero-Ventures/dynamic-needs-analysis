@@ -15,10 +15,11 @@ import {
   calculateTotalMajorShareholderInsurance,
   calculateTotalMajorShareholderValue,
   calculateTotalShareholderPercentageOwned,
+  generateRandomShareholderId,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
-import type { Shareholder } from "@/app/data/db";
 import { addBusiness } from "./actions";
+import type { EditShareholder } from "./types";
 
 const steps = [
   { label: "Add Business" },
@@ -32,18 +33,19 @@ export default function AddBusinessStepper({
 }) {
   const [business, setBusiness] = useState<AddBusinessesFormSchema>({
     name: "",
-    appreciationRate: 0,
+    appreciation_rate: 0,
     ebitda: 0,
     valuation: 0,
     term: 0,
   });
-  const [shareholders, setShareholders] = useState<Shareholder[]>([
+  const [shareholders, setShareholders] = useState<EditShareholder[]>([
     {
-      id: 0,
+      id: generateRandomShareholderId(),
       name: clientName,
-      sharePercentage: 100,
-      ebitdaContributionPercentage: 100,
-      insuranceCoverage: 0,
+      share_percentage: 100,
+      ebitda_contribution_percentage: 100,
+      insurance_coverage: 0,
+      created_at: new Date().toISOString(),
     },
   ]);
 
@@ -59,8 +61,9 @@ export default function AddBusinessStepper({
     setShareholders([
       ...shareholders,
       {
-        id: shareholders.length,
         ...shareholder,
+        id: generateRandomShareholderId(),
+        created_at: new Date().toISOString(),
       },
     ]);
   }
@@ -68,7 +71,7 @@ export default function AddBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
-  function onEditShareholder(updatedShareholder: Shareholder) {
+  function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
         s.id === updatedShareholder.id ? updatedShareholder : s

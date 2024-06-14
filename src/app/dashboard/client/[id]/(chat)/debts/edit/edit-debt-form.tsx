@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { cn, formatMoney, sleep } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { editDebt } from "../actions";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,7 @@ import {
   calculateInsurableFutureValueDollars,
   calculateYearsToBePaidOff,
 } from "@/lib/debts/utils";
-import type { Debt } from "@/app/data/db";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 const editDebtSchema = z.object({
   name: z.string().trim(),
@@ -46,12 +46,30 @@ export type EditDebtFormSchema = z.infer<typeof editDebtSchema>;
 export default function EditDebtForm({
   defaultFormValues,
 }: {
-  defaultFormValues: Debt;
+  defaultFormValues: Pick<
+    Tables<"debts">,
+    | "name"
+    | "initial_value"
+    | "year_acquired"
+    | "rate"
+    | "term"
+    | "annual_payment"
+    | "id"
+  >;
 }) {
+  const { name, initial_value, year_acquired, annual_payment } =
+    defaultFormValues;
   const router = useRouter();
   const form = useForm<EditDebtFormSchema>({
     resolver: zodResolver(editDebtSchema),
-    defaultValues: defaultFormValues,
+    defaultValues: {
+      name,
+      initialValue: initial_value,
+      yearAcquired: year_acquired,
+      rate: defaultFormValues.rate,
+      term: defaultFormValues.term,
+      annualPayment: annual_payment,
+    },
   });
 
   const [initialValue, yearAcquired, rate, term, annualPayment] = form.watch([
@@ -88,8 +106,7 @@ export default function EditDebtForm({
   );
 
   async function onSubmit(values: EditDebtFormSchema) {
-    await sleep(3000);
-    await editDebt(0, values);
+    await editDebt(defaultFormValues.id, values);
     router.replace("/dashboard/client/1/debts");
   }
 

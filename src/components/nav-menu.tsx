@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import {
   Building2Icon,
-  CalculatorIcon,
+  // CalculatorIcon,
   CircleUserIcon,
   CreditCardIcon,
   LandmarkIcon,
@@ -50,11 +50,11 @@ const NavLinks: NavLink[] = [
     icon: <TargetIcon className="mr-3 h-5 w-5" />,
     label: "Goals",
   },
-  {
-    href: "/dashboard/client/1/total-needs",
-    icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
-    label: "Total Needs",
-  },
+  // {
+  //   href: "/dashboard/client/1/total-needs",
+  //   icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
+  //   label: "Total Needs",
+  // },
 ];
 
 export default function NavMenu() {

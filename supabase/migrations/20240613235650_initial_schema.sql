@@ -7,7 +7,8 @@ create table "public"."asset_beneficiaries" (
     "created_at" timestamp with time zone not null default now(),
     "allocation" smallint not null,
     "asset_id" bigint not null,
-    "beneficary_id" bigint not null
+    "beneficary_id" bigint not null,
+    "already_assigned" boolean not null default true
 );
 
 
@@ -486,5 +487,69 @@ grant trigger on table "public"."shareholders" to "service_role";
 grant truncate on table "public"."shareholders" to "service_role";
 
 grant update on table "public"."shareholders" to "service_role";
+
+create policy "Enable all CRUD for all users"
+on "public"."asset_beneficiaries"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."assets"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."beneficiaries"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."businesses"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."clients"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."debts"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."goals"
+as permissive
+for all
+to public
+using (true);
+
+
+create policy "Enable all CRUD for all users"
+on "public"."shareholders"
+as permissive
+for all
+to public
+using (true);
+
 
 

@@ -10,9 +10,9 @@ import {
   calculateTotalMajorShareholderInsurance,
   calculateTotalMajorShareholderValue,
   calculateTotalShareholderPercentageOwned,
+  generateRandomShareholderId,
 } from "@/lib/businesses/utils";
 import { useState } from "react";
-import type { Business, Shareholder } from "@/app/data/db";
 import type { AddShareholderFormSchema } from "../../add/add-shareholder-dialog";
 import type { AddBusinessesFormSchema } from "../../add/add-businesses-form";
 import { editBusiness } from "./actions";
@@ -23,6 +23,8 @@ import {
   TotalShareholderTable,
 } from "../../add/shareholder-table";
 import { StepperFormActions } from "../../add/stepper-form-actions";
+import type { SingleBusinessWithShareholders } from "@/data/businesses";
+import type { EditShareholder } from "../../add/types";
 
 const steps = [
   { label: "Edit Business" },
@@ -32,17 +34,11 @@ const steps = [
 export default function EditBusinessStepper({
   business,
 }: {
-  business: Business;
+  business: SingleBusinessWithShareholders;
 }) {
   const [updatedBusiness, setUpdatedBusiness] =
-    useState<AddBusinessesFormSchema>({
-      name: business.name,
-      valuation: business.valuation,
-      ebitda: business.ebitda,
-      appreciationRate: business.appreciationRate,
-      term: business.term,
-    });
-  const [shareholders, setShareholders] = useState<Shareholder[]>(
+    useState<AddBusinessesFormSchema>(business);
+  const [shareholders, setShareholders] = useState<EditShareholder[]>(
     business.shareholders
   );
 
@@ -58,8 +54,13 @@ export default function EditBusinessStepper({
     setShareholders([
       ...shareholders,
       {
-        id: shareholders.length,
-        ...shareholder,
+        id: generateRandomShareholderId(),
+        name: shareholder.name,
+        share_percentage: shareholder.share_percentage,
+        insurance_coverage: shareholder.insurance_coverage,
+        ebitda_contribution_percentage:
+          shareholder.ebitda_contribution_percentage,
+        created_at: new Date().toISOString(),
       },
     ]);
   }
@@ -67,7 +68,7 @@ export default function EditBusinessStepper({
   function onDeleteShareholder(id: number) {
     setShareholders(shareholders.filter((s) => s.id !== id));
   }
-  function onEditShareholder(updatedShareholder: Shareholder) {
+  function onEditShareholder(updatedShareholder: EditShareholder) {
     setShareholders(
       shareholders.map((s) =>
         s.id === updatedShareholder.id ? updatedShareholder : s
@@ -97,13 +98,13 @@ export default function EditBusinessStepper({
   return (
     <div className="flex w-full flex-col gap-4">
       <Stepper orientation="vertical" initialStep={0} steps={steps}>
-        <Step icon={Building2Icon} label="Add Business">
+        <Step icon={Building2Icon} label="Edit Business">
           <AddBusinessesForm
             business={updatedBusiness}
             onAddBusiness={handleSubmitBusiness}
           />
         </Step>
-        <Step icon={Users2Icon} label="Add Shareholders">
+        <Step icon={Users2Icon} label="Edit Shareholders">
           <div className="my-4 space-y-6">
             <AddShareholderDialog onAddShareholder={onAddShareholder} />
             <ShareholderTable

@@ -1,7 +1,15 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Assets() {
+export default async function Assets() {
+  const assets = await getAssetsWithBeneficiaries();
+  const sb = createClient();
+  const { data: businesses } = await sb.from("businesses").select();
+  const { data: beneficiaries } = await sb.from("beneficiaries").select();
+  if (!assets || !businesses || !beneficiaries) {
+    notFound();
+  }
+
   return (
     <div className="p-4">
       <div className="mx-auto mb-5 mt-3 flex max-w-2xl items-center justify-between">
@@ -13,8 +21,11 @@ export default function Assets() {
         </Link>
       </div>
       <div className="mt-9 space-y-12">
-        <AssetsTable />
-        <BeneficiaryDistributionTable />
+        <AssetsTable assets={assets} businesses={businesses} />
+        <BeneficiaryDistributionTable
+          assets={assets}
+          beneficiaries={beneficiaries}
+        />
       </div>
       <div className="mt-4">
         <NetWorthChart assets={assets} />
@@ -37,7 +48,6 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteAsset } from "./actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
-import { assets, beneficiaries, businesses } from "@/app/data/db";
 import {
   calculateAdditionalMoneyRequired,
   calculateBeneficiaryDistributions,
@@ -51,8 +61,21 @@ import {
 } from "@/lib/asset/manager-utils";
 import NetWorthChart from "./net-worth-chart";
 import DiversificationChart from "./diversification-chart";
+import type { Tables } from "../../../../../../../types/supabase";
+import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
+import {
+  getAssetsWithBeneficiaries,
+  type AssetsWithBeneficiaries,
+} from "@/data/assets";
 
-function AssetsTable() {
+function AssetsTable({
+  assets,
+  businesses,
+}: {
+  assets: AssetsWithBeneficiaries;
+  businesses: Tables<"businesses">[];
+}) {
   const totalCurrentValue = calculateTotalCurrentValue(assets, businesses);
 
   return (
@@ -76,7 +99,7 @@ function AssetsTable() {
               {formatMoney(business.valuation)}
             </TableCell>
             <TableCell className="text-center">
-              {`${business.appreciationRate}%`}
+              {`${business.appreciation_rate}%`}
             </TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
@@ -88,7 +111,7 @@ function AssetsTable() {
               {asset.name}
             </TableCell>
             <TableCell className="text-center">
-              {formatMoney(asset.currentValue)}
+              {formatMoney(asset.current_value)}
             </TableCell>
             <TableCell className="text-center">{`${asset.rate}%`}</TableCell>
             <TableCell>
@@ -127,7 +150,13 @@ function DeleteAsset({ id }: { id: number }) {
   );
 }
 
-function BeneficiaryDistributionTable() {
+function BeneficiaryDistributionTable({
+  assets,
+  beneficiaries,
+}: {
+  assets: AssetsWithBeneficiaries;
+  beneficiaries: Tables<"beneficiaries">[];
+}) {
   const beneficiaryDistributions = calculateBeneficiaryDistributions(
     assets,
     calculateFutureValue

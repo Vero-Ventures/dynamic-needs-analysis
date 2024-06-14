@@ -2,9 +2,14 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import EBITDAContributionChart from "./ebitda-contribution-chart";
 import ShareValueChart from "./share-value-chart";
-import { businesses, type Business } from "@/app/data/db";
 
-export default function Businesses() {
+export const dynamic = "force-dynamic";
+
+export default async function Businesses() {
+  const businesses = await getBusinessesWithShareholders();
+  if (!businesses) {
+    return notFound();
+  }
   return (
     <div className="space-y-6 p-4">
       <Link
@@ -38,8 +43,11 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
+import type { Tables } from "../../../../../../../types/supabase";
+import { notFound } from "next/navigation";
+import { getBusinessesWithShareholders } from "@/data/businesses";
 
-function BusinessTable({ businesses }: { businesses: Business[] }) {
+function BusinessTable({ businesses }: { businesses: Tables<"businesses">[] }) {
   return (
     <Table className="max-w-lg">
       <TableHeader>

@@ -1,23 +1,18 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { goals } from "@/app/data/db";
 import type { AddGoalFormSchema } from "./add-goal-dialog";
+import { createClient } from "@/lib/supabase/server";
 
 export async function addGoal(goal: AddGoalFormSchema) {
-  goals.push({
-    id: goals.length,
-    ...goal,
-    philanthropic: goal.philanthropic === "on",
-  });
+  console.log(goal);
+  const sb = createClient();
+  await sb.from("goals").insert(goal);
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }
 
 export async function deleteGoal(id: number) {
-  const i = goals.findIndex((g) => g.id === id);
-  if (i === -1) {
-    throw new Error("No goal found at this index");
-  }
-  goals.splice(i, 1);
+  const sb = createClient();
+  await sb.from("goals").delete().eq("id", id);
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }

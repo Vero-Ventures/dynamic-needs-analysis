@@ -1,13 +1,13 @@
-import { assets } from "@/app/data/db";
 import EditAssetStepper from "./edit-asset-stepper";
 import { notFound } from "next/navigation";
+import { getSingleAssetWithBeneficiaries } from "@/data/assets";
 
-export default function EditAssetPage({
+export default async function EditAssetPage({
   params,
 }: {
   params: { assetId: string };
 }) {
-  const asset = assets.at(+params.assetId);
+  const asset = await getSingleAssetWithBeneficiaries(+params.assetId);
   if (!asset) {
     notFound();
   }

@@ -1,12 +1,21 @@
 import BeneficiariesTable from "./beneficiaries-table";
 
 import AddBeneficiaryDialog from "./add-beneficiary-dialog";
-import { assets, beneficiaries } from "@/app/data/db";
 import DesiredBeneficiaryAllocationChart from "./desired-beneficiary-distribution-chart";
 import RealBeneficiaryDistributionChart from "./real-beneficiary-distribution-chart";
 import AssetValueDistributionChart from "./asset-value-distribution-chart";
+import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
+import { getAssetsWithBeneficiaries } from "@/data/assets";
 
-export default function Beneficiaries() {
+export default async function Beneficiaries() {
+  const sb = createClient();
+  const { data: beneficiaries } = await sb.from("beneficiaries").select();
+  const assets = await getAssetsWithBeneficiaries();
+  if (!beneficiaries || !assets) {
+    notFound();
+  }
+
   const totalAllocationParts = beneficiaries.reduce(
     (acc, cur) => acc + cur.allocation,
     0
@@ -25,7 +34,7 @@ export default function Beneficiaries() {
           remainingAllocationParts={remainingAllocationParts}
         />
       </div>
-      <BeneficiariesTable />
+      <BeneficiariesTable beneficiaries={beneficiaries} />
       <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
       <RealBeneficiaryDistributionChart assets={assets} />
       <AssetValueDistributionChart assets={assets} />

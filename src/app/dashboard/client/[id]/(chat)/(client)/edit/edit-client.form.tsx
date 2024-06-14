@@ -1,6 +1,5 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -20,7 +19,6 @@ import {
 
 import type { ProvinceInitials } from "@/constants/provinces";
 import { CANADIAN_PROVINCES } from "@/constants/provinces";
-import type { ClientData } from "@/app/data/db";
 import Link from "next/link";
 
 import { z } from "zod";
@@ -37,11 +35,12 @@ import {
 import { editClient } from "./actions";
 import { useRouter } from "next/navigation";
 import FormSubmitButton from "@/components/form-submit-button";
+import type { Tables } from "../../../../../../../../types/supabase";
 
 const editClientFormSchema = z.object({
   name: z.string(),
-  birthDate: z.date(),
-  expectedRetirementAge: z.coerce.number(),
+  birth_date: z.string(),
+  expected_retirement_age: z.coerce.number(),
   province: z.union([
     z.literal("AB"),
     z.literal("BC"),
@@ -57,31 +56,41 @@ const editClientFormSchema = z.object({
     z.literal("SK"),
     z.literal("YT"),
   ]),
-  annualIncome: z.coerce.number(),
-  incomeMultiplier: z.coerce.number(),
+  annual_income: z.coerce.number(),
+  income_mutiplier: z.coerce.number(),
 });
 
 export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
 
 export default function EditClientForm({
-  defaultFormValues,
+  client,
 }: {
-  defaultFormValues: ClientData;
+  client: Tables<"clients">;
 }) {
   const router = useRouter();
   const form = useForm<EditClientFormSchema>({
     resolver: zodResolver(editClientFormSchema),
-    defaultValues: defaultFormValues,
+    defaultValues: {
+      name: client.name,
+      annual_income: client.annual_income,
+      birth_date: client.birth_date,
+      expected_retirement_age: client.expected_retirement_age,
+      income_mutiplier: client.income_mutiplier,
+      province: client.province,
+    },
   });
-  const age = calculateAgeFromDate(form.watch("birthDate"));
+
+  const age = calculateAgeFromDate(form.watch("birth_date"));
   const taxBracket = findSelectedBracket(
     form.watch("province"),
-    form.watch("annualIncome")
+    form.watch("annual_income")
   );
+
   async function onSubmit(values: EditClientFormSchema) {
-    await editClient(0, values);
+    await editClient(client.id, values);
     router.replace("/dashboard/client/1");
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -101,13 +110,13 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="birthDate"
+            name="birth_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Birthdate</FormLabel>
                 <FormControl>
                   <BirthDatePicker
-                    date={field.value}
+                    date={new Date(field.value)}
                     onSelect={field.onChange}
                   />
                 </FormControl>
@@ -121,7 +130,7 @@ export default function EditClientForm({
           </div>
           <FormField
             control={form.control}
-            name="expectedRetirementAge"
+            name="expected_retirement_age"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Expected Retirement Age</FormLabel>
@@ -139,7 +148,7 @@ export default function EditClientForm({
             <p className="font-bold">
               {calculateYearsOfActiveIncome(
                 age,
-                form.watch("expectedRetirementAge")
+                form.watch("expected_retirement_age")
               )}
             </p>
           </div>
@@ -174,7 +183,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="annualIncome"
+            name="annual_income"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Annual Income ($)</FormLabel>
@@ -187,7 +196,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="incomeMultiplier"
+            name="income_mutiplier"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Income Replacement Multiplier</FormLabel>
@@ -199,18 +208,18 @@ export default function EditClientForm({
             )}
           />
           <div className="space-y-2">
-            <Label htmlFor="estimated-retirement">
+            <h2 className="text-sm font-medium leading-none">
               Amount Insured for Income ($)
-            </Label>
+            </h2>
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
-                form.watch("annualIncome"),
-                form.watch("incomeMultiplier")
+                form.watch("annual_income"),
+                form.watch("income_mutiplier")
               )}
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="tax-bracket">Tax Bracket</Label>
+            <h2 className="text-sm font-medium leading-none">Tax Bracket</h2>
             <div className="font-bold">
               ${taxBracket.minIncome} and up - {taxBracket.taxRate}%
             </div>
@@ -227,7 +236,7 @@ export default function EditClientForm({
             <FormSubmitButton
               loadingValue="Saving..."
               value="Save Changes"
-              disabled={!form.formState.isDirty || !form.formState.isValid}
+              disabled={!form.formState.isValid}
               isPending={form.formState.isSubmitting}
             />
           </div>

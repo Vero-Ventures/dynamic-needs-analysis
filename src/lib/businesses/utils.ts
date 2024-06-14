@@ -1,64 +1,64 @@
-import type { Business } from "@/app/data/db";
-import type { Shareholder } from "@/app/data/db";
+import type { BusinessesWithShareholders } from "@/data/businesses";
+import type { Tables } from "../../../types/supabase";
+import type { EditShareholder } from "@/app/dashboard/client/[id]/(chat)/businesses/add/types";
 
 export function calculateEbitdaContributionDollars(
-  shareholder: Shareholder,
+  shareholder: EditShareholder,
   ebitda: number
 ): number {
-  return ebitda * (shareholder.ebitdaContributionPercentage / 100);
+  return ebitda * (shareholder.ebitda_contribution_percentage / 100);
 }
 
 export function calculateShareValue(
-  shareholder: Shareholder,
+  shareholder: EditShareholder,
   valuation: number
 ): number {
-  return (shareholder.sharePercentage / 100) * valuation;
+  return (shareholder.share_percentage / 100) * valuation;
 }
 
 export function calculateLiquidationDisparity(
-  shareholder: Shareholder,
+  shareholder: EditShareholder,
   valuation: number
 ): number {
   return (
-    calculateShareValue(shareholder, valuation) - shareholder.insuranceCoverage
+    calculateShareValue(shareholder, valuation) - shareholder.insurance_coverage
   );
 }
 
 export function calculateTotalShareholderPercentageOwned(
-  shareholders: Shareholder[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
-    (acc, shareholder) => acc + shareholder.sharePercentage,
+    (acc, shareholder) => acc + shareholder.share_percentage,
     0
   );
 }
 
 export function calculateTotalEbitdaContributionPercentage(
-  shareholders: Shareholder[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
-    (acc, shareholder) => acc + shareholder.ebitdaContributionPercentage,
+    (acc, shareholder) => acc + shareholder.ebitda_contribution_percentage,
     0
   );
 }
 
 export function calculateTotalMajorShareholderValue(
-  shareholders: Shareholder[],
+  shareholders: EditShareholder[],
   valuation: number
 ): number {
   return shareholders.reduce(
-    (acc: number, shareholder: Shareholder) =>
+    (acc: number, shareholder) =>
       acc + calculateShareValue(shareholder, valuation),
     0
   );
 }
 
 export function calculateTotalMajorShareholderInsurance(
-  shareholders: Shareholder[]
+  shareholders: EditShareholder[]
 ): number {
   return shareholders.reduce(
-    (acc: number, shareholder: Shareholder) =>
-      acc + shareholder.insuranceCoverage,
+    (acc: number, shareholder) => acc + shareholder.insurance_coverage,
     0
   );
 }
@@ -71,24 +71,24 @@ export function calculateTotalMajorShareholderDisparity(
 }
 
 export function calculateFinalEbitdaContribution(
-  business: Business,
-  shareholder: Shareholder
+  business: Tables<"businesses">,
+  shareholder: Tables<"shareholders">
 ): number {
   return (
-    (shareholder.ebitdaContributionPercentage / 100) *
+    (shareholder.ebitda_contribution_percentage / 100) *
     business.ebitda *
-    Math.pow(1 + business.appreciationRate / 100, business.term)
+    Math.pow(1 + business.appreciation_rate / 100, business.term)
   );
 }
 
 export function calculateFinalShareValue(
-  business: Business,
-  shareholder: Shareholder
+  business: Tables<"businesses">,
+  shareholder: Tables<"shareholders">
 ): number {
   return (
-    (shareholder.sharePercentage / 100) *
+    (shareholder.share_percentage / 100) *
     business.valuation *
-    Math.pow(1 + business.appreciationRate / 100, business.term)
+    Math.pow(1 + business.appreciation_rate / 100, business.term)
   );
 }
 
@@ -100,22 +100,22 @@ export function generateYearsArray(): string[] {
 }
 
 export function calculateCompoundedEbitdaContribution(
-  business: Business,
-  shareholder: Shareholder
+  business: Tables<"businesses">,
+  shareholder: Tables<"shareholders">
 ) {
   const contributions: number[] = [];
   for (let year: number = 0; year <= business.term; year++) {
     const compounded: number =
-      (shareholder.ebitdaContributionPercentage / 100) *
+      (shareholder.ebitda_contribution_percentage / 100) *
       business.ebitda *
-      Math.pow(1 + business.appreciationRate / 100, year);
+      Math.pow(1 + business.appreciation_rate / 100, year);
     contributions.push(compounded);
   }
   return contributions;
 }
 
 export function generateEbitdaSeries(
-  businesses: Business[]
+  businesses: BusinessesWithShareholders
 ): ApexAxisChartSeries {
   const series: ApexAxisChartSeries = [];
   businesses.forEach((business) => {
@@ -130,22 +130,22 @@ export function generateEbitdaSeries(
 }
 
 export function calculateShareValueOverTime(
-  business: Business,
-  shareholder: Shareholder
+  business: Tables<"businesses">,
+  shareholder: Tables<"shareholders">
 ): number[] {
   const values: number[] = [];
   for (let year: number = 0; year <= business.term; year++) {
     const value: number =
-      (shareholder.sharePercentage / 100) *
+      (shareholder.share_percentage / 100) *
       business.valuation *
-      Math.pow(1 + business.appreciationRate / 100, year);
+      Math.pow(1 + business.appreciation_rate / 100, year);
     values.push(value);
   }
   return values;
 }
 
 export function generateShareValueSeries(
-  businesses: Business[]
+  businesses: BusinessesWithShareholders
 ): ApexAxisChartSeries {
   const series: ApexAxisChartSeries = [];
 
@@ -158,4 +158,8 @@ export function generateShareValueSeries(
     });
   });
   return series;
+}
+
+export function generateRandomShareholderId() {
+  return Date.now() + Math.floor(Math.random() * 1000000);
 }

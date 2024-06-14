@@ -3,35 +3,46 @@
 import { useState } from "react";
 import { Step, Stepper, type StepItem } from "@/components/ui/stepper";
 import { LandmarkIcon, Users2Icon } from "lucide-react";
-import type { Asset } from "@/app/data/db";
 import type { AddAssetsFormSchema } from "../../add/add-assets-form";
 import AddAssetsForm from "../../add/add-assets-form";
 import { BeneficiaryTable } from "../../add/beneficiary-table";
 import { StepperFormActions } from "../../add/stepper-form-actions";
 import type { AssetBeneficiary } from "../../add/add-assets-stepper";
 import { editAsset } from "../../actions";
+import type { SingleAssetWithBeneficiaries } from "@/data/assets";
 
 const steps = [
   { label: "Edit Asset" },
   { label: "Edit Beneficiaries" },
 ] satisfies StepItem[];
 
-export default function EditAssetStepper({ asset }: { asset: Asset }) {
+export default function EditAssetStepper({
+  asset,
+}: {
+  asset: SingleAssetWithBeneficiaries;
+}) {
   const [updatedAsset, setUpdatedAsset] = useState<AddAssetsFormSchema>({
     name: asset.name,
-    initialValue: asset.initialValue,
-    currentValue: asset.currentValue,
-    yearAcquired: asset.yearAcquired,
+    initialValue: asset.initial_value,
+    currentValue: asset.current_value,
+    yearAcquired: asset.year_acquired,
     rate: asset.rate,
     term: asset.term,
     type: asset.type,
-    isTaxable: asset.isTaxable,
-    isLiquid: asset.isLiquid,
-    isToBeSold: asset.isToBeSold,
+    isTaxable: asset.taxable,
+    isLiquid: asset.liquid,
+    isToBeSold: asset.to_be_sold,
   });
-  const [beneficiaries, setBeneficiaries] = useState<AssetBeneficiary[]>(
-    asset.assetBeneficiaries
-  );
+  const assetBeneficiaries = asset.asset_beneficiaries.map((b) => {
+    return {
+      id: b.beneficary_id,
+      name: b.beneficiaries?.name || "",
+      allocation: b.allocation,
+      isAssetAssigned: b.already_assigned,
+    };
+  });
+  const [beneficiaries, setBeneficiaries] =
+    useState<AssetBeneficiary[]>(assetBeneficiaries);
 
   async function handleSubmitAsset() {
     await editAsset(asset.id, updatedAsset, beneficiaries);
@@ -64,7 +75,7 @@ export default function EditAssetStepper({ asset }: { asset: Asset }) {
     <div className="flex w-full flex-col gap-4">
       <Stepper orientation="vertical" initialStep={0} steps={steps}>
         <Step icon={LandmarkIcon} label="Edit Asset">
-          <AddAssetsForm asset={asset} onAddAsset={handleEditAsset} />
+          <AddAssetsForm asset={updatedAsset} onAddAsset={handleEditAsset} />
         </Step>
         <Step icon={Users2Icon} label="Edit Beneficiaries">
           <div className="mb-10 mt-4 space-y-6">

@@ -15,8 +15,8 @@ export default function EditShareholderDialog({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Shareholder;
-  onEditShareholder: (updatedShareholder: Shareholder) => void;
+  shareholder: EditShareholder;
+  onEditShareholder: (updatedShareholder: EditShareholder) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -51,13 +51,13 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import type { Shareholder } from "@/app/data/db";
+import type { EditShareholder } from "./types";
 
 const EditShareholderSchema = z.object({
   name: z.string().trim(),
-  sharePercentage: z.coerce.number(),
-  insuranceCoverage: z.coerce.number(),
-  ebitdaContributionPercentage: z.coerce.number(),
+  share_percentage: z.coerce.number(),
+  insurance_coverage: z.coerce.number(),
+  ebitda_contribution_percentage: z.coerce.number(),
 });
 
 export type EditShareholderFormSchema = z.infer<typeof EditShareholderSchema>;
@@ -67,9 +67,9 @@ function EditShareholderForm({
   shareholder,
   onEditShareholder,
 }: {
-  shareholder: Shareholder;
+  shareholder: EditShareholder;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onEditShareholder: (updatedShareholder: Shareholder) => void;
+  onEditShareholder: (updatedShareholder: EditShareholder) => void;
 }) {
   const form = useForm<EditShareholderFormSchema>({
     resolver: zodResolver(EditShareholderSchema),
@@ -77,7 +77,11 @@ function EditShareholderForm({
   });
 
   async function onSubmit(values: EditShareholderFormSchema) {
-    onEditShareholder({ id: shareholder.id, ...values });
+    onEditShareholder({
+      ...values,
+      id: shareholder.id,
+      created_at: new Date().toISOString(),
+    });
     setOpen(false);
   }
 
@@ -103,12 +107,12 @@ function EditShareholderForm({
         />
         <FormField
           control={form.control}
-          name="sharePercentage"
+          name="share_percentage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Share Percentage (%)</FormLabel>
               <FormControl>
-                <Input id="sharePercentage" {...field} />
+                <Input id="share_percentage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,12 +120,12 @@ function EditShareholderForm({
         />
         <FormField
           control={form.control}
-          name="insuranceCoverage"
+          name="insurance_coverage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Insurance Coverage ($)</FormLabel>
               <FormControl>
-                <Input id="insuranceCoverage" {...field} />
+                <Input id="insurance_coverage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,12 +133,12 @@ function EditShareholderForm({
         />
         <FormField
           control={form.control}
-          name="ebitdaContributionPercentage"
+          name="ebitda_contribution_percentage"
           render={({ field }) => (
             <FormItem>
               <FormLabel>% EBITDA Contribution</FormLabel>
               <FormControl>
-                <Input id="ebitdaContributionPercentage" {...field} />
+                <Input id="ebitda_contribution_percentage" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useRef, useState } from "react";
 import FormSubmitButton from "@/components/form-submit-button";
 
 export default function AddBeneficiaryDialog({
@@ -40,7 +39,7 @@ export default function AddBeneficiaryDialog({
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 
 import {
   Form,
@@ -50,11 +49,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { sleep } from "@/lib/utils";
-import { BeneficiarySchema } from "@/app/data/db";
 import { addBeneficiary } from "./actions";
+import { useState } from "react";
 
-type FormSchema = z.infer<typeof BeneficiarySchema>;
+const BeneficiarySchema = z.object({
+  name: z.string(),
+  allocation: z.coerce.number(),
+});
+
+export type AddBeneficiaryFormSchema = z.infer<typeof BeneficiarySchema>;
 
 function AddBeneficiaryForm({
   remainingAllocationParts,
@@ -63,8 +66,7 @@ function AddBeneficiaryForm({
   remainingAllocationParts: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<FormSchema>({
+  const form = useForm<AddBeneficiaryFormSchema>({
     resolver: zodResolver(BeneficiarySchema),
     defaultValues: {
       name: "",
@@ -72,22 +74,14 @@ function AddBeneficiaryForm({
     },
   });
 
-  async function onSubmit() {
-    if (!formRef.current) return;
-
-    const formData = new FormData(formRef.current);
-    await sleep(3000);
-    await addBeneficiary(formData);
+  async function onSubmit(values: AddBeneficiaryFormSchema) {
+    await addBeneficiary(values);
     setOpen(false);
   }
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 pt-4">
         <FormField
           control={form.control}
           name="name"

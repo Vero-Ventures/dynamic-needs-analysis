@@ -1,6 +1,9 @@
 "use client";
 
-import type { Asset } from "@/app/data/db";
+import type {
+  AssetsWithBeneficiaries,
+  SingleAssetWithBeneficiaries,
+} from "@/data/assets";
 import { generateAssetValueDistributionSeries } from "@/lib/beneficiaries/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -9,7 +12,7 @@ import ReactApexChart from "react-apexcharts";
 export default function AssetValueDistributionChart({
   assets,
 }: {
-  assets: Asset[];
+  assets: AssetsWithBeneficiaries;
 }) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
@@ -45,7 +48,9 @@ export default function AssetValueDistributionChart({
         dataLabels: { enabled: false },
         xaxis: {
           type: "category",
-          categories: assets.map((asset: Asset) => asset.name),
+          categories: assets.map(
+            (asset: SingleAssetWithBeneficiaries) => asset.name
+          ),
         },
         yaxis: {
           title: { text: "Asset Value" },

@@ -1,13 +1,19 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { clients } from "@/app/data/db";
+import { createClient } from "@/lib/supabase/server";
 import type { EditClientFormSchema } from "./edit-client.form";
 
 export async function editClient(
   id: number,
   updatedClient: EditClientFormSchema
 ) {
-  clients[id] = { id, ...updatedClient };
-  revalidatePath("/dashboard/client/[id]", "page");
+  const sb = createClient();
+  const { error } = await sb.from("clients").update(updatedClient).eq("id", id);
+
+  if (error) {
+    throw error;
+  }
+
+  revalidatePath(`/dashboard/client/${id}`);
 }
