@@ -1,5 +1,9 @@
-import type { AssetBeneficiary } from "@/app/dashboard/client/[id]/(chat)/assets/add/add-assets-stepper";
 import type { Tables } from "../../../types/supabase";
+import type {
+  AssetBeneficiary,
+  AssetsWithBeneficiaries,
+  SingleAssetWithBeneficiaries,
+} from "@/data/assets";
 
 export function generateDesiredDistributionSeriesAndLabels(
   beneficiaries: Tables<"beneficiaries">[]
@@ -19,16 +23,20 @@ export function generateDesiredDistributionSeriesAndLabels(
   return { series, labels };
 }
 
-export function generateRealDistributionSeriesAndLabels(assets: Asset[]) {
+export function generateRealDistributionSeriesAndLabels(
+  assets: AssetsWithBeneficiaries
+) {
   const beneficiaryTotals: Record<string, number> = {};
 
-  assets.forEach((asset: Asset): void => {
-    asset.assetBeneficiaries.forEach((beneficiary: AssetBeneficiary): void => {
-      if (!beneficiaryTotals[beneficiary.name]) {
-        beneficiaryTotals[beneficiary.name] = 0;
+  assets.forEach((asset: SingleAssetWithBeneficiaries): void => {
+    asset.asset_beneficiaries.forEach((beneficiary: AssetBeneficiary): void => {
+      if (beneficiary.beneficiaries) {
+        if (!beneficiaryTotals[beneficiary.beneficiaries.name]) {
+          beneficiaryTotals[beneficiary.beneficiaries.name] = 0;
+        }
+        beneficiaryTotals[beneficiary.beneficiaries.name] +=
+          (beneficiary.allocation / 100) * asset.current_value;
       }
-      beneficiaryTotals[beneficiary.name] +=
-        (beneficiary.allocation / 100) * asset.currentValue;
     });
   });
 
@@ -38,27 +46,33 @@ export function generateRealDistributionSeriesAndLabels(assets: Asset[]) {
   return { series, labels };
 }
 
-export function generateAssetValueDistributionSeries(assets: Asset[]) {
+export function generateAssetValueDistributionSeries(
+  assets: AssetsWithBeneficiaries
+) {
   const beneficiaryNames: string[] = [];
   const series: { name: string; data: number[] }[] = [];
 
-  assets.forEach((asset: Asset): void => {
-    asset.assetBeneficiaries.forEach((beneficiary: Beneficiary): void => {
-      if (!beneficiaryNames.includes(beneficiary.name)) {
-        beneficiaryNames.push(beneficiary.name);
-        series.push({ name: beneficiary.name, data: [] });
+  assets.forEach((asset: SingleAssetWithBeneficiaries): void => {
+    asset.asset_beneficiaries.forEach((beneficiary: AssetBeneficiary): void => {
+      if (
+        beneficiary.beneficiaries &&
+        !beneficiaryNames.includes(beneficiary.beneficiaries.name)
+      ) {
+        beneficiaryNames.push(beneficiary.beneficiaries.name);
+        series.push({ name: beneficiary.beneficiaries.name, data: [] });
       }
     });
   });
 
-  assets.forEach((asset: Asset): void => {
+  assets.forEach((asset: SingleAssetWithBeneficiaries): void => {
     series.forEach((series: { name: string; data: number[] }): void => {
-      const beneficiary: Beneficiary | undefined =
-        asset.assetBeneficiaries.find(
-          (b: Beneficiary): boolean => b.name === series.name
+      const beneficiary: AssetBeneficiary | undefined =
+        asset.asset_beneficiaries.find(
+          (b: AssetBeneficiary): boolean =>
+            b.beneficiaries?.name === series.name
         );
       series.data.push(
-        beneficiary ? (beneficiary.allocation / 100) * asset.currentValue : 0
+        beneficiary ? (beneficiary.allocation / 100) * asset.current_value : 0
       );
     });
   });
