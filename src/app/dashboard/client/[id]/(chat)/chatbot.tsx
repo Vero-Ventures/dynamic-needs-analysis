@@ -1,33 +1,31 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpIcon } from "lucide-react";
 
+import { useChat } from "@ai-sdk/react";
+
 export default function Chatbot() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
   return (
     <div className="flex h-screen max-w-xl flex-col border">
       <div className="flex-1 overflow-y-auto scroll-smooth p-6">
         <div className="space-y-4">
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
-          <ChatMessage />
-          <AssistantMessage />
+          <AssistantMessage message="Hello, welcome to the Dynamic Need Anaylsis Calculator. I am an AI assistant ready to help." />
+          {messages.map((m) =>
+            m.role === "user" ? (
+              <ChatMessage key={m.id} message={m.content} />
+            ) : (
+              <AssistantMessage key={m.id} message={m.content} />
+            )
+          )}
         </div>
       </div>
       <div className="bg-gray-100 p-4 dark:bg-gray-950">
-        <div className="relative">
+        <form onSubmit={handleSubmit} className="relative">
           <Textarea
+            value={input}
+            onChange={handleInputChange}
             placeholder="Type your message..."
             name="message"
             id="message"
@@ -42,40 +40,32 @@ export default function Chatbot() {
             <ArrowUpIcon className="h-4 w-4" />
             <span className="sr-only">Send</span>
           </Button>
-        </div>
+        </form>
       </div>
     </div>
   );
 }
 
-function ChatMessage() {
+function ChatMessage({ message }: { message: string }) {
   return (
     <div className="flex items-start justify-end gap-4">
       <div className="grid gap-1 text-sm">
         <div className="font-medium">You</div>
         <div className="prose prose-stone w-96 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-          <p>
-            Hi there! Can you tell me a bit about yourself? Hi there! Can you
-            tell me a bit about yourself?
-          </p>
+          <p>{message}</p>
         </div>
       </div>
     </div>
   );
 }
 
-function AssistantMessage() {
+function AssistantMessage({ message }: { message: string }) {
   return (
     <div className="flex items-start gap-4">
       <div className="grid gap-1 text-sm">
         <div className="font-medium">Insurance Assistant</div>
         <div className="prose prose-stone w-96 rounded-lg">
-          <p>
-            It&apos;s a pleasure to meet you! I&apos;m an AI assistant created
-            by Acme Inc. I&apos;m here to help with all sorts of tasks, from
-            research and analysis to creative projects and problem-solving.
-            Please let me know if there&apos;s anything I can assist you with.
-          </p>
+          <p>{message}</p>
         </div>
       </div>
     </div>
