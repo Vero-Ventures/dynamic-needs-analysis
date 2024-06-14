@@ -6,14 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Beneficiary } from "@/app/data/db";
-import { beneficiaries } from "@/app/data/db";
 import { cn } from "@/lib/utils";
 import { deleteBeneficiary } from "./actions";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import EditBeneficiaryDialog from "./edit-beneficiary-dialog";
+import type { Tables } from "../../../../../../../types/supabase";
 
-export default function BeneficiariesTable() {
+export default function BeneficiariesTable({
+  beneficiaries,
+}: {
+  beneficiaries: Tables<"beneficiaries">[];
+}) {
   return (
     <Table className="mx-auto max-w-xl">
       <TableHeader>
@@ -50,7 +53,11 @@ export default function BeneficiariesTable() {
   );
 }
 
-function BeneficiaryTableRow({ id, name, allocation }: Beneficiary) {
+function BeneficiaryTableRow({
+  id,
+  name,
+  allocation,
+}: Omit<Tables<"beneficiaries">, "created_at">) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{name}</TableCell>
