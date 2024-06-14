@@ -74,19 +74,29 @@ export function calculateAdditionalMoneyRequired(
 ): Record<string, number> {
   const additionalMoneyRequired: Record<string, number> = {};
 
+  // Calculate the sum of all ideal distributions
+  const totalIdealDistributions = Object.values(idealDistributions).reduce(
+    (sum, value) => sum + value,
+    0
+  );
+
+  // Calculate the total desired value based on the highest required amount
   const totalDesiredValue: number = Object.keys(idealDistributions).reduce(
     (total: number, beneficiaryName: string) => {
       const currentAmount: number = distributions?.[beneficiaryName] ?? 0;
-      const idealPercentage: number = idealDistributions[beneficiaryName] / 100;
+      const idealPercentage: number =
+        idealDistributions[beneficiaryName] / totalIdealDistributions;
       const idealAmount: number = currentAmount / idealPercentage;
       return Math.max(total, idealAmount);
     },
     0
   );
 
+  // Calculate the additional money required for each beneficiary
   Object.keys(idealDistributions).forEach((beneficiaryName: string): void => {
     const currentAmount: number = distributions?.[beneficiaryName] ?? 0;
-    const desiredPercentage: number = idealDistributions[beneficiaryName] / 100;
+    const desiredPercentage: number =
+      idealDistributions[beneficiaryName] / totalIdealDistributions;
     const idealAmount: number = totalDesiredValue * desiredPercentage;
     additionalMoneyRequired[beneficiaryName] = Math.max(
       0,

@@ -21,6 +21,7 @@ export function generateDesiredDistributionSeriesAndLabels(
 
 export function generateRealDistributionSeriesAndLabels(assets: Asset[]) {
   const beneficiaryTotals: Record<string, number> = {};
+  let totalAllocation = 0;
 
   assets.forEach((asset: Asset): void => {
     asset.assetBeneficiaries.forEach((beneficiary: AssetBeneficiary): void => {
@@ -28,11 +29,14 @@ export function generateRealDistributionSeriesAndLabels(assets: Asset[]) {
         beneficiaryTotals[beneficiary.name] = 0;
       }
       beneficiaryTotals[beneficiary.name] +=
-        (beneficiary.allocation / 100) * asset.currentValue;
+        beneficiary.allocation * asset.currentValue;
+      totalAllocation += beneficiary.allocation;
     });
   });
 
-  const series = Object.values(beneficiaryTotals);
+  const series = Object.values(beneficiaryTotals).map(
+    (total) => total / totalAllocation
+  );
   const labels = Object.keys(beneficiaryTotals);
 
   return { series, labels };
@@ -41,24 +45,32 @@ export function generateRealDistributionSeriesAndLabels(assets: Asset[]) {
 export function generateAssetValueDistributionSeries(assets: Asset[]) {
   const beneficiaryNames: string[] = [];
   const series: { name: string; data: number[] }[] = [];
+  const totalAllocations: Record<string, number> = {};
 
+  // First pass to initialize beneficiary names and series
   assets.forEach((asset: Asset): void => {
     asset.assetBeneficiaries.forEach((beneficiary: Beneficiary): void => {
       if (!beneficiaryNames.includes(beneficiary.name)) {
         beneficiaryNames.push(beneficiary.name);
         series.push({ name: beneficiary.name, data: [] });
+        totalAllocations[beneficiary.name] = 0;
       }
+      totalAllocations[beneficiary.name] += beneficiary.allocation;
     });
   });
 
+  // Second pass to calculate and push data into series
   assets.forEach((asset: Asset): void => {
-    series.forEach((series: { name: string; data: number[] }): void => {
+    series.forEach((seriesItem: { name: string; data: number[] }): void => {
       const beneficiary: Beneficiary | undefined =
         asset.assetBeneficiaries.find(
-          (b: Beneficiary): boolean => b.name === series.name
+          (b: Beneficiary): boolean => b.name === seriesItem.name
         );
-      series.data.push(
-        beneficiary ? (beneficiary.allocation / 100) * asset.currentValue : 0
+      seriesItem.data.push(
+        beneficiary
+          ? (beneficiary.allocation * asset.currentValue) /
+              totalAllocations[beneficiary.name]
+          : 0
       );
     });
   });
