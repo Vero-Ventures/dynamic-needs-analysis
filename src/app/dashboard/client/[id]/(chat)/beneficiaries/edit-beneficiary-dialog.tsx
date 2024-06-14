@@ -56,7 +56,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { sleep } from "@/lib/utils";
 import { editBeneficiary } from "./actions";
 
 const BeneficiarySchema = z.object({
@@ -86,7 +85,6 @@ function EditBeneficiaryForm({
   });
 
   async function onSubmit(values: AddBeneficiaryFormSchema) {
-    await sleep(3000);
     await editBeneficiary(id, values);
     setOpen(false);
   }

@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { cn, formatMoney, sleep } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { editDebt } from "../actions";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useRouter } from "next/navigation";
@@ -54,6 +54,7 @@ export default function EditDebtForm({
     | "rate"
     | "term"
     | "annual_payment"
+    | "id"
   >;
 }) {
   const { name, initial_value, year_acquired, annual_payment } =
@@ -105,8 +106,7 @@ export default function EditDebtForm({
   );
 
   async function onSubmit(values: EditDebtFormSchema) {
-    await sleep(3000);
-    await editDebt(0, values);
+    await editDebt(defaultFormValues.id, values);
     router.replace("/dashboard/client/1/debts");
   }
 
