@@ -1,6 +1,6 @@
-import getDebt from "@/app/data/debt";
 import EditDebtForm from "./edit-debt-form";
 import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function EditDebtPage({
   searchParams,
@@ -9,8 +9,16 @@ export default async function EditDebtPage({
 }) {
   const { id: debtId } = searchParams;
 
-  const debt = await getDebt(+debtId);
-  if (!debt) notFound();
+  const sb = createClient();
+  const { data: debt } = await sb
+    .from("debts")
+    .select("*")
+    .eq("id", debtId)
+    .single();
+
+  if (!debt) {
+    notFound();
+  }
 
   return (
     <div>
