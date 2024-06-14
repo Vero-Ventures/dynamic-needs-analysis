@@ -5,11 +5,9 @@ import type { AddGoalFormSchema } from "./add-goal-dialog";
 import { createClient } from "@/lib/supabase/server";
 
 export async function addGoal(goal: AddGoalFormSchema) {
+  console.log(goal);
   const sb = createClient();
-  await sb.from("goals").insert({
-    ...goal,
-    philanthropic: goal.philanthropic === "on",
-  });
+  await sb.from("goals").insert(goal);
   revalidatePath("/dashboard/client/[id]/goals", "page");
 }
 
