@@ -1,13 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import type { EditClientFormSchema } from "./edit-client.form";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import type { TablesUpdate } from "../../../../../../../../types/supabase";
 
 export async function editClient(
   id: number,
-  updatedClient: EditClientFormSchema
+  updatedClient: TablesUpdate<"clients">
 ) {
   const sb = createClient();
   const { data: client } = await sb
