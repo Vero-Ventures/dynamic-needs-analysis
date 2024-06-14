@@ -1,13 +1,17 @@
 "use client";
 
-import type { Asset } from "@/app/data/db";
 import { generateNetWorthSeries } from "@/lib/asset/utils";
 import { formatMoney } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import type { Tables } from "../../../../../../../types/supabase";
 
-export default function NetWorthChart({ assets }: { assets: Asset[] }) {
+export default function NetWorthChart({
+  assets,
+}: {
+  assets: Tables<"assets">[];
+}) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
   const chartTheme = theme
