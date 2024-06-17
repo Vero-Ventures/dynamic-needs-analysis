@@ -1,14 +1,8 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import ClientCard from "./client-card";
+import UserProfile from "@/components/user-profile";
 
 export default async function Dashboard() {
   const sb = createClient();
@@ -21,26 +15,7 @@ export default async function Dashboard() {
       <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
         <div className="mx-auto flex items-center justify-between md:max-w-screen-xl lg:max-w-screen-2xl">
           <div className="text-4xl font-bold">DNA</div>
-          <div className="flex items-center gap-4">
-            <span>Scott Chen</span>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="overflow-hidden rounded-full text-primary"
-                >
-                  SC
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <UserProfile />
         </div>
       </header>
       <section className="mx-auto max-w-7xl">
