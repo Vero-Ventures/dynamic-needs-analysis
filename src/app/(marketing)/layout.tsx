@@ -1,28 +1,22 @@
-"use client";
 import Link from "next/link";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Footer } from "./footer";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import Navbar from "./navbar";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
 }
 
-const navLinks = [
-  {
-    title: "Features",
-    href: "/#features",
-  },
-  {
-    title: "Pricing",
-    href: "/#pricing",
-  },
-];
+export default async function MarketingLayout({
+  children,
+}: MarketingLayoutProps) {
+  const { isAuthenticated } = getKindeServerSession();
+  const userAuthenticated = await isAuthenticated();
 
-export default function MarketingLayout({ children }: MarketingLayoutProps) {
-  const segment = useSelectedLayoutSegment();
   return (
     <div className="flex min-h-screen flex-col">
       <header className="container z-40 bg-background">
@@ -31,35 +25,24 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
             <Link href="/" className="items-center space-x-2 md:flex">
               <span className="text-lg font-bold sm:inline-block">DNA</span>
             </Link>
-            {navLinks?.length ? (
-              <nav className="gap-6 md:flex">
-                {navLinks?.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={cn(
-                      "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                      item.href.startsWith(`/${segment}`)
-                        ? "text-foreground"
-                        : "text-foreground/60"
-                    )}
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </nav>
-            ) : null}
+            <Navbar />
           </div>
           <nav>
-            <Link
-              href="/dashboard/clients"
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "sm" }),
-                "px-4"
-              )}
-            >
-              Login
-            </Link>
+            {userAuthenticated ? (
+              <Link href="/dashboard/clients" className={cn(buttonVariants())}>
+                Dashboard
+              </Link>
+            ) : (
+              <LoginLink
+                postLoginRedirectURL="/dashboard/clients"
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  "px-4"
+                )}
+              >
+                Login
+              </LoginLink>
+            )}
           </nav>
         </div>
       </header>
