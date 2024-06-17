@@ -6,8 +6,30 @@ export default async function Dashboard() {
   }
   return (
     <div className="mx-auto h-screen max-h-screen bg-secondary">
-      <header className="mb-8 border-b bg-primary-foreground p-4">
-        <div className="text-4xl font-bold">DNA</div>
+      <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
+        <div className="mx-auto flex items-center justify-between md:max-w-screen-xl lg:max-w-screen-2xl">
+          <div className="text-4xl font-bold">DNA</div>
+          <div className="flex items-center gap-4">
+            <span>Scott Chen</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="overflow-hidden rounded-full text-primary"
+                >
+                  SC
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </header>
       <section className="mx-auto grid max-w-7xl gap-2 px-4 md:grid-cols-2 xl:grid-cols-3">
         {clients.map((c) => (
@@ -23,6 +45,16 @@ import Link from "next/link";
 import type { Tables } from "../../../../types/supabase";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 function ClientCard({ client }: { client: Tables<"clients"> }) {
   return (
