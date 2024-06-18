@@ -1,6 +1,5 @@
 "use client";
 
-import { BirthDatePicker } from "@/components/date-picker";
 import {
   Card,
   CardContent,
@@ -22,27 +21,31 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const incomeReplacementSchema = z.object({
-  birth_date: z.date(),
-  annual_income: z.coerce.number(),
-  income_multiplier: z.coerce.number(),
+  initial_value: z.coerce.number(),
+  rate: z.coerce.number(),
+  annual_payment: z.coerce.number(),
+  years_held: z.coerce.number(),
+  actual_term: z.coerce.number(),
 });
 
 type IncomeReplacementSchema = z.infer<typeof incomeReplacementSchema>;
 
-export function IncomeReplacementForm() {
+export function DebtForm() {
   const form = useForm<IncomeReplacementSchema>({
     resolver: zodResolver(incomeReplacementSchema),
     defaultValues: {
-      annual_income: 0,
-      birth_date: new Date(),
-      income_multiplier: 0,
+      initial_value: 0,
+      rate: 0,
+      annual_payment: 0,
+      years_held: 0,
+      actual_term: 0,
     },
   });
   return (
     <Card className="mx-auto max-w-3xl">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
-          Income Replacement
+          Debt
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -50,26 +53,10 @@ export function IncomeReplacementForm() {
           <form className="space-y-8">
             <FormField
               control={form.control}
-              name="birth_date"
+              name="initial_value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
-                  <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="annual_income"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Annual Income ($)</FormLabel>
+                  <FormLabel>Initial value of debt</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -79,15 +66,49 @@ export function IncomeReplacementForm() {
             />
             <FormField
               control={form.control}
-              name="income_multiplier"
+              name="rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="space-y-2">
-                    <p>Income replacement multiplier</p>
-                    <p className="font-normal">
-                      (usually very close to years left to retirement)
-                    </p>
-                  </FormLabel>
+                  <FormLabel>Interest rate</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="annual_payment"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Annual payments</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="years_held"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Years held</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="actual_term"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Actual term</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

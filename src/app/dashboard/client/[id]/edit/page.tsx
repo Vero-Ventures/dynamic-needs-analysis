@@ -1,6 +1,7 @@
 import Assets from "./(asset)/assets";
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import { IncomeReplacementForm } from "./(client)/income-replacement-form";
+import { DebtForm } from "./(debt)/debt-form";
 // import EditClientStepper from "./edit-client-stepper";
 
 export default function EditClientDetails() {
@@ -10,6 +11,7 @@ export default function EditClientDetails() {
       <Beneficiaries />
       <Assets />
       <IncomeReplacementForm />
+      <DebtForm />
     </div>
   );
 }

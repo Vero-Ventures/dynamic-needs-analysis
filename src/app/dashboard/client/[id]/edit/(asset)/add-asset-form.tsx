@@ -31,18 +31,9 @@ import { Switch } from "@/components/ui/switch";
 import { ASSET_TYPES } from "@/constants/assetTypes";
 
 const createClientSchema = z.object({
-  name: z
-    .string({
-      required_error: "Please enter your name",
-    })
-    .trim()
-    .min(3, "Your name must be greater than 3 characters"),
-  year_acquired: z.number({
-    required_error: "Please enter your birth date",
-  }),
-  purchase_price: z.coerce.number({
-    required_error: "Please enter an expected retirement age",
-  }),
+  name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
+  year_acquired: z.number(),
+  purchase_price: z.coerce.number(),
   current_value: z.coerce.number(),
   growth_rate: z.coerce.number(),
   asset_type: z.union([

@@ -39,15 +39,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addClient } from "./actions";
 
 const createClientSchema = z.object({
-  name: z
-    .string({
-      required_error: "Please enter your name",
-    })
-    .trim()
-    .min(3, "Your name must be greater than 3 characters"),
-  birth_date: z.date({
-    required_error: "Please enter your birth date",
-  }),
+  name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
+  birth_date: z.date(),
   expected_retirement_age: z.coerce
     .number({
       required_error: "Please enter an expected retirement age",
@@ -69,12 +62,8 @@ const createClientSchema = z.object({
     z.literal("SK"),
     z.literal("YT"),
   ]),
-  annual_income: z.coerce.number({
-    required_error: "Please enter your annual income",
-  }),
-  income_multiplier: z.coerce.number({
-    required_error: "Please enter an income multiplier",
-  }),
+  annual_income: z.coerce.number(),
+  income_multiplier: z.coerce.number(),
 });
 
 type CreateClientSchema = z.infer<typeof createClientSchema>;
