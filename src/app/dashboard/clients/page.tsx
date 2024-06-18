@@ -1,15 +1,12 @@
-import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ClientCard from "./client-card";
 import UserProfile from "@/components/user-profile";
 import CreateClientDialog from "./create-client-dialog";
 
 export default async function Dashboard() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: clients } = await sb.from("clients").select();
-  if (!clients) {
-    notFound();
-  }
+
   return (
     <div className="mx-auto h-screen max-h-screen">
       <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
@@ -26,9 +23,7 @@ export default async function Dashboard() {
           </div>
         </div>
         <div className="mt-10 grid gap-6 px-4 md:grid-cols-2 xl:grid-cols-3">
-          {clients.map((c) => (
-            <ClientCard key={c.id} client={c} />
-          ))}
+          {clients && clients.map((c) => <ClientCard key={c.id} client={c} />)}
         </div>
       </section>
     </div>
