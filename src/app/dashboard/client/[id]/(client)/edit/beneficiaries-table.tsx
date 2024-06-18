@@ -6,35 +6,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
-import EditBeneficiaryDialog from "./beneficiary-edit-dialog";
-import type { Tables } from "../../../../../../../types/supabase";
+import type { BeneficiarySchema } from "./beneficiaries";
+import { Input } from "@/components/ui/input";
 
 export default function BeneficiariesTable({
   beneficiaries,
+  onChangeBeneficiary,
+  onDeleteBeneficiary,
 }: {
-  beneficiaries: Omit<Tables<"beneficiaries">, "created_at">[];
+  beneficiaries: BeneficiarySchema[];
+  onChangeBeneficiary: (beneficiary: BeneficiarySchema) => void;
+  onDeleteBeneficiary: (id: number) => void;
 }) {
   return (
-    <Table className="mx-0">
+    <Table>
       <TableHeader>
         <TableRow>
-          <TableHead
-            className={cn("text-left", {
-              "text-center": beneficiaries.length !== 0,
-            })}
-          >
-            Name
-          </TableHead>
-          <TableHead
-            className={cn("text-right", {
-              "text-center": beneficiaries.length !== 0,
-            })}
-          >
-            Allocation (parts)
-          </TableHead>
-          <TableHead></TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Desired total target allocation of assets</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -42,9 +32,9 @@ export default function BeneficiariesTable({
         {beneficiaries.map((b) => (
           <BeneficiaryTableRow
             key={b.id}
-            id={b.id}
-            name={b.name}
-            allocation={b.allocation}
+            beneficiary={b}
+            onChangeBeneficiary={onChangeBeneficiary}
+            onDeleteBeneficiary={onDeleteBeneficiary}
           />
         ))}
       </TableBody>
@@ -53,30 +43,42 @@ export default function BeneficiariesTable({
 }
 
 function BeneficiaryTableRow({
-  id,
-  name,
-  allocation,
-}: Omit<Tables<"beneficiaries">, "created_at">) {
+  beneficiary,
+  onChangeBeneficiary,
+  onDeleteBeneficiary,
+}: {
+  beneficiary: BeneficiarySchema;
+  onChangeBeneficiary: (beneficiary: BeneficiarySchema) => void;
+  onDeleteBeneficiary: (id: number) => void;
+}) {
   return (
     <TableRow>
-      <TableCell className="text-center font-medium">{name}</TableCell>
-      <TableCell className="text-center font-medium">{allocation}</TableCell>
-      <TableCell className="text-center">
-        <EditBeneficiaryDialog id={id} name={name} allocation={allocation} />
+      <TableCell className="text-center font-medium">
+        <Input
+          placeholder="Name"
+          value={beneficiary.name}
+          onChange={(e) =>
+            onChangeBeneficiary({ ...beneficiary, name: e.target.value })
+          }
+        />
+      </TableCell>
+      <TableCell className="text-center font-medium">
+        <Input
+          value={beneficiary.allocation}
+          onChange={(e) =>
+            onChangeBeneficiary({
+              ...beneficiary,
+              allocation: Number.parseInt(e.target.value),
+            })
+          }
+        />
       </TableCell>
       <TableCell className="text-right">
-        <DeleteBeneficiary id={id} />
+        <DeleteBeneficiaryButton
+          size="icon"
+          onClick={() => onDeleteBeneficiary(beneficiary.id)}
+        />
       </TableCell>
     </TableRow>
-  );
-}
-
-function DeleteBeneficiary({ id }: { id: number }) {
-  // const deleteBeneficiaryWithBind = deleteBeneficiary.bind(null, id);
-  console.log(id);
-  return (
-    <form>
-      <DeleteBeneficiaryButton />
-    </form>
   );
 }

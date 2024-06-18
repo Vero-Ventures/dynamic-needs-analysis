@@ -11,16 +11,16 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
 import { calculateTotalCurrentValue } from "@/lib/asset/manager-utils";
-import type { Tables } from "../../../../../../../types/supabase";
 import type { AssetsWithBeneficiaries } from "@/data/assets";
 import Link from "next/link";
+import type { Business } from "@/types/db";
 
 export default function AssetsTable({
   assets,
   businesses,
 }: {
   assets: AssetsWithBeneficiaries;
-  businesses: Tables<"businesses">[];
+  businesses: Business[];
 }) {
   const totalCurrentValue = calculateTotalCurrentValue(assets, businesses);
 

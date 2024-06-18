@@ -2,32 +2,67 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BeneficiariesTable from "./beneficiaries-table";
-import AddBeneficiaryDialog from "./beneficiary-add-dialog";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import { z } from "zod";
+
+const beneficiarySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  allocation: z.number(),
+});
+
+export type BeneficiarySchema = z.infer<typeof beneficiarySchema>;
 
 export default function Beneficiaries() {
+  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
+    {
+      id: 0,
+      name: "",
+      allocation: 0,
+    },
+  ]);
+  function handleAddBeneficiaries(beneficiary: BeneficiarySchema) {
+    setBeneficiaries([...beneficiaries, beneficiary]);
+  }
+
+  function handleDeleteBeneficiary(id: number) {
+    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
+  }
+
+  function handleOnChangeBeneficiary(beneficiary: BeneficiarySchema) {
+    setBeneficiaries(
+      beneficiaries.map((b) => (b.id === beneficiary.id ? beneficiary : b))
+    );
+  }
   return (
-    <Card className="mx-auto max-w-2xl border-none bg-secondary">
+    <Card className="mx-auto max-w-3xl border-none bg-secondary">
       <CardHeader>
-        <CardTitle className="mt-3 text-center font-bold">
+        <CardTitle className="mt-3 text-center text-4xl font-bold">
           Beneficiaries
         </CardTitle>
       </CardHeader>
       <CardContent>
         <BeneficiariesTable
-          beneficiaries={[
-            {
-              id: 1,
-              name: "John Doe",
-              allocation: 1,
-            },
-            {
-              id: 2,
-              name: "Jane Doe",
-              allocation: 1,
-            },
-          ]}
+          beneficiaries={beneficiaries}
+          onChangeBeneficiary={handleOnChangeBeneficiary}
+          onDeleteBeneficiary={handleDeleteBeneficiary}
         />
-        <AddBeneficiaryDialog remainingAllocationParts={0} />
+        <Button
+          onClick={() =>
+            handleAddBeneficiaries({
+              id: beneficiaries.length,
+              allocation: 0,
+              name: "",
+            })
+          }
+          className="my-4 space-x-1 rounded-full border-primary bg-transparent hover:bg-primary hover:text-primary-foreground"
+          variant="outline"
+        >
+          <PlusIcon className="h-5 w-5" />
+          <span>Add Beneficiary</span>
+        </Button>
       </CardContent>
     </Card>
   );
