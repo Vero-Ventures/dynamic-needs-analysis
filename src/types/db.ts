@@ -1,4 +1,4 @@
-import type { Tables, TablesInsert } from "./supabase";
+import type { Tables, TablesInsert, TablesUpdate } from "./supabase";
 
 export type Client = Tables<"clients">;
 export type CreateClient = TablesInsert<"clients">;
@@ -15,4 +15,5 @@ export type Debt = Tables<"debts">;
 
 export type Goal = Tables<"goals">;
 
-export type Shareholders = Tables<"shareholders">;
+export type Shareholder = Tables<"shareholders">;
+export type EditShareholder = TablesUpdate<"shareholders">;

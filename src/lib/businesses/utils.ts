@@ -1,23 +1,22 @@
 import type { BusinessesWithShareholders } from "@/data/businesses";
-import type { Tables } from "../../types/supabase";
-import type { EditShareholder } from "@/app/(authenticated)/dashboard/client/[id]/(chat)/businesses/add/types";
+import type { Business, Shareholder } from "@/types/db";
 
 export function calculateEbitdaContributionDollars(
-  shareholder: EditShareholder,
+  shareholder: Shareholder,
   ebitda: number
 ): number {
   return ebitda * (shareholder.ebitda_contribution_percentage / 100);
 }
 
 export function calculateShareValue(
-  shareholder: EditShareholder,
+  shareholder: Shareholder,
   valuation: number
 ): number {
   return (shareholder.share_percentage / 100) * valuation;
 }
 
 export function calculateLiquidationDisparity(
-  shareholder: EditShareholder,
+  shareholder: Shareholder,
   valuation: number
 ): number {
   return (
@@ -26,7 +25,7 @@ export function calculateLiquidationDisparity(
 }
 
 export function calculateTotalShareholderPercentageOwned(
-  shareholders: EditShareholder[]
+  shareholders: Shareholder[]
 ): number {
   return shareholders.reduce(
     (acc, shareholder) => acc + shareholder.share_percentage,
@@ -35,7 +34,7 @@ export function calculateTotalShareholderPercentageOwned(
 }
 
 export function calculateTotalEbitdaContributionPercentage(
-  shareholders: EditShareholder[]
+  shareholders: Shareholder[]
 ): number {
   return shareholders.reduce(
     (acc, shareholder) => acc + shareholder.ebitda_contribution_percentage,
@@ -44,7 +43,7 @@ export function calculateTotalEbitdaContributionPercentage(
 }
 
 export function calculateTotalMajorShareholderValue(
-  shareholders: EditShareholder[],
+  shareholders: Shareholder[],
   valuation: number
 ): number {
   return shareholders.reduce(
@@ -55,7 +54,7 @@ export function calculateTotalMajorShareholderValue(
 }
 
 export function calculateTotalMajorShareholderInsurance(
-  shareholders: EditShareholder[]
+  shareholders: Shareholder[]
 ): number {
   return shareholders.reduce(
     (acc: number, shareholder) => acc + shareholder.insurance_coverage,
@@ -71,8 +70,8 @@ export function calculateTotalMajorShareholderDisparity(
 }
 
 export function calculateFinalEbitdaContribution(
-  business: Tables<"businesses">,
-  shareholder: Tables<"shareholders">
+  business: Business,
+  shareholder: Shareholder
 ): number {
   return (
     (shareholder.ebitda_contribution_percentage / 100) *
@@ -82,8 +81,8 @@ export function calculateFinalEbitdaContribution(
 }
 
 export function calculateFinalShareValue(
-  business: Tables<"businesses">,
-  shareholder: Tables<"shareholders">
+  business: Business,
+  shareholder: Shareholder
 ): number {
   return (
     (shareholder.share_percentage / 100) *
@@ -100,8 +99,8 @@ export function generateYearsArray(): string[] {
 }
 
 export function calculateCompoundedEbitdaContribution(
-  business: Tables<"businesses">,
-  shareholder: Tables<"shareholders">
+  business: Business,
+  shareholder: Shareholder
 ) {
   const contributions: number[] = [];
   for (let year: number = 0; year <= business.term; year++) {
@@ -114,10 +113,8 @@ export function calculateCompoundedEbitdaContribution(
   return contributions;
 }
 
-export function generateEbitdaSeries(
-  businesses: BusinessesWithShareholders
-): ApexAxisChartSeries {
-  const series: ApexAxisChartSeries = [];
+export function generateEbitdaSeries(businesses: BusinessesWithShareholders) {
+  const series: any[] = [];
   businesses.forEach((business) => {
     business.shareholders.forEach((shareholder): void => {
       series.push({
@@ -130,8 +127,8 @@ export function generateEbitdaSeries(
 }
 
 export function calculateShareValueOverTime(
-  business: Tables<"businesses">,
-  shareholder: Tables<"shareholders">
+  business: Business,
+  shareholder: Shareholder
 ): number[] {
   const values: number[] = [];
   for (let year: number = 0; year <= business.term; year++) {
