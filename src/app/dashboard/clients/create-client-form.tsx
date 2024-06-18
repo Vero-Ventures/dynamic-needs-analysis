@@ -45,7 +45,7 @@ const createClientSchema = z.object({
     })
     .trim()
     .min(3, "Your name must be greater than 3 characters"),
-  birth_date: z.string({
+  birth_date: z.date({
     required_error: "Please enter your birth date",
   }),
   expected_retirement_age: z.coerce
@@ -89,7 +89,7 @@ export function CreateClientForm({
     defaultValues: {
       name: "",
       annual_income: 0,
-      birth_date: new Date().toString(),
+      birth_date: new Date(),
       expected_retirement_age: 65,
       income_multiplier: 0,
       province: "BC",
@@ -104,7 +104,7 @@ export function CreateClientForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateClientSchema) {
-    await addClient(values);
+    await addClient({ ...values, birth_date: values.birth_date.toString() });
     onCloseDialog();
   }
   return (

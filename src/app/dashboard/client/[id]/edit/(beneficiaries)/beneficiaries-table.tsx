@@ -7,8 +7,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
-import type { BeneficiarySchema } from "../beneficiaries";
 import { Input } from "@/components/ui/input";
+import type { BeneficiarySchema } from "./beneficiaries";
 
 export default function BeneficiariesTable({
   beneficiaries,
