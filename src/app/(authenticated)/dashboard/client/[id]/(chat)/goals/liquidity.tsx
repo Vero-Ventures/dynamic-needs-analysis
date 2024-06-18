@@ -129,7 +129,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Tables } from "../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export function LiquidityTable({
   data,

@@ -4,7 +4,7 @@ import { generateDiversificationSeries } from "@/lib/asset/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import type { Tables } from "../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export default function DiversificationChart({
   assets,

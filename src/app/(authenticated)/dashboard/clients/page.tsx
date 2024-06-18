@@ -5,8 +5,10 @@ import CreateClientDialog from "./create-client-dialog";
 
 export default async function Dashboard() {
   const sb = await createClient();
-  const { data: clients } = await sb.from("clients").select();
-
+  const { data: clients, error } = await sb.from("clients").select();
+  if (error) {
+    console.error(error);
+  }
   return (
     <div className="mx-auto h-screen max-h-screen">
       <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
@@ -15,7 +17,7 @@ export default async function Dashboard() {
           <UserProfile />
         </div>
       </header>
-      <section className="mx-auto max-w-7xl">
+      <section className="mx-auto max-w-7xl px-4">
         <div className="flex justify-between gap-4">
           <h1 className="text-4xl font-bold">Clients</h1>
           <div className="flex items-center gap-4">

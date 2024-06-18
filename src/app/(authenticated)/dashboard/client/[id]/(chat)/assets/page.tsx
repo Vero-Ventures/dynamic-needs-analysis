@@ -61,7 +61,7 @@ import {
 } from "@/lib/asset/manager-utils";
 import NetWorthChart from "./net-worth-chart";
 import DiversificationChart from "./diversification-chart";
-import type { Tables } from "../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import {

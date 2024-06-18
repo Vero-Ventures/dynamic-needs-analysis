@@ -91,9 +91,14 @@ export function CreateClientForm({
     form.watch("annual_income")
   );
 
-  // 2. Define a submit handler.
   async function onSubmit(values: CreateClientSchema) {
-    await addClient({ ...values, birth_date: values.birth_date.toString() });
+    const result = await addClient({
+      ...values,
+      birth_date: values.birth_date.toISOString(),
+    });
+    if (result.error) {
+      console.error(result.error);
+    }
     onCloseDialog();
   }
   return (

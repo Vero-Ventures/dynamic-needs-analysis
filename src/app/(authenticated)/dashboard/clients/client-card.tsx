@@ -7,13 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import type { Tables } from "../../../types/supabase";
+import type { Tables } from "../../../../types/supabase";
 import { calculateAgeFromDate } from "@/lib/client/utils";
 import { ArrowRight } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
 
 export default function ClientCard({ client }: { client: Tables<"clients"> }) {
-  const age = calculateAgeFromDate(client.birth_date);
+  const age = calculateAgeFromDate(new Date(client.birth_date));
   return (
     <Link href={`/dashboard/client/${client.id}`}>
       <Card className="group relative rounded-3xl bg-secondary transition-colors hover:bg-primary hover:text-primary-foreground">

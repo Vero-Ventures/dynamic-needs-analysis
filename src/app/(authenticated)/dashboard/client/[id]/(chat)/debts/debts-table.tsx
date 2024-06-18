@@ -14,7 +14,7 @@ import { deleteDebt } from "./actions";
 import { formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
 import Link from "next/link";
-import type { Tables } from "../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 export default function DebtsTable({ debts }: { debts: Tables<"debts">[] }) {
   const totalInitialValue = debts.reduce(

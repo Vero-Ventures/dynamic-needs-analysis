@@ -1,13 +1,17 @@
 "use client";
 
-import { generateDebtsSeries } from "@/lib/debts/utils";
+import { generateNetWorthSeries } from "@/lib/asset/utils";
 import { formatMoney } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import type { Tables } from "../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
-export default function DebtsChart({ debts }: { debts: Tables<"debts">[] }) {
+export default function NetWorthChart({
+  assets,
+}: {
+  assets: Tables<"assets">[];
+}) {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
   const chartTheme = theme
@@ -15,8 +19,7 @@ export default function DebtsChart({ debts }: { debts: Tables<"debts">[] }) {
       ? systemTheme
       : (theme as "light" | "dark")
     : "dark";
-  const { series, xAxisOptions } = generateDebtsSeries(debts);
-
+  const { series, xAxisOptions } = generateNetWorthSeries(assets);
   // Prevent hydration warnings
   useEffect(() => {
     setMounted(true);
@@ -37,36 +40,42 @@ export default function DebtsChart({ debts }: { debts: Tables<"debts">[] }) {
           },
           stacked: false,
         },
+        theme: {
+          mode: chartTheme,
+          palette: "palette3",
+        },
+        title: { text: "Net Worth Per Year" },
         xaxis: {
           type: "numeric",
-          title: { text: "Years" },
           labels: {
             formatter: (value: string): string => {
-              const yearValue: number = Math.round(parseFloat(value));
-              return yearValue.toString();
+              const valAsNumber: number = parseFloat(value);
+              return isNaN(valAsNumber)
+                ? value
+                : Math.round(valAsNumber).toString().slice(-4);
             },
             ...xAxisOptions,
           },
         },
         yaxis: {
-          title: { text: "Debt Value ($)" },
           labels: {
             formatter: (value: number): string => formatMoney(value),
           },
         },
-        tooltip: {
-          y: {
-            formatter: (value: number): string => formatMoney(value),
-          },
+        dataLabels: {
+          enabled: false,
         },
-        theme: {
-          mode: chartTheme,
-          palette: "palette3",
+        fill: {
+          type: "solid",
         },
-        title: { text: "Debt Value Per Year" },
-        dataLabels: { enabled: false },
         legend: {
           position: "top",
+          horizontalAlign: "left",
+        },
+        tooltip: {
+          y: {
+            formatter: (val: number): string => `$${val.toFixed(0)}`,
+          },
         },
       }}
       series={series}

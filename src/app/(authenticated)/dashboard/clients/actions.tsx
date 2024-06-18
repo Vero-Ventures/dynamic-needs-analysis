@@ -11,15 +11,14 @@ export async function addClient(client: Omit<CreateClient, "kinde_id">) {
   const { getUser } = getKindeServerSession();
   const agent = await getUser();
   if (!agent) {
-    throw new Error("User not found");
+    return { error: "User not found.", success: false };
   }
   const kinde_id = agent.id;
-  console.log("KINDE ID", kinde_id);
-  console.log("ADD CLIENT", client);
-  const { data: clients } = await sb
-    .from("clients")
-    .insert({ ...client, kinde_id })
-    .select();
-  console.log("CLIENTS", clients);
+  const { error } = await sb.from("clients").insert({ ...client, kinde_id });
+  if (error) {
+    console.error(error);
+    return { error, success: false };
+  }
   revalidatePath("/dashboard/clients");
+  return { success: true };
 }
