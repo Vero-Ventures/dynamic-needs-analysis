@@ -43,7 +43,7 @@ export default function Beneficiaries() {
     );
   }
   return (
-    <Card className="mx-auto max-w-3xl border-none bg-secondary">
+    <Card className="mx-auto max-w-3xl">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Beneficiaries
