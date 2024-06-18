@@ -114,7 +114,7 @@ export function calculateCompoundedEbitdaContribution(
 }
 
 export function generateEbitdaSeries(businesses: BusinessesWithShareholders) {
-  const series: any[] = [];
+  const series: ApexAxisChartSeries = [];
   businesses.forEach((business) => {
     business.shareholders.forEach((shareholder): void => {
       series.push({
