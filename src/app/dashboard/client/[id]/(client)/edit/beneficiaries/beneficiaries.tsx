@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import BeneficiariesTable from "./beneficiaries-table";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -49,6 +55,8 @@ export default function Beneficiaries() {
           onChangeBeneficiary={handleOnChangeBeneficiary}
           onDeleteBeneficiary={handleDeleteBeneficiary}
         />
+      </CardContent>
+      <CardFooter>
         <Button
           onClick={() =>
             handleAddBeneficiaries({
@@ -63,7 +71,7 @@ export default function Beneficiaries() {
           <PlusIcon className="h-5 w-5" />
           <span>Add Beneficiary</span>
         </Button>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }

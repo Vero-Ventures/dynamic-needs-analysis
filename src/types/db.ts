@@ -3,8 +3,6 @@ import type { Tables, TablesInsert } from "./supabase";
 export type Client = Tables<"clients">;
 export type CreateClient = TablesInsert<"clients">;
 
-export type Agent = Tables<"agents">;
-
 export type Asset = Tables<"assets">;
 
 export type AssetBeneficiary = Tables<"asset_beneficiaries">;

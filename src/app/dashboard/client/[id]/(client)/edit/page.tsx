@@ -1,5 +1,5 @@
-import Assets from "./assets";
-import Beneficiaries from "./beneficiaries";
+import Assets from "./asset/assets";
+import Beneficiaries from "./beneficiaries/beneficiaries";
 // import EditClientStepper from "./edit-client-stepper";
 
 export default function EditClientDetails() {

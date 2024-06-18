@@ -34,27 +34,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      agents: {
-        Row: {
-          created_at: string
-          email: string
-          id: number
-          name: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: number
-          name: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: number
-          name?: string
-        }
-        Relationships: []
-      }
       asset_beneficiaries: {
         Row: {
           allocation: number
@@ -228,47 +207,39 @@ export type Database = {
       }
       clients: {
         Row: {
-          agent_id: number
           annual_income: number
           birth_date: string
           created_at: string
           expected_retirement_age: number
           id: number
           income_multiplier: number
+          kinde_id: string
           name: string
           province: Database["public"]["Enums"]["provinces"]
         }
         Insert: {
-          agent_id: number
           annual_income: number
           birth_date: string
           created_at?: string
           expected_retirement_age: number
           id?: number
           income_multiplier: number
+          kinde_id: string
           name: string
           province: Database["public"]["Enums"]["provinces"]
         }
         Update: {
-          agent_id?: number
           annual_income?: number
           birth_date?: string
           created_at?: string
           expected_retirement_age?: number
           id?: number
           income_multiplier?: number
+          kinde_id?: string
           name?: string
           province?: Database["public"]["Enums"]["provinces"]
         }
-        Relationships: [
-          {
-            foreignKeyName: "public_clients_agent_id_fkey"
-            columns: ["agent_id"]
-            isOneToOne: false
-            referencedRelation: "agents"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       debts: {
         Row: {
