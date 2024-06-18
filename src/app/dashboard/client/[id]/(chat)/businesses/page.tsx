@@ -43,7 +43,7 @@ import DeleteItemButton from "@/components/delete-item-button";
 import { deleteBusiness } from "./add/actions";
 import { cn, formatMoney } from "@/lib/utils";
 import { SquarePenIcon } from "lucide-react";
-import type { Tables } from "../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../types/supabase";
 import { notFound } from "next/navigation";
 import { getBusinessesWithShareholders } from "@/data/businesses";
 

@@ -30,7 +30,7 @@ import {
   calculateInsurableFutureValueDollars,
   calculateYearsToBePaidOff,
 } from "@/lib/debts/utils";
-import type { Tables } from "../../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 const editDebtSchema = z.object({
   name: z.string().trim(),

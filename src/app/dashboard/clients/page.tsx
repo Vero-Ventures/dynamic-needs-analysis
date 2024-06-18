@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import ClientCard from "./client-card";
 import UserProfile from "@/components/user-profile";
+import CreateClientDialog from "./create-client-dialog";
 
 export default async function Dashboard() {
   const sb = createClient();
@@ -22,49 +22,13 @@ export default async function Dashboard() {
         <div className="flex justify-between gap-4">
           <h1 className="text-4xl font-bold">Clients</h1>
           <div className="flex items-center gap-4">
-            <Button>Create New Client</Button>
+            <CreateClientDialog />
           </div>
         </div>
         <div className="mt-10 grid gap-6 px-4 md:grid-cols-2 xl:grid-cols-3">
           {clients.map((c) => (
             <ClientCard key={c.id} client={c} />
           ))}
-          <ClientCard
-            client={{
-              annual_income: 1000,
-              expected_retirement_age: 10,
-              birth_date: "1985-4-23",
-              income_mutiplier: 2,
-              province: "BC",
-              name: "John Doe",
-              id: 1,
-              created_at: Date.now().toString(),
-            }}
-          />
-          <ClientCard
-            client={{
-              annual_income: 1000,
-              expected_retirement_age: 10,
-              birth_date: "1985-4-23",
-              income_mutiplier: 2,
-              province: "BC",
-              name: "John Doe",
-              id: 1,
-              created_at: Date.now().toString(),
-            }}
-          />
-          <ClientCard
-            client={{
-              annual_income: 1000,
-              expected_retirement_age: 10,
-              birth_date: "1985-4-23",
-              income_mutiplier: 2,
-              province: "BC",
-              name: "John Doe",
-              id: 1,
-              created_at: Date.now().toString(),
-            }}
-          />
         </div>
       </section>
     </div>

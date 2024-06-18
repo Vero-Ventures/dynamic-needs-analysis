@@ -1,4 +1,4 @@
-import type { Tables } from "../../../types/supabase";
+import type { Tables } from "../../types/supabase";
 
 export function calculateTotalSumGoals(goals: Tables<"goals">[]) {
   return goals.reduce((total, goal) => total + goal.amount, 0);

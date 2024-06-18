@@ -8,7 +8,7 @@ import AddAssetsForm from "./add-assets-form";
 import { BeneficiaryTable } from "./beneficiary-table";
 import { StepperFormActions } from "./stepper-form-actions";
 import { addAsset } from "../actions";
-import type { Tables } from "../../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 const steps = [
   { label: "Add Asset" },

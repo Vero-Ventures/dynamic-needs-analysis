@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import type { Tables } from "../../../../types/supabase";
+import type { Tables } from "../../../types/supabase";
 import { calculateAgeFromDate } from "@/lib/client/utils";
 import { ArrowRight } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
@@ -16,8 +16,8 @@ export default function ClientCard({ client }: { client: Tables<"clients"> }) {
   const age = calculateAgeFromDate(client.birth_date);
   return (
     <Link href={`/dashboard/client/${client.id}`}>
-      <Card className="relative bg-secondary transition-all hover:-translate-y-1 hover:shadow-md">
-        <span className="absolute rounded-br-lg rounded-tl-lg bg-primary p-2 font-bold text-primary-foreground">
+      <Card className="group relative rounded-3xl bg-secondary transition-colors hover:bg-primary hover:text-primary-foreground">
+        <span className="absolute rounded-br-2xl rounded-tl-2xl bg-primary px-4 py-2 font-bold text-primary-foreground">
           Premium Life
         </span>
         <CardHeader className="pt-16">

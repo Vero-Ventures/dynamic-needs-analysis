@@ -20,7 +20,7 @@
     "db:pull": "supabase db pull",
     "db:diff": "supabase db diff",
     "db:push": "supabase db push",
-    "db:glt": "supabase gen types typescript --local > types/supabase.ts"
+    "db:types": "supabase gen types typescript --local > ./src/types/supabase.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.29",

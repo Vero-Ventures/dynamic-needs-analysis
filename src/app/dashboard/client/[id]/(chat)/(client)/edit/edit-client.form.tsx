@@ -35,7 +35,7 @@ import {
 import { editClient } from "./actions";
 import { useRouter } from "next/navigation";
 import FormSubmitButton from "@/components/form-submit-button";
-import type { Tables } from "../../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../../types/supabase";
 
 const editClientFormSchema = z.object({
   name: z.string(),
