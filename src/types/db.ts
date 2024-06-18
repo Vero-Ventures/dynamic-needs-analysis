@@ -11,6 +11,8 @@ export type AssetBeneficiary = Tables<"asset_beneficiaries">;
 
 export type Beneficiary = Tables<"beneficiaries">;
 
+export type Business = Tables<"businesses">;
+
 export type Debt = Tables<"debts">;
 
 export type Goal = Tables<"goals">;
