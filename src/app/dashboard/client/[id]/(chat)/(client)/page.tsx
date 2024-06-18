@@ -92,7 +92,7 @@ export default async function ClientPage({
             <h2 className="text-sm font-medium leading-none">
               Income Multiplier
             </h2>
-            <p className="text-md font-bold">{client.income_mutiplier}</p>
+            <p className="text-md font-bold">{client.income_multiplier}</p>
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default async function ClientPage({
               {formatMoney(
                 calculateInsuredIncomeAmount(
                   client.annual_income,
-                  client.income_mutiplier
+                  client.income_multiplier
                 )
               )}
             </p>

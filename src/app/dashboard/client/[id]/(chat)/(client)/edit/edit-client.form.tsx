@@ -57,7 +57,7 @@ const editClientFormSchema = z.object({
     z.literal("YT"),
   ]),
   annual_income: z.coerce.number(),
-  income_mutiplier: z.coerce.number(),
+  income_multiplier: z.coerce.number(),
 });
 
 export type EditClientFormSchema = z.infer<typeof editClientFormSchema>;
@@ -75,7 +75,7 @@ export default function EditClientForm({
       annual_income: client.annual_income,
       birth_date: client.birth_date,
       expected_retirement_age: client.expected_retirement_age,
-      income_mutiplier: client.income_mutiplier,
+      income_multiplier: client.income_multiplier,
       province: client.province,
     },
   });
@@ -196,7 +196,7 @@ export default function EditClientForm({
           />
           <FormField
             control={form.control}
-            name="income_mutiplier"
+            name="income_multiplier"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Income Replacement Multiplier</FormLabel>
@@ -214,7 +214,7 @@ export default function EditClientForm({
             <div className="font-bold">
               {calculateInsuredIncomeAmount(
                 form.watch("annual_income"),
-                form.watch("income_mutiplier")
+                form.watch("income_multiplier")
               )}
             </div>
           </div>

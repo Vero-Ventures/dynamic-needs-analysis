@@ -72,7 +72,7 @@ const createClientSchema = z.object({
   annual_income: z.coerce.number({
     required_error: "Please enter your annual income",
   }),
-  income_mutiplier: z.coerce.number({
+  income_multiplier: z.coerce.number({
     required_error: "Please enter an income multiplier",
   }),
 });
@@ -91,7 +91,7 @@ export function CreateClientForm({
       annual_income: 0,
       birth_date: new Date().toString(),
       expected_retirement_age: 65,
-      income_mutiplier: 0,
+      income_multiplier: 0,
       province: "BC",
     },
   });
@@ -227,7 +227,7 @@ export function CreateClientForm({
             />
             <FormField
               control={form.control}
-              name="income_mutiplier"
+              name="income_multiplier"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Income Replacement Multiplier</FormLabel>
