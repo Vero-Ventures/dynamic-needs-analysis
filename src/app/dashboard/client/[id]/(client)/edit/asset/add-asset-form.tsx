@@ -1,12 +1,4 @@
 import {
-  calculateAgeFromDate,
-  calculateYearsOfActiveIncome,
-  findSelectedBracket,
-} from "@/lib/client/utils";
-import type { ProvinceInitials } from "@/constants/provinces";
-import { CANADIAN_PROVINCES } from "@/constants/provinces";
-
-import {
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -28,7 +20,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { BirthDatePicker } from "@/components/date-picker";
 import FormSubmitButton from "@/components/form-submit-button";
 
 import { useForm } from "react-hook-form";
@@ -36,6 +27,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Switch } from "@/components/ui/switch";
+import { ASSET_TYPES } from "@/constants/assetTypes";
 
 const createClientSchema = z.object({
   name: z
@@ -44,34 +37,27 @@ const createClientSchema = z.object({
     })
     .trim()
     .min(3, "Your name must be greater than 3 characters"),
-  yearAcquired: z.string({
+  year_acquired: z.number({
     required_error: "Please enter your birth date",
   }),
-  purchasePrice: z.coerce.number({
+  purchase_price: z.coerce.number({
     required_error: "Please enter an expected retirement age",
   }),
-  currentValue: z.coerce.number(),
-  assetType: z.union([
-    z.literal("AB"),
-    z.literal("BC"),
-    z.literal("MB"),
-    z.literal("NB"),
-    z.literal("NL"),
-    z.literal("NS"),
-    z.literal("NT"),
-    z.literal("NU"),
-    z.literal("ON"),
-    z.literal("PE"),
-    z.literal("QC"),
-    z.literal("SK"),
-    z.literal("YT"),
+  current_value: z.coerce.number(),
+  growth_rate: z.coerce.number(),
+  asset_type: z.union([
+    z.literal("Cash"),
+    z.literal("Stocks"),
+    z.literal("Bonds"),
+    z.literal("Real Estate"),
+    z.literal("Mutual Funds"),
+    z.literal("Retirement Account"),
+    z.literal("Crypto"),
+    z.literal("Life Insurance"),
   ]),
-  annual_income: z.coerce.number({
-    required_error: "Please enter your annual income",
-  }),
-  income_multiplier: z.coerce.number({
-    required_error: "Please enter an income multiplier",
-  }),
+  is_taxable: z.boolean(),
+  to_be_sold: z.boolean(),
+  is_liquid: z.boolean(),
 });
 
 type CreateClientSchema = z.infer<typeof createClientSchema>;
@@ -81,11 +67,14 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
     resolver: zodResolver(createClientSchema),
     defaultValues: {
       name: "",
-      annual_income: 0,
-      birth_date: new Date().toString(),
-      expected_retirement_age: 65,
-      income_multiplier: 0,
-      province: "BC",
+      year_acquired: new Date().getFullYear(),
+      purchase_price: 0,
+      current_value: 0,
+      growth_rate: 0,
+      asset_type: "Cash",
+      is_taxable: false,
+      is_liquid: false,
+      to_be_sold: false,
     },
   });
 
@@ -102,7 +91,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 p-6 pt-0"
+          className="space-y-6 p-6 pt-0"
         >
           <div className="grid grid-cols-3 items-center gap-4">
             <FormField
@@ -120,15 +109,12 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="year_acquired"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                  <FormLabel>Year Acquired</FormLabel>
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
+                    <Input placeholder="YYYY" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,15 +122,12 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="purchase_price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                  <FormLabel>Purchase Price</FormLabel>
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
+                    <Input placeholder="$0.00" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -154,12 +137,12 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
           <div className="grid grid-cols-3 items-center gap-4">
             <FormField
               control={form.control}
-              name="name"
+              name="current_value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Current Value</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your name..." {...field} />
+                    <Input placeholder="$0.00" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -167,15 +150,12 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="growth_rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                  <FormLabel>Growth Rate</FormLabel>
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
+                    <Input placeholder="" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -183,79 +163,74 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="asset_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                  <FormLabel>Asset Type</FormLabel>
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
+                    <Select {...field} onValueChange={field.onChange}>
+                      <SelectTrigger id="type">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ASSET_TYPES.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-3 items-center gap-4">
             <FormField
               control={form.control}
-              name="name"
+              name="is_taxable"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
+                <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <Input placeholder="Enter your name..." {...field} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
+                  <FormLabel>Is Taxable</FormLabel>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="to_be_sold"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
+                  <FormLabel>To be Sold</FormLabel>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="birth_date"
+              name="is_liquid"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
+                <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="birth_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Birthdate</FormLabel>
-                  <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
-                  </FormControl>
+                  <FormLabel>Is Liquid</FormLabel>
                   <FormMessage />
                 </FormItem>
               )}
