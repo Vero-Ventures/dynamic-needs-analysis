@@ -20,7 +20,7 @@
     "db:pull": "supabase db pull",
     "db:diff": "supabase db diff",
     "db:push": "supabase db push",
-    "db:glt": "supabase gen types typescript --local > types/supabase.ts"
+    "db:types": "supabase gen types typescript --local > ./src/types/supabase.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.29",
@@ -50,6 +50,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.383.0",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
@@ -67,6 +68,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

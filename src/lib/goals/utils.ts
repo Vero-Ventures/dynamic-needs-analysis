@@ -1,4 +1,4 @@
-import type { Tables } from "../../../types/supabase";
+import type { Tables } from "../../types/supabase";
 
 export function calculateTotalSumGoals(goals: Tables<"goals">[]) {
   return goals.reduce((total, goal) => total + goal.amount, 0);
@@ -38,12 +38,12 @@ export function calculateCurrentFutureTotals(assets: Tables<"assets">[]) {
     const futureValue: number =
       asset.current_value * Math.pow(1 + asset.rate / 100, asset.term);
 
-    if (asset.liquid) {
+    if (asset.is_liquid) {
       result.totalCurrentValueLiquid += asset.current_value;
       result.totalFutureValueLiquidAssets += futureValue;
     }
 
-    if (!asset.liquid && !asset.to_be_sold) {
+    if (!asset.is_liquid && !asset.to_be_sold) {
       result.totalCurrentValueFixed += asset.current_value;
       result.totalFutureValueFixed += futureValue;
     }

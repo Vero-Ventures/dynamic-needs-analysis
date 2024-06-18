@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 
 export async function getAssetsWithBeneficiaries() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: assets, error } = await sb
     .from("assets")
     .select(`*, asset_beneficiaries(*, beneficiaries(*))`);
@@ -14,7 +14,7 @@ export type AssetsWithBeneficiaries = Awaited<
 >;
 
 export async function getSingleAssetWithBeneficiaries(id: number) {
-  const sb = createClient();
+  const sb = await createClient();
   const { data, error } = await sb
     .from("assets")
     .select(`*, asset_beneficiaries(*, beneficiaries(*))`)

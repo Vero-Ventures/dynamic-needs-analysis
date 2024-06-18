@@ -1,4 +1,4 @@
-import type { Tables } from "../../../types/supabase";
+import type { Tables } from "../../types/supabase";
 
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
