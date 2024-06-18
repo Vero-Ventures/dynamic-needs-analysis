@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { deleteBeneficiary } from "./actions";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import EditBeneficiaryDialog from "./edit-beneficiary-dialog";
-import type { Tables } from "../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../types/supabase";
 
 export default function BeneficiariesTable({
   beneficiaries,

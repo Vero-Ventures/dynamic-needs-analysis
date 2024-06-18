@@ -1,5 +1,5 @@
 import type { BusinessesWithShareholders } from "@/data/businesses";
-import type { Tables } from "../../../types/supabase";
+import type { Tables } from "../../types/supabase";
 import type { EditShareholder } from "@/app/dashboard/client/[id]/(chat)/businesses/add/types";
 
 export function calculateEbitdaContributionDollars(

@@ -23,7 +23,7 @@ import { CheckCircle2Icon } from "lucide-react";
 import DeleteGoalButton from "@/components/delete-item-button";
 import AddGoalDialog from "./add-goal-dialog";
 import { deleteGoal } from "./actions";
-import type { Tables } from "../../../../../../../types/supabase";
+import type { Tables } from "../../../../../../types/supabase";
 
 function GoalsTable({ goals }: { goals: Tables<"goals">[] }) {
   return (

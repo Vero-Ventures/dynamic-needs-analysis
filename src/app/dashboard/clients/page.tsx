@@ -1,3 +1,9 @@
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import ClientCard from "./client-card";
+import UserProfile from "@/components/user-profile";
+import CreateClientDialog from "./create-client-dialog";
+
 export default async function Dashboard() {
   const sb = createClient();
   const { data: clients } = await sb.from("clients").select();
@@ -5,33 +11,26 @@ export default async function Dashboard() {
     notFound();
   }
   return (
-    <div className="mx-auto h-screen max-h-screen bg-secondary">
-      <header className="mb-8 border-b bg-primary-foreground p-4">
-        <div className="text-4xl font-bold">DNA</div>
+    <div className="mx-auto h-screen max-h-screen">
+      <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
+        <div className="mx-auto flex items-center justify-between md:max-w-screen-xl lg:max-w-screen-2xl">
+          <div className="text-4xl font-bold">DNA</div>
+          <UserProfile />
+        </div>
       </header>
-      <section className="mx-auto grid max-w-7xl gap-2 px-4 md:grid-cols-2 xl:grid-cols-3">
-        {clients.map((c) => (
-          <ClientCard key={c.id} client={c} />
-        ))}
+      <section className="mx-auto max-w-7xl">
+        <div className="flex justify-between gap-4">
+          <h1 className="text-4xl font-bold">Clients</h1>
+          <div className="flex items-center gap-4">
+            <CreateClientDialog />
+          </div>
+        </div>
+        <div className="mt-10 grid gap-6 px-4 md:grid-cols-2 xl:grid-cols-3">
+          {clients.map((c) => (
+            <ClientCard key={c.id} client={c} />
+          ))}
+        </div>
       </section>
     </div>
-  );
-}
-
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import type { Tables } from "../../../../types/supabase";
-import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
-
-function ClientCard({ client }: { client: Tables<"clients"> }) {
-  return (
-    <Link href={`/dashboard/client/${client.id}`}>
-      <Card className="p-4 transition-all hover:-translate-y-1 hover:shadow-md">
-        <CardHeader>
-          <CardTitle>{client.name}</CardTitle>
-        </CardHeader>
-      </Card>
-    </Link>
   );
 }
