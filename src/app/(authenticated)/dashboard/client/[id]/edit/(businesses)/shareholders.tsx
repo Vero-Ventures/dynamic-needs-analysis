@@ -49,7 +49,7 @@ export default function Shareholders() {
     <Card className="mx-auto max-w-3xl border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
-          Shareholders Agreement
+          Businesses
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-9">

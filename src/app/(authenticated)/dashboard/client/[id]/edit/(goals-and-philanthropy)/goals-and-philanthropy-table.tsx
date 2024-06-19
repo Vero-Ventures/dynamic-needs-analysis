@@ -29,11 +29,6 @@ export default function GoalsAndPhilanthropyTable({
           <TableHead>Goal name</TableHead>
           <TableHead>Desired funding amount</TableHead>
           <TableHead>Is philanthropic?</TableHead>
-          <TableHead>Total liquidity</TableHead>
-          <TableHead>
-            % of liquid assets to be allocated towards goals
-          </TableHead>
-          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -96,28 +91,6 @@ function GoalsAndPhilanthropyTableRow({
                 typeof checked === "boolean"
                   ? checked
                   : !goalsAndPhilanthropy.is_philanthropic,
-            })
-          }
-        />
-      </TableCell>
-      <TableCell className="text-center font-medium">
-        <Input
-          value={goalsAndPhilanthropy.total_liquidity}
-          onChange={(e) =>
-            onChangeGoalsAndPhilanthropy({
-              ...goalsAndPhilanthropy,
-              total_liquidity: e.target.value ? +e.target.value : 0,
-            })
-          }
-        />
-      </TableCell>
-      <TableCell className="text-center font-medium">
-        <Input
-          value={goalsAndPhilanthropy.liquid_assets_allocation}
-          onChange={(e) =>
-            onChangeGoalsAndPhilanthropy({
-              ...goalsAndPhilanthropy,
-              liquid_assets_allocation: e.target.value ? +e.target.value : 0,
             })
           }
         />
