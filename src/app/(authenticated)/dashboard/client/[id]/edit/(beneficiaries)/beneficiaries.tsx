@@ -29,7 +29,7 @@ export default function Beneficiaries() {
       allocation: 0,
     },
   ]);
-  function handleAddBeneficiaries(beneficiary: BeneficiarySchema) {
+  function handleAddBeneficiary(beneficiary: BeneficiarySchema) {
     setBeneficiaries([...beneficiaries, beneficiary]);
   }
 
@@ -59,7 +59,7 @@ export default function Beneficiaries() {
       <CardFooter>
         <Button
           onClick={() =>
-            handleAddBeneficiaries({
+            handleAddBeneficiary({
               id: beneficiaries.length,
               allocation: 0,
               name: "",
