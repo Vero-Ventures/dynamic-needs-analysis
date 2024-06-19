@@ -40,7 +40,7 @@ export function KeyPersonForm() {
     },
   });
   return (
-    <Card className="mx-auto max-w-3xl">
+    <Card className="mx-auto w-full max-w-3xl border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Key Person

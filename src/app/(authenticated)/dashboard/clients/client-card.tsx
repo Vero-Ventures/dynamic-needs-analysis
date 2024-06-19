@@ -16,8 +16,8 @@ export default function ClientCard({ client }: { client: Tables<"clients"> }) {
   const age = calculateAgeFromDate(new Date(client.birth_date));
   return (
     <Link href={`/dashboard/client/${client.id}`}>
-      <Card className="group relative rounded-3xl bg-secondary transition-colors hover:bg-primary hover:text-primary-foreground">
-        <span className="absolute rounded-br-2xl rounded-tl-2xl bg-primary px-4 py-2 font-bold text-primary-foreground">
+      <Card className="group relative rounded-3xl transition-colors hover:bg-secondary hover:text-secondary-foreground">
+        <span className="absolute rounded-br-2xl rounded-tl-2xl bg-secondary px-4 py-2 font-bold text-secondary-foreground">
           Premium Life
         </span>
         <CardHeader className="pt-16">

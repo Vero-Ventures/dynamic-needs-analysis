@@ -8,14 +8,14 @@ import { buttonVariants } from "@/components/ui/button";
 export default function EditClientDetails() {
   return (
     <div className="h-dvh max-h-dvh">
-      <header className="bg-primary p-4 text-primary-foreground">
+      <header className="bg-secondary p-4 text-primary-foreground">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="#"
               className={cn(
                 buttonVariants({ size: "icon", variant: "secondary" }),
-                "rounded-full"
+                "rounded-full bg-gray-700 hover:bg-gray-600"
               )}
             >
               <ArrowLeft />

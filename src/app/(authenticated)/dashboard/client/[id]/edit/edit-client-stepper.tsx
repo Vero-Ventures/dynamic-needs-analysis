@@ -51,7 +51,7 @@ export default function EditClientStepper() {
         </div>
       ))}
 
-      <div className="flex items-center gap-4 bg-primary p-4 text-primary-foreground">
+      <div className="flex items-center gap-4 bg-secondary p-4 text-secondary-foreground">
         <Stepper
           variant="circle-alt"
           initialStep={0}
@@ -62,7 +62,7 @@ export default function EditClientStepper() {
           }}
           styles={{
             "step-button-container": cn(
-              "data-[current=true]:text-secondary-foreground",
+              "data-[current=true]:bg-yellow-500 data-[current=true]:border-secondary data-[current=true]:hover:text-secondary-foreground data-[current=true]:hover:bg-primary/90",
               "data-[active=true]:bg-yellow-500 data-[active=true]:border-yellow-500"
             ),
             "horizontal-step":
@@ -111,18 +111,18 @@ function StepperActions({
           <>
             <Button
               disabled={isDisabledStep}
+              variant="outline"
+              className="text-secondary"
               onClick={() => {
                 prevStep();
                 onSetCurrentStep((s) => s - 1);
               }}
               size="sm"
-              variant="secondary"
             >
               Prev
             </Button>
             <Button
               size="sm"
-              variant="secondary"
               onClick={() => {
                 nextStep();
                 onSetCurrentStep((s) => s + 1);

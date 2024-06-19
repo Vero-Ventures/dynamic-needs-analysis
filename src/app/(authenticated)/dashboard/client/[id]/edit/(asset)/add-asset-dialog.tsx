@@ -15,7 +15,7 @@ export default function AddAssetDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="my-4 space-x-1 rounded-full border-primary bg-transparent hover:bg-primary hover:text-primary-foreground"
+          className="my-4 space-x-1 rounded-full border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground"
           variant="outline"
         >
           <PlusIcon className="h-5 w-5" />

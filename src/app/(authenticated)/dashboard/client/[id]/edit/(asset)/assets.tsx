@@ -12,7 +12,7 @@ import AddAssetDialog from "./add-asset-dialog";
 
 export default function Assets() {
   return (
-    <Card className="mx-auto max-w-3xl">
+    <Card className="max-w- mx-auto border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Assets
