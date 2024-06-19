@@ -11,7 +11,7 @@ export default async function Dashboard() {
   }
   return (
     <div className="mx-auto h-screen max-h-screen">
-      <header className="mb-8 border-b bg-primary p-4 text-primary-foreground">
+      <header className="mb-8 border-b bg-secondary p-4 text-secondary-foreground">
         <div className="mx-auto flex items-center justify-between md:max-w-screen-xl lg:max-w-screen-2xl">
           <div className="text-4xl font-bold">DNA</div>
           <UserProfile />

@@ -46,7 +46,7 @@ export default function Shareholders() {
     );
   }
   return (
-    <Card className="mx-auto max-w-3xl">
+    <Card className="mx-auto max-w-3xl border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Shareholders Agreement
@@ -70,7 +70,7 @@ export default function Shareholders() {
               business_owned: 0,
             })
           }
-          className="my-4 space-x-1 rounded-full border-primary bg-transparent hover:bg-primary hover:text-primary-foreground"
+          className="my-4 space-x-1 rounded-full border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground"
           variant="outline"
         >
           <PlusIcon className="h-5 w-5" />

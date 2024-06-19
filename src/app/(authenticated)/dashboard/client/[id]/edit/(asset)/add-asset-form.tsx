@@ -77,8 +77,10 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
   }
   return (
     <DialogContent className="p-0 sm:max-w-[700px]">
-      <DialogHeader className="rounded-t-xl border-b bg-secondary p-4">
-        <DialogTitle className="font-bold text-primary">Add Asset</DialogTitle>
+      <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
+        <DialogTitle className="font-bold text-secondary">
+          Add Asset
+        </DialogTitle>
       </DialogHeader>
       <Form {...form}>
         <form
