@@ -27,8 +27,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
+import BeneficiaryAllocation from "./beneficiary-allocation";
 
 const createClientSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
@@ -184,7 +185,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               render={({ field }) => (
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -200,7 +201,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               render={({ field }) => (
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -216,7 +217,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               render={({ field }) => (
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -227,6 +228,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               )}
             />
           </div>
+          <BeneficiaryAllocation />
           <DialogFooter>
             <FormSubmitButton
               disabled={!form.formState.isValid}

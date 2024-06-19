@@ -1,6 +1,5 @@
 "use client";
 
-import { BirthDatePicker } from "@/components/date-picker";
 import {
   Card,
   CardContent,
@@ -21,28 +20,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const incomeReplacementSchema = z.object({
-  birth_date: z.date(),
-  annual_income: z.coerce.number(),
-  income_multiplier: z.coerce.number(),
+const keyPersonSchema = z.object({
+  name: z.string().trim(),
+  ebita_credited: z.coerce.number(),
+  rate: z.coerce.number(),
+  years_contributed: z.coerce.number(),
 });
 
-type IncomeReplacementSchema = z.infer<typeof incomeReplacementSchema>;
+type KeyPersonSchema = z.infer<typeof keyPersonSchema>;
 
-export function IncomeReplacementForm() {
-  const form = useForm<IncomeReplacementSchema>({
-    resolver: zodResolver(incomeReplacementSchema),
+export function KeyPersonForm() {
+  const form = useForm<KeyPersonSchema>({
+    resolver: zodResolver(keyPersonSchema),
     defaultValues: {
-      annual_income: 0,
-      birth_date: new Date(),
-      income_multiplier: 0,
+      name: "",
+      ebita_credited: 0,
+      rate: 0,
+      years_contributed: 0,
     },
   });
   return (
-    <Card className="mx-auto w-full max-w-3xl">
+    <Card className="mx-auto max-w-3xl">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
-          Income Replacement
+          Key Person
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -50,15 +51,12 @@ export function IncomeReplacementForm() {
           <form className="space-y-8">
             <FormField
               control={form.control}
-              name="birth_date"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel>Corporation&apos;s EBITA</FormLabel>
                   <FormControl>
-                    <BirthDatePicker
-                      date={new Date(field.value)}
-                      onSelect={field.onChange}
-                    />
+                    <Input placeholder="Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -66,10 +64,12 @@ export function IncomeReplacementForm() {
             />
             <FormField
               control={form.control}
-              name="annual_income"
+              name="ebita_credited"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Annual Income ($)</FormLabel>
+                  <FormLabel>
+                    % of EBITA that the key person is given credit for creating
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -79,14 +79,24 @@ export function IncomeReplacementForm() {
             />
             <FormField
               control={form.control}
-              name="income_multiplier"
+              name="rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="space-y-2">
-                    <p>Income replacement multiplier</p>
-                    <p className="font-normal">
-                      (usually very close to years left to retirement)
-                    </p>
+                  <FormLabel>Appreciation rate of corporation</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="years_contributed"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Number of years key-person is expected to contribute
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
