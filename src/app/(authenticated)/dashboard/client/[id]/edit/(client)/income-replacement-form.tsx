@@ -39,7 +39,7 @@ export function IncomeReplacementForm() {
     },
   });
   return (
-    <Card className="mx-auto max-w-3xl">
+    <Card className="mx-auto w-full max-w-3xl">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Income Replacement
