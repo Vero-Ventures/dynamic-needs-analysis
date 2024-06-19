@@ -9,26 +9,26 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import Assets from "./(asset)/assets";
 import { DebtForm } from "./(debt)/debt-form";
-import { IncomeReplacementForm } from "./(client)/income-replacement-form";
-import Shareholders from "./(shareholders)/shareholders";
+import { ClientInfoForm } from "./(client)/client-info-form";
+import Shareholders from "./(businesses)/shareholders";
 import { KeyPersonForm } from "./(key-person)/key-person-form";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 
 const steps = [
+  { label: "Client Information" },
   { label: "Beneficiaries" },
   { label: "Assets" },
-  { label: "Income Replacement" },
   { label: "Debt" },
-  { label: "Shareholders Agreement" },
+  { label: "Businesses" },
   { label: "Key Person" },
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
 const forms = [
-  <Beneficiaries key={0} />,
-  <Assets key={1} />,
-  <IncomeReplacementForm key={2} />,
+  <ClientInfoForm key={0} />,
+  <Beneficiaries key={1} />,
+  <Assets key={2} />,
   <DebtForm key={3} />,
   <Shareholders key={4} />,
   <KeyPersonForm key={5} />,
@@ -62,7 +62,7 @@ export default function EditClientStepper() {
           }}
           styles={{
             "step-button-container": cn(
-              "data-[current=true]:bg-yellow-500 data-[current=true]:border-secondary data-[current=true]:hover:text-secondary-foreground data-[current=true]:hover:bg-primary/90",
+              "data-[current=true]:bg-yellow-500 data-[current=true]:border-yellow-500 data-[current=true]:hover:text-secondary-foreground data-[current=true]:hover:bg-primary/90",
               "data-[active=true]:bg-yellow-500 data-[active=true]:border-yellow-500"
             ),
             "horizontal-step":

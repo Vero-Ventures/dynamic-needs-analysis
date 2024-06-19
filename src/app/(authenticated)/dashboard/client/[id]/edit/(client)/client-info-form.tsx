@@ -21,17 +21,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const incomeReplacementSchema = z.object({
+const clientInfoSchema = z.object({
   birth_date: z.date(),
   annual_income: z.coerce.number(),
   income_multiplier: z.coerce.number(),
 });
 
-type IncomeReplacementSchema = z.infer<typeof incomeReplacementSchema>;
+type ClientInfoSchema = z.infer<typeof clientInfoSchema>;
 
-export function IncomeReplacementForm() {
-  const form = useForm<IncomeReplacementSchema>({
-    resolver: zodResolver(incomeReplacementSchema),
+export function ClientInfoForm() {
+  const form = useForm<ClientInfoSchema>({
+    resolver: zodResolver(clientInfoSchema),
     defaultValues: {
       annual_income: 0,
       birth_date: new Date(),
@@ -42,7 +42,7 @@ export function IncomeReplacementForm() {
     <Card className="mx-auto w-full max-w-3xl border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
-          Income Replacement
+          Client Information
         </CardTitle>
       </CardHeader>
       <CardContent>
