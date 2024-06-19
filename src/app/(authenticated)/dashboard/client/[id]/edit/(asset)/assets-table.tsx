@@ -30,6 +30,8 @@ export default function AssetsTable() {
         <TableRow>
           <TableCell className="text-center">Total</TableCell>
           <TableCell></TableCell>
+          <TableCell className="text-center">{formatMoney(100000)}</TableCell>
+          <TableCell className="text-center">{formatMoney(150000)}</TableCell>
           <TableCell colSpan={2}></TableCell>
         </TableRow>
       </TableFooter>
