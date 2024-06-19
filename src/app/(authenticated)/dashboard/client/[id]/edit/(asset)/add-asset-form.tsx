@@ -31,7 +31,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
 import BeneficiaryAllocation from "./beneficiary-allocation";
 
-const createAssetSchema = z.object({
+const addAssetSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
   year_acquired: z.number(),
   purchase_price: z.coerce.number(),
@@ -52,11 +52,11 @@ const createAssetSchema = z.object({
   is_liquid: z.boolean(),
 });
 
-type CreateAssetSchema = z.infer<typeof createAssetSchema>;
+type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
 
 export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
-  const form = useForm<CreateAssetSchema>({
-    resolver: zodResolver(createAssetSchema),
+  const form = useForm<AddAssetFormSchema>({
+    resolver: zodResolver(addAssetSchema),
     defaultValues: {
       name: "",
       year_acquired: new Date().getFullYear(),
@@ -71,7 +71,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateAssetSchema) {
+  async function onSubmit(values: AddAssetFormSchema) {
     console.log(values);
     onCloseDialog();
   }
