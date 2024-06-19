@@ -8,12 +8,12 @@ import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import Assets from "./(asset)/assets";
-import { DebtForm } from "./(debt)/debt-form";
 import { KeyPersonForm } from "./(key-person)/key-person-form";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 import { ClientInfoForm } from "./(client)/client-info-form";
 import Businesses from "./(businesses)/businesses";
+import Debts from "./(debt)/debts";
 
 const steps = [
   { label: "Client Info" },
@@ -60,7 +60,7 @@ export default function EditClientStepper() {
             "mx-auto w-full max-w-3xl"
           )}
         >
-          <DebtForm />
+          <Debts />
         </div>
         <div
           className={cn(
