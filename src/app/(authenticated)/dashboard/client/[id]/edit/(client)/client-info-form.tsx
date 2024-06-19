@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const clientInfoSchema = z.object({
+  name: z.string(),
   birth_date: z.date(),
   annual_income: z.coerce.number(),
   income_multiplier: z.coerce.number(),
@@ -33,13 +34,14 @@ export function ClientInfoForm() {
   const form = useForm<ClientInfoSchema>({
     resolver: zodResolver(clientInfoSchema),
     defaultValues: {
+      name: "",
       annual_income: 0,
       birth_date: new Date(),
       income_multiplier: 0,
     },
   });
   return (
-    <Card className="mx-auto w-full max-w-3xl border-none">
+    <Card className="border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Client Information
@@ -48,6 +50,19 @@ export function ClientInfoForm() {
       <CardContent>
         <Form {...form}>
           <form className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter the client's name" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="birth_date"
@@ -77,6 +92,7 @@ export function ClientInfoForm() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="income_multiplier"
@@ -84,9 +100,6 @@ export function ClientInfoForm() {
                 <FormItem>
                   <FormLabel className="space-y-2">
                     <p>Income replacement multiplier</p>
-                    <p className="font-normal">
-                      (usually very close to years left to retirement)
-                    </p>
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />

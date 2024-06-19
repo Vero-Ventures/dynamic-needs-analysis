@@ -9,14 +9,14 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import Assets from "./(asset)/assets";
 import { DebtForm } from "./(debt)/debt-form";
-import { ClientInfoForm } from "./(client)/client-info-form";
-import Shareholders from "./(businesses)/shareholders";
 import { KeyPersonForm } from "./(key-person)/key-person-form";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
+import { ClientInfoForm } from "./(client)/client-info-form";
+import Businesses from "./(businesses)/businesses";
 
 const steps = [
-  { label: "Client Information" },
+  { label: "Client Info" },
   { label: "Beneficiaries" },
   { label: "Assets" },
   { label: "Debt" },
@@ -25,31 +25,76 @@ const steps = [
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
-const forms = [
-  <ClientInfoForm key={0} />,
-  <Beneficiaries key={1} />,
-  <Assets key={2} />,
-  <DebtForm key={3} />,
-  <Shareholders key={4} />,
-  <KeyPersonForm key={5} />,
-  <GoalsAndPhilanthropy key={6} />,
-  <FinishedScreen key={7} />,
-];
-
 export default function EditClientStepper() {
   const [currentStep, setCurrentStep] = useState(0);
   return (
     <div className="h-[calc(100dvh-72px-100px)]">
-      {forms.map((element, i) => (
+      <div className="flex h-full w-full items-center">
         <div
-          key={i}
-          className={cn("flex h-full items-center", {
-            hidden: currentStep !== i,
-          })}
+          className={cn(
+            { hidden: currentStep !== 0 },
+            "mx-auto w-full max-w-3xl"
+          )}
         >
-          {element}
+          <ClientInfoForm />
         </div>
-      ))}
+        <div
+          className={cn(
+            { hidden: currentStep !== 1 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <Beneficiaries />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 2 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <Assets />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 3 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <DebtForm />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 4 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <Businesses />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 5 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <KeyPersonForm />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 6 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <GoalsAndPhilanthropy />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 7 },
+            "mx-auto w-full max-w-3xl"
+          )}
+        >
+          <FinishedScreen />
+        </div>
+      </div>
 
       <div className="flex items-center gap-4 bg-secondary p-4 text-secondary-foreground">
         <Stepper
@@ -62,7 +107,7 @@ export default function EditClientStepper() {
           }}
           styles={{
             "step-button-container": cn(
-              "data-[current=true]:bg-yellow-500 data-[current=true]:border-yellow-500 data-[current=true]:hover:text-secondary-foreground data-[current=true]:hover:bg-primary/90",
+              "data-[current=true]:bg-yellow-500 data-[current=true]:border-secondary data-[current=true]:hover:text-secondary-foreground data-[current=true]:hover:bg-primary/90",
               "data-[active=true]:bg-yellow-500 data-[active=true]:border-yellow-500"
             ),
             "horizontal-step":
