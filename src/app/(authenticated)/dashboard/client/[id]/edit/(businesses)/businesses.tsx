@@ -23,7 +23,7 @@ const shareholderSchema = z.object({
 
 export type ShareholderSchema = z.infer<typeof shareholderSchema>;
 
-export default function Shareholders() {
+export default function Businesses() {
   const [shareholders, setShareholders] = useState<ShareholderSchema[]>([
     {
       id: 0,

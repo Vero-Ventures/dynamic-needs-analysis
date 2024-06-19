@@ -64,7 +64,7 @@ export default function GoalsAndPhilanthropy() {
     );
   }
   return (
-    <Card className="mx-auto w-full max-w-3xl border-none">
+    <Card className="border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Goals & Philanthropy

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import DeleteShareholderButton from "@/components/delete-item-button";
 import { Input } from "@/components/ui/input";
-import type { ShareholderSchema } from "./shareholders";
+import type { ShareholderSchema } from "./businesses";
 
 export default function ShareholdersTable({
   shareholders,
