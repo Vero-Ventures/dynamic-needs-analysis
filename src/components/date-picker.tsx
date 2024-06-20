@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import type { SelectSingleEventHandler } from "react-day-picker";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();
@@ -47,7 +48,7 @@ export function BirthDatePicker({
   onSelect,
 }: {
   date: Date;
-  onSelect: (...event: any[]) => void;
+  onSelect: SelectSingleEventHandler;
 }) {
   return (
     <Popover>
