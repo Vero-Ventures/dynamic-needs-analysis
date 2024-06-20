@@ -22,12 +22,12 @@ export type BeneficiarySchema = z.infer<typeof beneficiarySchema>;
 
 export default function Beneficiaries({
   beneficiaries,
-  handleAddBeneficiaries,
+  handleAddBeneficiary,
   handleDeleteBeneficiary,
   handleOnChangeBeneficiary,
 }: {
   beneficiaries: BeneficiarySchema[];
-  handleAddBeneficiaries: (beneficiary: BeneficiarySchema) => void;
+  handleAddBeneficiary: (beneficiary: BeneficiarySchema) => void;
   handleDeleteBeneficiary: (id: number) => void;
   handleOnChangeBeneficiary: (beneficiary: BeneficiarySchema) => void;
 }) {
@@ -48,7 +48,7 @@ export default function Beneficiaries({
       <CardFooter>
         <Button
           onClick={() =>
-            handleAddBeneficiaries({
+            handleAddBeneficiary({
               id: beneficiaries.length,
               allocation: 0,
               name: "",

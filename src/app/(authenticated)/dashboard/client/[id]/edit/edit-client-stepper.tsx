@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import Assets from "./(asset)/assets";
-import { DebtForm } from "./(debt)/debt-form";
 import { KeyPersonForm } from "./(key-person)/key-person-form";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 import { ClientInfoForm } from "./(client)/client-info-form";
 import Businesses from "./(businesses)/businesses";
+import Debts from "./(debt)/debts";
 
 const steps = [
   { label: "Client Info" },
@@ -41,7 +41,7 @@ export default function EditClientStepper() {
       allocation: 40,
     },
   ]);
-  function handleAddBeneficiaries(beneficiary: BeneficiarySchema) {
+  function handleAddBeneficiary(beneficiary: BeneficiarySchema) {
     setBeneficiaries([...beneficiaries, beneficiary]);
   }
 
@@ -56,12 +56,12 @@ export default function EditClientStepper() {
   }
 
   return (
-    <div className="h-[calc(100dvh-72px-100px)]">
-      <div className="flex h-full w-full items-center">
+    <div>
+      <div className="flex h-[calc(100dvh-72px-100px)] items-center justify-center">
         <div
           className={cn(
             { hidden: currentStep !== 0 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <ClientInfoForm />
@@ -69,12 +69,12 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 1 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Beneficiaries
             beneficiaries={beneficiaries}
-            handleAddBeneficiaries={handleAddBeneficiaries}
+            handleAddBeneficiary={handleAddBeneficiary}
             handleDeleteBeneficiary={handleDeleteBeneficiary}
             handleOnChangeBeneficiary={handleOnChangeBeneficiary}
           />
@@ -82,7 +82,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 2 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Assets beneficiaries={beneficiaries} />
@@ -90,15 +90,15 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 3 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <DebtForm />
+          <Debts />
         </div>
         <div
           className={cn(
             { hidden: currentStep !== 4 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Businesses />
@@ -106,7 +106,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 5 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <KeyPersonForm />
@@ -114,7 +114,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 6 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <GoalsAndPhilanthropy />
@@ -122,7 +122,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 7 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <FinishedScreen />
