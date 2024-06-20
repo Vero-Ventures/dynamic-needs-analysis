@@ -30,7 +30,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
 import type { AssetBeneficiary } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
 const addAssetSchema = z.object({
@@ -84,12 +84,16 @@ export function AddAssetForm({
   });
   const [assetBeneficiaries, setAssetBeneficiaries] = useState<
     AssetBeneficiary[]
-  >(() =>
-    beneficiaries.map((beneficiary) => ({
-      ...beneficiary,
-      already_assigned: true,
-    }))
-  );
+  >([]);
+
+  useEffect(() => {
+    setAssetBeneficiaries(
+      beneficiaries.map((beneficiary) => ({
+        ...beneficiary,
+        already_assigned: true,
+      }))
+    );
+  }, [beneficiaries]);
 
   function onEditBeneficiary(id: number, allocation: number) {
     setAssetBeneficiaries(
