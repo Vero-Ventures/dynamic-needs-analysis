@@ -1,3 +1,7 @@
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   DialogContent,
   DialogFooter,
@@ -22,14 +26,11 @@ import {
 } from "@/components/ui/select";
 import FormSubmitButton from "@/components/form-submit-button";
 
-import { useForm } from "react-hook-form";
-
-import { z } from "zod";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
+import type { AssetBeneficiary } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
+import { useState } from "react";
 
 const addAssetSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
@@ -52,7 +53,7 @@ const addAssetSchema = z.object({
   is_liquid: z.boolean(),
 });
 
-type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
+export type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
 
 export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
   const form = useForm<AddAssetFormSchema>({
@@ -69,6 +70,48 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
       to_be_sold: false,
     },
   });
+  const [assetBeneficiaries, setAssetBeneficiaries] = useState<
+    AssetBeneficiary[]
+  >([
+    {
+      id: 1,
+      name: "Michael",
+      allocation: 100,
+      already_assigned: true,
+    },
+    {
+      id: 2,
+      name: "Scott",
+      allocation: 0,
+      already_assigned: false,
+    },
+  ]);
+
+  function onEditBeneficiary(id: number, allocation: number) {
+    setAssetBeneficiaries(
+      assetBeneficiaries.map((beneficiary) =>
+        beneficiary.id === id
+          ? {
+              ...beneficiary,
+              allocation,
+            }
+          : beneficiary
+      )
+    );
+  }
+
+  function onToggleBeneficiary(id: number, already_assigned: boolean) {
+    setAssetBeneficiaries(
+      assetBeneficiaries.map((beneficiary) =>
+        beneficiary.id === id
+          ? {
+              ...beneficiary,
+              already_assigned,
+            }
+          : beneficiary
+      )
+    );
+  }
 
   // 2. Define a submit handler.
   async function onSubmit(values: AddAssetFormSchema) {
@@ -230,7 +273,11 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               )}
             />
           </div>
-          <BeneficiaryAllocation />
+          <BeneficiaryAllocation
+            assetBeneficiaries={assetBeneficiaries}
+            onEditBeneficiary={onEditBeneficiary}
+            onToggleBeneficiary={onToggleBeneficiary}
+          />
           <DialogFooter>
             <FormSubmitButton
               disabled={!form.formState.isValid}
