@@ -57,7 +57,10 @@ export function generateNetWorthSeries(assets: Tables<"assets">[]) {
   return { series, xAxisOptions };
 }
 
-function valueAtYear(asset: Tables<"assets">, yearGiven: number): number {
+export function valueAtYear(
+  asset: Tables<"assets">,
+  yearGiven: number
+): number {
   const currentYear: number = new Date().getFullYear();
   if (yearGiven < asset.year_acquired) {
     return 0;
