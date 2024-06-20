@@ -31,6 +31,7 @@ import { ASSET_TYPES } from "@/constants/assetTypes";
 import type { AssetBeneficiary } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
 import { useState } from "react";
+import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
 const addAssetSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
@@ -56,9 +57,11 @@ const addAssetSchema = z.object({
 export type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
 
 export function AddAssetForm({
+  beneficiaries,
   onCloseDialog,
   onAddAssetWithBeneficiaries,
 }: {
+  beneficiaries: BeneficiarySchema[];
   onCloseDialog: () => void;
   onAddAssetWithBeneficiaries: (
     asset: AddAssetFormSchema,
@@ -81,20 +84,12 @@ export function AddAssetForm({
   });
   const [assetBeneficiaries, setAssetBeneficiaries] = useState<
     AssetBeneficiary[]
-  >([
-    {
-      id: 1,
-      name: "Michael",
-      allocation: 100,
+  >(() =>
+    beneficiaries.map((beneficiary) => ({
+      ...beneficiary,
       already_assigned: true,
-    },
-    {
-      id: 2,
-      name: "Scott",
-      allocation: 0,
-      already_assigned: true,
-    },
-  ]);
+    }))
+  );
 
   function onEditBeneficiary(id: number, allocation: number) {
     setAssetBeneficiaries(

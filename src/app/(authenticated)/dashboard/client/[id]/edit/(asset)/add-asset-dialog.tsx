@@ -7,10 +7,13 @@ import { useState } from "react";
 import type { AddAssetFormSchema } from "./add-asset-form";
 import { AddAssetForm } from "./add-asset-form";
 import type { AssetBeneficiary } from "./beneficiary-allocation";
+import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
 export default function AddAssetDialog({
+  beneficiaries,
   onAddAssetWithBeneficiaries,
 }: {
+  beneficiaries: BeneficiarySchema[];
   onAddAssetWithBeneficiaries: (
     asset: AddAssetFormSchema,
     beneficiaries: AssetBeneficiary[]
@@ -32,6 +35,7 @@ export default function AddAssetDialog({
         </Button>
       </DialogTrigger>
       <AddAssetForm
+        beneficiaries={beneficiaries}
         onCloseDialog={handleCloseDialog}
         onAddAssetWithBeneficiaries={onAddAssetWithBeneficiaries}
       />

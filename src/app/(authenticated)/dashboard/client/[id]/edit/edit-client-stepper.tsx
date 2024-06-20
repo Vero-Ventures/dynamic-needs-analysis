@@ -2,6 +2,7 @@
 
 import type { StepItem } from "@/components/ui/stepper";
 import { Step, Stepper, useStepper } from "@/components/ui/stepper";
+import type { BeneficiarySchema } from "./(beneficiaries)/beneficiaries";
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -27,6 +28,33 @@ const steps = [
 
 export default function EditClientStepper() {
   const [currentStep, setCurrentStep] = useState(0);
+
+  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
+    {
+      id: 1,
+      name: "Jane Doe",
+      allocation: 60,
+    },
+    {
+      id: 2,
+      name: "Jordan Harris",
+      allocation: 40,
+    },
+  ]);
+  function handleAddBeneficiaries(beneficiary: BeneficiarySchema) {
+    setBeneficiaries([...beneficiaries, beneficiary]);
+  }
+
+  function handleDeleteBeneficiary(id: number) {
+    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
+  }
+
+  function handleOnChangeBeneficiary(beneficiary: BeneficiarySchema) {
+    setBeneficiaries(
+      beneficiaries.map((b) => (b.id === beneficiary.id ? beneficiary : b))
+    );
+  }
+
   return (
     <div className="h-[calc(100dvh-72px-100px)]">
       <div className="flex h-full w-full items-center">
@@ -44,7 +72,12 @@ export default function EditClientStepper() {
             "mx-auto w-full max-w-3xl"
           )}
         >
-          <Beneficiaries />
+          <Beneficiaries
+            beneficiaries={beneficiaries}
+            handleAddBeneficiaries={handleAddBeneficiaries}
+            handleDeleteBeneficiary={handleDeleteBeneficiary}
+            handleOnChangeBeneficiary={handleOnChangeBeneficiary}
+          />
         </div>
         <div
           className={cn(
@@ -52,7 +85,7 @@ export default function EditClientStepper() {
             "mx-auto w-full max-w-3xl"
           )}
         >
-          <Assets />
+          <Assets beneficiaries={beneficiaries} />
         </div>
         <div
           className={cn(

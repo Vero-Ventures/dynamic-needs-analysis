@@ -79,6 +79,7 @@ export function BeneficiaryTable({
               <Input
                 type="number"
                 className="mx-auto w-44"
+                value={beneficiary.allocation}
                 placeholder="0"
                 min={0}
                 disabled={!beneficiary.already_assigned}
