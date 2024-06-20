@@ -239,7 +239,7 @@ export function AddAssetForm({
               control={form.control}
               name="is_taxable"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -255,7 +255,7 @@ export function AddAssetForm({
               control={form.control}
               name="to_be_sold"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -271,7 +271,7 @@ export function AddAssetForm({
               control={form.control}
               name="is_liquid"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
