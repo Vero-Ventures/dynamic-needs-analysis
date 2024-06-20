@@ -28,12 +28,12 @@ const steps = [
 export default function EditClientStepper() {
   const [currentStep, setCurrentStep] = useState(0);
   return (
-    <div className="h-[calc(100dvh-72px-100px)]">
-      <div className="flex h-full w-full items-center">
+    <div>
+      <div className="flex h-[calc(100dvh-72px-100px)] items-center justify-center">
         <div
           className={cn(
             { hidden: currentStep !== 0 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <ClientInfoForm />
@@ -41,7 +41,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 1 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Beneficiaries />
@@ -49,7 +49,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 2 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Assets />
@@ -57,7 +57,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 3 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Debts />
@@ -65,7 +65,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 4 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <Businesses />
@@ -73,7 +73,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 5 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <KeyPersonForm />
@@ -81,7 +81,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 6 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <GoalsAndPhilanthropy />
@@ -89,7 +89,7 @@ export default function EditClientStepper() {
         <div
           className={cn(
             { hidden: currentStep !== 7 },
-            "mx-auto w-full max-w-3xl"
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
           <FinishedScreen />
