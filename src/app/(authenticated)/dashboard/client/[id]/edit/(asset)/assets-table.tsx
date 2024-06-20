@@ -13,8 +13,10 @@ import type { AssetWithBeneficiaries } from "./assets";
 
 export default function AssetsTable({
   assets,
+  onDeleteAssetWithBeneficiaries,
 }: {
   assets: AssetWithBeneficiaries[];
+  onDeleteAssetWithBeneficiaries: (id: number) => void;
 }) {
   const totalPurchasePrice = assets.reduce(
     (acc, asset) => acc + asset.purchase_price,
@@ -39,7 +41,11 @@ export default function AssetsTable({
       </TableHeader>
       <TableBody>
         {assets.map((asset) => (
-          <AssetTableRow key={asset.id} asset={asset} />
+          <AssetTableRow
+            key={asset.id}
+            asset={asset}
+            onDeleteAssetWithBeneficiaries={onDeleteAssetWithBeneficiaries}
+          />
         ))}
       </TableBody>
       <TableFooter>
@@ -59,7 +65,13 @@ export default function AssetsTable({
   );
 }
 
-function AssetTableRow({ asset }: { asset: AssetWithBeneficiaries }) {
+function AssetTableRow({
+  asset,
+  onDeleteAssetWithBeneficiaries,
+}: {
+  asset: AssetWithBeneficiaries;
+  onDeleteAssetWithBeneficiaries: (id: number) => void;
+}) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{asset.name}</TableCell>
@@ -73,7 +85,10 @@ function AssetTableRow({ asset }: { asset: AssetWithBeneficiaries }) {
         {formatMoney(asset.current_value)}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteAssetButton size="icon" />
+        <DeleteAssetButton
+          size="icon"
+          onClick={() => onDeleteAssetWithBeneficiaries(asset.id)}
+        />
       </TableCell>
     </TableRow>
   );

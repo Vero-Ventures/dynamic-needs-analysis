@@ -40,6 +40,12 @@ export default function Assets() {
     ]);
   }
 
+  function handleDeleteAssetWithBeneficiaries(id: number) {
+    setAssetWithBeneficiaries(
+      assetWithBeneficiaries.filter((asset) => asset.id !== id)
+    );
+  }
+
   return (
     <Card className="border-none">
       <CardHeader>
@@ -48,7 +54,10 @@ export default function Assets() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <AssetsTable assets={assetWithBeneficiaries} />
+        <AssetsTable
+          assets={assetWithBeneficiaries}
+          onDeleteAssetWithBeneficiaries={handleDeleteAssetWithBeneficiaries}
+        />
       </CardContent>
       <CardFooter>
         <AddAssetDialog
