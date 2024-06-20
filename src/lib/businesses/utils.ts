@@ -1,18 +1,28 @@
 import type { BusinessesWithShareholders } from "@/data/businesses";
 import type { Business, Shareholder } from "@/types/db";
 
+function validatePercentage(percentage: number, type: string): void {
+  if (percentage < 0 || percentage > 100) {
+    throw new Error(`${type} percentage must be between 0% and 100%`);
+  }
+}
+
 export function calculateEbitdaContributionDollars(
   shareholder: Shareholder,
   ebitda: number
 ): number {
-  return ebitda * (shareholder.ebitda_contribution_percentage / 100);
+  const { ebitda_contribution_percentage: percentage } = shareholder;
+  validatePercentage(percentage, "EBITDA contribution");
+  return ebitda * (percentage / 100);
 }
 
 export function calculateShareValue(
   shareholder: Shareholder,
   valuation: number
 ): number {
-  return (shareholder.share_percentage / 100) * valuation;
+  const { share_percentage: percentage } = shareholder;
+  validatePercentage(percentage, "Share");
+  return (percentage / 100) * valuation;
 }
 
 export function calculateLiquidationDisparity(
