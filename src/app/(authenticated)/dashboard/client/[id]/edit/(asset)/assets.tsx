@@ -9,8 +9,37 @@ import {
 } from "@/components/ui/card";
 import AssetsTable from "./assets-table";
 import AddAssetDialog from "./add-asset-dialog";
+import { useState } from "react";
+import type { AssetBeneficiary } from "./beneficiary-allocation";
+import type { AddAssetFormSchema } from "./add-asset-form";
 
+export interface AssetWithBeneficiaries {
+  id: number;
+  name: string;
+  year_acquired: number;
+  purchase_price: number;
+  current_value: number;
+  beneficiaries: AssetBeneficiary[];
+}
 export default function Assets() {
+  const [assetWithBeneficiaries, setAssetWithBeneficiaries] = useState<
+    AssetWithBeneficiaries[]
+  >([]);
+
+  function handleAddAssetWithBeneficiaries(
+    asset: AddAssetFormSchema,
+    beneficiaries: AssetBeneficiary[]
+  ) {
+    setAssetWithBeneficiaries([
+      ...assetWithBeneficiaries,
+      {
+        id: assetWithBeneficiaries.length,
+        ...asset,
+        beneficiaries,
+      },
+    ]);
+  }
+
   return (
     <Card className="border-none">
       <CardHeader>
@@ -19,10 +48,12 @@ export default function Assets() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <AssetsTable />
+        <AssetsTable assets={assetWithBeneficiaries} />
       </CardContent>
       <CardFooter>
-        <AddAssetDialog />
+        <AddAssetDialog
+          onAddAssetWithBeneficiaries={handleAddAssetWithBeneficiaries}
+        />
       </CardFooter>
     </Card>
   );

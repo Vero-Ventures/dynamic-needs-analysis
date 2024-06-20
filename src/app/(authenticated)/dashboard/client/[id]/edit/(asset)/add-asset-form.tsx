@@ -55,7 +55,16 @@ const addAssetSchema = z.object({
 
 export type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
 
-export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
+export function AddAssetForm({
+  onCloseDialog,
+  onAddAssetWithBeneficiaries,
+}: {
+  onCloseDialog: () => void;
+  onAddAssetWithBeneficiaries: (
+    asset: AddAssetFormSchema,
+    beneficiaries: AssetBeneficiary[]
+  ) => void;
+}) {
   const form = useForm<AddAssetFormSchema>({
     resolver: zodResolver(addAssetSchema),
     defaultValues: {
@@ -83,7 +92,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
       id: 2,
       name: "Scott",
       allocation: 0,
-      already_assigned: false,
+      already_assigned: true,
     },
   ]);
 
@@ -115,7 +124,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
 
   // 2. Define a submit handler.
   async function onSubmit(values: AddAssetFormSchema) {
-    console.log(values);
+    onAddAssetWithBeneficiaries(values, assetBeneficiaries);
     onCloseDialog();
   }
   return (

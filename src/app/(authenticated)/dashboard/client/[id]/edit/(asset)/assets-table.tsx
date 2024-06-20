@@ -9,8 +9,22 @@ import {
 } from "@/components/ui/table";
 import DeleteAssetButton from "@/components/delete-item-button";
 import { formatMoney } from "@/lib/utils";
+import type { AssetWithBeneficiaries } from "./assets";
 
-export default function AssetsTable() {
+export default function AssetsTable({
+  assets,
+}: {
+  assets: AssetWithBeneficiaries[];
+}) {
+  const totalPurchasePrice = assets.reduce(
+    (acc, asset) => acc + asset.purchase_price,
+    0
+  );
+  const totalCurrentValue = assets.reduce(
+    (acc, asset) => acc + asset.current_value,
+    0
+  );
+
   return (
     <Table className="mx-auto max-w-3xl">
       <TableHeader>
@@ -24,14 +38,20 @@ export default function AssetsTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <AssetTableRow />
+        {assets.map((asset) => (
+          <AssetTableRow key={asset.id} asset={asset} />
+        ))}
       </TableBody>
       <TableFooter>
         <TableRow>
           <TableCell className="text-center">Total</TableCell>
           <TableCell></TableCell>
-          <TableCell className="text-center">{formatMoney(100000)}</TableCell>
-          <TableCell className="text-center">{formatMoney(150000)}</TableCell>
+          <TableCell className="text-center">
+            {formatMoney(totalPurchasePrice)}
+          </TableCell>
+          <TableCell className="text-center">
+            {formatMoney(totalCurrentValue)}
+          </TableCell>
           <TableCell colSpan={2}></TableCell>
         </TableRow>
       </TableFooter>
@@ -39,16 +59,18 @@ export default function AssetsTable() {
   );
 }
 
-function AssetTableRow() {
+function AssetTableRow({ asset }: { asset: AssetWithBeneficiaries }) {
   return (
     <TableRow>
-      <TableCell className="text-center font-medium">AAPL Stock</TableCell>
-      <TableCell className="text-center font-medium">2022</TableCell>
+      <TableCell className="text-center font-medium">{asset.name}</TableCell>
       <TableCell className="text-center font-medium">
-        {formatMoney(100000)}
+        {asset.year_acquired}
       </TableCell>
       <TableCell className="text-center font-medium">
-        {formatMoney(150000)}
+        {formatMoney(asset.purchase_price)}
+      </TableCell>
+      <TableCell className="text-center font-medium">
+        {formatMoney(asset.current_value)}
       </TableCell>
       <TableCell className="text-right">
         <DeleteAssetButton size="icon" />
