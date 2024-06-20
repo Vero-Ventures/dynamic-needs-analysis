@@ -28,8 +28,8 @@ const steps = [
 export default function EditClientStepper() {
   const [currentStep, setCurrentStep] = useState(0);
   return (
-    <div className="h-[calc(100dvh-72px-100px)]">
-      <div className="flex h-full w-full items-center">
+    <div>
+      <div className="h-[calc(100dvh-72px-100px)] overflow-y-auto py-10">
         <div
           className={cn(
             { hidden: currentStep !== 0 },

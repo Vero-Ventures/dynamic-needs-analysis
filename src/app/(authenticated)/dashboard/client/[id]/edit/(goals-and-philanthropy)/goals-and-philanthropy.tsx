@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
 
 const goalsAndPhilanthropySchema = z.object({
   id: z.number(),
@@ -27,6 +28,8 @@ export type GoalsAndPhilanthropySchema = z.infer<
 >;
 
 export default function GoalsAndPhilanthropy() {
+  const [liquidityAllocatedTowardsGoal, setLiquidityAllocatedTowardsGoal] =
+    useState(0);
   const [goalsAndPhilanthropies, setGoalsAndPhilanthropies] = useState<
     GoalsAndPhilanthropySchema[]
   >([
@@ -71,13 +74,21 @@ export default function GoalsAndPhilanthropy() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-9">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground">
+            % Liquidity Allocated Towards Goal:
+          </span>
+          <Input
+            className="w-24"
+            value={liquidityAllocatedTowardsGoal}
+            onChange={(e) => setLiquidityAllocatedTowardsGoal(+e.target.value)}
+          />
+        </div>
         <GoalsAndPhilanthropyTable
           goalsAndPhilanthropies={goalsAndPhilanthropies}
           onChangeGoalsAndPhilanthropy={handleOnChangeGoalsAndPhilanthropy}
           onDeleteGoalsAndPhilanthropy={handleDeleteGoalsAndPhilanthropy}
         />
-      </CardContent>
-      <CardFooter>
         <Button
           onClick={() =>
             handleAddGoalsAndPhilanthropy({
@@ -95,7 +106,8 @@ export default function GoalsAndPhilanthropy() {
           <PlusIcon className="h-5 w-5" />
           <span>Add Goal</span>
         </Button>
-      </CardFooter>
+      </CardContent>
+      <CardFooter></CardFooter>
     </Card>
   );
 }
