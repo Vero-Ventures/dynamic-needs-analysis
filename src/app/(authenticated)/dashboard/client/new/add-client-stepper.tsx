@@ -31,12 +31,12 @@ export default function EditClientStepper() {
 
   const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
     {
-      id: 1,
+      id: 0,
       name: "Jane Doe",
       allocation: 60,
     },
     {
-      id: 2,
+      id: 1,
       name: "Jordan Harris",
       allocation: 40,
     },
