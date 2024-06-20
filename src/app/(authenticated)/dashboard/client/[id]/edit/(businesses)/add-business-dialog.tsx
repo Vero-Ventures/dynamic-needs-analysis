@@ -4,19 +4,16 @@ import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import type { AddAssetFormSchema } from "./add-asset-form";
-import { AddAssetForm } from "./add-asset-form";
-import type { AssetBeneficiary } from "./beneficiary-allocation";
-import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
+import type { CreateBusinessSchema } from "./add-business-form";
+import { AddBusinessForm } from "./add-business-form";
+import type { ShareholderSchema } from "./shareholders";
 
-export default function AddAssetDialog({
-  beneficiaries,
-  onAddAssetWithBeneficiaries,
+export default function AddBusinessDialog({
+  onAddBusinessWithShareholder,
 }: {
-  beneficiaries: BeneficiarySchema[];
-  onAddAssetWithBeneficiaries: (
-    asset: AddAssetFormSchema,
-    beneficiaries: AssetBeneficiary[]
+  onAddBusinessWithShareholder: (
+    business: CreateBusinessSchema,
+    shareholders: ShareholderSchema[]
   ) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -31,13 +28,12 @@ export default function AddAssetDialog({
           variant="outline"
         >
           <PlusIcon className="h-5 w-5" />
-          <span>Add Asset</span>
+          <span>Add Business</span>
         </Button>
       </DialogTrigger>
-      <AddAssetForm
-        beneficiaries={beneficiaries}
+      <AddBusinessForm
+        onAddBusinessWithShareholder={onAddBusinessWithShareholder}
         onCloseDialog={handleCloseDialog}
-        onAddAssetWithBeneficiaries={onAddAssetWithBeneficiaries}
       />
     </Dialog>
   );

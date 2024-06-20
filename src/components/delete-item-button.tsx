@@ -16,6 +16,7 @@ export default function DeleteItemButton({
   const { pending } = useFormStatus();
   return (
     <Button
+      size="icon"
       disabled={pending || isPending}
       variant={pending || isPending ? "default" : "destructive"}
       {...props}

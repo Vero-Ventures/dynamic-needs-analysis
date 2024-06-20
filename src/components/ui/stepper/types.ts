@@ -1,6 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 
-type IconType = LucideIcon | React.ComponentType<any> | undefined;
+type IconType =
+  | LucideIcon
+  | React.ComponentType<React.SVGProps<SVGSVGElement>>
+  | undefined;
 
 type StepItem = {
   id?: string;
