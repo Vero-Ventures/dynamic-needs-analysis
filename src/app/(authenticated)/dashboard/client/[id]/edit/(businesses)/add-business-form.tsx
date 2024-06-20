@@ -26,7 +26,7 @@ import Shareholders from "./shareholders";
 
 const createBusinessSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
-  valuation: z.number(),
+  valuation: z.coerce.number(),
   ebitda: z.coerce.number(),
   term: z.coerce.number(),
   appreciation_rate: z.coerce.number(),
@@ -56,7 +56,7 @@ export function AddBusinessForm({
     onCloseDialog();
   }
   return (
-    <DialogContent className="p-0 sm:max-w-[700px]">
+    <DialogContent className="max-h-[calc(100dvh-100px)] overflow-y-auto p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
           Add Business
