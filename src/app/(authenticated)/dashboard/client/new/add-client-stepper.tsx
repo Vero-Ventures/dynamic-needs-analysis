@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import Assets from "./(asset)/assets";
-import { KeyPersonForm } from "./(key-person)/key-person-form";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 import { ClientInfoForm } from "./(client)/client-info-form";
@@ -22,7 +21,6 @@ const steps = [
   { label: "Assets" },
   { label: "Debt" },
   { label: "Businesses" },
-  { label: "Key Person" },
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
@@ -109,19 +107,11 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <KeyPersonForm />
-        </div>
-        <div
-          className={cn(
-            { hidden: currentStep !== 6 },
-            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
-          )}
-        >
           <GoalsAndPhilanthropy />
         </div>
         <div
           className={cn(
-            { hidden: currentStep !== 7 },
+            { hidden: currentStep !== 6 },
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >

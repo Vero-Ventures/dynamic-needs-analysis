@@ -13,56 +13,56 @@ import {
 import { PlusIcon } from "lucide-react";
 import { z } from "zod";
 
-const shareholderSchema = z.object({
+const keyPersonSchema = z.object({
   id: z.number(),
   name: z.string(),
   insurance_coverage: z.number(),
-  share_percentage: z.number(),
+  ebitda_contribution_percentage: z.number(),
 });
 
-export type ShareholderSchema = z.infer<typeof shareholderSchema>;
+export type KeyPersonSchema = z.infer<typeof keyPersonSchema>;
 
-export default function Shareholders({
-  shareholders,
-  onAddShareholder,
-  onChangeShareholder,
-  onDeleteShareholder,
+export default function KeyPeople({
+  keyPeople,
+  onAddKeyPerson,
+  onChangeKeyPerson,
+  onDeleteKeyPerson,
 }: {
-  shareholders: ShareholderSchema[];
-  onAddShareholder: (shareholder: ShareholderSchema) => void;
-  onChangeShareholder: (shareholder: ShareholderSchema) => void;
-  onDeleteShareholder: (id: number) => void;
+  keyPeople: KeyPersonSchema[];
+  onAddKeyPerson: (keyPerson: KeyPersonSchema) => void;
+  onChangeKeyPerson: (keyPerson: KeyPersonSchema) => void;
+  onDeleteKeyPerson: (id: number) => void;
 }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Shareholders</CardTitle>
+        <CardTitle>Key People</CardTitle>
       </CardHeader>
       <CardContent>
         <Table className="mx-auto max-w-3xl">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>% of business owned</TableHead>
+              <TableHead>% EBITDA Contribution</TableHead>
               <TableHead>Insurance coverage</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {shareholders.map((s) => (
-              <ShareholderTableRow
-                onChangeShareholder={onChangeShareholder}
-                onDeleteShareholder={onDeleteShareholder}
+            {keyPeople.map((s) => (
+              <KeyPersonTableRow
+                onChangeKeyPerson={onChangeKeyPerson}
+                onDeleteKeyPerson={onDeleteKeyPerson}
                 key={s.id}
-                shareholder={s}
+                keyPerson={s}
               />
             ))}
             <Button
               onClick={() =>
-                onAddShareholder({
-                  id: shareholders.length,
+                onAddKeyPerson({
+                  id: keyPeople.length,
                   name: "",
                   insurance_coverage: 0,
-                  share_percentage: 0,
+                  ebitda_contribution_percentage: 0,
                 })
               }
               type="button"
@@ -70,7 +70,7 @@ export default function Shareholders({
               variant="outline"
             >
               <PlusIcon className="h-5 w-5" />
-              <span>Add Shareholder</span>
+              <span>Add Key Person</span>
             </Button>
           </TableBody>
         </Table>
@@ -79,34 +79,34 @@ export default function Shareholders({
   );
 }
 
-function ShareholderTableRow({
-  shareholder,
-  onChangeShareholder,
-  onDeleteShareholder,
+function KeyPersonTableRow({
+  keyPerson,
+  onChangeKeyPerson,
+  onDeleteKeyPerson,
 }: {
-  shareholder: ShareholderSchema;
-  onChangeShareholder: (shareholder: ShareholderSchema) => void;
-  onDeleteShareholder: (id: number) => void;
+  keyPerson: KeyPersonSchema;
+  onChangeKeyPerson: (keyPerson: KeyPersonSchema) => void;
+  onDeleteKeyPerson: (id: number) => void;
 }) {
   return (
     <TableRow>
       <TableCell>
         <Input
           placeholder="Enter name"
-          value={shareholder.name}
+          value={keyPerson.name}
           onChange={(e) =>
-            onChangeShareholder({ ...shareholder, name: e.target.value })
+            onChangeKeyPerson({ ...keyPerson, name: e.target.value })
           }
         />
       </TableCell>
       <TableCell>
         <Input
           placeholder="0"
-          value={shareholder.share_percentage}
+          value={keyPerson.ebitda_contribution_percentage}
           onChange={(e) =>
-            onChangeShareholder({
-              ...shareholder,
-              share_percentage: +e.target.value,
+            onChangeKeyPerson({
+              ...keyPerson,
+              ebitda_contribution_percentage: +e.target.value,
             })
           }
         />
@@ -114,17 +114,17 @@ function ShareholderTableRow({
       <TableCell>
         <Input
           placeholder="0"
-          value={shareholder.insurance_coverage}
+          value={keyPerson.insurance_coverage}
           onChange={(e) =>
-            onChangeShareholder({
-              ...shareholder,
+            onChangeKeyPerson({
+              ...keyPerson,
               insurance_coverage: +e.target.value,
             })
           }
         />
       </TableCell>
       <TableCell>
-        <DeleteItemButton onClick={() => onDeleteShareholder(shareholder.id)} />
+        <DeleteItemButton onClick={() => onDeleteKeyPerson(keyPerson.id)} />
       </TableCell>
     </TableRow>
   );

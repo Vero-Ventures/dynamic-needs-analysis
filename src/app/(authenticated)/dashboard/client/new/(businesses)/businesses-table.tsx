@@ -6,14 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { BusinessWithShareholders } from "./businesses";
+import type { BusinessWithShareholdersAndKeyPeople } from "./businesses";
 import DeleteItemButton from "@/components/delete-item-button";
 
 export default function BusinessesTable({
   businesses,
   onDeleteBusinessWithShareholder,
 }: {
-  businesses: BusinessWithShareholders[];
+  businesses: BusinessWithShareholdersAndKeyPeople[];
   onDeleteBusinessWithShareholder: (id: number) => void;
 }) {
   return (

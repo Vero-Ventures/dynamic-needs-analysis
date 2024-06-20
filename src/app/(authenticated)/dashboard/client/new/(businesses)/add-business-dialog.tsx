@@ -7,13 +7,15 @@ import { useState } from "react";
 import type { CreateBusinessSchema } from "./add-business-form";
 import { AddBusinessForm } from "./add-business-form";
 import type { ShareholderSchema } from "./shareholders";
+import type { KeyPersonSchema } from "./key-people";
 
 export default function AddBusinessDialog({
-  onAddBusinessWithShareholder,
+  onAddBusinessWithShareholdersAndKeyPeople,
 }: {
-  onAddBusinessWithShareholder: (
+  onAddBusinessWithShareholdersAndKeyPeople: (
     business: CreateBusinessSchema,
-    shareholders: ShareholderSchema[]
+    shareholders: ShareholderSchema[],
+    keyPeople: KeyPersonSchema[]
   ) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -32,7 +34,9 @@ export default function AddBusinessDialog({
         </Button>
       </DialogTrigger>
       <AddBusinessForm
-        onAddBusinessWithShareholder={onAddBusinessWithShareholder}
+        onAddBusinessWithShareholdersAndKeyPeople={
+          onAddBusinessWithShareholdersAndKeyPeople
+        }
         onCloseDialog={handleCloseDialog}
       />
     </Dialog>

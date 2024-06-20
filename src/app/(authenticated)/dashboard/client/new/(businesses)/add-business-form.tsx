@@ -25,6 +25,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { ShareholderSchema } from "./shareholders";
 import Shareholders from "./shareholders";
 import { useState } from "react";
+import type { KeyPersonSchema } from "./key-people";
+import KeyPeople from "./key-people";
 
 const createBusinessSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
@@ -38,12 +40,13 @@ export type CreateBusinessSchema = z.infer<typeof createBusinessSchema>;
 
 export function AddBusinessForm({
   onCloseDialog,
-  onAddBusinessWithShareholder,
+  onAddBusinessWithShareholdersAndKeyPeople,
 }: {
   onCloseDialog: () => void;
-  onAddBusinessWithShareholder: (
+  onAddBusinessWithShareholdersAndKeyPeople: (
     business: CreateBusinessSchema,
-    shareholders: ShareholderSchema[]
+    shareholders: ShareholderSchema[],
+    keyPeople: KeyPersonSchema[]
   ) => void;
 }) {
   const form = useForm<CreateBusinessSchema>({
@@ -59,6 +62,14 @@ export function AddBusinessForm({
   const [shareholders, setShareholders] = useState<ShareholderSchema[]>([
     { id: 0, name: "", insurance_coverage: 0, share_percentage: 0 },
   ]);
+  const [keyPeople, setKeyPeople] = useState<KeyPersonSchema[]>([
+    {
+      id: 0,
+      name: "",
+      insurance_coverage: 0,
+      ebitda_contribution_percentage: 0,
+    },
+  ]);
 
   function handleAddShareholder(shareholder: ShareholderSchema) {
     setShareholders([...shareholders, shareholder]);
@@ -73,11 +84,23 @@ export function AddBusinessForm({
       shareholders.map((s) => (s.id === shareholder.id ? shareholder : s))
     );
   }
+  function handleAddKeyPeople(keyPerson: KeyPersonSchema) {
+    setKeyPeople([...keyPeople, keyPerson]);
+  }
+
+  function handleDeleteKeyPerson(id: number) {
+    setKeyPeople(keyPeople.filter((k) => k.id !== id));
+  }
+
+  function handleOnChangeKeyPerson(keyPerson: KeyPersonSchema) {
+    setKeyPeople(keyPeople.map((k) => (k.id === keyPerson.id ? keyPerson : k)));
+  }
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateBusinessSchema) {
-    onAddBusinessWithShareholder(values, shareholders);
+    onAddBusinessWithShareholdersAndKeyPeople(values, shareholders, keyPeople);
     setShareholders([]);
+    setKeyPeople([]);
     form.reset();
     onCloseDialog();
   }
@@ -167,6 +190,12 @@ export function AddBusinessForm({
             onAddShareholder={handleAddShareholder}
             onChangeShareholder={handleOnChangeShareholder}
             onDeleteShareholder={handleDeleteShareholder}
+          />
+          <KeyPeople
+            keyPeople={keyPeople}
+            onAddKeyPerson={handleAddKeyPeople}
+            onChangeKeyPerson={handleOnChangeKeyPerson}
+            onDeleteKeyPerson={handleDeleteKeyPerson}
           />
           <DialogFooter>
             <FormSubmitButton
