@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export default async function Dashboard() {
-  const sb = await createClient();
+  const sb = createClient();
   const { data: clients, error } = await sb.from("clients").select();
   if (error) {
     console.error(error);

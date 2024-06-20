@@ -46,6 +46,9 @@ export function calculateNumberOfPaymentPeriods(
   annualPayment: number,
   presentValue: number
 ): number {
+  if (interestRate === 0) {
+    return presentValue / annualPayment;
+  }
   interestRate = interestRate / 100;
 
   if (interestRate <= 0) {
@@ -65,13 +68,6 @@ export function calculateFutureValueOfActualTermDebtDollars(
   term: number
 ): number {
   return initialValue * Math.pow(1 + interestRate / 100, term);
-}
-
-export function calculateInsurableFutureValueDollars(
-  futureValueOfActualTermDebtDollars: number,
-  amountPaidOffDollars: number
-): number {
-  return futureValueOfActualTermDebtDollars - amountPaidOffDollars;
 }
 
 export function generateDebtsSeries(debts: Tables<"debts">[]) {
