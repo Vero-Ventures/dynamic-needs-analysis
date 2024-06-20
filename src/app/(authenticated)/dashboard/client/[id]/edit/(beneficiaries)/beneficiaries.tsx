@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import BeneficiariesTable from "./beneficiaries-table";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { z } from "zod";
@@ -21,29 +20,19 @@ const beneficiarySchema = z.object({
 
 export type BeneficiarySchema = z.infer<typeof beneficiarySchema>;
 
-export default function Beneficiaries() {
-  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
-    {
-      id: 0,
-      name: "",
-      allocation: 0,
-    },
-  ]);
-  function handleAddBeneficiaries(beneficiary: BeneficiarySchema) {
-    setBeneficiaries([...beneficiaries, beneficiary]);
-  }
-
-  function handleDeleteBeneficiary(id: number) {
-    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
-  }
-
-  function handleOnChangeBeneficiary(beneficiary: BeneficiarySchema) {
-    setBeneficiaries(
-      beneficiaries.map((b) => (b.id === beneficiary.id ? beneficiary : b))
-    );
-  }
+export default function Beneficiaries({
+  beneficiaries,
+  handleAddBeneficiary,
+  handleDeleteBeneficiary,
+  handleOnChangeBeneficiary,
+}: {
+  beneficiaries: BeneficiarySchema[];
+  handleAddBeneficiary: (beneficiary: BeneficiarySchema) => void;
+  handleDeleteBeneficiary: (id: number) => void;
+  handleOnChangeBeneficiary: (beneficiary: BeneficiarySchema) => void;
+}) {
   return (
-    <Card className="mx-auto max-w-3xl border-none">
+    <Card className="border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Beneficiaries
@@ -59,7 +48,7 @@ export default function Beneficiaries() {
       <CardFooter>
         <Button
           onClick={() =>
-            handleAddBeneficiaries({
+            handleAddBeneficiary({
               id: beneficiaries.length,
               allocation: 0,
               name: "",

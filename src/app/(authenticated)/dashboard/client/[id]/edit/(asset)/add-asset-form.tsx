@@ -1,3 +1,7 @@
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   DialogContent,
   DialogFooter,
@@ -22,16 +26,14 @@ import {
 } from "@/components/ui/select";
 import FormSubmitButton from "@/components/form-submit-button";
 
-import { useForm } from "react-hook-form";
-
-import { z } from "zod";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
+import type { AssetBeneficiary } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
+import { useState } from "react";
+import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
-const createClientSchema = z.object({
+const addAssetSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
   year_acquired: z.number(),
   purchase_price: z.coerce.number(),
@@ -52,11 +54,22 @@ const createClientSchema = z.object({
   is_liquid: z.boolean(),
 });
 
-type CreateClientSchema = z.infer<typeof createClientSchema>;
+export type AddAssetFormSchema = z.infer<typeof addAssetSchema>;
 
-export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
-  const form = useForm<CreateClientSchema>({
-    resolver: zodResolver(createClientSchema),
+export function AddAssetForm({
+  beneficiaries,
+  onCloseDialog,
+  onAddAssetWithBeneficiaries,
+}: {
+  beneficiaries: BeneficiarySchema[];
+  onCloseDialog: () => void;
+  onAddAssetWithBeneficiaries: (
+    asset: AddAssetFormSchema,
+    beneficiaries: AssetBeneficiary[]
+  ) => void;
+}) {
+  const form = useForm<AddAssetFormSchema>({
+    resolver: zodResolver(addAssetSchema),
     defaultValues: {
       name: "",
       year_acquired: new Date().getFullYear(),
@@ -69,10 +82,51 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
       to_be_sold: false,
     },
   });
+  const [assetBeneficiaries, setAssetBeneficiaries] = useState<
+    AssetBeneficiary[]
+  >(() =>
+    beneficiaries.map((beneficiary) => ({
+      ...beneficiary,
+      already_assigned: true,
+    }))
+  );
+
+  function onEditBeneficiary(id: number, allocation: number) {
+    setAssetBeneficiaries(
+      assetBeneficiaries.map((beneficiary) =>
+        beneficiary.id === id
+          ? {
+              ...beneficiary,
+              allocation,
+            }
+          : beneficiary
+      )
+    );
+  }
+
+  function onToggleBeneficiary(id: number, already_assigned: boolean) {
+    setAssetBeneficiaries(
+      assetBeneficiaries.map((beneficiary) =>
+        beneficiary.id === id
+          ? {
+              ...beneficiary,
+              already_assigned,
+            }
+          : beneficiary
+      )
+    );
+  }
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateClientSchema) {
-    console.log(values);
+  async function onSubmit(values: AddAssetFormSchema) {
+    onAddAssetWithBeneficiaries(values, assetBeneficiaries);
+    form.reset();
+    setAssetBeneficiaries(
+      beneficiaries.map((beneficiary) => ({
+        ...beneficiary,
+        already_assigned: true,
+      }))
+    );
     onCloseDialog();
   }
   return (
@@ -185,7 +239,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               control={form.control}
               name="is_taxable"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -201,7 +255,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               control={form.control}
               name="to_be_sold"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -217,7 +271,7 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               control={form.control}
               name="is_liquid"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-end gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -230,7 +284,11 @@ export function AddAssetForm({ onCloseDialog }: { onCloseDialog: () => void }) {
               )}
             />
           </div>
-          <BeneficiaryAllocation />
+          <BeneficiaryAllocation
+            assetBeneficiaries={assetBeneficiaries}
+            onEditBeneficiary={onEditBeneficiary}
+            onToggleBeneficiary={onToggleBeneficiary}
+          />
           <DialogFooter>
             <FormSubmitButton
               disabled={!form.formState.isValid}
