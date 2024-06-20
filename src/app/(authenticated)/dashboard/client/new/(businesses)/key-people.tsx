@@ -43,8 +43,8 @@ export default function KeyPeople({
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Insurance coverage</TableHead>
               <TableHead>% EBITDA Contribution</TableHead>
+              <TableHead>Insurance coverage</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,11 +102,11 @@ function KeyPersonTableRow({
       <TableCell>
         <Input
           placeholder="0"
-          value={keyPerson.insurance_coverage}
+          value={keyPerson.ebitda_contribution_percentage}
           onChange={(e) =>
             onChangeKeyPerson({
               ...keyPerson,
-              insurance_coverage: +e.target.value,
+              ebitda_contribution_percentage: +e.target.value,
             })
           }
         />
@@ -114,11 +114,11 @@ function KeyPersonTableRow({
       <TableCell>
         <Input
           placeholder="0"
-          value={keyPerson.ebitda_contribution_percentage}
+          value={keyPerson.insurance_coverage}
           onChange={(e) =>
             onChangeKeyPerson({
               ...keyPerson,
-              ebitda_contribution_percentage: +e.target.value,
+              insurance_coverage: +e.target.value,
             })
           }
         />

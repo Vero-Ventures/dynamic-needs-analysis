@@ -43,8 +43,8 @@ export default function Shareholders({
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Insurance coverage</TableHead>
               <TableHead>% of business owned</TableHead>
+              <TableHead>Insurance coverage</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,11 +102,11 @@ function ShareholderTableRow({
       <TableCell>
         <Input
           placeholder="0"
-          value={shareholder.insurance_coverage}
+          value={shareholder.share_percentage}
           onChange={(e) =>
             onChangeShareholder({
               ...shareholder,
-              insurance_coverage: +e.target.value,
+              share_percentage: +e.target.value,
             })
           }
         />
@@ -114,11 +114,11 @@ function ShareholderTableRow({
       <TableCell>
         <Input
           placeholder="0"
-          value={shareholder.share_percentage}
+          value={shareholder.insurance_coverage}
           onChange={(e) =>
             onChangeShareholder({
               ...shareholder,
-              share_percentage: +e.target.value,
+              insurance_coverage: +e.target.value,
             })
           }
         />
