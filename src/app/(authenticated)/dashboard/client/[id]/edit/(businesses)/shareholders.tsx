@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
 import { z } from "zod";
 
 const shareholderSchema = z.object({
@@ -23,23 +22,17 @@ const shareholderSchema = z.object({
 
 export type ShareholderSchema = z.infer<typeof shareholderSchema>;
 
-export default function Shareholders() {
-  const [shareholders, setShareholders] = useState<ShareholderSchema[]>([
-    { id: 0, name: "", insurance_coverage: 0, share_percentage: 0 },
-  ]);
-  function handleAddShareholder(shareholder: ShareholderSchema) {
-    setShareholders([...shareholders, shareholder]);
-  }
-
-  function handleDeleteShareholder(id: number) {
-    setShareholders(shareholders.filter((s) => s.id !== id));
-  }
-
-  function handleOnChangeShareholder(shareholder: ShareholderSchema) {
-    setShareholders(
-      shareholders.map((s) => (s.id === shareholder.id ? shareholder : s))
-    );
-  }
+export default function Shareholders({
+  shareholders,
+  onAddShareholder,
+  onChangeShareholder,
+  onDeleteShareholder,
+}: {
+  shareholders: ShareholderSchema[];
+  onAddShareholder: (shareholder: ShareholderSchema) => void;
+  onChangeShareholder: (shareholder: ShareholderSchema) => void;
+  onDeleteShareholder: (id: number) => void;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -57,15 +50,15 @@ export default function Shareholders() {
           <TableBody>
             {shareholders.map((s) => (
               <ShareholderTableRow
-                onChangeShareholder={handleOnChangeShareholder}
-                onDeleteShareholder={handleDeleteShareholder}
+                onChangeShareholder={onChangeShareholder}
+                onDeleteShareholder={onDeleteShareholder}
                 key={s.id}
                 shareholder={s}
               />
             ))}
             <Button
               onClick={() =>
-                handleAddShareholder({
+                onAddShareholder({
                   id: shareholders.length,
                   name: "",
                   insurance_coverage: 0,

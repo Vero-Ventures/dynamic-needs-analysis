@@ -9,8 +9,32 @@ import {
 } from "@/components/ui/card";
 import BusinessesTable from "./businesses-table";
 import AddBusinessDialog from "./add-business-dialog";
+import { useState } from "react";
+import type { CreateBusinessSchema } from "./add-business-form";
+import type { ShareholderSchema } from "./shareholders";
+
+export interface BusinessWithShareholders extends CreateBusinessSchema {
+  id: number;
+  shareholders: ShareholderSchema[];
+}
 
 export default function Businesses() {
+  const [businessesWithShareholders, setBusinessesWithShareholders] = useState<
+    BusinessWithShareholders[]
+  >([]);
+  function handleAddBusinessesWithShareholder(
+    business: CreateBusinessSchema,
+    shareholders: ShareholderSchema[]
+  ) {
+    setBusinessesWithShareholders([
+      ...businessesWithShareholders,
+      {
+        id: businessesWithShareholders.length,
+        ...business,
+        shareholders,
+      },
+    ]);
+  }
   return (
     <Card className="border-none">
       <CardHeader>
@@ -19,10 +43,12 @@ export default function Businesses() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <BusinessesTable />
+        <BusinessesTable businesses={businessesWithShareholders} />
       </CardContent>
       <CardFooter>
-        <AddBusinessDialog />
+        <AddBusinessDialog
+          onAddBusinessWithShareholder={handleAddBusinessesWithShareholder}
+        />
       </CardFooter>
     </Card>
   );

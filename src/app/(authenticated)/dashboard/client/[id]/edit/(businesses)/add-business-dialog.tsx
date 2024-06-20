@@ -4,9 +4,18 @@ import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
+import type { CreateBusinessSchema } from "./add-business-form";
 import { AddBusinessForm } from "./add-business-form";
+import type { ShareholderSchema } from "./shareholders";
 
-export default function AddBusinessDialog() {
+export default function AddBusinessDialog({
+  onAddBusinessWithShareholder,
+}: {
+  onAddBusinessWithShareholder: (
+    business: CreateBusinessSchema,
+    shareholders: ShareholderSchema[]
+  ) => void;
+}) {
   const [open, setOpen] = useState(false);
   function handleCloseDialog() {
     setOpen(false);
@@ -22,7 +31,10 @@ export default function AddBusinessDialog() {
           <span>Add Business</span>
         </Button>
       </DialogTrigger>
-      <AddBusinessForm onCloseDialog={handleCloseDialog} />
+      <AddBusinessForm
+        onAddBusinessWithShareholder={onAddBusinessWithShareholder}
+        onCloseDialog={handleCloseDialog}
+      />
     </Dialog>
   );
 }

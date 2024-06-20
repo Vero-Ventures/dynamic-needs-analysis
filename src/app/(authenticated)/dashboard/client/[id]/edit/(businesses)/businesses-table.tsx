@@ -1,12 +1,18 @@
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { BusinessWithShareholders } from "./businesses";
 
-export default function BusinessesTable() {
+export default function BusinessesTable({
+  businesses,
+}: {
+  businesses: BusinessWithShareholders[];
+}) {
   return (
     <Table className="mx-auto max-w-3xl">
       <TableHeader>
@@ -18,7 +24,17 @@ export default function BusinessesTable() {
           <TableHead className="text-right"></TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody></TableBody>
+      <TableBody>
+        {businesses.map((b) => (
+          <TableRow key={b.id}>
+            <TableCell className="text-center">{b.name}</TableCell>
+            <TableCell className="text-center">{b.valuation}</TableCell>
+            <TableCell className="text-center">{b.appreciation_rate}</TableCell>
+            <TableCell className="text-center">{b.term}</TableCell>
+            <TableCell className="text-right"></TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
     </Table>
   );
 }
