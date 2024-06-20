@@ -35,6 +35,11 @@ export default function Businesses() {
       },
     ]);
   }
+  function handleDeleteBusinessesWithShareholder(id: number) {
+    setBusinessesWithShareholders(
+      businessesWithShareholders.filter((b) => b.id !== id)
+    );
+  }
   return (
     <Card className="border-none">
       <CardHeader>
@@ -43,7 +48,12 @@ export default function Businesses() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <BusinessesTable businesses={businessesWithShareholders} />
+        <BusinessesTable
+          onDeleteBusinessWithShareholder={
+            handleDeleteBusinessesWithShareholder
+          }
+          businesses={businessesWithShareholders}
+        />
       </CardContent>
       <CardFooter>
         <AddBusinessDialog
