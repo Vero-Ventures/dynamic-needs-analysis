@@ -4,9 +4,21 @@ import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
+import type { AddAssetFormSchema } from "./add-asset-form";
 import { AddAssetForm } from "./add-asset-form";
+import type { AssetBeneficiary } from "./beneficiary-allocation";
+import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
-export default function AddAssetDialog() {
+export default function AddAssetDialog({
+  beneficiaries,
+  onAddAssetWithBeneficiaries,
+}: {
+  beneficiaries: BeneficiarySchema[];
+  onAddAssetWithBeneficiaries: (
+    asset: AddAssetFormSchema,
+    beneficiaries: AssetBeneficiary[]
+  ) => void;
+}) {
   const [open, setOpen] = useState(false);
   function handleCloseDialog() {
     setOpen(false);
@@ -22,7 +34,11 @@ export default function AddAssetDialog() {
           <span>Add Asset</span>
         </Button>
       </DialogTrigger>
-      <AddAssetForm onCloseDialog={handleCloseDialog} />
+      <AddAssetForm
+        beneficiaries={beneficiaries}
+        onCloseDialog={handleCloseDialog}
+        onAddAssetWithBeneficiaries={onAddAssetWithBeneficiaries}
+      />
     </Dialog>
   );
 }

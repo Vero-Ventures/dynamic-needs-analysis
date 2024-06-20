@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import BeneficiariesTable from "./beneficiaries-table";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { z } from "zod";
@@ -21,27 +20,17 @@ const beneficiarySchema = z.object({
 
 export type BeneficiarySchema = z.infer<typeof beneficiarySchema>;
 
-export default function Beneficiaries() {
-  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
-    {
-      id: 0,
-      name: "",
-      allocation: 0,
-    },
-  ]);
-  function handleAddBeneficiary(beneficiary: BeneficiarySchema) {
-    setBeneficiaries([...beneficiaries, beneficiary]);
-  }
-
-  function handleDeleteBeneficiary(id: number) {
-    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
-  }
-
-  function handleOnChangeBeneficiary(beneficiary: BeneficiarySchema) {
-    setBeneficiaries(
-      beneficiaries.map((b) => (b.id === beneficiary.id ? beneficiary : b))
-    );
-  }
+export default function Beneficiaries({
+  beneficiaries,
+  handleAddBeneficiary,
+  handleDeleteBeneficiary,
+  handleOnChangeBeneficiary,
+}: {
+  beneficiaries: BeneficiarySchema[];
+  handleAddBeneficiary: (beneficiary: BeneficiarySchema) => void;
+  handleDeleteBeneficiary: (id: number) => void;
+  handleOnChangeBeneficiary: (beneficiary: BeneficiarySchema) => void;
+}) {
   return (
     <Card className="border-none">
       <CardHeader>
