@@ -77,6 +77,8 @@ export function AddBusinessForm({
   // 2. Define a submit handler.
   async function onSubmit(values: CreateBusinessSchema) {
     onAddBusinessWithShareholder(values, shareholders);
+    setShareholders([]);
+    form.reset();
     onCloseDialog();
   }
   return (
