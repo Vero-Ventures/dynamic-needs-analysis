@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
 import { generateDesiredDistributionSeriesAndLabels } from "./utils";
-import type { Beneficiary} from "@/types/db";
+import type { Beneficiary } from "@/types/db";
 
 const testCases = [
   {
@@ -32,7 +32,9 @@ testCases.forEach(({ beneficiaries, expected }) => {
   )}`;
 
   test(description, () => {
-    const result = generateDesiredDistributionSeriesAndLabels(beneficiaries as Beneficiary[]);
+    const result = generateDesiredDistributionSeriesAndLabels(
+      beneficiaries as Beneficiary[]
+    );
     expect(result.series).toEqual(expected.series);
     expect(result.labels).toEqual(expected.labels);
   });

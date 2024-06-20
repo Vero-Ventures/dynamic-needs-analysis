@@ -9,7 +9,11 @@ const testCases = [
 
 testCases.forEach(({ initialValue, interestRate, term, expected }) => {
   test(`should return ${expected} for initial value ${initialValue}, interest rate ${interestRate}, and term ${term}`, () => {
-    const result = calculateFutureValueOfActualTermDebtDollars(initialValue, interestRate, term);
+    const result = calculateFutureValueOfActualTermDebtDollars(
+      initialValue,
+      interestRate,
+      term
+    );
     expect(result).toBeCloseTo(expected);
   });
 });

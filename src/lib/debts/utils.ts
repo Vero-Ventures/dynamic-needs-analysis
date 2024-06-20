@@ -70,7 +70,6 @@ export function calculateFutureValueOfActualTermDebtDollars(
   return initialValue * Math.pow(1 + interestRate / 100, term);
 }
 
-
 export function generateDebtsSeries(debts: Tables<"debts">[]) {
   const series: ApexAxisChartSeries = [];
   let latestYear: number = 0;
