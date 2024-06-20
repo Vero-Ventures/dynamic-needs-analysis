@@ -40,12 +40,13 @@ export type CreateBusinessSchema = z.infer<typeof createBusinessSchema>;
 
 export function AddBusinessForm({
   onCloseDialog,
-  onAddBusinessWithShareholder,
+  onAddBusinessWithShareholdersAndKeyPeople,
 }: {
   onCloseDialog: () => void;
-  onAddBusinessWithShareholder: (
+  onAddBusinessWithShareholdersAndKeyPeople: (
     business: CreateBusinessSchema,
-    shareholders: ShareholderSchema[]
+    shareholders: ShareholderSchema[],
+    keyPeople: KeyPersonSchema[]
   ) => void;
 }) {
   const form = useForm<CreateBusinessSchema>({
@@ -97,8 +98,9 @@ export function AddBusinessForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateBusinessSchema) {
-    onAddBusinessWithShareholder(values, shareholders);
+    onAddBusinessWithShareholdersAndKeyPeople(values, shareholders, keyPeople);
     setShareholders([]);
+    setKeyPeople([]);
     form.reset();
     onCloseDialog();
   }
