@@ -120,6 +120,13 @@ export function AddAssetForm({
   // 2. Define a submit handler.
   async function onSubmit(values: AddAssetFormSchema) {
     onAddAssetWithBeneficiaries(values, assetBeneficiaries);
+    form.reset();
+    setAssetBeneficiaries(
+      beneficiaries.map((beneficiary) => ({
+        ...beneficiary,
+        already_assigned: true,
+      }))
+    );
     onCloseDialog();
   }
   return (
