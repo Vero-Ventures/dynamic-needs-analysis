@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import type { DebtSchema } from "./debts";
+import { formatMoney } from "@/lib/utils";
 
 export default function DebtsTable({
   debts,
@@ -49,11 +50,11 @@ function DebtTableRow({
     <TableRow>
       <TableCell className="text-center font-medium">{debt.name}</TableCell>
       <TableCell className="text-center font-medium">
-        {debt.initial_value}
+        {formatMoney(debt.initial_value)}
       </TableCell>
       <TableCell className="text-center font-medium">{debt.rate}</TableCell>
       <TableCell className="text-center font-medium">
-        {debt.annual_payment}
+        {formatMoney(debt.annual_payment)}
       </TableCell>
       <TableCell className="text-center font-medium">
         {debt.years_held}
