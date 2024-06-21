@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 export const createNewClient = createServerAction()
   .input(createClientSchema)
   .handler(async ({ input }) => {
-    const sb = createClient();
+    const sb = await createClient();
     const { getUser } = getKindeServerSession();
     const user = await getUser();
     if (!user) {

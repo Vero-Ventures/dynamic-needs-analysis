@@ -4,7 +4,7 @@ import UserProfile from "@/components/user-profile";
 import CreateClientDialog from "./create-client-dialog";
 
 export default async function Dashboard() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: clients, error } = await sb.from("clients").select();
   if (error) {
     console.error(error);
