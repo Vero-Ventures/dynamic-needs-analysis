@@ -31,7 +31,6 @@ import { ASSET_TYPES } from "@/constants/assetTypes";
 import type { AssetBeneficiary } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
 import { useEffect, useState } from "react";
-import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
 const addAssetSchema = z.object({
   name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
@@ -61,7 +60,7 @@ export function AddAssetForm({
   onCloseDialog,
   onAddAssetWithBeneficiaries,
 }: {
-  beneficiaries: BeneficiarySchema[];
+  beneficiaries: any[];
   onCloseDialog: () => void;
   onAddAssetWithBeneficiaries: (
     asset: AddAssetFormSchema,

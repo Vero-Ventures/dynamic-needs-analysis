@@ -12,7 +12,6 @@ import AddAssetDialog from "./add-asset-dialog";
 import { useState } from "react";
 import type { AssetBeneficiary } from "./beneficiary-allocation";
 import type { AddAssetFormSchema } from "./add-asset-form";
-import type { BeneficiarySchema } from "../(beneficiaries)/beneficiaries";
 
 export interface AssetWithBeneficiaries {
   id: number;
@@ -22,11 +21,7 @@ export interface AssetWithBeneficiaries {
   current_value: number;
   beneficiaries: AssetBeneficiary[];
 }
-export default function Assets({
-  beneficiaries,
-}: {
-  beneficiaries: BeneficiarySchema[];
-}) {
+export default function Assets() {
   const [assetWithBeneficiaries, setAssetWithBeneficiaries] = useState<
     AssetWithBeneficiaries[]
   >([]);
@@ -66,7 +61,7 @@ export default function Assets({
       </CardContent>
       <CardFooter>
         <AddAssetDialog
-          beneficiaries={beneficiaries}
+          beneficiaries={[]}
           onAddAssetWithBeneficiaries={handleAddAssetWithBeneficiaries}
         />
       </CardFooter>

@@ -1,7 +1,3 @@
-"use client";
-
-import { z } from "zod";
-
 import {
   Card,
   CardContent,
@@ -12,21 +8,8 @@ import {
 import BeneficiariesTable from "./beneficiaries-table";
 import AddBeneficiaryDialog from "./add-beneficiary-dialog";
 
-const beneficiarySchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  allocation: z.number(),
-});
-
-export type BeneficiarySchema = z.infer<typeof beneficiarySchema>;
-
-export default function Beneficiaries({
-  beneficiaries,
-  handleDeleteBeneficiary,
-}: {
-  beneficiaries: BeneficiarySchema[];
-  handleDeleteBeneficiary: (id: number) => void;
-}) {
+export default function Beneficiaries({ params }: { params: { id: string } }) {
+  const clientId = Number.parseInt(params.id);
   return (
     <Card className="border-none">
       <CardHeader>
@@ -35,10 +18,7 @@ export default function Beneficiaries({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <BeneficiariesTable
-          beneficiaries={beneficiaries}
-          onDeleteBeneficiary={handleDeleteBeneficiary}
-        />
+        <BeneficiariesTable clientId={clientId} />
       </CardContent>
       <CardFooter>
         <AddBeneficiaryDialog />

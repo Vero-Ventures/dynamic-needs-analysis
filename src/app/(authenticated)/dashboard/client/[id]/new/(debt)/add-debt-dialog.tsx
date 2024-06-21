@@ -31,7 +31,7 @@ export default function AddDebtDialog() {
         <DialogHeader>
           <DialogTitle>Add Debt</DialogTitle>
         </DialogHeader>
-        <AddBeneficiaryForm setOpen={setOpen} />
+        <AddDebtForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
@@ -39,7 +39,6 @@ export default function AddDebtDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -50,36 +49,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
+import type { CreateDebt } from "./schema";
+import { createDebtSchema } from "./schema";
 
-const debtSchema = z.object({
-  name: z.string().trim(),
-  initial_value: z.coerce.number(),
-  rate: z.coerce.number(),
-  annual_payment: z.coerce.number(),
-  years_held: z.coerce.number(),
-  actual_term: z.coerce.number(),
-});
-
-export type AddDebtFormSchema = z.infer<typeof debtSchema>;
-
-function AddBeneficiaryForm({
+function AddDebtForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const form = useForm<AddDebtFormSchema>({
-    resolver: zodResolver(debtSchema),
+  const form = useForm<CreateDebt>({
+    resolver: zodResolver(createDebtSchema),
     defaultValues: {
       name: "",
       initial_value: 0,
       rate: 0,
       annual_payment: 0,
-      years_held: 0,
+      year_acquired: 0,
       actual_term: 0,
     },
   });
 
-  async function onSubmit(values: AddDebtFormSchema) {
+  async function onSubmit(values: CreateDebt) {
     console.log(values);
     setOpen(false);
   }
@@ -145,7 +135,7 @@ function AddBeneficiaryForm({
           />
           <FormField
             control={form.control}
-            name="years_held"
+            name="term"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Year held</FormLabel>

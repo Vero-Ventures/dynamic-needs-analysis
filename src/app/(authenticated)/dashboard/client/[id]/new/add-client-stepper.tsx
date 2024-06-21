@@ -11,12 +11,10 @@ import { useState } from "react";
 import Assets from "./(asset)/assets";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
-import { ClientInfoForm } from "./(client)/client-info-form";
 import Businesses from "./(businesses)/businesses";
 import Debts from "./(debt)/debts";
 
 const steps = [
-  { label: "Client Info" },
   { label: "Beneficiaries" },
   { label: "Assets" },
   { label: "Debt" },
@@ -27,23 +25,6 @@ const steps = [
 export default function EditClientStepper() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
-    {
-      id: 0,
-      name: "Jane Doe",
-      allocation: 60,
-    },
-    {
-      id: 1,
-      name: "Jordan Harris",
-      allocation: 40,
-    },
-  ]);
-
-  function handleDeleteBeneficiary(id: number) {
-    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
-  }
-
   return (
     <div>
       <div className="flex h-[calc(100dvh-72px-100px)] items-center justify-center">
@@ -53,7 +34,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <ClientInfoForm />
+          <Beneficiaries />
         </div>
         <div
           className={cn(
@@ -61,10 +42,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Beneficiaries
-            beneficiaries={beneficiaries}
-            handleDeleteBeneficiary={handleDeleteBeneficiary}
-          />
+          <Assets />
         </div>
         <div
           className={cn(
@@ -72,7 +50,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Assets beneficiaries={beneficiaries} />
+          <Debts />
         </div>
         <div
           className={cn(
@@ -80,7 +58,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Debts />
+          <Businesses />
         </div>
         <div
           className={cn(
@@ -88,19 +66,11 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Businesses />
-        </div>
-        <div
-          className={cn(
-            { hidden: currentStep !== 5 },
-            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
-          )}
-        >
           <GoalsAndPhilanthropy />
         </div>
         <div
           className={cn(
-            { hidden: currentStep !== 6 },
+            { hidden: currentStep !== 5 },
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >

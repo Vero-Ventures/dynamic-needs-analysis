@@ -38,7 +38,6 @@ export default function AddGoalsAndPhilanthropyDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -51,32 +50,23 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useState } from "react";
-
-const goalsAndPhilanthropySchema = z.object({
-  name: z.string().trim(),
-  amount: z.coerce.number(),
-  is_philanthropic: z.boolean(),
-});
-
-export type AddGoalsAndPhilanthropySchema = z.infer<
-  typeof goalsAndPhilanthropySchema
->;
+import { createGoalSchema, type CreateGoal } from "./schema";
 
 function AddGoalsAndPhilanthropyForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const form = useForm<AddGoalsAndPhilanthropySchema>({
-    resolver: zodResolver(goalsAndPhilanthropySchema),
+  const form = useForm<CreateGoal>({
+    resolver: zodResolver(createGoalSchema),
     defaultValues: {
       name: "",
       amount: 0,
-      is_philanthropic: false,
+      philanthropic: false,
     },
   });
 
-  async function onSubmit(values: AddGoalsAndPhilanthropySchema) {
+  async function onSubmit(values: CreateGoal) {
     console.log(values);
     setOpen(false);
   }
@@ -112,7 +102,7 @@ function AddGoalsAndPhilanthropyForm({
         />
         <FormField
           control={form.control}
-          name="is_philanthropic"
+          name="philanthropic"
           render={({ field }) => (
             <FormItem className="mt-2 flex flex-row items-end space-x-2.5 space-y-0">
               <FormControl>

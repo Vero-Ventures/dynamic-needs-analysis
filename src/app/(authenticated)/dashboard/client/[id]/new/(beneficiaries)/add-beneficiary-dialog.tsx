@@ -39,7 +39,6 @@ export default function AddBeneficiaryDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -50,28 +49,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
-
-const BeneficiarySchema = z.object({
-  name: z.string(),
-  allocation: z.coerce.number(),
-});
-
-export type AddBeneficiaryFormSchema = z.infer<typeof BeneficiarySchema>;
+import type { CreateBeneficiary } from "./schema";
+import { createBeneficiarySchema } from "./schema";
 
 function AddBeneficiaryForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const form = useForm<AddBeneficiaryFormSchema>({
-    resolver: zodResolver(BeneficiarySchema),
+  const form = useForm<CreateBeneficiary>({
+    resolver: zodResolver(createBeneficiarySchema),
     defaultValues: {
       name: "",
       allocation: 0,
     },
   });
 
-  async function onSubmit(values: AddBeneficiaryFormSchema) {
+  async function onSubmit(values: CreateBeneficiary) {
     console.log(values);
     setOpen(false);
   }
