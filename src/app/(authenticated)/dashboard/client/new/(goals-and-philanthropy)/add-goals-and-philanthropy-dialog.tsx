@@ -53,7 +53,6 @@ import FormSubmitButton from "@/components/form-submit-button";
 import { useState } from "react";
 
 const goalsAndPhilanthropySchema = z.object({
-  id: z.number(),
   name: z.string().trim(),
   amount: z.coerce.number(),
   is_philanthropic: z.boolean(),
