@@ -1,0 +1,36 @@
+"use server";
+import { createClient } from "@/lib/supabase/server";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { z } from "zod";
+import { createServerActionProcedure } from "zsa";
+
+export const authProcedure = createServerActionProcedure().handler(async () => {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+  return { user };
+});
+
+export const ownsClientProcedure = createServerActionProcedure(authProcedure)
+  .input(z.object({ client_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: client, error } = await sb
+      .from("clients")
+      .select("id")
+      .match({ id: input.client_id, kinde_id: ctx.user.id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!client) {
+      throw new Error("Invalid client id");
+    }
+    return {
+      user: ctx.user,
+      client_id: client.id,
+    };
+  });
