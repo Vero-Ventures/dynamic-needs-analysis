@@ -214,7 +214,7 @@ export type Database = {
           id: number
           income_multiplier: number
           kinde_id: string
-          liquidity_allocated_towards_goals: number
+          liquidity_allocated_towards_goals: number | null
           name: string
           province: Database["public"]["Enums"]["provinces"]
         }
@@ -226,7 +226,7 @@ export type Database = {
           id?: number
           income_multiplier: number
           kinde_id: string
-          liquidity_allocated_towards_goals: number
+          liquidity_allocated_towards_goals?: number | null
           name: string
           province: Database["public"]["Enums"]["provinces"]
         }
@@ -238,7 +238,7 @@ export type Database = {
           id?: number
           income_multiplier?: number
           kinde_id?: string
-          liquidity_allocated_towards_goals?: number
+          liquidity_allocated_towards_goals?: number | null
           name?: string
           province?: Database["public"]["Enums"]["provinces"]
         }

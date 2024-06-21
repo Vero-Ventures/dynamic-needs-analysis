@@ -1,9 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import ClientCard from "./client-card";
 import UserProfile from "@/components/user-profile";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import CreateClientDialog from "./create-client-dialog";
 
 export default async function Dashboard() {
   const sb = createClient();
@@ -22,9 +20,7 @@ export default async function Dashboard() {
       <section className="mx-auto max-w-7xl px-4">
         <div className="flex justify-between gap-4">
           <h1 className="text-4xl font-bold">Clients</h1>
-          <Link className={cn(buttonVariants())} href="/dashboard/client/new">
-            Create New Client
-          </Link>
+          <CreateClientDialog />
         </div>
         <div className="mt-10 grid gap-6 px-4 md:grid-cols-2 xl:grid-cols-3">
           {clients && clients.map((c) => <ClientCard key={c.id} client={c} />)}
