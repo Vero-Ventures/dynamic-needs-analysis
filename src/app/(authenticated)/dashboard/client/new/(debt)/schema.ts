@@ -11,4 +11,4 @@ export const createDebtSchema = z.object({
   actual_term: z.coerce.number(),
 });
 
-export type CreateDebtSchema = z.infer<typeof createDebtSchema>;
+export type CreateDebt = z.infer<typeof createDebtSchema>;

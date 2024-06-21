@@ -6,4 +6,4 @@ export const createGoalSchema = z.object({
   philanthropic: z.boolean(),
 });
 
-export type CreateGoalSchema = z.infer<typeof createGoalSchema>;
+export type CreateGoal = z.infer<typeof createGoalSchema>;

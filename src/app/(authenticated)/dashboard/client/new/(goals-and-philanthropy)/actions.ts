@@ -15,7 +15,7 @@ export const createGoal = ownsClientProcedure
     if (error) {
       console.error(error.message);
       throw new Error(
-        "Something went wrong with adding the goals to the database"
+        "Something went wrong with adding the goal to the database"
       );
     }
 

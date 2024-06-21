@@ -15,7 +15,7 @@ export const createDebt = ownsClientProcedure
     if (error) {
       console.error(error.message);
       throw new Error(
-        "Something went wrong with adding the debts to the database"
+        "Something went wrong with adding the debt to the database"
       );
     }
 

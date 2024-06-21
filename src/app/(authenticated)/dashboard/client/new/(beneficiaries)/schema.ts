@@ -5,4 +5,4 @@ export const createBeneficiarySchema = z.object({
   allocation: z.number(),
 });
 
-export type CreateBeneficiarySchema = z.infer<typeof createBeneficiarySchema>;
+export type CreateBeneficiary = z.infer<typeof createBeneficiarySchema>;

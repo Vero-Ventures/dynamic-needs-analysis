@@ -34,3 +34,28 @@ export const ownsClientProcedure = createServerActionProcedure(authProcedure)
       client_id: client.id,
     };
   });
+
+export const ownsBusinessProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ business_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: business, error } = await sb
+      .from("businesses")
+      .select("id")
+      .match({ id: input.business_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!business) {
+      throw new Error("Invalid business id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      business,
+    };
+  });
