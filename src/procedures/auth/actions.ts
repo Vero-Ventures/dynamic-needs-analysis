@@ -59,3 +59,54 @@ export const ownsBusinessProcedure = createServerActionProcedure(
       business,
     };
   });
+
+export const ownsBeneficiaryProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ beneficiary_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: beneficiary, error } = await sb
+      .from("beneficiaries")
+      .select("id")
+      .match({ id: input.beneficiary_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!beneficiary) {
+      throw new Error("Invalid beneficiary id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      beneficiary,
+    };
+  });
+
+export const ownsAssetProcedure = createServerActionProcedure(
+  ownsBeneficiaryProcedure
+)
+  .input(z.object({ asset_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: asset, error } = await sb
+      .from("assets")
+      .select("id")
+      .match({ id: input.asset_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!asset) {
+      throw new Error("Invalid asset id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      asset,
+      beneficiary: ctx.beneficiary,
+    };
+  });
