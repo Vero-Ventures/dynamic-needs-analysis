@@ -7,39 +7,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
-import { Input } from "@/components/ui/input";
 import type { DebtSchema } from "./debts";
 
 export default function DebtsTable({
   debts,
-  onChangeDebt,
   onDeleteDebt,
 }: {
   debts: DebtSchema[];
-  onChangeDebt: (debt: DebtSchema) => void;
   onDeleteDebt: (id: number) => void;
 }) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[300px]">Name</TableHead>
-          <TableHead className="w-[200px]">Initial Value</TableHead>
-          <TableHead>Interest Rate</TableHead>
-          <TableHead className="w-[200px]">Annual payments</TableHead>
-          <TableHead>Years held</TableHead>
-          <TableHead>Actual term</TableHead>
+          <TableHead className="text-center">Name</TableHead>
+          <TableHead className="text-center">Initial Value</TableHead>
+          <TableHead className="text-center">Interest Rate</TableHead>
+          <TableHead className="text-center">Annual payments</TableHead>
+          <TableHead className="text-center">Years held</TableHead>
+          <TableHead className="text-center">Actual term</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {debts.map((d) => (
-          <DebtTableRow
-            key={d.id}
-            debt={d}
-            onChangeDebt={onChangeDebt}
-            onDeleteDebt={onDeleteDebt}
-          />
+          <DebtTableRow key={d.id} debt={d} onDeleteDebt={onDeleteDebt} />
         ))}
       </TableBody>
     </Table>
@@ -48,61 +40,27 @@ export default function DebtsTable({
 
 function DebtTableRow({
   debt,
-  onChangeDebt,
   onDeleteDebt,
 }: {
   debt: DebtSchema;
-  onChangeDebt: (Debt: DebtSchema) => void;
   onDeleteDebt: (id: number) => void;
 }) {
   return (
     <TableRow>
+      <TableCell className="text-center font-medium">{debt.name}</TableCell>
       <TableCell className="text-center font-medium">
-        <Input
-          placeholder="Enter name"
-          value={debt.name}
-          onChange={(e) => onChangeDebt({ ...debt, name: e.target.value })}
-        />
+        {debt.initial_value}
+      </TableCell>
+      <TableCell className="text-center font-medium">{debt.rate}</TableCell>
+      <TableCell className="text-center font-medium">
+        {debt.annual_payment}
       </TableCell>
       <TableCell className="text-center font-medium">
-        <Input
-          value={debt.initial_value}
-          onChange={(e) =>
-            onChangeDebt({ ...debt, initial_value: +e.target.value })
-          }
-        />
+        {debt.years_held}
       </TableCell>
       <TableCell className="text-center font-medium">
-        <Input
-          value={debt.rate}
-          onChange={(e) => onChangeDebt({ ...debt, rate: +e.target.value })}
-        />
+        {debt.actual_term}
       </TableCell>
-      <TableCell className="text-center font-medium">
-        <Input
-          value={debt.annual_payment}
-          onChange={(e) =>
-            onChangeDebt({ ...debt, annual_payment: +e.target.value })
-          }
-        />
-      </TableCell>
-      <TableCell className="text-center font-medium">
-        <Input
-          value={debt.years_held}
-          onChange={(e) =>
-            onChangeDebt({ ...debt, years_held: +e.target.value })
-          }
-        />
-      </TableCell>
-      <TableCell className="text-center font-medium">
-        <Input
-          value={debt.actual_term}
-          onChange={(e) =>
-            onChangeDebt({ ...debt, actual_term: +e.target.value })
-          }
-        />
-      </TableCell>
-
       <TableCell className="text-right">
         <DeleteBeneficiaryButton
           size="icon"
