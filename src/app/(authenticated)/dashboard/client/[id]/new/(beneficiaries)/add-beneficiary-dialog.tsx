@@ -51,12 +51,18 @@ import {
 import { useState } from "react";
 import type { CreateBeneficiary } from "./schema";
 import { createBeneficiarySchema } from "./schema";
+import { useParams } from "next/navigation";
+import { createBeneficiary } from "./actions";
+import { useServerAction } from "zsa-react";
 
 function AddBeneficiaryForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const params = useParams();
+  const { isPending, execute } = useServerAction(createBeneficiary);
+
   const form = useForm<CreateBeneficiary>({
     resolver: zodResolver(createBeneficiarySchema),
     defaultValues: {
@@ -65,8 +71,10 @@ function AddBeneficiaryForm({
     },
   });
 
+  const clientId = Number.parseInt(params.id as string);
+
   async function onSubmit(values: CreateBeneficiary) {
-    console.log(values);
+    await execute({ ...values, client_id: clientId });
     setOpen(false);
   }
 
@@ -101,7 +109,7 @@ function AddBeneficiaryForm({
         />
         <DialogFooter>
           <FormSubmitButton
-            isPending={form.formState.isSubmitting}
+            isPending={isPending || form.formState.isSubmitting}
             value="Add Beneficiary"
             loadingValue="Adding..."
           />

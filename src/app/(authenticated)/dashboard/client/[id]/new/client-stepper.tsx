@@ -2,13 +2,12 @@
 
 import type { StepItem } from "@/components/ui/stepper";
 import { Step, Stepper, useStepper } from "@/components/ui/stepper";
-import type { BeneficiarySchema } from "./(beneficiaries)/beneficiaries";
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import Assets from "./(asset)/assets";
+// import Assets from "./(asset)/assets";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 import Businesses from "./(businesses)/businesses";
@@ -22,7 +21,7 @@ const steps = [
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
-export default function EditClientStepper() {
+export default function ClientStepper({ clientId }: { clientId: number }) {
   const [currentStep, setCurrentStep] = useState(0);
 
   return (
@@ -34,7 +33,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Beneficiaries />
+          <Beneficiaries clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -42,7 +41,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Assets />
+          {/* <Assets /> */}
         </div>
         <div
           className={cn(

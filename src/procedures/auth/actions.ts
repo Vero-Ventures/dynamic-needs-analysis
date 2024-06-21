@@ -1,4 +1,3 @@
-"use server";
 import { createClient } from "@/lib/supabase/server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { z } from "zod";

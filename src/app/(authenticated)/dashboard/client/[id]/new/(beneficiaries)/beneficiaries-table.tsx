@@ -24,7 +24,6 @@ export default async function BeneficiariesTable({
   if (error) {
     // handle error
   }
-
   return (
     <Table>
       <TableHeader>

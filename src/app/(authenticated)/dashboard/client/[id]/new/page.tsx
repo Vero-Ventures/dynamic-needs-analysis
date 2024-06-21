@@ -1,11 +1,18 @@
 import UserProfile from "@/components/user-profile";
-import EditClientStepper from "./add-client-stepper";
+import ClientStepper from "./client-stepper";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import Beneficiaries from "./(beneficiaries)/beneficiaries";
 
-export default function AddClientPage() {
+export default async function AddClientPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const clientId = Number.parseInt(params.id);
+
   return (
     <div className="h-dvh max-h-dvh">
       <header className="bg-secondary p-4 text-primary-foreground">
@@ -25,7 +32,8 @@ export default function AddClientPage() {
           <UserProfile />
         </div>
       </header>
-      <EditClientStepper />
+      {/* <ClientStepper clientId={clientId} /> */}
+      <Beneficiaries clientId={clientId} />
     </div>
   );
 }

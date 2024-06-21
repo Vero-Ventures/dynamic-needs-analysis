@@ -8,8 +8,7 @@ import {
 import BeneficiariesTable from "./beneficiaries-table";
 import AddBeneficiaryDialog from "./add-beneficiary-dialog";
 
-export default function Beneficiaries({ params }: { params: { id: string } }) {
-  const clientId = Number.parseInt(params.id);
+export default function Beneficiaries({ clientId }: { clientId: number }) {
   return (
     <Card className="border-none">
       <CardHeader>
