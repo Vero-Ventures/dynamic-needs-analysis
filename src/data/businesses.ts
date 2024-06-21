@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 
 export async function getBusinessesWithShareholdersAndKeyPeople() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data, error } = await sb
     .from("businesses")
     .select("*, shareholders (*), key_people (*)");
@@ -16,7 +16,7 @@ export type BusinessesWithShareholdersAndKeyPeople = Awaited<
 export async function getSingleBusinessWithShareholdersAndKeyPeople(
   id: number
 ) {
-  const sb = createClient();
+  const sb = await createClient();
   const { data, error } = await sb
     .from("businesses")
     .select("*, shareholders(*)")
