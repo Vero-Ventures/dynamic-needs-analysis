@@ -1,5 +1,5 @@
-import type { BusinessesWithShareholders } from "@/data/businesses";
-import type { Business, Shareholder } from "@/types/db";
+import type { BusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
+import type { Business, KeyPerson, Shareholder } from "@/types/db";
 
 function validatePercentage(percentage: number, type: string): void {
   if (percentage < 0 || percentage > 100) {
@@ -8,10 +8,10 @@ function validatePercentage(percentage: number, type: string): void {
 }
 
 export function calculateEbitdaContributionDollars(
-  shareholder: Shareholder,
+  keyPerson: KeyPerson,
   ebitda: number
 ): number {
-  const { ebitda_contribution_percentage: percentage } = shareholder;
+  const { ebitda_contribution_percentage: percentage } = keyPerson;
   validatePercentage(percentage, "EBITDA contribution");
   return ebitda * (percentage / 100);
 }
@@ -44,10 +44,10 @@ export function calculateTotalShareholderPercentageOwned(
 }
 
 export function calculateTotalEbitdaContributionPercentage(
-  shareholders: Shareholder[]
+  keyPeople: KeyPerson[]
 ): number {
-  return shareholders.reduce(
-    (acc, shareholder) => acc + shareholder.ebitda_contribution_percentage,
+  return keyPeople.reduce(
+    (acc, keyPerson) => acc + keyPerson.ebitda_contribution_percentage,
     0
   );
 }
@@ -81,10 +81,10 @@ export function calculateTotalMajorShareholderDisparity(
 
 export function calculateFinalEbitdaContribution(
   business: Business,
-  shareholder: Shareholder
+  keyPerson: KeyPerson
 ): number {
   return (
-    (shareholder.ebitda_contribution_percentage / 100) *
+    (keyPerson.ebitda_contribution_percentage / 100) *
     business.ebitda *
     Math.pow(1 + business.appreciation_rate / 100, business.term)
   );
@@ -110,12 +110,12 @@ export function generateYearsArray(): string[] {
 
 export function calculateCompoundedEbitdaContribution(
   business: Business,
-  shareholder: Shareholder
+  keyPerson: KeyPerson
 ) {
   const contributions: number[] = [];
   for (let year: number = 0; year <= business.term; year++) {
     const compounded: number =
-      (shareholder.ebitda_contribution_percentage / 100) *
+      (keyPerson.ebitda_contribution_percentage / 100) *
       business.ebitda *
       Math.pow(1 + business.appreciation_rate / 100, year);
     contributions.push(compounded);
@@ -123,10 +123,12 @@ export function calculateCompoundedEbitdaContribution(
   return contributions;
 }
 
-export function generateEbitdaSeries(businesses: BusinessesWithShareholders) {
+export function generateEbitdaSeries(
+  businesses: BusinessesWithShareholdersAndKeyPeople
+) {
   const series: ApexAxisChartSeries = [];
   businesses.forEach((business) => {
-    business.shareholders.forEach((shareholder): void => {
+    business.key_people.forEach((shareholder): void => {
       series.push({
         name: `${business.name} - ${shareholder.name}`,
         data: calculateCompoundedEbitdaContribution(business, shareholder),
@@ -152,7 +154,7 @@ export function calculateShareValueOverTime(
 }
 
 export function generateShareValueSeries(
-  businesses: BusinessesWithShareholders
+  businesses: BusinessesWithShareholdersAndKeyPeople
 ): ApexAxisChartSeries {
   const series: ApexAxisChartSeries = [];
 

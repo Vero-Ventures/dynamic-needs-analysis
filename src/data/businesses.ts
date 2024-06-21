@@ -1,19 +1,21 @@
 import { createClient } from "@/lib/supabase/server";
 
-export async function getBusinessesWithShareholders() {
+export async function getBusinessesWithShareholdersAndKeyPeople() {
   const sb = createClient();
   const { data, error } = await sb
     .from("businesses")
-    .select("*, shareholders (*)");
+    .select("*, shareholders (*), key_people (*)");
   if (error) throw error;
   return data;
 }
 
-export type BusinessesWithShareholders = Awaited<
-  ReturnType<typeof getBusinessesWithShareholders>
+export type BusinessesWithShareholdersAndKeyPeople = Awaited<
+  ReturnType<typeof getBusinessesWithShareholdersAndKeyPeople>
 >;
 
-export async function getSingleBusinessWithShareholder(id: number) {
+export async function getSingleBusinessWithShareholdersAndKeyPeople(
+  id: number
+) {
   const sb = createClient();
   const { data, error } = await sb
     .from("businesses")
@@ -24,6 +26,6 @@ export async function getSingleBusinessWithShareholder(id: number) {
   if (error) throw error;
   return data;
 }
-export type SingleBusinessWithShareholders = Awaited<
-  ReturnType<typeof getSingleBusinessWithShareholder>
+export type SingleBusinessWithShareholdersAndKeyPeople = Awaited<
+  ReturnType<typeof getSingleBusinessWithShareholdersAndKeyPeople>
 >;
