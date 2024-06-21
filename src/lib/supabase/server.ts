@@ -10,6 +10,9 @@ const getNewToken = async () => {
   const { getIdToken } = getKindeServerSession();
   const idToken = await getIdToken();
   // Check if the token is expired
+  if (!idToken) {
+    redirect("/api/auth/logout");
+  }
   if (isTokenExpired(idToken)) {
     // If the token is expired then we logout the user
     redirect("/api/auth/logout");
