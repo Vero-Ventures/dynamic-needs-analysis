@@ -38,7 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useServerAction } from "zsa-react";
 import { createNewClient } from "./actions";
-import type { CreateClientSchema } from "./schema";
+import type { CreateClient } from "./schema";
 import { createClientSchema } from "./schema";
 
 export function CreateClientForm({
@@ -46,7 +46,7 @@ export function CreateClientForm({
 }: {
   onCloseDialog: () => void;
 }) {
-  const form = useForm<CreateClientSchema>({
+  const form = useForm<CreateClient>({
     resolver: zodResolver(createClientSchema),
     defaultValues: {
       name: "",
@@ -66,10 +66,10 @@ export function CreateClientForm({
   );
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateClientSchema) {
-    const [result] = await execute(values);
-    if (result?.error) {
-      console.log(result.error);
+  async function onSubmit(values: CreateClient) {
+    const [, error] = await execute(values);
+    if (error) {
+      console.log(error.message);
     }
     onCloseDialog();
   }
