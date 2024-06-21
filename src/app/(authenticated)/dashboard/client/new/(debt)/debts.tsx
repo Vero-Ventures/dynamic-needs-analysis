@@ -8,10 +8,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 import { z } from "zod";
 import DebtsTable from "./debts-table";
+import AddDebtDialog from "./add-debt-dialog";
 
 const debtSchema = z.object({
   id: z.number(),
@@ -29,25 +28,19 @@ export default function Debts() {
   const [debts, setDebts] = useState<DebtSchema[]>([
     {
       id: 0,
-      name: "",
-      initial_value: 0,
-      rate: 0,
-      annual_payment: 0,
-      years_held: 0,
-      actual_term: 0,
+      name: "Bank Loan",
+      initial_value: 1000,
+      rate: 2,
+      annual_payment: 100,
+      years_held: 5,
+      actual_term: 5,
     },
   ]);
-  function handleAddDebt(debt: DebtSchema) {
-    setDebts([...debts, debt]);
-  }
 
   function handleDeleteDebt(id: number) {
     setDebts(debts.filter((d) => d.id !== id));
   }
 
-  function handleOnChangeDebt(debt: DebtSchema) {
-    setDebts(debts.map((d) => (d.id === debt.id ? debt : d)));
-  }
   return (
     <Card className="border-none">
       <CardHeader>
@@ -56,31 +49,10 @@ export default function Debts() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <DebtsTable
-          debts={debts}
-          onChangeDebt={handleOnChangeDebt}
-          onDeleteDebt={handleDeleteDebt}
-        />
+        <DebtsTable debts={debts} onDeleteDebt={handleDeleteDebt} />
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={() =>
-            handleAddDebt({
-              id: debts.length,
-              name: "",
-              initial_value: 0,
-              rate: 0,
-              annual_payment: 0,
-              years_held: 0,
-              actual_term: 0,
-            })
-          }
-          className="my-4 space-x-1 rounded-full border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground"
-          variant="outline"
-        >
-          <PlusIcon className="h-5 w-5" />
-          <span>Add Debt</span>
-        </Button>
+        <AddDebtDialog />
       </CardFooter>
     </Card>
   );

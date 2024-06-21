@@ -6,29 +6,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import DeleteGoalsAndPhilanthropyButton from "@/components/delete-item-button";
 import type { GoalsAndPhilanthropySchema } from "./goals-and-philanthropy";
+import { CheckCircle2Icon } from "lucide-react";
+import { formatMoney } from "@/lib/utils";
 
 export default function GoalsAndPhilanthropyTable({
   goalsAndPhilanthropies,
-  onChangeGoalsAndPhilanthropy,
   onDeleteGoalsAndPhilanthropy,
 }: {
   goalsAndPhilanthropies: GoalsAndPhilanthropySchema[];
-  onChangeGoalsAndPhilanthropy: (
-    goalsAndPhilanthropy: GoalsAndPhilanthropySchema
-  ) => void;
   onDeleteGoalsAndPhilanthropy: (id: number) => void;
 }) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Goal name</TableHead>
-          <TableHead>Desired funding amount</TableHead>
-          <TableHead>Is philanthropic?</TableHead>
+          <TableHead className="text-center">Goal name</TableHead>
+          <TableHead className="text-center">Desired funding amount</TableHead>
+          <TableHead className="text-center">Is philanthropic?</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -36,7 +32,6 @@ export default function GoalsAndPhilanthropyTable({
           <GoalsAndPhilanthropyTableRow
             key={g.id}
             goalsAndPhilanthropy={g}
-            onChangeGoalsAndPhilanthropy={onChangeGoalsAndPhilanthropy}
             onDeleteGoalsAndPhilanthropy={onDeleteGoalsAndPhilanthropy}
           />
         ))}
@@ -47,53 +42,23 @@ export default function GoalsAndPhilanthropyTable({
 
 function GoalsAndPhilanthropyTableRow({
   goalsAndPhilanthropy,
-  onChangeGoalsAndPhilanthropy,
   onDeleteGoalsAndPhilanthropy,
 }: {
   goalsAndPhilanthropy: GoalsAndPhilanthropySchema;
-  onChangeGoalsAndPhilanthropy: (
-    goalsAndPhilanthropy: GoalsAndPhilanthropySchema
-  ) => void;
   onDeleteGoalsAndPhilanthropy: (id: number) => void;
 }) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">
-        <Input
-          placeholder="Name"
-          value={goalsAndPhilanthropy.name}
-          onChange={(e) =>
-            onChangeGoalsAndPhilanthropy({
-              ...goalsAndPhilanthropy,
-              name: e.target.value,
-            })
-          }
-        />
+        {goalsAndPhilanthropy.name}
       </TableCell>
       <TableCell className="text-center font-medium">
-        <Input
-          value={goalsAndPhilanthropy.funding_amount}
-          onChange={(e) =>
-            onChangeGoalsAndPhilanthropy({
-              ...goalsAndPhilanthropy,
-              funding_amount: e.target.value ? +e.target.value : 0,
-            })
-          }
-        />
+        {formatMoney(goalsAndPhilanthropy.amount)}
       </TableCell>
       <TableCell className="p-0 text-center">
-        <Checkbox
-          checked={goalsAndPhilanthropy.is_philanthropic}
-          onCheckedChange={(checked) =>
-            onChangeGoalsAndPhilanthropy({
-              ...goalsAndPhilanthropy,
-              is_philanthropic:
-                typeof checked === "boolean"
-                  ? checked
-                  : !goalsAndPhilanthropy.is_philanthropic,
-            })
-          }
-        />
+        {goalsAndPhilanthropy.is_philanthropic && (
+          <CheckCircle2Icon className="mx-auto stroke-green-600" />
+        )}
       </TableCell>
       <TableCell className="text-right">
         <DeleteGoalsAndPhilanthropyButton

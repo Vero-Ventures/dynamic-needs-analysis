@@ -39,18 +39,9 @@ export default function EditClientStepper() {
       allocation: 40,
     },
   ]);
-  function handleAddBeneficiary(beneficiary: BeneficiarySchema) {
-    setBeneficiaries([...beneficiaries, beneficiary]);
-  }
 
   function handleDeleteBeneficiary(id: number) {
     setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
-  }
-
-  function handleOnChangeBeneficiary(beneficiary: BeneficiarySchema) {
-    setBeneficiaries(
-      beneficiaries.map((b) => (b.id === beneficiary.id ? beneficiary : b))
-    );
   }
 
   return (
@@ -72,9 +63,7 @@ export default function EditClientStepper() {
         >
           <Beneficiaries
             beneficiaries={beneficiaries}
-            handleAddBeneficiary={handleAddBeneficiary}
             handleDeleteBeneficiary={handleDeleteBeneficiary}
-            handleOnChangeBeneficiary={handleOnChangeBeneficiary}
           />
         </div>
         <div
