@@ -214,6 +214,7 @@ export type Database = {
           id: number;
           income_multiplier: number;
           kinde_id: string;
+          liquidity_allocated_towards_goals: number | null;
           name: string;
           province: Database["public"]["Enums"]["provinces"];
         };
@@ -225,6 +226,7 @@ export type Database = {
           id?: number;
           income_multiplier: number;
           kinde_id: string;
+          liquidity_allocated_towards_goals?: number | null;
           name: string;
           province: Database["public"]["Enums"]["provinces"];
         };
@@ -236,6 +238,7 @@ export type Database = {
           id?: number;
           income_multiplier?: number;
           kinde_id?: string;
+          liquidity_allocated_towards_goals?: number | null;
           name?: string;
           province?: Database["public"]["Enums"]["provinces"];
         };
@@ -323,7 +326,7 @@ export type Database = {
           },
         ];
       };
-      shareholders: {
+      key_people: {
         Row: {
           business_id: number;
           created_at: string;
@@ -331,7 +334,6 @@ export type Database = {
           id: number;
           insurance_coverage: number;
           name: string;
-          share_percentage: number;
         };
         Insert: {
           business_id: number;
@@ -340,12 +342,45 @@ export type Database = {
           id?: number;
           insurance_coverage: number;
           name: string;
-          share_percentage: number;
         };
         Update: {
           business_id?: number;
           created_at?: string;
           ebitda_contribution_percentage?: number;
+          id?: number;
+          insurance_coverage?: number;
+          name?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_key_person_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      shareholders: {
+        Row: {
+          business_id: number;
+          created_at: string;
+          id: number;
+          insurance_coverage: number;
+          name: string;
+          share_percentage: number;
+        };
+        Insert: {
+          business_id: number;
+          created_at?: string;
+          id?: number;
+          insurance_coverage: number;
+          name: string;
+          share_percentage: number;
+        };
+        Update: {
+          business_id?: number;
+          created_at?: string;
           id?: number;
           insurance_coverage?: number;
           name?: string;

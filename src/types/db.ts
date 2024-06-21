@@ -17,3 +17,5 @@ export type Goal = Tables<"goals">;
 
 export type Shareholder = Tables<"shareholders">;
 export type EditShareholder = TablesUpdate<"shareholders">;
+
+export type KeyPerson = Tables<"key_people">;
