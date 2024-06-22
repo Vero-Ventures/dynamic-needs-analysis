@@ -65,7 +65,7 @@ export function AddKeyPersonForm({
     <DialogContent className="max-h-[calc(100dvh-100px)] overflow-y-auto p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
-          Add Business
+          Add Key Person
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>

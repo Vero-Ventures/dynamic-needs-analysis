@@ -16,7 +16,7 @@ export default async function KeyPeople({ clientId }: { clientId: number }) {
     <Card className="border-none">
       <CardHeader>
         <CardTitle className="mt-3 text-center text-4xl font-bold">
-          Shareholders
+          Key People
         </CardTitle>
       </CardHeader>
       <CardContent>
