@@ -1,6 +1,5 @@
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import { cn } from "@/lib/utils";
-// import Assets from "./(asset)/assets";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
 import Businesses from "./(businesses)/businesses";
@@ -8,6 +7,7 @@ import Debts from "./(debt)/debts";
 import StepperContainer from "./steppper-container";
 import Shareholders from "./(shareholders)/shareholders";
 import KeyPeople from "./(key-person)/key-people";
+import Assets from "./(asset)/assets";
 
 export default function ClientStepper({
   clientId,
@@ -33,7 +33,7 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          {/* <Assets /> */}
+          <Assets clientId={clientId} />
         </div>
         <div
           className={cn(
