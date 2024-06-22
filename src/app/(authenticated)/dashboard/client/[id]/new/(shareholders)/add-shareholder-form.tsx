@@ -51,14 +51,16 @@ export function AddShareholderForm({
       name: "",
       insurance_coverage: 0,
       share_percentage: 0,
+      business: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateShareholder) {
+    console.log(values);
     await execute({
       ...values,
-      business_id: +values.business,
+      business_id: Number.parseInt(values.business),
       client_id: clientId,
     });
     onCloseDialog();
