@@ -6,16 +6,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteBeneficiaryButton from "@/components/delete-item-button";
-import type { BeneficiarySchema } from "./beneficiaries";
+import type { Beneficiary } from "@/types/db";
+import { createClient } from "@/lib/supabase/server";
+import DeleteBeneficiaryButton from "./delete-beneficiary-button";
 
-export default function BeneficiariesTable({
-  beneficiaries,
-  onDeleteBeneficiary,
+export default async function BeneficiariesTable({
+  clientId,
 }: {
-  beneficiaries: BeneficiarySchema[];
-  onDeleteBeneficiary: (id: number) => void;
+  clientId: number;
 }) {
+  const sb = await createClient();
+  const { data: beneficiaries, error } = await sb
+    .from("beneficiaries")
+    .select()
+    .eq("client_id", clientId);
+
+  if (error) {
+    // handle error
+  }
   return (
     <Table>
       <TableHeader>
@@ -28,25 +36,15 @@ export default function BeneficiariesTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {beneficiaries.map((b) => (
-          <BeneficiaryTableRow
-            key={b.id}
-            beneficiary={b}
-            onDeleteBeneficiary={onDeleteBeneficiary}
-          />
+        {beneficiaries?.map((b) => (
+          <BeneficiaryTableRow key={b.id} beneficiary={b} />
         ))}
       </TableBody>
     </Table>
   );
 }
 
-function BeneficiaryTableRow({
-  beneficiary,
-  onDeleteBeneficiary,
-}: {
-  beneficiary: BeneficiarySchema;
-  onDeleteBeneficiary: (id: number) => void;
-}) {
+function BeneficiaryTableRow({ beneficiary }: { beneficiary: Beneficiary }) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">
@@ -56,10 +54,7 @@ function BeneficiaryTableRow({
         {beneficiary.allocation}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteBeneficiaryButton
-          size="icon"
-          onClick={() => onDeleteBeneficiary(beneficiary.id)}
-        />
+        <DeleteBeneficiaryButton id={beneficiary.id} />
       </TableCell>
     </TableRow>
   );

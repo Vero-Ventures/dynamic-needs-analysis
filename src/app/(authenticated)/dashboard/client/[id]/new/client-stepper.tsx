@@ -2,21 +2,18 @@
 
 import type { StepItem } from "@/components/ui/stepper";
 import { Step, Stepper, useStepper } from "@/components/ui/stepper";
-import type { BeneficiarySchema } from "./(beneficiaries)/beneficiaries";
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import Assets from "./(asset)/assets";
+// import Assets from "./(asset)/assets";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import { Loader2Icon } from "lucide-react";
-import { ClientInfoForm } from "./(client)/client-info-form";
 import Businesses from "./(businesses)/businesses";
 import Debts from "./(debt)/debts";
 
 const steps = [
-  { label: "Client Info" },
   { label: "Beneficiaries" },
   { label: "Assets" },
   { label: "Debt" },
@@ -24,25 +21,8 @@ const steps = [
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
-export default function EditClientStepper() {
+export default function ClientStepper({ clientId }: { clientId: number }) {
   const [currentStep, setCurrentStep] = useState(0);
-
-  const [beneficiaries, setBeneficiaries] = useState<BeneficiarySchema[]>([
-    {
-      id: 0,
-      name: "Jane Doe",
-      allocation: 60,
-    },
-    {
-      id: 1,
-      name: "Jordan Harris",
-      allocation: 40,
-    },
-  ]);
-
-  function handleDeleteBeneficiary(id: number) {
-    setBeneficiaries(beneficiaries.filter((b) => b.id !== id));
-  }
 
   return (
     <div>
@@ -53,7 +33,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <ClientInfoForm />
+          <Beneficiaries clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -61,10 +41,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Beneficiaries
-            beneficiaries={beneficiaries}
-            handleDeleteBeneficiary={handleDeleteBeneficiary}
-          />
+          {/* <Assets /> */}
         </div>
         <div
           className={cn(
@@ -72,7 +49,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Assets beneficiaries={beneficiaries} />
+          <Debts clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -80,7 +57,7 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Debts />
+          <Businesses />
         </div>
         <div
           className={cn(
@@ -88,19 +65,11 @@ export default function EditClientStepper() {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Businesses />
+          <GoalsAndPhilanthropy clientId={clientId} />
         </div>
         <div
           className={cn(
             { hidden: currentStep !== 5 },
-            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
-          )}
-        >
-          <GoalsAndPhilanthropy />
-        </div>
-        <div
-          className={cn(
-            { hidden: currentStep !== 6 },
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >

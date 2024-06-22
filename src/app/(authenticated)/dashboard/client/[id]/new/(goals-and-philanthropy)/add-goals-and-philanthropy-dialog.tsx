@@ -38,7 +38,6 @@ export default function AddGoalsAndPhilanthropyDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -51,33 +50,30 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useState } from "react";
-
-const goalsAndPhilanthropySchema = z.object({
-  name: z.string().trim(),
-  amount: z.coerce.number(),
-  is_philanthropic: z.boolean(),
-});
-
-export type AddGoalsAndPhilanthropySchema = z.infer<
-  typeof goalsAndPhilanthropySchema
->;
+import { createGoalSchema, type CreateGoal } from "./schema";
+import { useServerAction } from "zsa-react";
+import { createGoal } from "./actions";
+import { useParams } from "next/navigation";
 
 function AddGoalsAndPhilanthropyForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const form = useForm<AddGoalsAndPhilanthropySchema>({
-    resolver: zodResolver(goalsAndPhilanthropySchema),
+  const params = useParams();
+  const { isPending, execute } = useServerAction(createGoal);
+  const clientId = Number.parseInt(params.id as string);
+  const form = useForm<CreateGoal>({
+    resolver: zodResolver(createGoalSchema),
     defaultValues: {
       name: "",
       amount: 0,
-      is_philanthropic: false,
+      philanthropic: false,
     },
   });
 
-  async function onSubmit(values: AddGoalsAndPhilanthropySchema) {
-    console.log(values);
+  async function onSubmit(values: CreateGoal) {
+    await execute({ ...values, client_id: clientId });
     setOpen(false);
   }
 
@@ -112,7 +108,7 @@ function AddGoalsAndPhilanthropyForm({
         />
         <FormField
           control={form.control}
-          name="is_philanthropic"
+          name="philanthropic"
           render={({ field }) => (
             <FormItem className="mt-2 flex flex-row items-end space-x-2.5 space-y-0">
               <FormControl>
@@ -128,7 +124,7 @@ function AddGoalsAndPhilanthropyForm({
         />
         <DialogFooter>
           <FormSubmitButton
-            isPending={form.formState.isSubmitting}
+            isPending={isPending || form.formState.isSubmitting}
             value="Add Goal"
             loadingValue="Adding..."
           />

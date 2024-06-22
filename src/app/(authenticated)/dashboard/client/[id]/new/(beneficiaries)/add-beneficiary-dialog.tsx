@@ -39,7 +39,6 @@ export default function AddBeneficiaryDialog() {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -50,29 +49,31 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
-
-const BeneficiarySchema = z.object({
-  name: z.string(),
-  allocation: z.coerce.number(),
-});
-
-export type AddBeneficiaryFormSchema = z.infer<typeof BeneficiarySchema>;
+import type { CreateBeneficiary } from "./schema";
+import { createBeneficiarySchema } from "./schema";
+import { useParams } from "next/navigation";
+import { createBeneficiary } from "./actions";
+import { useServerAction } from "zsa-react";
 
 function AddBeneficiaryForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const form = useForm<AddBeneficiaryFormSchema>({
-    resolver: zodResolver(BeneficiarySchema),
+  const params = useParams();
+  const { isPending, execute } = useServerAction(createBeneficiary);
+  const clientId = Number.parseInt(params.id as string);
+
+  const form = useForm<CreateBeneficiary>({
+    resolver: zodResolver(createBeneficiarySchema),
     defaultValues: {
       name: "",
       allocation: 0,
     },
   });
 
-  async function onSubmit(values: AddBeneficiaryFormSchema) {
-    console.log(values);
+  async function onSubmit(values: CreateBeneficiary) {
+    await execute({ ...values, client_id: clientId });
     setOpen(false);
   }
 
@@ -107,7 +108,7 @@ function AddBeneficiaryForm({
         />
         <DialogFooter>
           <FormSubmitButton
-            isPending={form.formState.isSubmitting}
+            isPending={isPending || form.formState.isSubmitting}
             value="Add Beneficiary"
             loadingValue="Adding..."
           />
