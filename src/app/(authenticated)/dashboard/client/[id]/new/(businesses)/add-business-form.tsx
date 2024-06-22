@@ -18,38 +18,22 @@ import FormSubmitButton from "@/components/form-submit-button";
 
 import { useForm } from "react-hook-form";
 
-import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import type { ShareholderSchema } from "./shareholders";
-import Shareholders from "./shareholders";
-import { useState } from "react";
-import type { KeyPersonSchema } from "./key-people";
-import KeyPeople from "./key-people";
-
-const createBusinessSchema = z.object({
-  name: z.string().trim().min(3, "Your name must be greater than 3 characters"),
-  valuation: z.coerce.number(),
-  ebitda: z.coerce.number(),
-  term: z.coerce.number(),
-  appreciation_rate: z.coerce.number(),
-});
-
-export type CreateBusinessSchema = z.infer<typeof createBusinessSchema>;
+import { createBusinessSchema, type CreateBusiness } from "./schema";
+import { createBusiness } from "./actions";
+import { useServerAction } from "zsa-react";
+import { useParams } from "next/navigation";
 
 export function AddBusinessForm({
   onCloseDialog,
-  onAddBusinessWithShareholdersAndKeyPeople,
 }: {
   onCloseDialog: () => void;
-  onAddBusinessWithShareholdersAndKeyPeople: (
-    business: CreateBusinessSchema,
-    shareholders: ShareholderSchema[],
-    keyPeople: KeyPersonSchema[]
-  ) => void;
 }) {
-  const form = useForm<CreateBusinessSchema>({
+  const params = useParams<{ id: string }>();
+  const clientId = Number.parseInt(params.id);
+  const { isPending, execute } = useServerAction(createBusiness);
+  const form = useForm<CreateBusiness>({
     resolver: zodResolver(createBusinessSchema),
     defaultValues: {
       name: "",
@@ -59,49 +43,10 @@ export function AddBusinessForm({
       appreciation_rate: 0,
     },
   });
-  const [shareholders, setShareholders] = useState<ShareholderSchema[]>([
-    { id: 0, name: "", insurance_coverage: 0, share_percentage: 0 },
-  ]);
-  const [keyPeople, setKeyPeople] = useState<KeyPersonSchema[]>([
-    {
-      id: 0,
-      name: "",
-      insurance_coverage: 0,
-      ebitda_contribution_percentage: 0,
-    },
-  ]);
-
-  function handleAddShareholder(shareholder: ShareholderSchema) {
-    setShareholders([...shareholders, shareholder]);
-  }
-
-  function handleDeleteShareholder(id: number) {
-    setShareholders(shareholders.filter((s) => s.id !== id));
-  }
-
-  function handleOnChangeShareholder(shareholder: ShareholderSchema) {
-    setShareholders(
-      shareholders.map((s) => (s.id === shareholder.id ? shareholder : s))
-    );
-  }
-  function handleAddKeyPeople(keyPerson: KeyPersonSchema) {
-    setKeyPeople([...keyPeople, keyPerson]);
-  }
-
-  function handleDeleteKeyPerson(id: number) {
-    setKeyPeople(keyPeople.filter((k) => k.id !== id));
-  }
-
-  function handleOnChangeKeyPerson(keyPerson: KeyPersonSchema) {
-    setKeyPeople(keyPeople.map((k) => (k.id === keyPerson.id ? keyPerson : k)));
-  }
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateBusinessSchema) {
-    onAddBusinessWithShareholdersAndKeyPeople(values, shareholders, keyPeople);
-    setShareholders([]);
-    setKeyPeople([]);
-    form.reset();
+  async function onSubmit(values: CreateBusiness) {
+    await execute({ ...values, client_id: clientId });
     onCloseDialog();
   }
   return (
@@ -185,22 +130,10 @@ export function AddBusinessForm({
               )}
             />
           </div>
-          <Shareholders
-            shareholders={shareholders}
-            onAddShareholder={handleAddShareholder}
-            onChangeShareholder={handleOnChangeShareholder}
-            onDeleteShareholder={handleDeleteShareholder}
-          />
-          <KeyPeople
-            keyPeople={keyPeople}
-            onAddKeyPerson={handleAddKeyPeople}
-            onChangeKeyPerson={handleOnChangeKeyPerson}
-            onDeleteKeyPerson={handleDeleteKeyPerson}
-          />
           <DialogFooter>
             <FormSubmitButton
               disabled={!form.formState.isValid}
-              isPending={form.formState.isSubmitting}
+              isPending={isPending || form.formState.isSubmitting}
               loadingValue="Saving..."
               value="Save Changes"
             />

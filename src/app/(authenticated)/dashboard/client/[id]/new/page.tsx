@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import Debts from "./(debt)/debts";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
+import Businesses from "./(businesses)/businesses";
 
 export default async function AddClientPage({
   params,
@@ -38,6 +39,7 @@ export default async function AddClientPage({
       <Beneficiaries clientId={clientId} />
       <Debts clientId={clientId} />
       <GoalsAndPhilanthropy clientId={clientId} />
+      <Businesses clientId={clientId} />
     </div>
   );
 }

@@ -57,7 +57,7 @@ export default function ClientStepper({ clientId }: { clientId: number }) {
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Businesses />
+          <Businesses clientId={clientId} />
         </div>
         <div
           className={cn(

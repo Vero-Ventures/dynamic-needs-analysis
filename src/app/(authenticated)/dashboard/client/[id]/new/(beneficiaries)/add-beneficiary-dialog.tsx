@@ -60,9 +60,9 @@ function AddBeneficiaryForm({
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const clientId = Number.parseInt(params.id);
   const { isPending, execute } = useServerAction(createBeneficiary);
-  const clientId = Number.parseInt(params.id as string);
 
   const form = useForm<CreateBeneficiary>({
     resolver: zodResolver(createBeneficiarySchema),

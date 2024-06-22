@@ -7,9 +7,9 @@ import { deleteBeneficiary } from "./actions";
 import { useParams } from "next/navigation";
 
 export default function DeleteBeneficiaryButton({ id }: { id: number }) {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const clientId = Number.parseInt(params.id);
   const { isPending, execute } = useServerAction(deleteBeneficiary);
-  const clientId = Number.parseInt(params.id as string);
 
   return (
     <DeleteItemButton

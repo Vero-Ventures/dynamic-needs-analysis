@@ -6,18 +6,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { BusinessWithShareholdersAndKeyPeople } from "./businesses";
 import DeleteItemButton from "@/components/delete-item-button";
+import { createClient } from "@/lib/supabase/server";
 
-export default function BusinessesTable({
-  businesses,
-  onDeleteBusinessWithShareholder,
+export default async function BusinessesTable({
+  clientId,
 }: {
-  businesses: BusinessWithShareholdersAndKeyPeople[];
-  onDeleteBusinessWithShareholder: (id: number) => void;
+  clientId: number;
 }) {
+  const sb = await createClient();
+  const { data: businesses, error } = await sb
+    .from("businesses")
+    .select()
+    .eq("client_id", clientId);
+
+  if (error) {
+    // handle error
+  }
   return (
-    <Table className="mx-auto max-w-3xl">
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="text-left">Name</TableHead>
@@ -28,16 +35,14 @@ export default function BusinessesTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {businesses.map((b) => (
+        {businesses?.map((b) => (
           <TableRow key={b.id}>
             <TableCell className="text-center">{b.name}</TableCell>
             <TableCell className="text-center">{b.valuation}</TableCell>
             <TableCell className="text-center">{b.appreciation_rate}</TableCell>
             <TableCell className="text-center">{b.term}</TableCell>
             <TableCell className="text-right">
-              <DeleteItemButton
-                onClick={() => onDeleteBusinessWithShareholder(b.id)}
-              />
+              <DeleteItemButton />
             </TableCell>
           </TableRow>
         ))}

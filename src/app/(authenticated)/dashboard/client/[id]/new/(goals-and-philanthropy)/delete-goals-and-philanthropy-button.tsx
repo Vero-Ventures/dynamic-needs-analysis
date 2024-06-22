@@ -11,9 +11,9 @@ export default function DeleteGoalsAndPhilanthropyButton({
 }: {
   id: number;
 }) {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const clientId = Number.parseInt(params.id);
   const { isPending, execute } = useServerAction(deleteGoal);
-  const clientId = Number.parseInt(params.id as string);
 
   return (
     <DeleteItemButton
