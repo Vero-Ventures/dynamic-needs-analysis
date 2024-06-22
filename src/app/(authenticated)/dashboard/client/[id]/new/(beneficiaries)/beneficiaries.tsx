@@ -11,17 +11,16 @@ import AddBeneficiaryDialog from "./add-beneficiary-dialog";
 export default function Beneficiaries({ clientId }: { clientId: number }) {
   return (
     <Card className="border-none">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Beneficiaries
         </CardTitle>
+        <AddBeneficiaryDialog />
       </CardHeader>
       <CardContent>
         <BeneficiariesTable clientId={clientId} />
       </CardContent>
-      <CardFooter>
-        <AddBeneficiaryDialog />
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }

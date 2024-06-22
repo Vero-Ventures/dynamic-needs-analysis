@@ -1,20 +1,20 @@
 import UserProfile from "@/components/user-profile";
-// import ClientStepper from "./client-stepper";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import Beneficiaries from "./(beneficiaries)/beneficiaries";
-import Debts from "./(debt)/debts";
-import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
-import Businesses from "./(businesses)/businesses";
+
+import ClientStepper from "./client-stepper";
 
 export default async function AddClientPage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { step: string };
 }) {
   const clientId = Number.parseInt(params.id);
+  const currentStep = Number.parseInt(searchParams.step);
 
   return (
     <div className="h-dvh max-h-dvh">
@@ -35,11 +35,7 @@ export default async function AddClientPage({
           <UserProfile />
         </div>
       </header>
-      {/* <ClientStepper clientId={clientId} /> */}
-      <Beneficiaries clientId={clientId} />
-      <Debts clientId={clientId} />
-      <GoalsAndPhilanthropy clientId={clientId} />
-      <Businesses clientId={clientId} />
+      <ClientStepper currentStep={currentStep} clientId={clientId} />
     </div>
   );
 }
