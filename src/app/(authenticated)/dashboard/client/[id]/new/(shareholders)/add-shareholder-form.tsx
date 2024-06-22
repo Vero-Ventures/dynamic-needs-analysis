@@ -57,7 +57,6 @@ export function AddShareholderForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateShareholder) {
-    console.log(values);
     await execute({
       ...values,
       business_id: Number.parseInt(values.business),

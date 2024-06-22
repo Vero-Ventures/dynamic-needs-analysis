@@ -9,7 +9,12 @@ export const createShareholder = ownsBusinessProcedure
   .input(createShareholderSchema)
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb.from("shareholders").insert(input);
+    const { error } = await sb.from("shareholders").insert({
+      name: input.name,
+      share_percentage: input.share_percentage,
+      insurance_coverage: input.insurance_coverage,
+      business_id: input.business_id,
+    });
 
     if (error) {
       console.error(error.message);
