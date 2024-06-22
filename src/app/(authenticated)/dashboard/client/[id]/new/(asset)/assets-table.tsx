@@ -6,10 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteAssetButton from "@/components/delete-item-button";
 import { formatMoney } from "@/lib/utils";
 import type { Asset } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
+import DeleteAssetButton from "./delete-asset-button";
 
 export default async function AssetsTable({ clientId }: { clientId: number }) {
   const sb = await createClient();
@@ -54,7 +54,7 @@ function AssetTableRow({ asset }: { asset: Asset }) {
         {formatMoney(asset.current_value)}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteAssetButton size="icon" />
+        <DeleteAssetButton id={asset.id} />
       </TableCell>
     </TableRow>
   );

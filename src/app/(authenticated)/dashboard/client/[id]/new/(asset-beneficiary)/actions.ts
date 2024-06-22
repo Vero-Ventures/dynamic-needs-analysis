@@ -1,25 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import {
-  ownsAssetProcedure,
-  ownsClientProcedure,
-} from "@/procedures/auth/actions";
+import { ownsAssetProcedure } from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import { createAssetBeneficiarySchema, createAssetSchema } from "./schema";
-
-export const createAsset = ownsClientProcedure
-  .createServerAction()
-  .input(createAssetSchema)
-  .handler(async ({ input }) => {
-    const sb = await createClient();
-    const { error } = await sb.from("assets").insert(input);
-    if (error) {
-      console.error(error.message);
-      throw new Error(
-        "Something went wrong with adding the asset to the database"
-      );
-    }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
-  });
+import { createAssetBeneficiarySchema } from "./schema";
 
 export const createAssetBeneficiary = ownsAssetProcedure
   .createServerAction()

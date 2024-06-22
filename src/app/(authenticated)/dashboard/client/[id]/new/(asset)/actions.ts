@@ -1,11 +1,9 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
-import {
-  ownsAssetProcedure,
-  ownsClientProcedure,
-} from "@/procedures/auth/actions";
+import { ownsClientProcedure } from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import { createAssetBeneficiarySchema, createAssetSchema } from "./schema";
+import { createAssetSchema } from "./schema";
+import { z } from "zod";
 
 export const createAsset = ownsClientProcedure
   .createServerAction()
@@ -22,19 +20,20 @@ export const createAsset = ownsClientProcedure
     revalidatePath(`/dashboard/client/new/${input.client_id}`);
   });
 
-export const createAssetBeneficiary = ownsAssetProcedure
+export const deleteAsset = ownsClientProcedure
   .createServerAction()
-  .input(createAssetBeneficiarySchema)
+  .input(z.object({ asset_id: z.number() }))
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb.from("asset_beneficiaries").insert(input);
-
+    const { error } = await sb
+      .from("beneficiaries")
+      .delete()
+      .eq("id", input.asset_id);
     if (error) {
       console.error(error.message);
       throw new Error(
-        "Something went wrong with adding the asset beneficiary to the database"
+        "Something went wrong with deleting the asset from the database"
       );
     }
-
     revalidatePath(`/dashboard/client/new/${input.client_id}`);
   });

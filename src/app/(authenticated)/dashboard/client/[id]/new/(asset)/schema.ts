@@ -23,12 +23,3 @@ export const createAssetSchema = z.object({
 });
 
 export type CreateAsset = z.infer<typeof createAssetSchema>;
-
-export const createAssetBeneficiarySchema = z.object({
-  allocation: z.coerce.number(),
-  already_assigned: z.boolean(),
-});
-
-export type createAssetBeneficiary = z.infer<
-  typeof createAssetBeneficiarySchema
->;
