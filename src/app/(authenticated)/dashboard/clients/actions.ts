@@ -17,6 +17,7 @@ export const createNewClient = authProcedure
     });
 
     if (error) {
+      console.log(error);
       throw new Error(
         "Something went wrong with adding the client to the database"
       );
