@@ -21,12 +21,14 @@ export default async function KeyPeople({ clientId }: { clientId: number }) {
       </CardHeader>
       <CardContent>
         {businesses &&
-          businesses.map((b) => (
-            <div key={b.id}>
-              <h2 className="text-lg font-bold">{b.name}</h2>
-              <KeyPeopleTable keyPeople={b.key_people} />
-            </div>
-          ))}
+          businesses.map((b) =>
+            b.key_people.length > 0 ? (
+              <div key={b.id}>
+                <h2 className="text-lg font-bold">{b.name}</h2>
+                <KeyPeopleTable keyPeople={b.key_people} />
+              </div>
+            ) : null
+          )}
       </CardContent>
       <CardFooter>
         <AddKeyPeopleDialog businesses={businesses} />

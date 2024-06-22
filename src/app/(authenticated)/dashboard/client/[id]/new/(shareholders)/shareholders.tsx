@@ -22,12 +22,14 @@ export default async function Shareholders({ clientId }: { clientId: number }) {
       </CardHeader>
       <CardContent>
         {businesses &&
-          businesses.map((b) => (
-            <div key={b.id}>
-              <h2 className="text-lg font-bold">{b.name}</h2>
-              <ShareholdersTable shareholders={b.shareholders} />
-            </div>
-          ))}
+          businesses.map((b) =>
+            b.shareholders.length > 0 ? (
+              <div key={b.id}>
+                <h2 className="text-lg font-bold">{b.name}</h2>
+                <ShareholdersTable shareholders={b.shareholders} />
+              </div>
+            ) : null
+          )}
       </CardContent>
       <CardFooter>
         <AddShareholderDialog businesses={businesses} />

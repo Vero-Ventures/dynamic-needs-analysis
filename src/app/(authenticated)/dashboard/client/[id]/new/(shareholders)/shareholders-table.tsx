@@ -25,7 +25,7 @@ export default async function ShareholdersTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {shareholders?.map((s) => (
+        {shareholders.map((s) => (
           <TableRow key={s.id}>
             <TableCell className="text-center">{s.name}</TableCell>
             <TableCell className="text-center">{s.share_percentage}</TableCell>
