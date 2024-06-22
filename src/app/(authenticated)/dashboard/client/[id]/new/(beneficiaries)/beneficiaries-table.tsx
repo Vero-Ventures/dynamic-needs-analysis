@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import type { Beneficiary } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
+import DeleteBeneficiaryButton from "./delete-beneficiary-button";
 
 export default async function BeneficiariesTable({
   clientId,
@@ -54,7 +54,7 @@ function BeneficiaryTableRow({ beneficiary }: { beneficiary: Beneficiary }) {
         {beneficiary.allocation}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteBeneficiaryButton size="icon" />
+        <DeleteBeneficiaryButton id={beneficiary.id} />
       </TableCell>
     </TableRow>
   );
