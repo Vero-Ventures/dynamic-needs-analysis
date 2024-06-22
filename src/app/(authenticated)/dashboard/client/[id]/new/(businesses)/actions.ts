@@ -23,7 +23,7 @@ export const createBusiness = ownsClientProcedure
     revalidatePath(`/dashboard/client/new/${input.client_id}`);
   });
 
-export const deleteKeyPerson = ownsClientProcedure
+export const deleteBusiness = ownsClientProcedure
   .createServerAction()
   .input(z.object({ business_id: z.number() }))
   .handler(async ({ input }) => {
