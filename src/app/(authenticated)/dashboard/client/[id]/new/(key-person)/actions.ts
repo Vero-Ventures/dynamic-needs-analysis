@@ -9,7 +9,12 @@ export const createKeyPerson = ownsBusinessProcedure
   .input(createKeyPersonSchema)
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb.from("key_people").insert(input);
+    const { error } = await sb.from("key_people").insert({
+      name: input.name,
+      ebitda_contribution_percentage: input.ebitda_contribution_percentage,
+      insurance_coverage: input.insurance_coverage,
+      business_id: input.business_id,
+    });
 
     if (error) {
       console.error(error.message);
