@@ -51,12 +51,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useState } from "react";
 import { createGoalSchema, type CreateGoal } from "./schema";
+import { useServerAction } from "zsa-react";
+import { createGoal } from "./actions";
+import { useParams } from "next/navigation";
 
 function AddGoalsAndPhilanthropyForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const params = useParams();
+  const { isPending, execute } = useServerAction(createGoal);
+  const clientId = Number.parseInt(params.id as string);
   const form = useForm<CreateGoal>({
     resolver: zodResolver(createGoalSchema),
     defaultValues: {
@@ -67,7 +73,7 @@ function AddGoalsAndPhilanthropyForm({
   });
 
   async function onSubmit(values: CreateGoal) {
-    console.log(values);
+    await execute({ ...values, client_id: clientId });
     setOpen(false);
   }
 
@@ -118,7 +124,7 @@ function AddGoalsAndPhilanthropyForm({
         />
         <DialogFooter>
           <FormSubmitButton
-            isPending={form.formState.isSubmitting}
+            isPending={isPending || form.formState.isSubmitting}
             value="Add Goal"
             loadingValue="Adding..."
           />

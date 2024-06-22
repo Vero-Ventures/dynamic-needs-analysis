@@ -7,17 +7,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteGoalsAndPhilanthropyButton from "@/components/delete-item-button";
-import type { GoalsAndPhilanthropySchema } from "./goals-and-philanthropy";
 import { CheckCircle2Icon } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
+import type { Goal } from "@/types/db";
+import { createClient } from "@/lib/supabase/server";
 
-export default function GoalsAndPhilanthropyTable({
-  goalsAndPhilanthropies,
-  onDeleteGoalsAndPhilanthropy,
+export default async function GoalsAndPhilanthropyTable({
+  clientId,
 }: {
-  goalsAndPhilanthropies: GoalsAndPhilanthropySchema[];
-  onDeleteGoalsAndPhilanthropy: (id: number) => void;
+  clientId: number;
 }) {
+  const sb = await createClient();
+  const { data: goals, error } = await sb
+    .from("goals")
+    .select()
+    .eq("client_id", clientId);
+
+  if (error) {
+    // handle error
+  }
   return (
     <Table>
       <TableHeader>
@@ -28,43 +36,28 @@ export default function GoalsAndPhilanthropyTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {goalsAndPhilanthropies.map((g) => (
-          <GoalsAndPhilanthropyTableRow
-            key={g.id}
-            goalsAndPhilanthropy={g}
-            onDeleteGoalsAndPhilanthropy={onDeleteGoalsAndPhilanthropy}
-          />
+        {goals?.map((g) => (
+          <GoalsAndPhilanthropyTableRow key={g.id} goals={g} />
         ))}
       </TableBody>
     </Table>
   );
 }
 
-function GoalsAndPhilanthropyTableRow({
-  goalsAndPhilanthropy,
-  onDeleteGoalsAndPhilanthropy,
-}: {
-  goalsAndPhilanthropy: GoalsAndPhilanthropySchema;
-  onDeleteGoalsAndPhilanthropy: (id: number) => void;
-}) {
+function GoalsAndPhilanthropyTableRow({ goals }: { goals: Goal }) {
   return (
     <TableRow>
+      <TableCell className="text-center font-medium">{goals.name}</TableCell>
       <TableCell className="text-center font-medium">
-        {goalsAndPhilanthropy.name}
-      </TableCell>
-      <TableCell className="text-center font-medium">
-        {formatMoney(goalsAndPhilanthropy.amount)}
+        {formatMoney(goals.amount)}
       </TableCell>
       <TableCell className="p-0 text-center">
-        {goalsAndPhilanthropy.is_philanthropic && (
+        {goals.philanthropic && (
           <CheckCircle2Icon className="mx-auto stroke-green-600" />
         )}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteGoalsAndPhilanthropyButton
-          size="icon"
-          onClick={() => onDeleteGoalsAndPhilanthropy(goalsAndPhilanthropy.id)}
-        />
+        <DeleteGoalsAndPhilanthropyButton size="icon" />
       </TableCell>
     </TableRow>
   );

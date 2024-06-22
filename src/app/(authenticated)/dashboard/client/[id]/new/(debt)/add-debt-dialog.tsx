@@ -51,12 +51,18 @@ import {
 import { useState } from "react";
 import type { CreateDebt } from "./schema";
 import { createDebtSchema } from "./schema";
+import { createDebt } from "./actions";
+import { useServerAction } from "zsa-react";
+import { useParams } from "next/navigation";
 
 function AddDebtForm({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const params = useParams();
+  const { isPending, execute } = useServerAction(createDebt);
+  const clientId = Number.parseInt(params.id as string);
   const form = useForm<CreateDebt>({
     resolver: zodResolver(createDebtSchema),
     defaultValues: {
@@ -65,12 +71,12 @@ function AddDebtForm({
       rate: 0,
       annual_payment: 0,
       year_acquired: 0,
-      actual_term: 0,
+      term: 0,
     },
   });
 
   async function onSubmit(values: CreateDebt) {
-    console.log(values);
+    await execute({ ...values, client_id: clientId });
     setOpen(false);
   }
 
@@ -135,12 +141,12 @@ function AddDebtForm({
           />
           <FormField
             control={form.control}
-            name="term"
+            name="year_acquired"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Year held</FormLabel>
+                <FormLabel>Year Acquired</FormLabel>
                 <FormControl>
-                  <Input id="years_held" placeholder="0" {...field} />
+                  <Input placeholder="0" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -148,12 +154,12 @@ function AddDebtForm({
           />
           <FormField
             control={form.control}
-            name="actual_term"
+            name="term"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Actual term</FormLabel>
                 <FormControl>
-                  <Input id="actual_term" placeholder="0" {...field} />
+                  <Input placeholder="0" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -162,7 +168,7 @@ function AddDebtForm({
         </div>
         <DialogFooter>
           <FormSubmitButton
-            isPending={form.formState.isSubmitting}
+            isPending={isPending || form.formState.isSubmitting}
             value="Add Debt"
             loadingValue="Adding..."
           />

@@ -10,7 +10,11 @@ export const createDebt = ownsClientProcedure
   .input(createDebtSchema)
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb.from("debts").insert(input);
+    // TODO: calculate the insurable future value dollars
+    const insurable_future_value_dollars = 0;
+    const { error } = await sb
+      .from("debts")
+      .insert({ ...input, insurable_future_value_dollars });
 
     if (error) {
       console.error(error.message);

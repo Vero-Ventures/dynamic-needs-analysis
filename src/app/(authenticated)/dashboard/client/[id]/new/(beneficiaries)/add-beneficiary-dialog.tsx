@@ -62,6 +62,7 @@ function AddBeneficiaryForm({
 }) {
   const params = useParams();
   const { isPending, execute } = useServerAction(createBeneficiary);
+  const clientId = Number.parseInt(params.id as string);
 
   const form = useForm<CreateBeneficiary>({
     resolver: zodResolver(createBeneficiarySchema),
@@ -70,8 +71,6 @@ function AddBeneficiaryForm({
       allocation: 0,
     },
   });
-
-  const clientId = Number.parseInt(params.id as string);
 
   async function onSubmit(values: CreateBeneficiary) {
     await execute({ ...values, client_id: clientId });

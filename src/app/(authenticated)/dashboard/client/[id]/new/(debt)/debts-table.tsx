@@ -7,16 +7,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteBeneficiaryButton from "@/components/delete-item-button";
-import type { DebtSchema } from "./debts";
 import { formatMoney } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/server";
+import type { Debt } from "@/types/db";
 
-export default function DebtsTable({
-  debts,
-  onDeleteDebt,
-}: {
-  debts: DebtSchema[];
-  onDeleteDebt: (id: number) => void;
-}) {
+export default async function DebtsTable({ clientId }: { clientId: number }) {
+  const sb = await createClient();
+  const { data: debts, error } = await sb
+    .from("debts")
+    .select()
+    .eq("client_id", clientId);
+
+  if (error) {
+    // handle error
+  }
   return (
     <Table>
       <TableHeader>
@@ -24,28 +28,20 @@ export default function DebtsTable({
           <TableHead className="text-center">Name</TableHead>
           <TableHead className="text-center">Initial Value</TableHead>
           <TableHead className="text-center">Interest Rate</TableHead>
-          <TableHead className="text-center">Annual payments</TableHead>
-          <TableHead className="text-center">Years held</TableHead>
+          <TableHead className="text-center">Annual payment</TableHead>
+          <TableHead className="text-center">Years Acquired</TableHead>
           <TableHead className="text-center">Actual term</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {debts.map((d) => (
-          <DebtTableRow key={d.id} debt={d} onDeleteDebt={onDeleteDebt} />
-        ))}
+        {debts?.map((d) => <DebtTableRow key={d.id} debt={d} />)}
       </TableBody>
     </Table>
   );
 }
 
-function DebtTableRow({
-  debt,
-  onDeleteDebt,
-}: {
-  debt: DebtSchema;
-  onDeleteDebt: (id: number) => void;
-}) {
+function DebtTableRow({ debt }: { debt: Debt }) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{debt.name}</TableCell>
@@ -57,16 +53,11 @@ function DebtTableRow({
         {formatMoney(debt.annual_payment)}
       </TableCell>
       <TableCell className="text-center font-medium">
-        {debt.years_held}
+        {debt.year_acquired}
       </TableCell>
-      <TableCell className="text-center font-medium">
-        {debt.actual_term}
-      </TableCell>
+      <TableCell className="text-center font-medium">{debt.term}</TableCell>
       <TableCell className="text-right">
-        <DeleteBeneficiaryButton
-          size="icon"
-          onClick={() => onDeleteDebt(debt.id)}
-        />
+        <DeleteBeneficiaryButton size="icon" />
       </TableCell>
     </TableRow>
   );
