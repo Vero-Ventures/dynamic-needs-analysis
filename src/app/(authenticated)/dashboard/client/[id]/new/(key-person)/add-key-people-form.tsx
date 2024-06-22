@@ -22,11 +22,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
+
+import { AutoComplete } from "@/components/ui/autocomplete";
 import type { BusinessesWithKeyPeople } from "@/data/businesses";
 import { createKeyPerson } from "./actions";
-import type { CreateKeyPerson } from "./schema";
-import { createKeyPersonSchema } from "./schema";
-import { AutoComplete } from "@/components/ui/autocomplete";
+import { createKeyPersonSchema, type CreateKeyPerson } from "./schema";
 
 export function AddKeyPersonForm({
   businesses,
@@ -47,10 +47,11 @@ export function AddKeyPersonForm({
     },
   });
 
+  // 2. Define a submit handler.
   async function onSubmit(values: CreateKeyPerson) {
     await execute({
       ...values,
-      business_id: +values.business,
+      business_id: Number.parseInt(values.business.value),
       client_id: clientId,
     });
     form.reset();
