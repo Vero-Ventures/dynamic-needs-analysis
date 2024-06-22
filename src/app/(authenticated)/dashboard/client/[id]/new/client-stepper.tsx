@@ -8,6 +8,7 @@ import StepperContainer from "./steppper-container";
 import Shareholders from "./(shareholders)/shareholders";
 import KeyPeople from "./(key-person)/key-people";
 import Assets from "./(asset)/assets";
+import AssetBeneficiaries from "./(asset-beneficiary)/asset-beneficiaries";
 
 export default function ClientStepper({
   clientId,
@@ -41,7 +42,7 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Debts clientId={clientId} />
+          <AssetBeneficiaries clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -49,7 +50,7 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Businesses clientId={clientId} />
+          <Debts clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -57,7 +58,7 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <Shareholders clientId={clientId} />
+          <Businesses clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -65,7 +66,7 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <KeyPeople clientId={clientId} />
+          <Shareholders clientId={clientId} />
         </div>
         <div
           className={cn(
@@ -73,11 +74,19 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <GoalsAndPhilanthropy clientId={clientId} />
+          <KeyPeople clientId={clientId} />
         </div>
         <div
           className={cn(
             { hidden: currentStep !== 7 },
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
+          )}
+        >
+          <GoalsAndPhilanthropy clientId={clientId} />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 8 },
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl"
           )}
         >

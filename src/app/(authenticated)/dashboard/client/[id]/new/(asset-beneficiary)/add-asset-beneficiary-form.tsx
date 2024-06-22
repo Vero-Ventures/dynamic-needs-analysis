@@ -1,3 +1,4 @@
+"use client";
 import {
   DialogContent,
   DialogFooter,
@@ -23,37 +24,41 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
 
-import type { BusinessesWithShareholders } from "@/data/businesses";
-import type { CreateShareholder } from "./schema";
-import { createShareholderSchema } from "./schema";
-import { createShareholder } from "./actions";
 import { AutoComplete } from "@/components/ui/autocomplete";
+import type { AssetsWithBeneficiaries } from "@/data/assets";
+import { createAssetBeneficiary } from "./actions";
+import {
+  createAssetBeneficiarySchema,
+  type CreateAssetBeneficiary,
+} from "./schema";
+import type { Beneficiary } from "@/types/db";
 
-export function AddShareholderForm({
-  businesses,
+export function AddAssetBeneficiaryForm({
+  assets,
+  beneficiaries,
   onCloseDialog,
 }: {
-  businesses: BusinessesWithShareholders;
+  assets: AssetsWithBeneficiaries;
+  beneficiaries: Beneficiary[];
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending, execute } = useServerAction(createShareholder);
-  const form = useForm<CreateShareholder>({
-    resolver: zodResolver(createShareholderSchema),
+  const { isPending, execute } = useServerAction(createAssetBeneficiary);
+  const form = useForm<CreateAssetBeneficiary>({
+    resolver: zodResolver(createAssetBeneficiarySchema),
     defaultValues: {
-      name: "",
-      insurance_coverage: 0,
-      share_percentage: 0,
+      allocation: 0,
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateShareholder) {
+  async function onSubmit(values: CreateAssetBeneficiary) {
     await execute({
       ...values,
-      business_id: Number.parseInt(values.business.value),
       client_id: clientId,
+      asset_id: +values.asset.value,
+      beneficiary_id: +values.beneficiary.value,
     });
     form.reset();
     onCloseDialog();
@@ -62,7 +67,7 @@ export function AddShareholderForm({
     <DialogContent className="max-h-[calc(100dvh-100px)] overflow-y-auto p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
-          Add Shareholder
+          Allocate Beneficiary
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
@@ -72,61 +77,55 @@ export function AddShareholderForm({
         >
           <FormField
             control={form.control}
-            name="name"
+            name="allocation"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Allocation</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your name..." {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-2 items-center gap-4">
-            <FormField
-              control={form.control}
-              name="share_percentage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Share Percentage</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="insurance_coverage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Insurance Coverage</FormLabel>
-                  <FormControl>
-                    <Input placeholder="$0.00" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             control={form.control}
-            name="business"
+            name="asset"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Business</FormLabel>
+                <FormLabel>Asset</FormLabel>
                 <FormControl>
                   <AutoComplete
                     value={field.value}
-                    options={businesses.map((b) => ({
+                    options={assets.map((a) => ({
+                      value: `${a.id}`,
+                      label: a.name,
+                    }))}
+                    onValueChange={field.onChange}
+                    placeholder="Select an asset..."
+                    emptyMessage="No asset found."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="beneficiary"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Beneficiary</FormLabel>
+                <FormControl>
+                  <AutoComplete
+                    value={field.value}
+                    options={beneficiaries.map((b) => ({
                       value: `${b.id}`,
                       label: b.name,
                     }))}
                     onValueChange={field.onChange}
-                    placeholder="Select a business..."
-                    emptyMessage="No business found."
+                    placeholder="Select a beneficiary..."
+                    emptyMessage="No beneficiary found."
                   />
                 </FormControl>
                 <FormMessage />

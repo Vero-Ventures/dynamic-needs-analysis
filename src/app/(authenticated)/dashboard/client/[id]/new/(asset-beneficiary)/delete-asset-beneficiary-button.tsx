@@ -4,18 +4,20 @@ import { useServerAction } from "zsa-react";
 
 import DeleteItemButton from "@/components/delete-item-button";
 import { useParams } from "next/navigation";
-import { deleteShareholder } from "./actions";
+import { deleteAssetBeneficiary } from "./actions";
 
-export default function DeleteShareholderButton({
+export default function DeleteAssetBeneficiaryButton({
   id,
-  businessId,
+  assetId,
+  beneficiaryId,
 }: {
   id: number;
-  businessId: number;
+  assetId: number;
+  beneficiaryId: number;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending, execute } = useServerAction(deleteShareholder);
+  const { isPending, execute } = useServerAction(deleteAssetBeneficiary);
 
   return (
     <DeleteItemButton
@@ -24,8 +26,9 @@ export default function DeleteShareholderButton({
       onClick={async () => {
         await execute({
           client_id: clientId,
-          shareholder_id: id,
-          business_id: businessId,
+          asset_beneficiary_id: id,
+          asset_id: assetId,
+          beneficiary_id: beneficiaryId,
         });
       }}
     />

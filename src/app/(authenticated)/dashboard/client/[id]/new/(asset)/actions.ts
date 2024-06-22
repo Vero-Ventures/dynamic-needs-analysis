@@ -25,10 +25,7 @@ export const deleteAsset = ownsClientProcedure
   .input(z.object({ asset_id: z.number() }))
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb
-      .from("beneficiaries")
-      .delete()
-      .eq("id", input.asset_id);
+    const { error } = await sb.from("assets").delete().eq("id", input.asset_id);
     if (error) {
       console.error(error.message);
       throw new Error(

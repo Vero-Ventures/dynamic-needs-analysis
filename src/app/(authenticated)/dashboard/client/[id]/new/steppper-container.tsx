@@ -9,6 +9,7 @@ import { useCallback } from "react";
 const steps = [
   { label: "Beneficiaries" },
   { label: "Assets" },
+  { label: "Beneficiary Allocation" },
   { label: "Debt" },
   { label: "Businesses" },
   { label: "Shareholders" },
