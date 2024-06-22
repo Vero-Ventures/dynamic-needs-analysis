@@ -11,6 +11,8 @@ const steps = [
   { label: "Assets" },
   { label: "Debt" },
   { label: "Businesses" },
+  { label: "Shareholders" },
+  { label: "Key Person" },
   { label: "Goals & Philanthropy" },
 ] satisfies StepItem[];
 
