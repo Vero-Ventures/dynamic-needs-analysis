@@ -6,11 +6,7 @@ import {
   ownsClientProcedure,
 } from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import {
-  createBusinessSchema,
-  createKeyPersonSchema,
-  createShareholderSchema,
-} from "./schema";
+import { createBusinessSchema, createKeyPersonSchema } from "./schema";
 
 export const createBusiness = ownsClientProcedure
   .createServerAction()
@@ -23,23 +19,6 @@ export const createBusiness = ownsClientProcedure
       console.error(error.message);
       throw new Error(
         "Something went wrong with adding the business to the database"
-      );
-    }
-
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
-  });
-
-export const createShareholder = ownsBusinessProcedure
-  .createServerAction()
-  .input(createShareholderSchema)
-  .handler(async ({ input }) => {
-    const sb = await createClient();
-    const { error } = await sb.from("shareholders").insert(input);
-
-    if (error) {
-      console.error(error.message);
-      throw new Error(
-        "Something went wrong with adding the shareholders to the database"
       );
     }
 
