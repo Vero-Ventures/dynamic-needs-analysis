@@ -6,10 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteBeneficiaryButton from "@/components/delete-item-button";
 import { formatMoney } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import type { Debt } from "@/types/db";
+import DeleteDebtButton from "./delete-debt-button";
 
 export default async function DebtsTable({ clientId }: { clientId: number }) {
   const sb = await createClient();
@@ -57,7 +57,7 @@ function DebtTableRow({ debt }: { debt: Debt }) {
       </TableCell>
       <TableCell className="text-center font-medium">{debt.term}</TableCell>
       <TableCell className="text-right">
-        <DeleteBeneficiaryButton size="icon" />
+        <DeleteDebtButton id={debt.id} />
       </TableCell>
     </TableRow>
   );
