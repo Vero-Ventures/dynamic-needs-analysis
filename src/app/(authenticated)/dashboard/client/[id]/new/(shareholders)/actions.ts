@@ -1,3 +1,4 @@
+"use server";
 import { ownsBusinessProcedure } from "@/procedures/auth/actions";
 import { createShareholderSchema } from "./schema";
 import { createClient } from "@/lib/supabase/server";

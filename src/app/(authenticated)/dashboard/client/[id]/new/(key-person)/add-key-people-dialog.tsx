@@ -4,13 +4,13 @@ import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import { AddShareholderForm } from "./add-shareholder-form";
-import type { BusinessesWithShareholders } from "@/data/businesses";
+import { AddKeyPersonForm } from "./add-key-people-form";
+import type { BusinessesWithKeyPeople } from "@/data/businesses";
 
-export default function AddShareholderDialog({
+export default function AddKeyPeopleDialog({
   businesses,
 }: {
-  businesses: BusinessesWithShareholders;
+  businesses: BusinessesWithKeyPeople;
 }) {
   const [open, setOpen] = useState(false);
   function handleCloseDialog() {
@@ -24,10 +24,10 @@ export default function AddShareholderDialog({
           variant="outline"
         >
           <PlusIcon className="h-5 w-5" />
-          <span>Add Shareholder</span>
+          <span>Add Key Person</span>
         </Button>
       </DialogTrigger>
-      <AddShareholderForm
+      <AddKeyPersonForm
         businesses={businesses}
         onCloseDialog={handleCloseDialog}
       />

@@ -22,7 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
-
 import {
   Select,
   SelectContent,
@@ -30,32 +29,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { BusinessesWithShareholders } from "@/data/businesses";
-import type { CreateShareholder } from "./schema";
-import { createShareholderSchema } from "./schema";
-import { createShareholder } from "./actions";
+import type { BusinessesWithKeyPeople } from "@/data/businesses";
+import { createKeyPerson } from "./actions";
+import type { CreateKeyPerson } from "./schema";
+import { createKeyPersonSchema } from "./schema";
 
-export function AddShareholderForm({
+export function AddKeyPersonForm({
   businesses,
   onCloseDialog,
 }: {
-  businesses: BusinessesWithShareholders;
+  businesses: BusinessesWithKeyPeople;
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending, execute } = useServerAction(createShareholder);
-  const form = useForm<CreateShareholder>({
-    resolver: zodResolver(createShareholderSchema),
+  const { isPending, execute } = useServerAction(createKeyPerson);
+  const form = useForm<CreateKeyPerson>({
+    resolver: zodResolver(createKeyPersonSchema),
     defaultValues: {
       name: "",
       insurance_coverage: 0,
-      share_percentage: 0,
+      ebitda_contribution_percentage: 0,
     },
   });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: CreateShareholder) {
+  async function onSubmit(values: CreateKeyPerson) {
     await execute({
       ...values,
       business_id: +values.business,
@@ -91,10 +89,10 @@ export function AddShareholderForm({
           <div className="grid grid-cols-2 items-center gap-4">
             <FormField
               control={form.control}
-              name="share_percentage"
+              name="ebitda_contribution_percentage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Share Percentage</FormLabel>
+                  <FormLabel>% of EBITDA Contributed</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

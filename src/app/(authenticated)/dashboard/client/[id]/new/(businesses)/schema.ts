@@ -9,11 +9,3 @@ export const createBusinessSchema = z.object({
 });
 
 export type CreateBusiness = z.infer<typeof createBusinessSchema>;
-
-export const createKeyPersonSchema = z.object({
-  name: z.string(),
-  insurance_coverage: z.number(),
-  ebitda_contribution_percentage: z.number(),
-});
-
-export type CreateKeyPerson = z.infer<typeof createKeyPersonSchema>;

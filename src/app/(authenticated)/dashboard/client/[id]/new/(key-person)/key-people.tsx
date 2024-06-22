@@ -5,13 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getBusinessWithKeyPeople } from "@/data/businesses";
+import KeyPeopleTable from "./key-people-table";
+import AddKeyPeopleDialog from "./add-key-people-dialog";
 
-import { getBusinessWithShareholders } from "@/data/businesses";
-import ShareholdersTable from "./shareholders-table";
-import AddShareholderDialog from "./add-shareholder-dialog";
-
-export default async function Shareholders({ clientId }: { clientId: number }) {
-  const businesses = await getBusinessWithShareholders(clientId);
+export default async function KeyPeople({ clientId }: { clientId: number }) {
+  const businesses = await getBusinessWithKeyPeople(clientId);
 
   return (
     <Card className="border-none">
@@ -25,12 +24,12 @@ export default async function Shareholders({ clientId }: { clientId: number }) {
           businesses.map((b) => (
             <div key={b.id}>
               <h2 className="text-lg font-bold">{b.name}</h2>
-              <ShareholdersTable shareholders={b.shareholders} />
+              <KeyPeopleTable keyPeople={b.key_people} />
             </div>
           ))}
       </CardContent>
       <CardFooter>
-        <AddShareholderDialog businesses={businesses} />
+        <AddKeyPeopleDialog businesses={businesses} />
       </CardFooter>
     </Card>
   );

@@ -8,6 +8,8 @@ import Beneficiaries from "./(beneficiaries)/beneficiaries";
 import Debts from "./(debt)/debts";
 import GoalsAndPhilanthropy from "./(goals-and-philanthropy)/goals-and-philanthropy";
 import Businesses from "./(businesses)/businesses";
+import Shareholders from "./(shareholders)/shareholders";
+import KeyPeople from "./(key-person)/key-people";
 
 export default async function AddClientPage({
   params,
@@ -40,6 +42,8 @@ export default async function AddClientPage({
       <Debts clientId={clientId} />
       <GoalsAndPhilanthropy clientId={clientId} />
       <Businesses clientId={clientId} />
+      <Shareholders clientId={clientId} />
+      <KeyPeople clientId={clientId} />
     </div>
   );
 }
