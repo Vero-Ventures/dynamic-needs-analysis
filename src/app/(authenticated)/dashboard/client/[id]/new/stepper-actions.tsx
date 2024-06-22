@@ -13,7 +13,6 @@ export default function StepperActions({
   const {
     nextStep,
     prevStep,
-    resetSteps,
     isDisabledStep,
     hasCompletedAllSteps,
     isLastStep,
@@ -38,18 +37,7 @@ export default function StepperActions({
   return (
     <>
       <div className="flex items-center gap-2 p-4">
-        {hasCompletedAllSteps ? (
-          <Button
-            size="sm"
-            className="border border-secondary"
-            onClick={() => {
-              resetSteps();
-              router.push(pathname + "?" + createQueryString("step", "0"));
-            }}
-          >
-            Reset
-          </Button>
-        ) : (
+        {!hasCompletedAllSteps && (
           <>
             <Button
               disabled={isDisabledStep}

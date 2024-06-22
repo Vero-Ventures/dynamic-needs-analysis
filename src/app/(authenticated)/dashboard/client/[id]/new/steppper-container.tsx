@@ -54,7 +54,7 @@ export default function StepperContainer({
             "data-[active=true]:bg-yellow-500 data-[active=true]:border-yellow-500"
           ),
           "horizontal-step":
-            "data-[completed=true]:[&:not(:last-child)]:after:bg-gray-500",
+            "data-[completed=true]:[&:not(:last-child)]:after:bg-yellow-500",
         }}
       >
         {steps.map(({ label }) => {
