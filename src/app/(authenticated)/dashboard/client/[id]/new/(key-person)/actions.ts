@@ -35,7 +35,7 @@ export const deleteKeyPerson = ownsBusinessProcedure
     const { error } = await sb
       .from("key_people")
       .delete()
-      .eq("id", input.key_person_id);
+      .match({ id: input.key_person_id, business_id: input.business_id });
     if (error) {
       console.error(error.message);
       throw new Error(
