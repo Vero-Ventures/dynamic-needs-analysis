@@ -6,11 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteGoalsAndPhilanthropyButton from "@/components/delete-item-button";
 import { CheckCircle2Icon } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
 import type { Goal } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
+import DeleteGoalsAndPhilanthropyButton from "./delete-goals-and-philanthropy-button";
 
 export default async function GoalsAndPhilanthropyTable({
   clientId,
@@ -57,7 +57,7 @@ function GoalsAndPhilanthropyTableRow({ goals }: { goals: Goal }) {
         )}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteGoalsAndPhilanthropyButton size="icon" />
+        <DeleteGoalsAndPhilanthropyButton id={goals.id} />
       </TableCell>
     </TableRow>
   );
