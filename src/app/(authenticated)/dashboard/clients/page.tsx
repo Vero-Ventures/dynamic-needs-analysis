@@ -2,10 +2,20 @@ import { createClient } from "@/lib/supabase/server";
 import ClientCard from "./client-card";
 import UserProfile from "@/components/user-profile";
 import CreateClientDialog from "./create-client-dialog";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
   const sb = await createClient();
-  const { data: clients, error } = await sb.from("clients").select();
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  if (!user) {
+    redirect("/api/auth/login");
+  }
+  const { data: clients, error } = await sb
+    .from("clients")
+    .select()
+    .eq("kinde_id", user.id);
   if (error) {
     console.error(error);
   }

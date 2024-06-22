@@ -14,10 +14,11 @@ export default async function KeyPeople({ clientId }: { clientId: number }) {
 
   return (
     <Card className="border-none">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Key People
         </CardTitle>
+        <AddKeyPeopleDialog businesses={businesses} />
       </CardHeader>
       <CardContent>
         {businesses &&
@@ -30,9 +31,7 @@ export default async function KeyPeople({ clientId }: { clientId: number }) {
             ) : null
           )}
       </CardContent>
-      <CardFooter>
-        <AddKeyPeopleDialog businesses={businesses} />
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }
