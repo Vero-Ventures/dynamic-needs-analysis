@@ -60,9 +60,9 @@ function AddGoalsAndPhilanthropyForm({
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const clientId = Number.parseInt(params.id);
   const { isPending, execute } = useServerAction(createGoal);
-  const clientId = Number.parseInt(params.id as string);
   const form = useForm<CreateGoal>({
     resolver: zodResolver(createGoalSchema),
     defaultValues: {

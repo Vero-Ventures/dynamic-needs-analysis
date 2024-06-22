@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardContent,
@@ -9,44 +7,8 @@ import {
 } from "@/components/ui/card";
 import BusinessesTable from "./businesses-table";
 import AddBusinessDialog from "./add-business-dialog";
-import { useState } from "react";
-import type { CreateBusinessSchema } from "./add-business-form";
-import type { ShareholderSchema } from "./shareholders";
-import type { KeyPersonSchema } from "./key-people";
 
-export interface BusinessWithShareholdersAndKeyPeople
-  extends CreateBusinessSchema {
-  id: number;
-  shareholders: ShareholderSchema[];
-  keyPeople: KeyPersonSchema[];
-}
-
-export default function Businesses() {
-  const [
-    businessesWithShareholdersAndKeyPeople,
-    setBusinessesWithShareholdersAndKeyPeople,
-  ] = useState<BusinessWithShareholdersAndKeyPeople[]>([]);
-
-  function handleAddBusinessesWithShareholdersAndKeyPeople(
-    business: CreateBusinessSchema,
-    shareholders: ShareholderSchema[],
-    keyPeople: KeyPersonSchema[]
-  ) {
-    setBusinessesWithShareholdersAndKeyPeople([
-      ...businessesWithShareholdersAndKeyPeople,
-      {
-        id: businessesWithShareholdersAndKeyPeople.length,
-        ...business,
-        shareholders,
-        keyPeople,
-      },
-    ]);
-  }
-  function handleDeleteBusinessesWithShareholder(id: number) {
-    setBusinessesWithShareholdersAndKeyPeople(
-      businessesWithShareholdersAndKeyPeople.filter((b) => b.id !== id)
-    );
-  }
+export default function Businesses({ clientId }: { clientId: number }) {
   return (
     <Card className="border-none">
       <CardHeader>
@@ -55,19 +17,10 @@ export default function Businesses() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <BusinessesTable
-          onDeleteBusinessWithShareholder={
-            handleDeleteBusinessesWithShareholder
-          }
-          businesses={businessesWithShareholdersAndKeyPeople}
-        />
+        <BusinessesTable clientId={clientId} />
       </CardContent>
       <CardFooter>
-        <AddBusinessDialog
-          onAddBusinessWithShareholdersAndKeyPeople={
-            handleAddBusinessesWithShareholdersAndKeyPeople
-          }
-        />
+        <AddBusinessDialog />
       </CardFooter>
     </Card>
   );
