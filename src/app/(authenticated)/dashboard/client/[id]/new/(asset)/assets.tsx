@@ -1,70 +1,47 @@
-// "use client";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import AssetsTable from "./assets-table";
+import AddAssetDialog from "./add-asset-dialog";
+import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
 
-// import {
-//   Card,
-//   CardContent,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import AssetsTable from "./assets-table";
-// import AddAssetDialog from "./add-asset-dialog";
-// import { useState } from "react";
-// import type { AssetBeneficiary } from "./beneficiary-allocation";
-// import type { AddAssetFormSchema } from "./add-asset-form";
+export default async function Assets({ clientId }: { clientId: number }) {
+  const sb = await createClient();
+  const { data: beneficiaries, error } = await sb
+    .from("beneficiaries")
+    .select("id, name, allocation")
+    .eq("client_id", clientId);
 
-// export interface AssetWithBeneficiaries {
-//   id: number;
-//   name: string;
-//   year_acquired: number;
-//   purchase_price: number;
-//   current_value: number;
-//   beneficiaries: AssetBeneficiary[];
-// }
-// export default function Assets() {
-//   const [assetWithBeneficiaries, setAssetWithBeneficiaries] = useState<
-//     AssetWithBeneficiaries[]
-//   >([]);
+  if (error) {
+    // handle error
+  }
+  if (!beneficiaries) {
+    notFound();
+  }
 
-//   function handleAddAssetWithBeneficiaries(
-//     asset: AddAssetFormSchema,
-//     beneficiaries: AssetBeneficiary[]
-//   ) {
-//     setAssetWithBeneficiaries([
-//       ...assetWithBeneficiaries,
-//       {
-//         id: assetWithBeneficiaries.length,
-//         ...asset,
-//         beneficiaries,
-//       },
-//     ]);
-//   }
+  const assetBeneficiaries = beneficiaries.map((b) => ({
+    ...b,
+    already_assigned: true,
+  }));
 
-//   function handleDeleteAssetWithBeneficiaries(id: number) {
-//     setAssetWithBeneficiaries(
-//       assetWithBeneficiaries.filter((asset) => asset.id !== id)
-//     );
-//   }
-
-//   return (
-//     <Card className="border-none">
-//       <CardHeader>
-//         <CardTitle className="mt-3 text-center text-4xl font-bold">
-//           Assets
-//         </CardTitle>
-//       </CardHeader>
-//       <CardContent>
-//         <AssetsTable
-//           assets={assetWithBeneficiaries}
-//           onDeleteAssetWithBeneficiaries={handleDeleteAssetWithBeneficiaries}
-//         />
-//       </CardContent>
-//       <CardFooter>
-//         <AddAssetDialog
-//           beneficiaries={[]}
-//           onAddAssetWithBeneficiaries={handleAddAssetWithBeneficiaries}
-//         />
-//       </CardFooter>
-//     </Card>
-//   );
-// }
+  return (
+    <Card className="border-none">
+      <CardHeader>
+        <CardTitle className="mt-3 text-center text-4xl font-bold">
+          Assets
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <AssetsTable clientId={clientId} />
+      </CardContent>
+      <CardFooter>
+        <AddAssetDialog beneficiaries={assetBeneficiaries} />
+      </CardFooter>
+    </Card>
+  );
+}
