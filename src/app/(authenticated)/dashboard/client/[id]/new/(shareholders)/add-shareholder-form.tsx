@@ -45,6 +45,10 @@ export function AddShareholderForm({
       name: "",
       insurance_coverage: 0,
       share_percentage: 0,
+      business: {
+        value: "",
+        label: "",
+      },
     },
   });
 

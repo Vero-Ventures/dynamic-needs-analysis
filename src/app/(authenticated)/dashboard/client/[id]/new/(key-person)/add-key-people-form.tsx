@@ -44,6 +44,10 @@ export function AddKeyPersonForm({
       name: "",
       insurance_coverage: 0,
       ebitda_contribution_percentage: 0,
+      business: {
+        value: "",
+        label: "",
+      },
     },
   });
 

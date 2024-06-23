@@ -49,8 +49,23 @@ export function AddAssetBeneficiaryForm({
     resolver: zodResolver(createAssetBeneficiarySchema),
     defaultValues: {
       allocation: 0,
+      asset: {
+        value: "",
+        label: "",
+      },
+      beneficiary: {
+        value: "",
+        label: "",
+      },
     },
   });
+  const currentSelectedAssetId = form.watch("asset.value");
+  const currentSelectedAsset = assets.find(
+    (a) => a.id === +currentSelectedAssetId
+  );
+
+  const alreadyAddedBeneficiaries =
+    currentSelectedAsset?.asset_beneficiaries?.map((ab) => ab.beneficiary_id);
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateAssetBeneficiary) {
@@ -119,10 +134,13 @@ export function AddAssetBeneficiaryForm({
                 <FormControl>
                   <AutoComplete
                     value={field.value}
-                    options={beneficiaries.map((b) => ({
-                      value: `${b.id}`,
-                      label: b.name,
-                    }))}
+                    options={beneficiaries
+                      .filter((b) => !alreadyAddedBeneficiaries?.includes(b.id))
+                      .map((b) => ({
+                        value: `${b.id}`,
+
+                        label: b.name,
+                      }))}
                     onValueChange={field.onChange}
                     placeholder="Select a beneficiary..."
                     emptyMessage="No beneficiary found."
