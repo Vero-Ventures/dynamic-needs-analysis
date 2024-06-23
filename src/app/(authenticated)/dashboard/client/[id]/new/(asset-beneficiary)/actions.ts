@@ -10,14 +10,12 @@ export const createAssetBeneficiary = ownsAssetProcedure
   .input(createAssetBeneficiarySchema)
   .handler(async ({ input }) => {
     const sb = await createClient();
-    const { error } = await sb
-      .from("asset_beneficiaries")
-      .insert({
-        allocation: input.allocation,
-        asset_id: input.asset_id,
-        beneficiary_id: input.beneficiary_id,
-        already_assigned: false,
-      });
+    const { error } = await sb.from("asset_beneficiaries").insert({
+      allocation: input.allocation,
+      asset_id: input.asset_id,
+      beneficiary_id: input.beneficiary_id,
+      already_assigned: false,
+    });
 
     if (error) {
       console.error(error.message);
