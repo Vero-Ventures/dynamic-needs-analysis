@@ -100,7 +100,7 @@ export function EditAssetForm({
       beneficiaries,
       editAssetBeneficiaries
     );
-    // Save the initial beneficiaries to reset the form
+    // Save the initial beneficiaries for resetting the form
     // when the user closes the dialog without saving.
     initialAssetBeneficiaries.current = consolidatedBeneficiaries;
 
@@ -156,13 +156,12 @@ export function EditAssetForm({
   return (
     <DialogContent
       className="p-0 sm:max-w-[700px]"
-      onInteractOutside={() => {
-        form.reset();
-        setAssetBeneficiaries(initialAssetBeneficiaries.current || []);
-      }}
-      onEscapeKeyDown={() => {
-        form.reset();
-        setAssetBeneficiaries(initialAssetBeneficiaries.current || []);
+      onCloseAutoFocus={() => {
+        // Reset the form when the dialog closes without saving.
+        if (!form.formState.isSubmitted) {
+          form.reset();
+          setAssetBeneficiaries(initialAssetBeneficiaries.current || []);
+        }
       }}
     >
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
