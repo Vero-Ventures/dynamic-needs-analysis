@@ -32,3 +32,20 @@ export const createAsset = ownsClientProcedure
     await sb.from("asset_beneficiaries").insert(assetBeneficiariesWithAssetId);
     revalidatePath(`/dashboard/client/new/${input.client_id}`);
   });
+
+import { z } from "zod";
+export const deleteAsset = ownsClientProcedure
+  .createServerAction()
+  .input(z.object({ asset_id: z.number() }))
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb.from("assets").delete().eq("id", input.asset_id);
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with deleting the asset from the database"
+      );
+    }
+
+    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+  });
