@@ -9,19 +9,19 @@ import {
 } from "@/components/ui/table";
 import DeleteAssetButton from "./delete-asset-button";
 import { formatMoney } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/server";
-import type { Asset } from "@/types/db";
+import EditAssetDialog from "./edit-asset-dialog";
+import type { SingleAssetWithBeneficiaries } from "@/data/assets";
+import { getAssetsWithBeneficiaries } from "@/data/assets";
+import type { Beneficiary } from "@/types/db";
 
-export default async function AssetsTable({ clientId }: { clientId: number }) {
-  const sb = await createClient();
-  const { data: assets, error } = await sb
-    .from("assets")
-    .select()
-    .eq("client_id", clientId);
-
-  if (error) {
-    // handle error
-  }
+export default async function AssetsTable({
+  clientId,
+  beneficiaries,
+}: {
+  clientId: number;
+  beneficiaries: Omit<Beneficiary, "created_at" | "client_id">[];
+}) {
+  const assets = await getAssetsWithBeneficiaries(clientId);
 
   const totalPurchasePrice = assets?.reduce(
     (acc, asset) => acc + asset.initial_value,
@@ -45,7 +45,13 @@ export default async function AssetsTable({ clientId }: { clientId: number }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {assets?.map((asset) => <AssetTableRow key={asset.id} asset={asset} />)}
+        {assets?.map((asset) => (
+          <AssetTableRow
+            key={asset.id}
+            asset={asset}
+            beneficiaries={beneficiaries}
+          />
+        ))}
       </TableBody>
       <TableFooter>
         <TableRow>
@@ -64,7 +70,13 @@ export default async function AssetsTable({ clientId }: { clientId: number }) {
   );
 }
 
-function AssetTableRow({ asset }: { asset: Asset }) {
+function AssetTableRow({
+  asset,
+  beneficiaries,
+}: {
+  asset: SingleAssetWithBeneficiaries;
+  beneficiaries: Omit<Beneficiary, "created_at" | "client_id">[];
+}) {
   return (
     <TableRow>
       <TableCell className="text-center font-medium">{asset.name}</TableCell>
@@ -76,6 +88,9 @@ function AssetTableRow({ asset }: { asset: Asset }) {
       </TableCell>
       <TableCell className="text-center font-medium">
         {formatMoney(asset.current_value)}
+      </TableCell>
+      <TableCell>
+        <EditAssetDialog editAsset={asset} beneficiaries={beneficiaries} />
       </TableCell>
       <TableCell className="text-right">
         <DeleteAssetButton id={asset.id} />

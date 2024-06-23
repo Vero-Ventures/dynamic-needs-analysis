@@ -37,7 +37,7 @@ export default async function Assets({ clientId }: { clientId: number }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <AssetsTable clientId={clientId} />
+        <AssetsTable clientId={clientId} beneficiaries={beneficiaries} />
       </CardContent>
       <CardFooter>
         <AddAssetDialog beneficiaries={assetBeneficiaries} />
