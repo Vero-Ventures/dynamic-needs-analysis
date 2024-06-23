@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteAssetButton from "@/components/delete-item-button";
+import DeleteAssetButton from "./delete-asset-button";
 import { formatMoney } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import type { Asset } from "@/types/db";
@@ -78,7 +78,7 @@ function AssetTableRow({ asset }: { asset: Asset }) {
         {formatMoney(asset.current_value)}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteAssetButton />
+        <DeleteAssetButton id={asset.id} />
       </TableCell>
     </TableRow>
   );
