@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { AssetBeneficiary } from "./add-asset-form";
 
 export default function BeneficiaryAllocation({
   assetBeneficiaries,
@@ -37,12 +38,6 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-export type AssetBeneficiary = {
-  id: number;
-  name: string;
-  allocation: number;
-  already_assigned: boolean;
-};
 export function BeneficiaryTable({
   assetBeneficiaries,
   onEditBeneficiary,
