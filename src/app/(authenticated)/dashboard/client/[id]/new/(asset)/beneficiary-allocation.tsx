@@ -1,12 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { AssetBeneficiary } from "./add-asset-form";
+import type { Beneficiary } from "@/types/db";
 
+export interface AssetBeneficiaryAllocationFormProps
+  extends Omit<Beneficiary, "client_id" | "created_at"> {
+  already_assigned: boolean;
+}
 export default function BeneficiaryAllocation({
   assetBeneficiaries,
   onEditBeneficiary,
   onToggleBeneficiary,
 }: {
-  assetBeneficiaries: AssetBeneficiary[];
+  assetBeneficiaries: AssetBeneficiaryAllocationFormProps[];
   onEditBeneficiary: (id: number, allocation: number) => void;
   onToggleBeneficiary: (id: number, already_assigned: boolean) => void;
 }) {
@@ -43,7 +47,7 @@ export function BeneficiaryTable({
   onEditBeneficiary,
   onToggleBeneficiary,
 }: {
-  assetBeneficiaries: AssetBeneficiary[];
+  assetBeneficiaries: AssetBeneficiaryAllocationFormProps[];
   onEditBeneficiary: (id: number, allocation: number) => void;
   onToggleBeneficiary: (id: number, already_assigned: boolean) => void;
 }) {

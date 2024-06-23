@@ -28,23 +28,19 @@ import FormSubmitButton from "@/components/form-submit-button";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
+import type { AssetBeneficiaryAllocationFormProps } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
 import { useEffect, useState } from "react";
-import type { Beneficiary } from "@/types/db";
 import type { CreateAsset } from "./schema";
 import { createAssetSchema } from "./schema";
 import { createAsset } from "./actions";
 import { useParams } from "next/navigation";
 
-export interface AssetBeneficiary
-  extends Omit<Beneficiary, "client_id" | "created_at"> {
-  already_assigned: boolean;
-}
 export function AddAssetForm({
   beneficiaries,
   onCloseDialog,
 }: {
-  beneficiaries: AssetBeneficiary[];
+  beneficiaries: AssetBeneficiaryAllocationFormProps[];
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
@@ -66,7 +62,7 @@ export function AddAssetForm({
     },
   });
   const [assetBeneficiaries, setAssetBeneficiaries] = useState<
-    AssetBeneficiary[]
+    AssetBeneficiaryAllocationFormProps[]
   >([]);
 
   useEffect(() => {
