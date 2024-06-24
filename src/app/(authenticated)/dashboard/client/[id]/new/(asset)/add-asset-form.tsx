@@ -228,7 +228,7 @@ export function AddAssetForm({
               )}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-3 items-center gap-4">
             <FormField
               control={form.control}
               name="term"
@@ -242,54 +242,56 @@ export function AddAssetForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="is_taxable"
-              render={({ field }) => (
-                <FormItem className="flex items-end gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel>Is Taxable</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="to_be_sold"
-              render={({ field }) => (
-                <FormItem className="flex items-end gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel>To be Sold</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="is_liquid"
-              render={({ field }) => (
-                <FormItem className="flex items-end gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel>Is Liquid</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="col-span-2 flex justify-around">
+              <FormField
+                control={form.control}
+                name="is_taxable"
+                render={({ field }) => (
+                  <FormItem className="flex items-end gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Is Taxable</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="to_be_sold"
+                render={({ field }) => (
+                  <FormItem className="flex items-end gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>To be Sold</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="is_liquid"
+                render={({ field }) => (
+                  <FormItem className="flex items-end gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Is Liquid</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <BeneficiaryAllocation
             assetBeneficiaries={assetBeneficiaries}
