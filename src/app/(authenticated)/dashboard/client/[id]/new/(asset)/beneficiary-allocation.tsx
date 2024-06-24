@@ -1,11 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { Beneficiary } from "@/types/db";
 
+export interface AssetBeneficiaryAllocationFormProps
+  extends Omit<Beneficiary, "client_id" | "created_at"> {
+  already_assigned: boolean;
+}
 export default function BeneficiaryAllocation({
   assetBeneficiaries,
   onEditBeneficiary,
   onToggleBeneficiary,
 }: {
-  assetBeneficiaries: AssetBeneficiary[];
+  assetBeneficiaries: AssetBeneficiaryAllocationFormProps[];
   onEditBeneficiary: (id: number, allocation: number) => void;
   onToggleBeneficiary: (id: number, already_assigned: boolean) => void;
 }) {
@@ -37,18 +42,12 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-export type AssetBeneficiary = {
-  id: number;
-  name: string;
-  allocation: number;
-  already_assigned: boolean;
-};
 export function BeneficiaryTable({
   assetBeneficiaries,
   onEditBeneficiary,
   onToggleBeneficiary,
 }: {
-  assetBeneficiaries: AssetBeneficiary[];
+  assetBeneficiaries: AssetBeneficiaryAllocationFormProps[];
   onEditBeneficiary: (id: number, allocation: number) => void;
   onToggleBeneficiary: (id: number, already_assigned: boolean) => void;
 }) {

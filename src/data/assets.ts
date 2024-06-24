@@ -1,10 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 
-export async function getAssetsWithBeneficiaries() {
+export async function getAssetsWithBeneficiaries(clientId: number) {
   const sb = await createClient();
   const { data: assets, error } = await sb
     .from("assets")
-    .select(`*, asset_beneficiaries(*, beneficiaries(*))`);
+    .select(`*, asset_beneficiaries(*, beneficiaries(*))`)
+    .eq("client_id", clientId);
   if (error) throw error;
   return assets;
 }
