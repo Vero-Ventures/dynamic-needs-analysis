@@ -106,14 +106,13 @@ export function AddAssetForm({
       client_id: clientId,
       ...values,
       asset_beneficiaries: assetBeneficiaries
+        .filter((b) => b.already_assigned)
         .map((b) => {
           return {
             beneficiary_id: b.id,
             allocation: b.allocation,
-            already_assigned: b.already_assigned,
           };
-        })
-        .filter((b) => b.already_assigned),
+        }),
     });
     form.reset();
     setAssetBeneficiaries(
