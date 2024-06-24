@@ -30,7 +30,7 @@ export const createAsset = ownsClientProcedure
       };
     });
     await sb.from("asset_beneficiaries").insert(assetBeneficiariesWithAssetId);
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const editAsset = ownsClientProcedure
@@ -62,7 +62,7 @@ export const editAsset = ownsClientProcedure
     });
     // Insert the updated asset beneficiaries
     await sb.from("asset_beneficiaries").upsert(assetBeneficiariesWithAssetId);
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 import { z } from "zod";
@@ -79,5 +79,5 @@ export const deleteAsset = ownsClientProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });

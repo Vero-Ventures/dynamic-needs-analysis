@@ -24,7 +24,7 @@ export const createKeyPerson = ownsBusinessProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteKeyPerson = ownsBusinessProcedure
@@ -42,5 +42,5 @@ export const deleteKeyPerson = ownsBusinessProcedure
         "Something went wrong with deleting the key person from the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });

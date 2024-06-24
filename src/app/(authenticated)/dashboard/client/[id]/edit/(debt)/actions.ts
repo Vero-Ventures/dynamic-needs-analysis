@@ -24,7 +24,7 @@ export const createDebt = ownsClientProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteDebt = ownsClientProcedure
@@ -39,5 +39,5 @@ export const deleteDebt = ownsClientProcedure
         "Something went wrong with deleting the debt from the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
