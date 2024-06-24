@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteItemButton from "@/components/delete-item-button";
 import { createClient } from "@/lib/supabase/server";
+import DeleteBusinessButton from "./delete-business-button";
 
 export default async function BusinessesTable({
   clientId,
@@ -42,7 +42,7 @@ export default async function BusinessesTable({
             <TableCell className="text-center">{b.appreciation_rate}</TableCell>
             <TableCell className="text-center">{b.term}</TableCell>
             <TableCell className="text-right">
-              <DeleteItemButton />
+              <DeleteBusinessButton id={b.id} />
             </TableCell>
           </TableRow>
         ))}

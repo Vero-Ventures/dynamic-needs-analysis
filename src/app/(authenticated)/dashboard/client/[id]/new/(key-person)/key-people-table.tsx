@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteItemButton from "@/components/delete-item-button";
 import type { KeyPerson } from "@/types/db";
+import DeleteKeyPersonButton from "./delete-key-person-button";
 
 export default async function KeyPeopleTable({
   keyPeople,
@@ -35,7 +35,7 @@ export default async function KeyPeopleTable({
               {kp.insurance_coverage}
             </TableCell>
             <TableCell className="text-right">
-              <DeleteItemButton />
+              <DeleteKeyPersonButton id={kp.id} businessId={kp.business_id} />
             </TableCell>
           </TableRow>
         ))}

@@ -13,7 +13,7 @@ export default async function AddClientPage({
   searchParams: { step: string };
 }) {
   const clientId = Number.parseInt(params.id);
-  const currentStep = Number.parseInt(searchParams.step);
+  const currentStep = searchParams.step || "0";
 
   return (
     <div className="h-dvh max-h-dvh">
@@ -34,7 +34,10 @@ export default async function AddClientPage({
           <UserProfile />
         </div>
       </header>
-      <ClientStepper currentStep={currentStep} clientId={clientId} />
+      <ClientStepper
+        currentStep={Number.parseInt(currentStep)}
+        clientId={clientId}
+      />
     </div>
   );
 }

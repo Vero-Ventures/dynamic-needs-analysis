@@ -23,17 +23,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import type { BusinessesWithShareholders } from "@/data/businesses";
 import type { CreateShareholder } from "./schema";
 import { createShareholderSchema } from "./schema";
 import { createShareholder } from "./actions";
+import { AutoComplete } from "@/components/ui/autocomplete";
 
 export function AddShareholderForm({
   businesses,
@@ -51,7 +45,6 @@ export function AddShareholderForm({
       name: "",
       insurance_coverage: 0,
       share_percentage: 0,
-      business: "",
     },
   });
 
@@ -59,9 +52,10 @@ export function AddShareholderForm({
   async function onSubmit(values: CreateShareholder) {
     await execute({
       ...values,
-      business_id: Number.parseInt(values.business),
+      business_id: Number.parseInt(values.business.value),
       client_id: clientId,
     });
+    form.reset();
     onCloseDialog();
   }
   return (
@@ -124,18 +118,16 @@ export function AddShareholderForm({
               <FormItem>
                 <FormLabel>Business</FormLabel>
                 <FormControl>
-                  <Select {...field} onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select business" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {businesses.map((b) => (
-                        <SelectItem key={b.id} value={b.id.toString()}>
-                          {b.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <AutoComplete
+                    value={field.value}
+                    options={businesses.map((b) => ({
+                      value: `${b.id}`,
+                      label: b.name,
+                    }))}
+                    onValueChange={field.onChange}
+                    placeholder="Select a business..."
+                    emptyMessage="No business found."
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

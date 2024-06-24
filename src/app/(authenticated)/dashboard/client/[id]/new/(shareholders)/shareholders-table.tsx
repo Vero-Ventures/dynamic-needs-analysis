@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteItemButton from "@/components/delete-item-button";
 import type { Shareholder } from "@/types/db";
+import DeleteShareholderButton from "./delete-shareholder-button";
 
 export default async function ShareholdersTable({
   shareholders,
@@ -33,7 +33,7 @@ export default async function ShareholdersTable({
               {s.insurance_coverage}
             </TableCell>
             <TableCell className="text-right">
-              <DeleteItemButton />
+              <DeleteShareholderButton businessId={s.business_id} id={s.id} />
             </TableCell>
           </TableRow>
         ))}

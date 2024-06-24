@@ -22,17 +22,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import type { BusinessesWithKeyPeople } from "@/data/businesses";
 import { createKeyPerson } from "./actions";
 import type { CreateKeyPerson } from "./schema";
 import { createKeyPersonSchema } from "./schema";
+import { AutoComplete } from "@/components/ui/autocomplete";
 
 export function AddKeyPersonForm({
   businesses,
@@ -59,6 +53,7 @@ export function AddKeyPersonForm({
       business_id: +values.business,
       client_id: clientId,
     });
+    form.reset();
     onCloseDialog();
   }
   return (
@@ -121,18 +116,16 @@ export function AddKeyPersonForm({
               <FormItem>
                 <FormLabel>Business</FormLabel>
                 <FormControl>
-                  <Select {...field} onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select business" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {businesses.map((b) => (
-                        <SelectItem key={b.id} value={b.id.toString()}>
-                          {b.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <AutoComplete
+                    value={field.value}
+                    options={businesses.map((b) => ({
+                      value: `${b.id}`,
+                      label: b.name,
+                    }))}
+                    onValueChange={field.onChange}
+                    placeholder="Select a business..."
+                    emptyMessage="No business found."
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

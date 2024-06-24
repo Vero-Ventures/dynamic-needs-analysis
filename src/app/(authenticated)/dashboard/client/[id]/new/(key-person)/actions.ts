@@ -3,6 +3,7 @@ import { ownsBusinessProcedure } from "@/procedures/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { createKeyPersonSchema } from "./schema";
+import { z } from "zod";
 
 export const createKeyPerson = ownsBusinessProcedure
   .createServerAction()
@@ -23,5 +24,23 @@ export const createKeyPerson = ownsBusinessProcedure
       );
     }
 
+    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+  });
+
+export const deleteKeyPerson = ownsBusinessProcedure
+  .createServerAction()
+  .input(z.object({ key_person_id: z.number() }))
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("key_people")
+      .delete()
+      .match({ id: input.key_person_id, business_id: input.business_id });
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with deleting the key person from the database"
+      );
+    }
     revalidatePath(`/dashboard/client/new/${input.client_id}`);
   });

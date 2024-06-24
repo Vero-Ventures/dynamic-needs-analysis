@@ -7,6 +7,8 @@ import Businesses from "./(businesses)/businesses";
 import Assets from "./(asset)/assets";
 import Debts from "./(debt)/debts";
 import StepperContainer from "./steppper-container";
+import Shareholders from "./(shareholders)/shareholders";
+import KeyPeople from "./(key-person)/key-people";
 
 export default function ClientStepper({
   clientId,
@@ -56,12 +58,28 @@ export default function ClientStepper({
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
           )}
         >
-          <GoalsAndPhilanthropy clientId={clientId} />
+          <Shareholders clientId={clientId} />
         </div>
         <div
           className={cn(
             { hidden: currentStep !== 5 },
             "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
+          )}
+        >
+          <KeyPeople clientId={clientId} />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 6 },
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl overflow-y-auto"
+          )}
+        >
+          <GoalsAndPhilanthropy clientId={clientId} />
+        </div>
+        <div
+          className={cn(
+            { hidden: currentStep !== 7 },
+            "mx-auto max-h-[calc(100dvh-72px-100px-100px)] w-full max-w-3xl"
           )}
         >
           <FinishedScreen />
