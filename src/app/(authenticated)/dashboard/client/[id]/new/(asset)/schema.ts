@@ -29,7 +29,6 @@ export const createAssetBeneficiarySchema = z.object({
     z.object({
       beneficiary_id: z.coerce.number(),
       allocation: z.coerce.number(),
-      already_assigned: z.boolean(),
     })
   ),
 });
