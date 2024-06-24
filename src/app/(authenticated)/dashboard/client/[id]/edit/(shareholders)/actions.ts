@@ -24,7 +24,7 @@ export const createShareholder = ownsBusinessProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteShareholder = ownsBusinessProcedure
@@ -42,5 +42,5 @@ export const deleteShareholder = ownsBusinessProcedure
         "Something went wrong with deleting the shareholder from the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });

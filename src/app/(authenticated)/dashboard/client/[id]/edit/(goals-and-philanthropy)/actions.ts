@@ -20,7 +20,7 @@ export const createGoal = ownsClientProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteGoal = ownsClientProcedure
@@ -37,5 +37,5 @@ export const deleteGoal = ownsClientProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });

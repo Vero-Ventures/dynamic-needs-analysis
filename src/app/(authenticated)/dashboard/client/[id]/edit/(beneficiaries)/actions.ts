@@ -18,7 +18,7 @@ export const createBeneficiary = ownsClientProcedure
         "Something went wrong with adding the beneficiary to the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteBeneficiary = ownsClientProcedure
@@ -36,5 +36,5 @@ export const deleteBeneficiary = ownsClientProcedure
         "Something went wrong with deleting the beneficiary from the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });

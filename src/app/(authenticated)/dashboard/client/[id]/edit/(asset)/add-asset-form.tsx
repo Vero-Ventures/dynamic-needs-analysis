@@ -26,86 +26,53 @@ import {
 } from "@/components/ui/select";
 import FormSubmitButton from "@/components/form-submit-button";
 
-import { useEffect, useRef, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ASSET_TYPES } from "@/constants/assetTypes";
+import type { AssetBeneficiaryAllocationFormProps } from "./beneficiary-allocation";
 import BeneficiaryAllocation from "./beneficiary-allocation";
+import { useEffect, useState } from "react";
 import type { CreateAsset } from "./schema";
 import { createAssetSchema } from "./schema";
-import { editAsset } from "./actions";
+import { createAsset } from "./actions";
 import { useParams } from "next/navigation";
-import type { AssetBeneficiary } from "@/data/assets";
-import type { Asset, Beneficiary } from "@/types/db";
-import type { AssetBeneficiaryAllocationFormProps } from "./beneficiary-allocation";
 
-export function EditAssetForm({
-  asset,
+export function AddAssetForm({
   beneficiaries,
-  editAssetBeneficiaries,
   onCloseDialog,
 }: {
-  asset: Asset;
-  beneficiaries: Omit<Beneficiary, "created_at" | "client_id">[];
-  editAssetBeneficiaries: AssetBeneficiary[];
+  beneficiaries: AssetBeneficiaryAllocationFormProps[];
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending: isDeletingAsset, execute } = useServerAction(editAsset);
+  const { isPending: isCreatingAsset, execute } = useServerAction(createAsset);
   const form = useForm<CreateAsset>({
     resolver: zodResolver(createAssetSchema),
     defaultValues: {
-      name: asset.name,
-      year_acquired: asset.year_acquired,
-      initial_value: asset.initial_value,
-      current_value: asset.current_value,
-      rate: asset.rate,
-      term: asset.term,
-      type: asset.type,
-      is_taxable: asset.is_taxable,
-      is_liquid: asset.is_liquid,
-      to_be_sold: asset.to_be_sold,
+      name: "",
+      year_acquired: new Date().getFullYear(),
+      initial_value: 0,
+      current_value: 0,
+      rate: 0,
+      term: 0,
+      type: "Cash",
+      is_taxable: false,
+      is_liquid: false,
+      to_be_sold: false,
     },
   });
   const [assetBeneficiaries, setAssetBeneficiaries] = useState<
     AssetBeneficiaryAllocationFormProps[]
   >([]);
-  const initialAssetBeneficiaries =
-    useRef<AssetBeneficiaryAllocationFormProps[]>();
 
   useEffect(() => {
-    function consolidateAndMarkBeneficiaryAllocations(
-      originalBeneficiaries: Omit<Beneficiary, "created_at" | "client_id">[],
-      assetBeneficiaries: AssetBeneficiary[]
-    ) {
-      const beneficiaries = originalBeneficiaries.map((b) => ({
-        ...b,
-        already_assigned: false,
-        allocation: 0,
-      }));
-      const assetBeneficiariesMap = new Map(
-        assetBeneficiaries.map((b) => [b.beneficiary_id, b.allocation])
-      );
-      return beneficiaries.map((b) => {
-        if (assetBeneficiariesMap.has(b.id)) {
-          b.allocation = assetBeneficiariesMap.get(b.id) || b.allocation;
-          b.already_assigned = true;
-        }
-        return b;
-      });
-    }
-
-    if (!editAssetBeneficiaries || !beneficiaries) return;
-    const consolidatedBeneficiaries = consolidateAndMarkBeneficiaryAllocations(
-      beneficiaries,
-      editAssetBeneficiaries
+    setAssetBeneficiaries(
+      beneficiaries.map((beneficiary) => ({
+        ...beneficiary,
+        already_assigned: true,
+      }))
     );
-    // Save the initial beneficiaries for resetting the form
-    // when the user closes the dialog without saving.
-    initialAssetBeneficiaries.current = consolidatedBeneficiaries;
-
-    setAssetBeneficiaries(consolidatedBeneficiaries);
-  }, [beneficiaries, editAssetBeneficiaries]);
+  }, [beneficiaries]);
 
   function onEditBeneficiary(id: number, allocation: number) {
     setAssetBeneficiaries(
@@ -126,7 +93,6 @@ export function EditAssetForm({
         beneficiary.id === id
           ? {
               ...beneficiary,
-              allocation: !already_assigned ? 0 : beneficiary.allocation,
               already_assigned,
             }
           : beneficiary
@@ -138,35 +104,30 @@ export function EditAssetForm({
   async function onSubmit(values: CreateAsset) {
     await execute({
       client_id: clientId,
-      asset_id: asset.id,
       ...values,
       asset_beneficiaries: assetBeneficiaries
+        .filter((b) => b.already_assigned)
         .map((b) => {
           return {
             beneficiary_id: b.id,
             allocation: b.allocation,
-            already_assigned: b.already_assigned,
           };
-        })
-        .filter((b) => b.already_assigned),
+        }),
     });
-    form.reset({ ...values });
+    form.reset();
+    setAssetBeneficiaries(
+      beneficiaries.map((beneficiary) => ({
+        ...beneficiary,
+        already_assigned: true,
+      }))
+    );
     onCloseDialog();
   }
   return (
-    <DialogContent
-      className="p-0 sm:max-w-[700px]"
-      onCloseAutoFocus={() => {
-        // Reset the form when the dialog closes without saving.
-        if (!form.formState.isSubmitted) {
-          form.reset();
-          setAssetBeneficiaries(initialAssetBeneficiaries.current || []);
-        }
-      }}
-    >
+    <DialogContent className="p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
-          Edit Asset
+          Add Asset
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
@@ -340,7 +301,7 @@ export function EditAssetForm({
           <DialogFooter>
             <FormSubmitButton
               disabled={!form.formState.isValid}
-              isPending={isDeletingAsset || form.formState.isSubmitting}
+              isPending={isCreatingAsset || form.formState.isSubmitting}
               loadingValue="Saving..."
               value="Save Changes"
             />

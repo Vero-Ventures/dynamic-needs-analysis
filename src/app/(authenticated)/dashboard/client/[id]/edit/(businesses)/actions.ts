@@ -20,7 +20,7 @@ export const createBusiness = ownsClientProcedure
       );
     }
 
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 
 export const deleteBusiness = ownsClientProcedure
@@ -38,5 +38,5 @@ export const deleteBusiness = ownsClientProcedure
         "Something went wrong with deleting the business from the database"
       );
     }
-    revalidatePath(`/dashboard/client/new/${input.client_id}`);
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
