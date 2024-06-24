@@ -4,13 +4,13 @@ import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import type { AssetBeneficiaryAllocationFormProps } from "./beneficiary-allocation";
-import { AddAssetForm } from "./add-asset-form";
+import { AddShareholderForm } from "./add-shareholder-form";
+import type { BusinessesWithShareholders } from "@/data/businesses";
 
-export default function AddAssetDialog({
-  beneficiaries,
+export default function AddShareholderDialog({
+  businesses,
 }: {
-  beneficiaries: AssetBeneficiaryAllocationFormProps[];
+  businesses: BusinessesWithShareholders;
 }) {
   const [open, setOpen] = useState(false);
   function handleCloseDialog() {
@@ -24,11 +24,11 @@ export default function AddAssetDialog({
           variant="outline"
         >
           <PlusIcon className="h-5 w-5" />
-          <span>Add Asset</span>
+          <span>Add Shareholder</span>
         </Button>
       </DialogTrigger>
-      <AddAssetForm
-        beneficiaries={beneficiaries}
+      <AddShareholderForm
+        businesses={businesses}
         onCloseDialog={handleCloseDialog}
       />
     </Dialog>

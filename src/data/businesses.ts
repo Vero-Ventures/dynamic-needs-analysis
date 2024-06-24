@@ -1,5 +1,37 @@
 import { createClient } from "@/lib/supabase/server";
 
+export async function getBusinessWithShareholders(clientId: number) {
+  const sb = await createClient();
+  const { data: businesses, error } = await sb
+    .from("businesses")
+    .select("*, shareholders(*)")
+    .eq("client_id", clientId);
+  if (error) {
+    throw error;
+  }
+  return businesses;
+}
+
+export type BusinessesWithShareholders = Awaited<
+  ReturnType<typeof getBusinessWithShareholders>
+>;
+
+export async function getBusinessWithKeyPeople(clientId: number) {
+  const sb = await createClient();
+  const { data: businesses, error } = await sb
+    .from("businesses")
+    .select("*, key_people(*)")
+    .eq("client_id", clientId);
+  if (error) {
+    throw error;
+  }
+  return businesses;
+}
+
+export type BusinessesWithKeyPeople = Awaited<
+  ReturnType<typeof getBusinessWithKeyPeople>
+>;
+
 export async function getBusinessesWithShareholdersAndKeyPeople() {
   const sb = await createClient();
   const { data, error } = await sb
