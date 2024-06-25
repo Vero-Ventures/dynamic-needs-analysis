@@ -71,7 +71,8 @@ export default function NavMenu() {
         href={link.href}
         className={cn("flex items-center rounded-lg px-4 py-3", {
           "hover:bg-gray-100 dark:hover:bg-gray-700": !isActive,
-          "bg-gray-700 text-primary-foreground dark:bg-gray-100": isActive,
+          "bg-gray-700 text-primary-foreground dark:bg-gray-100 dark:text-secondary":
+            isActive,
         })}
       >
         {link.icon}
