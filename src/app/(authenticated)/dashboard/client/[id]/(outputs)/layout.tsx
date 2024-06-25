@@ -1,7 +1,7 @@
 import React from "react";
 import SideNav from "@/components/sidenav";
 import UserProfile from "@/components/user-profile";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, PencilIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default async function DashboardLayout({
   const sb = await createClient();
   const { data: client, error } = await sb
     .from("clients")
-    .select("name")
+    .select("id, name")
     .eq("id", clientId)
     .single();
   if (error) {
@@ -31,8 +31,8 @@ export default async function DashboardLayout({
   }
   return (
     <div>
-      <header className="sticky top-0 z-10 bg-secondary p-4 px-6 text-primary-foreground">
-        <div className="flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-secondary p-4 px-10 text-primary-foreground">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-4">
             <Link
               href="/dashboard/clients"
@@ -44,6 +44,16 @@ export default async function DashboardLayout({
               <ArrowLeft />
             </Link>
             <div className="text-2xl font-bold">{client.name}</div>
+            <Link
+              href={`/dashboard/client/${client.id}/edit`}
+              className={cn(
+                buttonVariants({ variant: "secondary" }),
+                "flex items-center gap-2 rounded-xl bg-gray-700 hover:bg-gray-600"
+              )}
+            >
+              <PencilIcon className="h-4 w-4" />
+              <span>Edit Details</span>
+            </Link>
           </div>
           <UserProfile />
         </div>

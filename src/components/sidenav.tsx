@@ -3,7 +3,7 @@ import NavMenu from "./nav-menu";
 
 export default function SideNav() {
   return (
-    <nav className="min-h-[calc(100dvh-72px)] w-72 border-r">
+    <nav className="min-h-[calc(100dvh-72px)] w-24 border-r md:w-72">
       <div className="fixed">
         <div className="flex w-full flex-col p-4">
           <NavMenu />
