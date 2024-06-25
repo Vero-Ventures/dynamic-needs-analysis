@@ -32,11 +32,14 @@ export type BusinessesWithKeyPeople = Awaited<
   ReturnType<typeof getBusinessWithKeyPeople>
 >;
 
-export async function getBusinessesWithShareholdersAndKeyPeople() {
+export async function getBusinessesWithShareholdersAndKeyPeople(
+  clientId: number
+) {
   const sb = await createClient();
   const { data, error } = await sb
     .from("businesses")
-    .select("*, shareholders (*), key_people (*)");
+    .select("*, shareholders (*), key_people (*)")
+    .eq("client_id", clientId);
   if (error) throw error;
   return data;
 }
