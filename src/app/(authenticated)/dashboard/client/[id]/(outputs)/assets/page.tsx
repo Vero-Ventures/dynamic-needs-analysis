@@ -1,9 +1,9 @@
 import { DropletIcon, FileTextIcon, VaultIcon } from "lucide-react";
 
-export default function NetWorthPage() {
+export default function AssetsPage() {
   return (
     <div className="space-y-12 p-4">
-      <h1 className="text-3xl font-bold">Net Worth / Estate Tax</h1>
+      <h1 className="text-3xl font-bold">Assets</h1>
       <div className="grid grid-cols-[430px_minmax(350px,_1fr)] gap-14">
         <div>
           <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
