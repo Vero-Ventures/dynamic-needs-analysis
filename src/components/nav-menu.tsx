@@ -78,7 +78,7 @@ export default function NavMenu() {
         })}
       >
         {link.icon}
-        <span className="hidden md:block">{link.label}</span>
+        <span className="hidden lg:block">{link.label}</span>
       </Link>
     );
   });
