@@ -3,11 +3,15 @@
 import { cn } from "@/lib/utils";
 import {
   Building2Icon,
-  // CalculatorIcon,
-  CircleUserIcon,
+  CircleDollarSignIcon,
   CreditCardIcon,
+  DropletIcon,
+  HandHeartIcon,
+  HandshakeIcon,
   LandmarkIcon,
-  TargetIcon,
+  ShapesIcon,
+  ShieldCheckIcon,
+  SquareUserIcon,
   Users2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -21,9 +25,14 @@ interface NavLink {
 
 const NavLinks: NavLink[] = [
   {
-    href: "/dashboard/client/1",
-    icon: <CircleUserIcon className="mr-3 h-5 w-5" />,
-    label: "Client",
+    href: "/dashboard/client/1/total-insurable-needs",
+    icon: <ShieldCheckIcon className="mr-3 h-5 w-5" />,
+    label: "Total Insurable Needs",
+  },
+  {
+    href: "/dashboard/client/1/income-replacement",
+    icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
+    label: "Income Replacement",
   },
   {
     href: "/dashboard/client/1/beneficiaries",
@@ -31,30 +40,45 @@ const NavLinks: NavLink[] = [
     label: "Beneficiaries",
   },
   {
+    href: "/dashboard/client/1/net-worth",
+    icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
+    label: "Net Worth / Estate Tax",
+  },
+  {
+    href: "/dashboard/client/1/debts",
+    icon: <CircleDollarSignIcon className="mr-3 h-5 w-5" />,
+    label: "Debts",
+  },
+  {
     href: "/dashboard/client/1/businesses",
     icon: <Building2Icon className="mr-3 h-5 w-5" />,
     label: "Businesses",
   },
   {
-    href: "/dashboard/client/1/assets",
-    icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
-    label: "Assets",
+    href: "/dashboard/client/1/key-person",
+    icon: <SquareUserIcon className="mr-3 h-5 w-5" />,
+    label: "Key Person",
   },
   {
-    href: "/dashboard/client/1/debts",
-    icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
-    label: "Debts",
+    href: "/dashboard/client/1/diversification",
+    icon: <ShapesIcon className="mr-3 h-5 w-5" />,
+    label: "Diversification",
+  },
+  {
+    href: "/dashboard/client/1/liquidity",
+    icon: <DropletIcon className="mr-3 h-5 w-5" />,
+    label: "Liquidity",
   },
   {
     href: "/dashboard/client/1/goals",
-    icon: <TargetIcon className="mr-3 h-5 w-5" />,
-    label: "Goals",
+    icon: <HandHeartIcon className="mr-3 h-5 w-5" />,
+    label: "Goals & Philanthropy",
   },
-  // {
-  //   href: "/dashboard/client/1/total-needs",
-  //   icon: <CalculatorIcon className="mr-3 h-5 w-5" />,
-  //   label: "Total Needs",
-  // },
+  {
+    href: "/dashboard/client/1/recommendation",
+    icon: <HandshakeIcon className="mr-3 h-5 w-5" />,
+    label: "Recommendation",
+  },
 ];
 
 export default function NavMenu() {
@@ -69,7 +93,7 @@ export default function NavMenu() {
       <Link
         key={link.label}
         href={link.href}
-        className={cn("flex items-center rounded-lg px-4 py-2", {
+        className={cn("flex items-center rounded-lg px-4 py-3", {
           "hover:bg-gray-100 dark:hover:bg-gray-700": !isActive,
           "bg-gray-700 text-primary-foreground dark:bg-gray-100": isActive,
         })}

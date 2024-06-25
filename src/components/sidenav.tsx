@@ -5,7 +5,7 @@ import NavMenu from "./nav-menu";
 
 export default function SideNav() {
   return (
-    <nav className="flex h-screen w-64 border-r">
+    <nav className="flex h-screen w-72 border-r">
       <div className="flex w-full flex-col p-4">
         <div className="mb-8 flex items-center justify-between pl-4">
           <Link href="/dashboard/clients">
