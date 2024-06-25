@@ -32,7 +32,7 @@ export default async function DashboardLayout({
   return (
     <div>
       <header className="sticky top-0 z-20 bg-secondary p-4 px-10 text-primary-foreground">
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <Link
               href="/dashboard/clients"

@@ -28,7 +28,7 @@ export default async function Businesses({
           businesses.map((b) => (
             <div key={b.id}>
               <h2 className="mb-4 text-xl font-bold">{b.name}</h2>
-              <div className="grid gap-4 xl:grid-cols-2">
+              <div className="space-y-6">
                 <ShareholdersTable shareholders={b.shareholders} />
                 <KeyPeopleTable keyPeople={b.key_people} />
               </div>
