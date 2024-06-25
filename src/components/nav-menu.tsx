@@ -5,13 +5,9 @@ import {
   Building2Icon,
   CircleDollarSignIcon,
   CreditCardIcon,
-  DropletIcon,
   HandHeartIcon,
-  HandshakeIcon,
   LandmarkIcon,
-  ShapesIcon,
   ShieldCheckIcon,
-  SquareUserIcon,
   Users2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -25,11 +21,6 @@ interface NavLink {
 
 const NavLinks: NavLink[] = [
   {
-    href: "/dashboard/client/1/total-insurable-needs",
-    icon: <ShieldCheckIcon className="mr-3 h-5 w-5" />,
-    label: "Total Insurable Needs",
-  },
-  {
     href: "/dashboard/client/1/income-replacement",
     icon: <CreditCardIcon className="mr-3 h-5 w-5" />,
     label: "Income Replacement",
@@ -40,9 +31,14 @@ const NavLinks: NavLink[] = [
     label: "Beneficiaries",
   },
   {
-    href: "/dashboard/client/1/net-worth",
+    href: "/dashboard/client/1/businesses",
+    icon: <Building2Icon className="mr-3 h-5 w-5" />,
+    label: "Businesses",
+  },
+  {
+    href: "/dashboard/client/1/assets",
     icon: <LandmarkIcon className="mr-3 h-5 w-5" />,
-    label: "Net Worth / Estate Tax",
+    label: "Assets",
   },
   {
     href: "/dashboard/client/1/debts",
@@ -50,34 +46,14 @@ const NavLinks: NavLink[] = [
     label: "Debts",
   },
   {
-    href: "/dashboard/client/1/businesses",
-    icon: <Building2Icon className="mr-3 h-5 w-5" />,
-    label: "Businesses",
-  },
-  {
-    href: "/dashboard/client/1/key-person",
-    icon: <SquareUserIcon className="mr-3 h-5 w-5" />,
-    label: "Key Person",
-  },
-  {
-    href: "/dashboard/client/1/diversification",
-    icon: <ShapesIcon className="mr-3 h-5 w-5" />,
-    label: "Diversification",
-  },
-  {
-    href: "/dashboard/client/1/liquidity",
-    icon: <DropletIcon className="mr-3 h-5 w-5" />,
-    label: "Liquidity",
-  },
-  {
     href: "/dashboard/client/1/goals",
     icon: <HandHeartIcon className="mr-3 h-5 w-5" />,
     label: "Goals & Philanthropy",
   },
   {
-    href: "/dashboard/client/1/recommendation",
-    icon: <HandshakeIcon className="mr-3 h-5 w-5" />,
-    label: "Recommendation",
+    href: "/dashboard/client/1/total-insurable-needs",
+    icon: <ShieldCheckIcon className="mr-3 h-5 w-5" />,
+    label: "Total Insurable Needs",
   },
 ];
 
