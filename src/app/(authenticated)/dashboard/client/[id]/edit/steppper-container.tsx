@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
 const steps = [
+  { label: "Client Info" },
   { label: "Beneficiaries" },
   { label: "Assets" },
   { label: "Debt" },

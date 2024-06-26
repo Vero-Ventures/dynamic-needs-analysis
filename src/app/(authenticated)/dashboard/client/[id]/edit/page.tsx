@@ -29,7 +29,7 @@ export default async function AddClientPage({
             >
               <ArrowLeft />
             </Link>
-            <div className="text-2xl font-bold">Create a new client</div>
+            <div className="text-2xl font-bold">Edit Client</div>
           </div>
           <UserProfile />
         </div>
