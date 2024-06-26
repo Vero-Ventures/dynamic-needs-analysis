@@ -43,17 +43,12 @@ export function calculateBeneficiaryDistributions(
 
   assets.forEach((asset: SingleAssetWithBeneficiaries): void => {
     const futureValue: number = calculateFutureValue(asset);
-
-    // Filter out beneficiaries that have already been assigned
-    const filteredAssetBeneficiaries = asset.asset_beneficiaries.filter(
-      (assetBeneficiary) => assetBeneficiary.already_assigned
-    );
-    const totalAllocation: number = filteredAssetBeneficiaries.reduce(
+    const totalAllocation: number = asset.asset_beneficiaries.reduce(
       (sum: number, beneficiary: { allocation: number }) =>
         sum + beneficiary.allocation,
       0
     );
-    filteredAssetBeneficiaries.forEach(
+    asset.asset_beneficiaries.forEach(
       (assetBeneficiary: AssetBeneficiary): void => {
         const distribution: number =
           (assetBeneficiary.allocation / totalAllocation) * futureValue;
