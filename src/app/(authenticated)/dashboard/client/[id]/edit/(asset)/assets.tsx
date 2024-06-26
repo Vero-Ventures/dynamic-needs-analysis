@@ -31,17 +31,16 @@ export default async function Assets({ clientId }: { clientId: number }) {
 
   return (
     <Card className="border-none">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="mt-3 text-center text-4xl font-bold">
           Assets
         </CardTitle>
+        <AddAssetDialog beneficiaries={assetBeneficiaries} />
       </CardHeader>
       <CardContent>
         <AssetsTable clientId={clientId} beneficiaries={beneficiaries} />
       </CardContent>
-      <CardFooter>
-        <AddAssetDialog beneficiaries={assetBeneficiaries} />
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }

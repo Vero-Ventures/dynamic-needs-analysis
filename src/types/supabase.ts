@@ -37,7 +37,6 @@ export type Database = {
       asset_beneficiaries: {
         Row: {
           allocation: number;
-          already_assigned: boolean;
           asset_id: number;
           beneficiary_id: number;
           created_at: string;
@@ -45,7 +44,6 @@ export type Database = {
         };
         Insert: {
           allocation: number;
-          already_assigned?: boolean;
           asset_id: number;
           beneficiary_id: number;
           created_at?: string;
@@ -53,7 +51,6 @@ export type Database = {
         };
         Update: {
           allocation?: number;
-          already_assigned?: boolean;
           asset_id?: number;
           beneficiary_id?: number;
           created_at?: string;
