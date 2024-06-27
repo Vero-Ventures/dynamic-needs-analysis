@@ -39,8 +39,8 @@ export function AddBusinessForm({
       name: "",
       valuation: 0,
       ebitda: 0,
-      term: 0,
-      appreciation_rate: 0,
+      term: 20,
+      appreciation_rate: 6,
     },
   });
 
@@ -108,9 +108,9 @@ export function AddBusinessForm({
               name="appreciation_rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Growth Rate</FormLabel>
+                  <FormLabel>Growth Rate (%)</FormLabel>
                   <FormControl>
-                    <Input placeholder="0.0%" {...field} />
+                    <Input placeholder="Between 0 and 6" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,9 +121,9 @@ export function AddBusinessForm({
               name="term"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Time horizon</FormLabel>
+                  <FormLabel>Time Horizon (years)</FormLabel>
                   <FormControl>
-                    <Input placeholder="0" {...field} />
+                    <Input placeholder="Between 0 and 20" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,7 +132,6 @@ export function AddBusinessForm({
           </div>
           <DialogFooter>
             <FormSubmitButton
-              disabled={!form.formState.isValid}
               isPending={isPending || form.formState.isSubmitting}
               loadingValue="Saving..."
               value="Save Changes"

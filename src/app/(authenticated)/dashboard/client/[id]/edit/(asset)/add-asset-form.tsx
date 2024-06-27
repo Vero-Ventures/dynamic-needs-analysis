@@ -53,8 +53,8 @@ export function AddAssetForm({
       year_acquired: new Date().getFullYear(),
       initial_value: 0,
       current_value: 0,
-      rate: 0,
-      term: 0,
+      rate: 6,
+      term: 20,
       type: "Cash",
       is_taxable: false,
       is_liquid: false,
@@ -195,9 +195,9 @@ export function AddAssetForm({
               name="rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Growth Rate</FormLabel>
+                  <FormLabel>Growth Rate (%)</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input placeholder="Between 0 and 6" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -234,9 +234,9 @@ export function AddAssetForm({
               name="term"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Time Horizon</FormLabel>
+                  <FormLabel>Time Horizon (years)</FormLabel>
                   <FormControl>
-                    <Input placeholder="0" {...field} />
+                    <Input placeholder="Between 0 and 20" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -300,7 +300,6 @@ export function AddAssetForm({
           />
           <DialogFooter>
             <FormSubmitButton
-              disabled={!form.formState.isValid}
               isPending={isCreatingAsset || form.formState.isSubmitting}
               loadingValue="Saving..."
               value="Save Changes"
