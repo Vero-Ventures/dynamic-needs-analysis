@@ -112,19 +112,21 @@ export function CreateClientForm({
                   <FormLabel>Birthdate</FormLabel>
                   <FormControl>
                     <BirthDatePicker
-                      date={new Date(field.value)}
+                      date={field.value}
                       onSelect={(date) => {
                         if (date) {
                           field.onChange(date);
+                          const age = calculateAgeFromDate(
+                            form.watch("birth_date")
+                          );
+                          const yearsOfActiveIncome =
+                            calculateYearsOfActiveIncome(
+                              age,
+                              form.watch("expected_retirement_age")
+                            );
                           form.setValue(
                             "income_multiplier",
-                            calculateYearsOfActiveIncome(
-                              calculateAgeFromDate(date),
-                              form.watch("expected_retirement_age")
-                            ),
-                            {
-                              shouldDirty: true,
-                            }
+                            yearsOfActiveIncome
                           );
                         }
                       }}
@@ -147,7 +149,21 @@ export function CreateClientForm({
                 <FormItem>
                   <FormLabel>Expected Retirement Age</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        const age = calculateAgeFromDate(
+                          form.watch("birth_date")
+                        );
+                        const yearsOfActiveIncome =
+                          calculateYearsOfActiveIncome(
+                            age,
+                            form.watch("expected_retirement_age")
+                          );
+                        form.setValue("income_multiplier", yearsOfActiveIncome);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

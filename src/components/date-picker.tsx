@@ -69,6 +69,9 @@ export function BirthDatePicker({
           captionLayout="dropdown"
           fromYear={1900}
           toDate={new Date()}
+          disabled={(date) =>
+            date > new Date() || date < new Date("1900-01-01")
+          }
           showOutsideDays={false}
           mode="single"
           selected={date}
