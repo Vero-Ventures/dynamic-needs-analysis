@@ -25,7 +25,7 @@ export const editClient = ownsClientProcedure
     if (error) {
       console.log(error);
       throw new Error(
-        "Something went wrong with adding the client to the database"
+        "Something went wrong with updating the client in the database"
       );
     }
 
