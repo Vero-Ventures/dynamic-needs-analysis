@@ -235,7 +235,7 @@ export function EditAssetForm({
                 <FormItem>
                   <FormLabel>Growth Rate</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input placeholder="Between 0 and 6" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -274,7 +274,7 @@ export function EditAssetForm({
                 <FormItem>
                   <FormLabel>Time Horizon</FormLabel>
                   <FormControl>
-                    <Input placeholder="0" {...field} />
+                    <Input placeholder="Between 0 and 20" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -338,7 +338,6 @@ export function EditAssetForm({
           />
           <DialogFooter>
             <FormSubmitButton
-              disabled={!form.formState.isValid}
               isPending={isDeletingAsset || form.formState.isSubmitting}
               loadingValue="Saving..."
               value="Save Changes"
