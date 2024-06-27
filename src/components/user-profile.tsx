@@ -28,7 +28,7 @@ export default async function UserProfile() {
           <Button
             variant="outline"
             size="icon"
-            className="overflow-hidden rounded-full text-secondary"
+            className="overflow-hidden rounded-full text-secondary hover:text-secondary dark:bg-secondary-foreground"
           >
             {user?.given_name?.[0]}
             {user?.family_name?.[0]}

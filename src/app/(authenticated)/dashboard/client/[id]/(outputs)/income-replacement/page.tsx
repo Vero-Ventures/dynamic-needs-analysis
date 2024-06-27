@@ -1,3 +1,4 @@
+import StatCard from "@/components/stat-card";
 import {
   calculateAgeFromDate,
   calculateInsuredIncomeAmount,
@@ -5,7 +6,6 @@ import {
 } from "@/lib/client/utils";
 import { createClient } from "@/lib/supabase/server";
 import { formatMoney } from "@/lib/utils";
-import { CircleDollarSignIcon, HandCoinsIcon, User2Icon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function IncomeReplacementPage({
@@ -48,11 +48,7 @@ export default async function IncomeReplacementPage({
             Client Information
           </h2>
           <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
-            <StatCard
-              icon={<User2Icon className="h-20 w-20 opacity-15" />}
-              value={`${client.name}, ${age}`}
-              description={client.province}
-            />
+            <StatCard value={`${age}`} description="Age" />
             <StatCard
               value={client.expected_retirement_age.toString()}
               description="Expected Retirement Age"
@@ -62,7 +58,6 @@ export default async function IncomeReplacementPage({
               description="Years of Active Income"
             />
             <StatCard
-              icon={<CircleDollarSignIcon className="h-20 w-20 opacity-15" />}
               value={formatMoney(client.annual_income)}
               description="Annual Income"
             />
@@ -71,35 +66,12 @@ export default async function IncomeReplacementPage({
               description="Income Replacement Mutiplier"
             />
             <StatCard
-              icon={<HandCoinsIcon className="h-20 w-20 opacity-15" />}
               value={formatMoney(amountInsuredForIncome)}
               description="Amount insured for income"
             />
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function StatCard({
-  value,
-  description,
-  icon,
-}: {
-  value: string;
-  description: string;
-  icon?: React.ReactNode;
-}) {
-  return (
-    <div className="flex h-full items-center justify-between rounded-2xl bg-muted p-2">
-      <div className="p-4">
-        <div className="text-3xl font-bold text-secondary dark:text-secondary-foreground">
-          {value}
-        </div>
-        <div className="text-sm">{description}</div>
-      </div>
-      {icon && <div>{icon}</div>}
     </div>
   );
 }
