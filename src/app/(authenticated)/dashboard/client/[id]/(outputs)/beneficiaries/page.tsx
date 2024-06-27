@@ -8,9 +8,9 @@ export default function BeneficiariesPage({
 }) {
   const clientId = parseInt(params.id);
   return (
-    <div className="space-y-3 p-4">
+    <section className="space-y-4 p-6">
       <Heading variant="h1">Beneficiaries</Heading>
       <Beneficiaries clientId={clientId} />
-    </div>
+    </section>
   );
 }

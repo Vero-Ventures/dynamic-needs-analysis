@@ -18,7 +18,7 @@ export default async function Businesses({
     return notFound();
   }
   return (
-    <div className="space-y-6 p-4">
+    <section className="space-y-6 p-6">
       <Heading variant="h1">Businesses</Heading>
       <BusinessTable businesses={businesses} />
       <section>
@@ -38,6 +38,6 @@ export default async function Businesses({
       <EBITDAContributionChart businesses={businesses} />
       <Heading variant="h2">Share Value Per Year</Heading>
       <ShareValueChart businesses={businesses} />
-    </div>
+    </section>
   );
 }

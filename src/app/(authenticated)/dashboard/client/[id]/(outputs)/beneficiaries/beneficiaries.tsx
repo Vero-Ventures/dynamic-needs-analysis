@@ -20,7 +20,7 @@ export default async function Beneficiaries({
   }
 
   return (
-    <section className="space-y-14 p-4">
+    <div className="space-y-14">
       <BeneficiariesTable beneficiaries={beneficiaries} />
       <Heading variant="h2">Desired Beneficiary Allocation</Heading>
       <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
@@ -28,6 +28,6 @@ export default async function Beneficiaries({
       <RealBeneficiaryDistributionChart assets={assets} />
       <Heading variant="h2">Asset Value Distribution</Heading>
       <AssetValueDistributionChart assets={assets} />
-    </section>
+    </div>
   );
 }

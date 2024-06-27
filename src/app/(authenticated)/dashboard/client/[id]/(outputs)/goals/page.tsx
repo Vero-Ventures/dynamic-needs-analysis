@@ -25,7 +25,7 @@ export default async function GoalsPage({
     .single();
 
   return (
-    <div className="space-y-8 p-4">
+    <section className="space-y-8 p-6">
       <Heading variant="h1">Goals & Philanthropy</Heading>
       <Goals goals={goals || []} />
       <Liquidity
@@ -33,6 +33,6 @@ export default async function GoalsPage({
         assets={assets || []}
         liquidityToGoalsPercent={client?.liquidity_allocated_towards_goals || 0}
       />
-    </div>
+    </section>
   );
 }
