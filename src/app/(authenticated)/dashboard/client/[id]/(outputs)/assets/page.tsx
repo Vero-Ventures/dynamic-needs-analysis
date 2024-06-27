@@ -2,6 +2,7 @@ import {
   getAssetsWithBeneficiaries,
   type AssetsWithBeneficiaries,
 } from "@/data/assets";
+import Heading from "@/components/heading";
 
 export default async function Assets({ params }: { params: { id: string } }) {
   const clientId = parseInt(params.id);
@@ -15,19 +16,19 @@ export default async function Assets({ params }: { params: { id: string } }) {
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-3xl font-bold">Assets</h1>
+      <Heading variant="h1">Assets</Heading>
       <AssetsTable assets={assets} businesses={businesses} />
       <section>
-        <h2 className="mb-7 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
-          Asset Beneficiaries
-        </h2>
+        <Heading variant="h2">Asset Beneficiaries</Heading>
         <BeneficiaryDistributionTable
           assets={assets}
           beneficiaries={beneficiaries}
         />
       </section>
       <div className="mt-14 space-y-10">
+        <Heading variant="h2">Net Worth Per Year</Heading>
         <NetWorthChart assets={assets} />
+        <Heading variant="h2">Asset Diversification</Heading>
         <DiversificationChart assets={assets} />
       </div>
     </div>

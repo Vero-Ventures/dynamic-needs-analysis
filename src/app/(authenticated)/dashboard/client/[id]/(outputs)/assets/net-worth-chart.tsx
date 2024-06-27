@@ -44,7 +44,6 @@ export default function NetWorthChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Net Worth Per Year" },
         xaxis: {
           type: "numeric",
           labels: {

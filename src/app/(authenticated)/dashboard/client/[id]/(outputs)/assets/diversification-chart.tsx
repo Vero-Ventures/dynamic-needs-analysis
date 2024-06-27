@@ -60,7 +60,6 @@ export default function DiversificationChart({
           mode: chartTheme,
           palette: "palette5",
         },
-        title: { text: "Asset Diversification" },
         legend: { position: "bottom" },
       }}
       series={series}
