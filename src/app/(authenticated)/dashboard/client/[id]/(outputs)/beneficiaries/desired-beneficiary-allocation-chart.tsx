@@ -48,7 +48,6 @@ export default function DesiredBeneficiaryAllocationChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Desired Beneficiary Allocation" },
         legend: { position: "bottom" },
         labels,
         xaxis: { type: "category", categories: [] },

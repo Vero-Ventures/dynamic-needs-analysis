@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Goals from "./goals";
 import Liquidity from "./liquidity";
+import Heading from "@/components/heading";
 
 export default async function GoalsPage({
   params,
@@ -24,8 +25,8 @@ export default async function GoalsPage({
     .single();
 
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-3xl font-bold">Goals & Philanthropy</h1>
+    <div className="space-y-8 p-4">
+      <Heading variant="h1">Goals & Philanthropy</Heading>
       <Goals goals={goals || []} />
       <Liquidity
         goals={goals || []}

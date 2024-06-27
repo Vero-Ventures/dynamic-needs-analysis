@@ -43,7 +43,6 @@ export default function RealBeneficiaryDistributionChart({
         dataLabels: {
           enabled: true,
         },
-        title: { text: "Real Beneficiary Distribution" },
         legend: { position: "bottom" },
         labels,
         theme: {

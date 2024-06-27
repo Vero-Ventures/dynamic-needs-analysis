@@ -1,3 +1,4 @@
+import Heading from "@/components/heading";
 import StatCard from "@/components/stat-card";
 import {
   calculateAgeFromDate,
@@ -41,12 +42,10 @@ export default async function IncomeReplacementPage({
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold">Income Replacement</h1>
+      <Heading variant="h1">Income Replacement</Heading>
       <div className="mt-10">
         <div>
-          <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
-            Client Information
-          </h2>
+          <Heading variant="h2">Client Information</Heading>
           <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
             <StatCard value={`${age}`} description="Age" />
             <StatCard

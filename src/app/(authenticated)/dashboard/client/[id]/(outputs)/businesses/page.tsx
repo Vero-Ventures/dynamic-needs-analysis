@@ -5,6 +5,7 @@ import { getBusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
 import BusinessTable from "./business-table";
 import ShareholdersTable from "./shareholders-table";
 import KeyPeopleTable from "./key-people-table";
+import Heading from "@/components/heading";
 
 export default async function Businesses({
   params,
@@ -18,12 +19,10 @@ export default async function Businesses({
   }
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-3xl font-bold">Businesses</h1>
+      <Heading variant="h1">Businesses</Heading>
       <BusinessTable businesses={businesses} />
       <section>
-        <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
-          Shareholders & Key People
-        </h2>
+        <Heading variant="h2">Shareholders & Key People</Heading>
         {businesses &&
           businesses.map((b) => (
             <div key={b.id}>
@@ -35,7 +34,9 @@ export default async function Businesses({
             </div>
           ))}
       </section>
+      <Heading variant="h2">EBITDA Contribution Per Year</Heading>
       <EBITDAContributionChart businesses={businesses} />
+      <Heading variant="h2">Share Value Per Year</Heading>
       <ShareValueChart businesses={businesses} />
     </div>
   );

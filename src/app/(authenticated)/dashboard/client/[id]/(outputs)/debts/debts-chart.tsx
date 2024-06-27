@@ -63,7 +63,6 @@ export default function DebtsChart({ debts }: { debts: Debt[] }) {
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Debt Value Per Year" },
         dataLabels: { enabled: false },
         legend: {
           position: "top",
