@@ -7,7 +7,7 @@ import type { KindeIdToken } from "@kinde-oss/kinde-auth-nextjs/types";
 import { redirect } from "next/navigation";
 
 const getNewToken = async () => {
-  const { getIdToken } = getKindeServerSession();
+  const { getIdToken, refreshTokens } = getKindeServerSession();
   const idToken = await getIdToken();
   // Check if the token is expired
   if (!idToken) {
@@ -15,7 +15,8 @@ const getNewToken = async () => {
   }
   if (isTokenExpired(idToken)) {
     // If the token is expired then we logout the user
-    redirect("/api/auth/logout");
+    await refreshTokens();
+    redirect("/dashboard/clients");
   }
   return idToken;
 };
