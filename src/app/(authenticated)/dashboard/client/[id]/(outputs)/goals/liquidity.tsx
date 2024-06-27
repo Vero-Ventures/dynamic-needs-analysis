@@ -10,7 +10,6 @@ import {
 } from "@/lib/goals/utils";
 
 import type { Asset, Goal } from "@/types/db";
-import { CircleDollarSignIcon } from "lucide-react";
 
 import StatCard from "@/components/stat-card";
 import GoalsChart from "./goals-chart";
