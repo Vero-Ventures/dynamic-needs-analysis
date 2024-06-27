@@ -6,7 +6,6 @@ import {
 } from "@/lib/client/utils";
 import { createClient } from "@/lib/supabase/server";
 import { formatMoney } from "@/lib/utils";
-import { CircleDollarSignIcon, HandCoinsIcon, User2Icon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function IncomeReplacementPage({
