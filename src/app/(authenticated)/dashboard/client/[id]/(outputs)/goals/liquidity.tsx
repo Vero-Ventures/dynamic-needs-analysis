@@ -104,6 +104,9 @@ export default function Liquidity({
         </div>
       </section>
       <div className="mt-6">
+        <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
+          Goal Allocation and Liquidity Distribution
+        </h2>
         <GoalsChart
           totalFutureValueLiquidAssets={totalFutureValueLiquidAssets}
           liquidityPreserved={liquidityPreserved}

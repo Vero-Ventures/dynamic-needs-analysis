@@ -73,7 +73,6 @@ export default function GoalsChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Goal Allocation and Liquidity Distribution" },
         dataLabels: { enabled: false },
         plotOptions: { bar: { horizontal: false } },
       }}
