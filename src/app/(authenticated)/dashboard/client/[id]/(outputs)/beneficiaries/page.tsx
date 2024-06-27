@@ -1,3 +1,4 @@
+import Heading from "@/components/heading";
 import Beneficiaries from "./beneficiaries";
 
 export default function BeneficiariesPage({
@@ -8,7 +9,7 @@ export default function BeneficiariesPage({
   const clientId = parseInt(params.id);
   return (
     <div className="space-y-3 p-4">
-      <h1 className="text-3xl font-bold">Beneficiaries</h1>
+      <Heading variant="h1">Beneficiaries</Heading>
       <Beneficiaries clientId={clientId} />
     </div>
   );

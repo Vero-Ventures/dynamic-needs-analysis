@@ -5,6 +5,7 @@ import AssetValueDistributionChart from "./asset-value-distribution-chart";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { getAssetsWithBeneficiaries } from "@/data/assets";
+import Heading from "@/components/heading";
 
 export default async function Beneficiaries({
   clientId,
@@ -21,8 +22,11 @@ export default async function Beneficiaries({
   return (
     <section className="space-y-14 p-4">
       <BeneficiariesTable beneficiaries={beneficiaries} />
+      <Heading variant="h2">Desired Beneficiary Allocation</Heading>
       <DesiredBeneficiaryAllocationChart beneficiaries={beneficiaries} />
+      <Heading variant="h2">Real Beneficiary Distribution</Heading>
       <RealBeneficiaryDistributionChart assets={assets} />
+      <Heading variant="h2">Asset Value Distribution</Heading>
       <AssetValueDistributionChart assets={assets} />
     </section>
   );

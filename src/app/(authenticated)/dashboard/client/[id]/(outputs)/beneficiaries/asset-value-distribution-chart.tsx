@@ -69,7 +69,6 @@ export default function AssetValueDistributionChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Asset Value Distribution" },
         legend: { position: "bottom" },
         labels: [],
       }}
