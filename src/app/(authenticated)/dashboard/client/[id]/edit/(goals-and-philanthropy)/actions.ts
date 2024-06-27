@@ -3,7 +3,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { ownsClientProcedure } from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import { createGoalSchema } from "./schema";
+import {
+  createGoalSchema,
+  editLiquidityAllocatedTowardsGoalsSchema,
+} from "./schema";
 import { z } from "zod";
 
 export const createGoal = ownsClientProcedure
@@ -34,6 +37,28 @@ export const deleteGoal = ownsClientProcedure
       console.error(error.message);
       throw new Error(
         "Something went wrong with deleting the goal from the database"
+      );
+    }
+
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
+  });
+
+export const editLiquidityAllocatedTowardsGoals = ownsClientProcedure
+  .createServerAction()
+  .input(editLiquidityAllocatedTowardsGoalsSchema)
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("clients")
+      .update({
+        liquidity_allocated_towards_goals:
+          input.liquidity_allocated_towards_goals,
+      })
+      .eq("id", input.client_id);
+    if (error) {
+      console.log(error);
+      throw new Error(
+        "Something went wrong with updating the client in the database"
       );
     }
 
