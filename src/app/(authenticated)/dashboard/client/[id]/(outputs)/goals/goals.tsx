@@ -1,9 +1,7 @@
 export default function Goals({ goals }: { goals: Goal[] }) {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
-        Goals
-      </h2>
+      <Heading variant="h2">Goals</Heading>
       <GoalsTable goals={goals} />
     </section>
   );
@@ -20,6 +18,7 @@ import {
 import { formatMoney } from "@/lib/utils";
 import { CheckCircle2Icon } from "lucide-react";
 import type { Goal } from "@/types/db";
+import Heading from "@/components/heading";
 
 function GoalsTable({ goals }: { goals: Goal[] }) {
   return (

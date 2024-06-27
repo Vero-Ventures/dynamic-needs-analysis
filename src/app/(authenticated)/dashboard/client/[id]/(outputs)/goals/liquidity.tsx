@@ -13,6 +13,7 @@ import type { Asset, Goal } from "@/types/db";
 
 import StatCard from "@/components/stat-card";
 import GoalsChart from "./goals-chart";
+import Heading from "@/components/heading";
 
 export default function Liquidity({
   goals,
@@ -53,9 +54,7 @@ export default function Liquidity({
   return (
     <>
       <section>
-        <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
-          Liquidity
-        </h2>
+        <Heading variant="h2">Liquidity</Heading>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <StatCard
             value={formatMoney(totalCurrentValueFixed)}
@@ -104,9 +103,9 @@ export default function Liquidity({
         </div>
       </section>
       <div className="mt-6">
-        <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
+        <Heading variant="h2">
           Goal Allocation and Liquidity Distribution
-        </h2>
+        </Heading>
         <GoalsChart
           totalFutureValueLiquidAssets={totalFutureValueLiquidAssets}
           liquidityPreserved={liquidityPreserved}
