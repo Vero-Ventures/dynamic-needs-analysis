@@ -65,6 +65,11 @@ export function CreateClientForm({
     form.watch("annual_income")
   );
 
+  const yearsOfActiveIncome = calculateYearsOfActiveIncome(
+    age,
+    form.watch("expected_retirement_age")
+  );
+
   // 2. Define a submit handler.
   async function onSubmit(values: CreateClient) {
     const [, error] = await execute(values);
@@ -108,7 +113,21 @@ export function CreateClientForm({
                   <FormControl>
                     <BirthDatePicker
                       date={new Date(field.value)}
-                      onSelect={field.onChange}
+                      onSelect={(date) => {
+                        if (date) {
+                          field.onChange(date);
+                          form.setValue(
+                            "income_multiplier",
+                            calculateYearsOfActiveIncome(
+                              calculateAgeFromDate(date),
+                              form.watch("expected_retirement_age")
+                            ),
+                            {
+                              shouldDirty: true,
+                            }
+                          );
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -140,12 +159,7 @@ export function CreateClientForm({
               <h2 className="text-sm font-medium leading-none">
                 Years of Active Income
               </h2>
-              <p className="font-bold">
-                {calculateYearsOfActiveIncome(
-                  age,
-                  form.watch("expected_retirement_age")
-                )}
-              </p>
+              <p className="font-bold">{yearsOfActiveIncome}</p>
             </div>
             <FormField
               control={form.control}

@@ -67,6 +67,10 @@ export function EditClientForm({
     form.watch("province"),
     form.watch("annual_income")
   );
+  const yearsOfActiveIncome = calculateYearsOfActiveIncome(
+    age,
+    form.watch("expected_retirement_age")
+  );
 
   // 2. Define a submit handler.
   async function onSubmit(values: EditClient) {
@@ -111,7 +115,24 @@ export function EditClientForm({
                   <FormControl>
                     <BirthDatePicker
                       date={new Date(field.value)}
-                      onSelect={field.onChange}
+                      onSelect={(date) => {
+                        if (date) {
+                          field.onChange(date);
+                          const age = calculateAgeFromDate(date);
+                          const yearsOfActiveIncome =
+                            calculateYearsOfActiveIncome(
+                              age,
+                              form.watch("expected_retirement_age")
+                            );
+                          form.setValue(
+                            "income_multiplier",
+                            yearsOfActiveIncome,
+                            {
+                              shouldDirty: true,
+                            }
+                          );
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -143,12 +164,7 @@ export function EditClientForm({
               <h2 className="text-sm font-medium leading-none">
                 Years of Active Income
               </h2>
-              <p className="font-bold">
-                {calculateYearsOfActiveIncome(
-                  age,
-                  form.watch("expected_retirement_age")
-                )}
-              </p>
+              <p className="font-bold">{yearsOfActiveIncome}</p>
             </div>
             <FormField
               control={form.control}
