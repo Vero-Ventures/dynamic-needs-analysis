@@ -8,6 +8,11 @@ import {
   calculateSurplusShortfall,
   calculateTotalSumGoals,
 } from "@/lib/goals/utils";
+
+import type { Asset, Goal } from "@/types/db";
+import { CircleDollarSignIcon } from "lucide-react";
+
+import StatCard from "@/components/stat-card";
 import GoalsChart from "./goals-chart";
 
 export default function Liquidity({
@@ -52,56 +57,54 @@ export default function Liquidity({
         <h2 className="mb-4 border-b-2 border-primary pb-4 text-xl font-bold text-primary">
           Liquidity
         </h2>
-        <LiquidityTable
-          data={[
-            {
-              label: "Total Current Value of Fixed Assets",
-              totalAmount: formatMoney(totalCurrentValueFixed),
-            },
-            {
-              label: "Total Future Value of Fixed Assets",
-              totalAmount: formatMoney(totalFutureValueFixed),
-            },
-            {
-              label: "Total Current Value of Liquid Assets",
-              totalAmount: formatMoney(totalCurrentValueLiquid),
-            },
-            {
-              label: "Total Future Value of Liquid Assets",
-              totalAmount: formatMoney(totalFutureValueLiquidAssets),
-            },
-            {
-              label: "Total Current Value of Assets to be Sold",
-              totalAmount: formatMoney(totalCurrentValueToBeSold),
-            },
-            {
-              label: "Total Future Value of Assets to be Sold",
-              totalAmount: formatMoney(totalFutureValueToBeSold),
-            },
-            {
-              label: "% Liquidity Allocated Towards Goals",
-              totalAmount: `${liquidityToGoalsPercent}%`,
-            },
-            {
-              label: "Liquidity Preserved",
-              totalAmount: formatMoney(liquidityPreserved),
-            },
-            {
-              label: "Liquidity Allocated Towards Goals",
-              totalAmount: formatMoney(liquidityAllocatedToGoals),
-            },
-            {
-              label: "Total Sum of All Goals",
-              totalAmount: formatMoney(totalSumGoals),
-            },
-            {
-              label: "Surplus / Shortfall",
-              totalAmount: formatMoney(surplusShortfall),
-            },
-          ]}
-        />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <StatCard
+            value={formatMoney(totalCurrentValueFixed)}
+            description="Total Current Value of Fixed Assets"
+          />
+          <StatCard
+            value={formatMoney(totalFutureValueFixed)}
+            description="Total Future Value of Fixed Assets"
+          />
+          <StatCard
+            value={formatMoney(totalCurrentValueLiquid)}
+            description="Total Current Value of Liquid Assets"
+          />
+          <StatCard
+            value={formatMoney(totalFutureValueLiquidAssets)}
+            description="Total Future Value of Liquid Assets"
+          />
+          <StatCard
+            value={formatMoney(totalCurrentValueToBeSold)}
+            description="Total Current Value of Assets to be Sold"
+          />
+          <StatCard
+            value={formatMoney(totalFutureValueToBeSold)}
+            description="Total Future Value of Assets to be Sold"
+          />
+          <StatCard
+            value={`${liquidityToGoalsPercent}%`}
+            description="% Liquidity Allocated Towards Goals"
+          />
+          <StatCard
+            value={formatMoney(liquidityAllocatedToGoals)}
+            description="Liquidity Allocated Towards Goals"
+          />
+          <StatCard
+            value={formatMoney(liquidityPreserved)}
+            description="Liquidity Preserved"
+          />
+          <StatCard
+            value={formatMoney(totalSumGoals)}
+            description="Total Sum of All Goals"
+          />
+          <StatCard
+            value={formatMoney(surplusShortfall)}
+            description="Surplus / Shortfall"
+          />
+        </div>
       </section>
-      <div className="col-span-2">
+      <div className="mt-6">
         <GoalsChart
           totalFutureValueLiquidAssets={totalFutureValueLiquidAssets}
           liquidityPreserved={liquidityPreserved}
@@ -111,36 +114,5 @@ export default function Liquidity({
         />
       </div>
     </>
-  );
-}
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import type { Asset, Goal } from "@/types/db";
-
-export function LiquidityTable({
-  data,
-}: {
-  data: { label: string; totalAmount: string }[];
-}) {
-  return (
-    <Table className="w-fit">
-      <TableHeader />
-      <TableBody>
-        {data.map((item) => (
-          <TableRow key={item.label}>
-            <TableCell>{item.label}:</TableCell>
-            <TableCell className="text-right text-xl font-medium">
-              {item.totalAmount}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
   );
 }
