@@ -11,8 +11,8 @@ export const createAssetSchema = z.object({
     .max(6, { message: "Growth Rate must be between 0 and 6" }),
   term: z.coerce
     .number()
-    .min(0, { message: "Time horizon must be greater than 0" })
-    .max(20, { message: "Time horizon cannot exceed 20" }),
+    .min(0, { message: "Time Horizon must be greater than 0" })
+    .max(20, { message: "Time Horizon cannot exceed 20" }),
   type: z.union([
     z.literal("Cash"),
     z.literal("Stocks"),
