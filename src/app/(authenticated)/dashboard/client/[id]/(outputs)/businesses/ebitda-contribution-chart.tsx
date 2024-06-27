@@ -48,7 +48,6 @@ export default function EBITDAContributionChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "EBITDA Contribution Per Year" },
         xaxis: { type: "category", categories: generateYearsArray() },
         yaxis: {
           title: { text: "EBITDA Contribution ($)" },

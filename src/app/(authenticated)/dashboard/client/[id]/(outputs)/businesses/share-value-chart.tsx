@@ -47,7 +47,6 @@ export default function ShareValueChart({
           mode: chartTheme,
           palette: "palette3",
         },
-        title: { text: "Share Value Per Year" },
         xaxis: { type: "category", categories: generateYearsArray() },
         yaxis: {
           title: { text: "Share Value ($)" },
