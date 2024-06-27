@@ -15,7 +15,7 @@ export default async function Assets({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6 p-6">
       <Heading variant="h1">Assets</Heading>
       <AssetsTable assets={assets} businesses={businesses} />
       <section>

@@ -41,7 +41,7 @@ export default async function IncomeReplacementPage({
   );
 
   return (
-    <div className="p-4">
+    <section className="p-6">
       <Heading variant="h1">Income Replacement</Heading>
       <div className="mt-10">
         <div>
@@ -71,6 +71,6 @@ export default async function IncomeReplacementPage({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

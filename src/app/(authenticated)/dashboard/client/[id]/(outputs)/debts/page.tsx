@@ -8,7 +8,7 @@ export default async function DebtsPage() {
   const { data: debts } = await sb.from("debts").select();
 
   return (
-    <section className="px-4">
+    <section className="p-6">
       <Heading variant="h1">Debts</Heading>
       <DebtsTable debts={debts || []} />
       <div className="mt-14">
