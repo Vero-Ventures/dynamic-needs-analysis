@@ -25,7 +25,7 @@ export default async function GoalsPage({
     .single();
 
   return (
-    <div className="p-4">
+    <div className="space-y-8 p-4">
       <Heading variant="h1">Goals & Philanthropy</Heading>
       <Goals goals={goals || []} />
       <Liquidity
