@@ -3,7 +3,7 @@ export default function StatCard({
   description,
   icon,
 }: {
-  value: string;
+  value: string | number;
   description: string;
   icon?: React.ReactNode;
 }) {

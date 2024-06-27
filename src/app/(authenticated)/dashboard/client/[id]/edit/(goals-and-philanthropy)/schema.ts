@@ -7,3 +7,11 @@ export const createGoalSchema = z.object({
 });
 
 export type CreateGoal = z.infer<typeof createGoalSchema>;
+
+export const editLiquidityAllocatedTowardsGoalsSchema = z.object({
+  liquidity_allocated_towards_goals: z.coerce.number(),
+});
+
+export type EditLiquidityAllocatedTowardsGoals = z.infer<
+  typeof editLiquidityAllocatedTowardsGoalsSchema
+>;
