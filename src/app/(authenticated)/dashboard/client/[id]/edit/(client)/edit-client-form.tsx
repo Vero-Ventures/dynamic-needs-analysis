@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { BirthDatePicker } from "@/components/date-picker";
 import FormSubmitButton from "@/components/form-submit-button";
+import { toast } from "sonner";
 
 import { useForm } from "react-hook-form";
 
@@ -74,10 +75,13 @@ export function EditClientForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: EditClient) {
-    const [, error] = await execute({ ...values, client_id: client.id });
-    if (error) {
-      console.log(error.message);
-    }
+    toast.promise(execute({ ...values, client_id: client.id }), {
+      loading: "Editing...",
+      success: "Client updated successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     onCloseDialog();
   }
   return (
