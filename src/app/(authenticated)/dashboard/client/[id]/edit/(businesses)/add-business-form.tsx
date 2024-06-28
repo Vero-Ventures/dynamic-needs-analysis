@@ -24,6 +24,7 @@ import { createBusinessSchema, type CreateBusiness } from "./schema";
 import { createBusiness } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 export function AddBusinessForm({
   onCloseDialog,
@@ -46,7 +47,13 @@ export function AddBusinessForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateBusiness) {
-    await execute({ ...values, client_id: clientId });
+    toast.promise(execute({ ...values, client_id: clientId }), {
+      loading: "Adding...",
+      success: "Business added successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     onCloseDialog();
   }
   return (
