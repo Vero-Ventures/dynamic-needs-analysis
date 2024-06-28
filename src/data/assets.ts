@@ -14,12 +14,15 @@ export type AssetsWithBeneficiaries = Awaited<
   ReturnType<typeof getAssetsWithBeneficiaries>
 >;
 
-export async function getSingleAssetWithBeneficiaries(id: number) {
+export async function getSingleAssetWithBeneficiaries(
+  id: number,
+  clientId: number
+) {
   const sb = await createClient();
   const { data, error } = await sb
     .from("assets")
     .select(`*, asset_beneficiaries(*, beneficiaries(*))`)
-    .eq("id", id)
+    .match({ id, client_id: clientId })
     .limit(1)
     .single();
   if (error) throw error;
