@@ -76,7 +76,7 @@ export function EditClientForm({
   // 2. Define a submit handler.
   async function onSubmit(values: EditClient) {
     toast.promise(execute({ ...values, client_id: client.id }), {
-      loading: "Editing...",
+      loading: "Updating...",
       success: "Client updated successfully.",
       error: (error) => {
         if (error instanceof Error) return error.message;
