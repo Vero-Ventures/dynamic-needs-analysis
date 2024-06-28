@@ -17,6 +17,9 @@ import {
 } from "@/lib/asset/manager-utils";
 import { Heading2 } from "lucide-react";
 import { getAssetsWithBeneficiaries } from "@/data/assets";
+import { getBusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
+import KeyPersonTable from "./key-person-table";
+import ShareholderTable from "./shareholder-table";
 
 export default async function TotalInsurableNeedsPage({
   params,
@@ -43,7 +46,13 @@ export default async function TotalInsurableNeedsPage({
   if (goalError) {
     throw goalError;
   }
-  const assets = await getAssetsWithBeneficiaries(clientId);
+
+  const { data: assets, error: assetError } = await sb
+    .from("assets")
+    .select(`*, asset_beneficiaries(*, beneficiaries(*))`)
+    .eq("client_id", clientId);
+
+  if (assetError) throw assetError;
 
   const { data: beneficiaries, error: beneficiaryError } = await sb
     .from("beneficiaries")
@@ -53,6 +62,13 @@ export default async function TotalInsurableNeedsPage({
   if (beneficiaryError) {
     throw beneficiaryError;
   }
+
+  const a = await getBusinessesWithShareholdersAndKeyPeople(clientId);
+  const { data: business, error: businessError } = await sb
+    .from("businesses")
+    .select("*, shareholders (*), key_people (*)")
+    .eq("client_id", clientId);
+  if (businessError) throw businessError;
 
   const insuredIncome = calculateInsuredIncomeAmount(
     client.annual_income,
@@ -118,7 +134,33 @@ export default async function TotalInsurableNeedsPage({
       <Heading variant="h1">Total Insurable Needs</Heading>
       <TotalInsurableNeedsTable data={initialTotalInsurableNeeds} />
       <Heading variant="h2">Key Person</Heading>
+      {business.map((b) => (
+        <div key={b.id}>
+          <h3 className="text-lg font-bold">{b.name}</h3>
+          <KeyPersonTable
+            data={b.key_people.map((s) => ({
+              id: s.id,
+              name: s.name,
+              need: s.insurance_coverage,
+              priority: 100,
+            }))}
+          />
+        </div>
+      ))}
       <Heading variant="h2">Shareholders Agreement</Heading>
+      {business.map((b) => (
+        <div key={b.id}>
+          <h3 className="text-lg font-bold">{b.name}</h3>
+          <ShareholderTable
+            data={b.shareholders.map((s) => ({
+              id: s.id,
+              name: s.name,
+              need: s.insurance_coverage,
+              priority: 100,
+            }))}
+          />
+        </div>
+      ))}
     </section>
   );
 }

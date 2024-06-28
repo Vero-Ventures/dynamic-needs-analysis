@@ -12,23 +12,23 @@ import { calculateWant } from "@/lib/total-needs/utils";
 import { formatMoney } from "@/lib/utils";
 import { useState } from "react";
 
-interface TotalInsurableNeedsTableData {
+interface KeyPersonTableData {
   id: number;
-  purpose: string;
+  name: string;
   need: number;
   priority: number;
 }
 
-export default function TotalInsurableNeedsTable({
+export default function KeyPersonTable({
   data,
 }: {
-  data: TotalInsurableNeedsTableData[];
+  data: KeyPersonTableData[];
 }) {
   return (
     <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Purpose</TableHead>
+          <TableHead className="w-[200px]">Name</TableHead>
           <TableHead>Need</TableHead>
           <TableHead>Priority</TableHead>
           <TableHead>Want</TableHead>
@@ -36,22 +36,18 @@ export default function TotalInsurableNeedsTable({
       </TableHeader>
       <TableBody>
         {data.map((item) => (
-          <TotalInsurableNeedsTableRow key={item.id} item={item} />
+          <KeyPersonTableRow item={item} key={item.id} />
         ))}
       </TableBody>
     </Table>
   );
 }
 
-function TotalInsurableNeedsTableRow({
-  item,
-}: {
-  item: TotalInsurableNeedsTableData;
-}) {
+function KeyPersonTableRow({ item }: { item: KeyPersonTableData }) {
   const [priority, setPriority] = useState(item.priority);
   return (
     <TableRow key={item.id}>
-      <TableCell className="w-[200px] font-medium">{item.purpose}</TableCell>
+      <TableCell className="w-[200px] font-medium">{item.name}</TableCell>
       <TableCell className="w-[100px]">{formatMoney(item.need)}</TableCell>
       <TableCell className="flex w-[200px] flex-col gap-2">
         <Slider
