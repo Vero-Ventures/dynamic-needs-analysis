@@ -29,6 +29,7 @@ import { createKeyPerson } from "./actions";
 import type { CreateKeyPerson } from "./schema";
 import { createKeyPersonSchema } from "./schema";
 import { AutoComplete } from "@/components/ui/autocomplete";
+import { toast } from "sonner";
 
 export function AddKeyPersonForm({
   businesses,
@@ -50,11 +51,25 @@ export function AddKeyPersonForm({
   });
 
   async function onSubmit(values: CreateKeyPerson) {
-    await execute({
-      ...values,
-      business_id: Number.parseInt(values.business.value),
-      client_id: clientId,
-    });
+    // await execute({
+    //   ...values,
+    //   business_id: Number.parseInt(values.business.value),
+    //   client_id: clientId,
+    // });
+    toast.promise(
+      execute({
+        ...values,
+        business_id: Number.parseInt(values.business.value),
+        client_id: clientId,
+      }),
+      {
+        loading: "Adding...",
+        success: "Key person added successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     form.reset();
     onCloseDialog();
   }
