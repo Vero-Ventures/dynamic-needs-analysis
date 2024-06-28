@@ -28,6 +28,7 @@ import type { CreateShareholder } from "./schema";
 import { createShareholderSchema } from "./schema";
 import { createShareholder } from "./actions";
 import { AutoComplete } from "@/components/ui/autocomplete";
+import { toast } from "sonner";
 
 export function AddShareholderForm({
   businesses,
@@ -50,11 +51,20 @@ export function AddShareholderForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateShareholder) {
-    await execute({
-      ...values,
-      business_id: Number.parseInt(values.business.value),
-      client_id: clientId,
-    });
+    toast.promise(
+      execute({
+        ...values,
+        business_id: Number.parseInt(values.business.value),
+        client_id: clientId,
+      }),
+      {
+        loading: "Adding...",
+        success: "Shareholder added successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     form.reset();
     onCloseDialog();
   }
