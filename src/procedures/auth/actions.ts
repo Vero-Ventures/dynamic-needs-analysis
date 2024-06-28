@@ -58,6 +58,17 @@ export const ownsBusinessProcedure = createServerActionProcedure(
       business,
     };
   });
+export const ownsShareholderProcedure = createServerActionProcedure(
+  ownsBusinessProcedure
+)
+  .input(z.object({ shareholder_id: z.number() }))
+  .handler(async ({ ctx }) => {
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      business: ctx.business,
+    };
+  });
 
 export const ownsBeneficiaryProcedure = createServerActionProcedure(
   ownsClientProcedure
