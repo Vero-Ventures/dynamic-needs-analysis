@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, "antialiased")}>
         <Providers>{children}</Providers>
-        <Toaster richColors />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
