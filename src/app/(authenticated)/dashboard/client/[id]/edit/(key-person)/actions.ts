@@ -23,7 +23,6 @@ export const createKeyPerson = ownsBusinessProcedure
         "Something went wrong with adding the key person to the database"
       );
     }
-
     revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 

@@ -1,6 +1,6 @@
-import type { Tables } from "../../types/supabase";
+import { Asset, Goal } from "@/types/db";
 
-export function calculateTotalSumGoals(goals: Tables<"goals">[]) {
+export function calculateTotalSumGoals(goals: Goal[]) {
   return goals.reduce((total, goal) => total + goal.amount, 0);
 }
 
@@ -25,7 +25,7 @@ export function calculateSurplusShortfall(
   return liquidityAllocatedToGoals - totalSumGoals;
 }
 
-export function calculateCurrentFutureTotals(assets: Tables<"assets">[]) {
+export function calculateCurrentFutureTotals(assets: Asset[]) {
   const result = {
     totalCurrentValueFixed: 0,
     totalFutureValueFixed: 0,

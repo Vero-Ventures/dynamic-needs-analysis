@@ -1,4 +1,4 @@
-import type { Tables } from "../../types/supabase";
+import { Debt } from "@/types/db";
 
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
@@ -70,11 +70,11 @@ export function calculateFutureValueOfActualTermDebtDollars(
   return initialValue * Math.pow(1 + interestRate / 100, term);
 }
 
-export function generateDebtsSeries(debts: Tables<"debts">[]) {
+export function generateDebtsSeries(debts: Debt[]) {
   const series: ApexAxisChartSeries = [];
   let latestYear: number = 0;
 
-  debts.forEach((debt: Tables<"debts">): void => {
+  debts.forEach((debt: Debt): void => {
     const dataPoints: [number, number][] = [];
     let year: number = debt.year_acquired;
     let value: number;
@@ -116,7 +116,7 @@ export function generateDebtsSeries(debts: Tables<"debts">[]) {
 }
 
 export function calculateDebtValueOverTime(
-  debt: Tables<"debts">,
+  debt: Debt,
   year: number,
   debtValuesCache: Map<string, number>
 ): number {

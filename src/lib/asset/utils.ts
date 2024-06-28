@@ -1,4 +1,4 @@
-import type { Tables } from "../../types/supabase";
+import { Asset } from "@/types/db";
 
 export function calculateCurrentYearsHeld(yearAcquired: number): number {
   const currentYear: number = new Date().getFullYear();
@@ -34,7 +34,7 @@ export function calculateFutureValueGrowthPercentage(
   return initialValue === 0 ? 0 : (futureValueDollars / initialValue - 1) * 100;
 }
 
-export function generateNetWorthSeries(assets: Tables<"assets">[]) {
+export function generateNetWorthSeries(assets: Asset[]) {
   const startYear: number = Math.min(...assets.map((a) => a.year_acquired));
   const endYear: number = Math.max(
     ...assets.map((a) => a.year_acquired + a.term)
@@ -57,10 +57,7 @@ export function generateNetWorthSeries(assets: Tables<"assets">[]) {
   return { series, xAxisOptions };
 }
 
-export function valueAtYear(
-  asset: Tables<"assets">,
-  yearGiven: number
-): number {
+export function valueAtYear(asset: Asset, yearGiven: number): number {
   const currentYear: number = new Date().getFullYear();
   if (yearGiven < asset.year_acquired) {
     return 0;
@@ -83,11 +80,7 @@ export function valueAtYear(
   );
 }
 
-function valueSeries(
-  asset: Tables<"assets">,
-  startYear: number,
-  endYear: number
-) {
+function valueSeries(asset: Asset, startYear: number, endYear: number) {
   const series = [];
   for (
     let year: number = Math.max(startYear, asset.year_acquired);
@@ -98,7 +91,7 @@ function valueSeries(
   }
   return series;
 }
-export function generateDiversificationSeries(assets: Tables<"assets">[]) {
+export function generateDiversificationSeries(assets: Asset[]) {
   const totalByType: Record<string, number> = {};
 
   assets.forEach((asset): void => {

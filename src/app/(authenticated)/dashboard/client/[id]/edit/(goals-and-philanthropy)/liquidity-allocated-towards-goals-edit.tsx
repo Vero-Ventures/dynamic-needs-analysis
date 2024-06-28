@@ -17,7 +17,7 @@ export default async function LiquidityAllocatedTowardsGoalsEdit({
     throw error;
   }
   return (
-    <div className="flex items-end gap-2">
+    <div className="flex w-[300px] flex-col gap-2">
       <StatCard
         description="Liquidity Allocated towards Goals"
         value={(client.liquidity_allocated_towards_goals || 100) + "%"}

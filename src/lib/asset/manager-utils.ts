@@ -1,4 +1,4 @@
-import type { Tables } from "../../types/supabase";
+import { Asset, Beneficiary, Business } from "@/types/db";
 import type {
   AssetsWithBeneficiaries,
   SingleAssetWithBeneficiaries,
@@ -6,38 +6,37 @@ import type {
 } from "@/data/assets";
 
 export function calculateTotalCurrentValue(
-  assets: Tables<"assets">[],
-  businesses: Tables<"businesses">[]
+  assets: Asset[],
+  businesses: Business[]
 ): number {
   const totalAssetValue: number = assets.reduce(
-    (acc: number, asset: Tables<"assets">) => acc + (asset.current_value || 0),
+    (acc: number, asset: Asset) => acc + (asset.current_value || 0),
     0
   );
   const totalBusinessValue: number = businesses.reduce(
-    (acc: number, business: Tables<"businesses">) =>
-      acc + (business.valuation || 0),
+    (acc: number, business: Business) => acc + (business.valuation || 0),
     0
   );
   return totalAssetValue + totalBusinessValue;
 }
 
 export function calculateTotalFutureValue(
-  assets: Tables<"assets">[],
-  calculateFutureValue: (asset: Tables<"assets">) => number
+  assets: Asset[],
+  calculateFutureValue: (asset: Asset) => number
 ): number {
   return assets.reduce(
-    (acc: number, asset: Tables<"assets">) => acc + calculateFutureValue(asset),
+    (acc: number, asset: Asset) => acc + calculateFutureValue(asset),
     0
   );
 }
 
-export function calculateFutureValue(asset: Tables<"assets">): number {
+export function calculateFutureValue(asset: Asset): number {
   return asset.current_value * Math.pow(1 + asset.rate / 100, asset.term);
 }
 
 export function calculateBeneficiaryDistributions(
   assets: AssetsWithBeneficiaries,
-  calculateFutureValue: (asset: Tables<"assets">) => number
+  calculateFutureValue: (asset: Asset) => number
 ): Record<string, number> {
   const distributions: Record<string, number> = {};
 
@@ -66,11 +65,11 @@ export function calculateBeneficiaryDistributions(
 }
 
 export function calculateIdealDistributions(
-  beneficiaries: Tables<"beneficiaries">[]
+  beneficiaries: Beneficiary[]
 ): Record<string, number> {
   const idealDistributions: Record<string, number> = {};
 
-  beneficiaries.forEach((beneficiary: Tables<"beneficiaries">): void => {
+  beneficiaries.forEach((beneficiary: Beneficiary): void => {
     idealDistributions[beneficiary.name] = beneficiary.allocation;
   });
 
