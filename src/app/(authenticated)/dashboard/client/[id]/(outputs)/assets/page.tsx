@@ -64,16 +64,16 @@ import {
 } from "@/lib/asset/manager-utils";
 import NetWorthChart from "./net-worth-chart";
 import DiversificationChart from "./diversification-chart";
-import type { Tables } from "../../../../../../../types/supabase";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import { Beneficiary, Business } from "@/types/db";
 
 function AssetsTable({
   assets,
   businesses,
 }: {
   assets: AssetsWithBeneficiaries;
-  businesses: Tables<"businesses">[];
+  businesses: Business[];
 }) {
   const totalCurrentValue = calculateTotalCurrentValue(assets, businesses);
 
@@ -130,7 +130,7 @@ function BeneficiaryDistributionTable({
   beneficiaries,
 }: {
   assets: AssetsWithBeneficiaries;
-  beneficiaries: Tables<"beneficiaries">[];
+  beneficiaries: Beneficiary[];
 }) {
   const beneficiaryDistributions = calculateBeneficiaryDistributions(
     assets,

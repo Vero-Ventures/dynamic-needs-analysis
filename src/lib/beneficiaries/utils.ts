@@ -1,12 +1,12 @@
-import type { Tables } from "../../types/supabase";
 import type {
   AssetBeneficiary,
   AssetsWithBeneficiaries,
   SingleAssetWithBeneficiaries,
 } from "@/data/assets";
+import { Beneficiary } from "@/types/db";
 
 export function generateDesiredDistributionSeriesAndLabels(
-  beneficiaries: Tables<"beneficiaries">[]
+  beneficiaries: Beneficiary[]
 ) {
   const beneficiaryTotals: Record<string, number> = {};
 

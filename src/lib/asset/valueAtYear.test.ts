@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
 import { valueAtYear } from "./utils";
-import type { Tables } from "../../types/supabase";
+import { Asset } from "@/types/db";
 
 // Helper function to create mock asset
 const createAsset = (
@@ -9,7 +9,7 @@ const createAsset = (
   initial_value: number,
   current_value: number,
   rate: number
-): Tables<"assets"> => ({
+): Asset => ({
   name,
   year_acquired,
   initial_value,

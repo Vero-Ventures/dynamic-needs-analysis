@@ -2,7 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { useStepper } from "@/components/ui/stepper";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useCallback } from "react";
 
 export default function StepperActions({
@@ -20,6 +25,7 @@ export default function StepperActions({
   } = useStepper();
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams<{ id: string }>();
   const searchParams = useSearchParams();
 
   // Get a new searchParams string by merging the current
@@ -58,6 +64,11 @@ export default function StepperActions({
             <Button
               size="sm"
               onClick={() => {
+                if (isLastStep) {
+                  return router.push(
+                    `/dashboard/client/${params.id}/income-replacement`
+                  );
+                }
                 nextStep();
                 router.push(
                   pathname +

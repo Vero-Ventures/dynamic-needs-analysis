@@ -14,14 +14,13 @@ export default async function AddClientPage({
 }) {
   const clientId = Number.parseInt(params.id);
   const currentStep = searchParams.step || "0";
-
   return (
     <div className="h-dvh max-h-dvh">
       <header className="bg-secondary p-4 text-primary-foreground">
-        <div className="mx-auto flex items-center justify-between md:max-w-screen-xl lg:max-w-screen-2xl">
+        <div className="flex items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <Link
-              href="/dashboard/clients"
+              href={`/dashboard/client/${clientId}/income-replacement`}
               className={cn(
                 buttonVariants({ size: "icon", variant: "secondary" }),
                 "rounded-full bg-gray-700 hover:bg-gray-600"
