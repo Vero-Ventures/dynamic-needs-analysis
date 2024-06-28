@@ -1,8 +1,7 @@
 "use client";
 
-import { PenSquareIcon, PlusIcon } from "lucide-react";
+import { PenSquareIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
