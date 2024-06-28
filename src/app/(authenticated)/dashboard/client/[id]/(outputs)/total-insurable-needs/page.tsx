@@ -129,7 +129,7 @@ export default async function TotalInsurableNeedsPage({
     {
       id: 4,
       purpose: "Goal Shortfall",
-      need: goalShortfall,
+      need: Math.abs(goalShortfall),
       priority: 100,
     },
   ];
