@@ -37,6 +37,7 @@ import { useParams } from "next/navigation";
 import type { AssetBeneficiary } from "@/data/assets";
 import type { Asset, Beneficiary } from "@/types/db";
 import type { AssetBeneficiaryAllocationFormProps } from "./beneficiary-allocation";
+import { toast } from "sonner";
 
 export function EditAssetForm({
   asset,
@@ -136,19 +137,28 @@ export function EditAssetForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateAsset) {
-    await execute({
-      client_id: clientId,
-      asset_id: asset.id,
-      ...values,
-      asset_beneficiaries: assetBeneficiaries
-        .filter((b) => b.already_assigned)
-        .map((b) => {
-          return {
-            beneficiary_id: b.id,
-            allocation: b.allocation,
-          };
-        }),
-    });
+    toast.promise(
+      execute({
+        client_id: clientId,
+        asset_id: asset.id,
+        ...values,
+        asset_beneficiaries: assetBeneficiaries
+          .filter((b) => b.already_assigned)
+          .map((b) => {
+            return {
+              beneficiary_id: b.id,
+              allocation: b.allocation,
+            };
+          }),
+      }),
+      {
+        loading: "Updating...",
+        success: "Asset updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     form.reset({ ...values });
     onCloseDialog();
   }
