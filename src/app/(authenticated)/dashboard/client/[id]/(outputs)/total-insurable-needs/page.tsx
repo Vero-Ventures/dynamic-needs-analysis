@@ -82,7 +82,7 @@ export default async function TotalInsurableNeedsPage({
   const totalSumGoals = calculateTotalSumGoals(goals);
 
   const goalShortfall = calculateSurplusShortfall(
-    client.liquidity_allocated_towards_goals || 100,
+    client.liquidity_allocated_towards_goals || 0,
     totalSumGoals
   );
 
