@@ -20,6 +20,10 @@ import { getAssetsWithBeneficiaries } from "@/data/assets";
 import { getBusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
 import KeyPersonTable from "./key-person-table";
 import ShareholderTable from "./shareholder-table";
+import {
+  calculateFinalEbitdaContribution,
+  calculateFinalShareValue,
+} from "@/lib/businesses/utils";
 
 export default async function TotalInsurableNeedsPage({
   params,
@@ -130,37 +134,43 @@ export default async function TotalInsurableNeedsPage({
     },
   ];
   return (
-    <section className="space-y-4 p-6">
-      <Heading variant="h1">Total Insurable Needs</Heading>
-      <TotalInsurableNeedsTable data={initialTotalInsurableNeeds} />
-      <Heading variant="h2">Key Person</Heading>
-      {business.map((b) => (
-        <div key={b.id}>
-          <h3 className="text-lg font-bold">{b.name}</h3>
-          <KeyPersonTable
-            data={b.key_people.map((s) => ({
-              id: s.id,
-              name: s.name,
-              need: s.insurance_coverage,
-              priority: 100,
-            }))}
-          />
-        </div>
-      ))}
-      <Heading variant="h2">Shareholders Agreement</Heading>
-      {business.map((b) => (
-        <div key={b.id}>
-          <h3 className="text-lg font-bold">{b.name}</h3>
-          <ShareholderTable
-            data={b.shareholders.map((s) => ({
-              id: s.id,
-              name: s.name,
-              need: s.insurance_coverage,
-              priority: 100,
-            }))}
-          />
-        </div>
-      ))}
-    </section>
+    <div className="space-y-6 p-6">
+      <section>
+        <Heading variant="h1">Total Insurable Needs</Heading>
+        <TotalInsurableNeedsTable data={initialTotalInsurableNeeds} />
+      </section>
+      <section>
+        <Heading variant="h2">Key Person</Heading>
+        {business.map((b) => (
+          <div key={b.id}>
+            <h3 className="text-lg font-bold">{b.name}</h3>
+            <KeyPersonTable
+              data={b.key_people.map((kp) => ({
+                id: kp.id,
+                name: kp.name,
+                need: calculateFinalEbitdaContribution(b, kp),
+                priority: 100,
+              }))}
+            />
+          </div>
+        ))}
+      </section>
+      <section>
+        <Heading variant="h2">Shareholders Agreement</Heading>
+        {business.map((b) => (
+          <div key={b.id}>
+            <h3 className="text-lg font-bold">{b.name}</h3>
+            <ShareholderTable
+              data={b.shareholders.map((s) => ({
+                id: s.id,
+                name: s.name,
+                need: calculateFinalShareValue(b, s),
+                priority: 100,
+              }))}
+            />
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

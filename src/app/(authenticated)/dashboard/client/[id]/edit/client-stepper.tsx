@@ -8,7 +8,6 @@ import StepperContainer from "./steppper-container";
 import Shareholders from "./(shareholders)/shareholders";
 import KeyPeople from "./(key-person)/key-people";
 import Client from "./(client)/client";
-import { redirect } from "next/navigation";
 
 export default function ClientStepper({
   clientId,
@@ -17,9 +16,6 @@ export default function ClientStepper({
   clientId: number;
   currentStep: number;
 }) {
-  if (currentStep === 8) {
-    redirect(`/dashboard/client/${clientId}/income-replacement`);
-  }
   return (
     <div>
       <div className="flex h-[calc(100dvh-72px-100px)] items-center justify-center">

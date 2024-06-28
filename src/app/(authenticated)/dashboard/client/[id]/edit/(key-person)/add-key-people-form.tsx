@@ -52,7 +52,7 @@ export function AddKeyPersonForm({
   async function onSubmit(values: CreateKeyPerson) {
     await execute({
       ...values,
-      business_id: +values.business,
+      business_id: Number.parseInt(values.business.value),
       client_id: clientId,
     });
     form.reset();

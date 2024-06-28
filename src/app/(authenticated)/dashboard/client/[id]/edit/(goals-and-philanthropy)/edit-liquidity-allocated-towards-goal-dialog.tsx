@@ -52,7 +52,7 @@ export default function EditLiquidityAllocatedTowardsGoalsDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-2">
+        <Button className="flex w-full items-center gap-2">
           <PencilIcon className="h-4 w-4" />
           <span>Edit</span>
         </Button>
