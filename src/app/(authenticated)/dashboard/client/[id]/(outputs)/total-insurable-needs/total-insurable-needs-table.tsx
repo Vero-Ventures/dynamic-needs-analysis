@@ -28,7 +28,7 @@ export default function TotalInsurableNeedsTable({
     <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Purpose</TableHead>
+          <TableHead>Purpose</TableHead>
           <TableHead>Need</TableHead>
           <TableHead>Priority</TableHead>
           <TableHead>Want</TableHead>
@@ -51,8 +51,8 @@ function TotalInsurableNeedsTableRow({
   const [priority, setPriority] = useState(item.priority);
   return (
     <TableRow key={item.id}>
-      <TableCell className="w-[200px] font-medium">{item.purpose}</TableCell>
-      <TableCell className="w-[100px]">{formatMoney(item.need)}</TableCell>
+      <TableCell className="font-medium">{item.purpose}</TableCell>
+      <TableCell>{formatMoney(item.need)}</TableCell>
       <TableCell className="flex w-[200px] flex-col gap-2">
         <Slider
           onValueChange={([priority]) => setPriority(priority)}
@@ -62,9 +62,7 @@ function TotalInsurableNeedsTableRow({
         />
         <span className="flex">{priority}%</span>
       </TableCell>
-      <TableCell className="w-[100px]">
-        {formatMoney(calculateWant(item.need, priority))}
-      </TableCell>
+      <TableCell>{formatMoney(calculateWant(item.need, priority))}</TableCell>
     </TableRow>
   );
 }

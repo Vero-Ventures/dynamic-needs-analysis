@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import type { Shareholder } from "@/types/db";
 import DeleteShareholderButton from "./delete-shareholder-button";
+import { formatMoney } from "@/lib/utils";
 
 export default async function ShareholdersTable({
   shareholders,
@@ -28,9 +29,11 @@ export default async function ShareholdersTable({
         {shareholders.map((s) => (
           <TableRow key={s.id}>
             <TableCell className="text-center">{s.name}</TableCell>
-            <TableCell className="text-center">{s.share_percentage}</TableCell>
             <TableCell className="text-center">
-              {s.insurance_coverage}
+              {s.share_percentage + "%"}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatMoney(s.insurance_coverage)}
             </TableCell>
             <TableCell className="text-right">
               <DeleteShareholderButton businessId={s.business_id} id={s.id} />

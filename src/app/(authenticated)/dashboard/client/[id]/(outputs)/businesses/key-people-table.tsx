@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatMoney } from "@/lib/utils";
 import type { KeyPerson } from "@/types/db";
 
 export default async function KeyPeopleTable({
@@ -14,12 +15,12 @@ export default async function KeyPeopleTable({
   keyPeople: KeyPerson[];
 }) {
   return (
-    <Table>
+    <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-left">Name</TableHead>
+          <TableHead className="text-center">Name</TableHead>
           <TableHead className="text-center">% EBITDA Contributed</TableHead>
-          <TableHead className="text-right">Insurance Coverage</TableHead>
+          <TableHead className="text-center">Insurance Coverage</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -28,10 +29,10 @@ export default async function KeyPeopleTable({
             <TableRow key={kp.id}>
               <TableCell className="text-center">{kp.name}</TableCell>
               <TableCell className="text-center">
-                {kp.ebitda_contribution_percentage}
+                {kp.ebitda_contribution_percentage + "%"}
               </TableCell>
-              <TableCell className="text-right">
-                {kp.insurance_coverage}
+              <TableCell className="text-center">
+                {formatMoney(kp.insurance_coverage)}
               </TableCell>
             </TableRow>
           ))

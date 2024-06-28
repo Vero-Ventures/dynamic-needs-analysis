@@ -25,17 +25,21 @@ function GoalsTable({ goals }: { goals: Goal[] }) {
     <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Name</TableHead>
-          <TableHead>Amount ($)</TableHead>
-          <TableHead>Philanthropic</TableHead>
+          <TableHead className="text-center">Name</TableHead>
+          <TableHead className="text-center">Amount ($)</TableHead>
+          <TableHead className="text-center">Philanthropic</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {goals.map((goal) => (
           <TableRow key={goal.name}>
-            <TableCell className="w-[200px] font-medium">{goal.name}</TableCell>
-            <TableCell>{formatMoney(goal.amount)}</TableCell>
-            <TableCell>
+            <TableCell className="text-center font-medium">
+              {goal.name}
+            </TableCell>
+            <TableCell className="text-center">
+              {formatMoney(goal.amount)}
+            </TableCell>
+            <TableCell className="text-center">
               {goal.philanthropic && (
                 <CheckCircle2Icon className="mx-auto stroke-green-600" />
               )}

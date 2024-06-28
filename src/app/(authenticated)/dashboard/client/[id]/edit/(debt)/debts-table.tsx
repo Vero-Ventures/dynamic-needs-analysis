@@ -48,14 +48,18 @@ function DebtTableRow({ debt }: { debt: Debt }) {
       <TableCell className="text-center font-medium">
         {formatMoney(debt.initial_value)}
       </TableCell>
-      <TableCell className="text-center font-medium">{debt.rate}</TableCell>
+      <TableCell className="text-center font-medium">
+        {debt.rate + "%"}
+      </TableCell>
       <TableCell className="text-center font-medium">
         {formatMoney(debt.annual_payment)}
       </TableCell>
       <TableCell className="text-center font-medium">
         {debt.year_acquired}
       </TableCell>
-      <TableCell className="text-center font-medium">{debt.term}</TableCell>
+      <TableCell className="text-center font-medium">
+        {debt.term + " years"}
+      </TableCell>
       <TableCell className="text-right">
         <DeleteDebtButton id={debt.id} />
       </TableCell>

@@ -18,15 +18,15 @@ export default function BusinessTable({
     <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Name</TableHead>
-          <TableHead>Valuation ($)</TableHead>
+          <TableHead className="text-center">Name</TableHead>
+          <TableHead className="text-center">Valuation ($)</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {businesses.map((b) => (
           <TableRow key={b.name}>
-            <TableCell className="font-medium">{b.name}</TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-center font-medium">{b.name}</TableCell>
+            <TableCell className="text-center">
               {formatMoney(b.valuation)}
             </TableCell>
           </TableRow>
