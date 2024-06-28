@@ -38,3 +38,6 @@ next-env.d.ts
 
 #supabase
 /src/types/supabase.ts
+
+#bun
+bun.lockb
