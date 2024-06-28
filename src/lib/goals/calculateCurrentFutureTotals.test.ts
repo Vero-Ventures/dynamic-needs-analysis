@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
 import { calculateCurrentFutureTotals } from "./utils";
-import type { Tables } from "../../types/supabase";
+import { Asset } from "@/types/db";
 
 const testCases = [
   {
@@ -26,7 +26,7 @@ const testCases = [
         is_liquid: false,
         to_be_sold: false,
       },
-    ] as Tables<"assets">[],
+    ] as Asset[],
     expected: {
       totalCurrentValueFixed: 1500,
       totalFutureValueFixed: 1973.9,
@@ -37,7 +37,7 @@ const testCases = [
     },
   },
   {
-    assets: [] as Tables<"assets">[],
+    assets: [] as Asset[],
     expected: {
       totalCurrentValueFixed: 0,
       totalFutureValueFixed: 0,
