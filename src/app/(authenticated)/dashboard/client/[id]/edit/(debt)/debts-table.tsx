@@ -33,6 +33,7 @@ export default async function DebtsTable({ clientId }: { clientId: number }) {
           <TableHead className="text-center">Years Acquired</TableHead>
           <TableHead className="text-center">Actual term</TableHead>
           <TableHead></TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
