@@ -13,7 +13,10 @@ export default async function Beneficiaries({
   clientId: number;
 }) {
   const sb = await createClient();
-  const { data: beneficiaries } = await sb.from("beneficiaries").select();
+  const { data: beneficiaries } = await sb
+    .from("beneficiaries")
+    .select()
+    .eq("client_id", clientId);
   const assets = await getAssetsWithBeneficiaries(clientId);
   if (!beneficiaries || !assets) {
     notFound();

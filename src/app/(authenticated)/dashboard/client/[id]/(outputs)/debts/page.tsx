@@ -3,9 +3,17 @@ import DebtsChart from "./debts-chart";
 import { createClient } from "@/lib/supabase/server";
 import Heading from "@/components/heading";
 
-export default async function DebtsPage() {
+export default async function DebtsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const clientId = parseInt(params.id);
   const sb = await createClient();
-  const { data: debts } = await sb.from("debts").select();
+  const { data: debts } = await sb
+    .from("debts")
+    .select()
+    .eq("client_id", clientId);
 
   return (
     <section className="p-6">
