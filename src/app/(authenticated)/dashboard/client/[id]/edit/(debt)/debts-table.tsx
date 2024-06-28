@@ -10,6 +10,7 @@ import { formatMoney } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import type { Debt } from "@/types/db";
 import DeleteDebtButton from "./delete-debt-button";
+import EditDebtDialog from "./edit-debt-dialog";
 
 export default async function DebtsTable({ clientId }: { clientId: number }) {
   const sb = await createClient();
@@ -60,7 +61,10 @@ function DebtTableRow({ debt }: { debt: Debt }) {
       <TableCell className="text-center font-medium">
         {debt.term + " years"}
       </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="text-center">
+        <EditDebtDialog debt={debt} />
+      </TableCell>
+      <TableCell className="text-center">
         <DeleteDebtButton id={debt.id} />
       </TableCell>
     </TableRow>

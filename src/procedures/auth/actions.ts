@@ -83,6 +83,30 @@ export const ownsBeneficiaryProcedure = createServerActionProcedure(
       beneficiary,
     };
   });
+export const ownsDebtProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ debt_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: beneficiary, error } = await sb
+      .from("debts")
+      .select("id")
+      .match({ id: input.debt_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!beneficiary) {
+      throw new Error("Invalid beneficiary id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      beneficiary,
+    };
+  });
 
 export const ownsAssetProcedure = createServerActionProcedure(
   ownsBeneficiaryProcedure
