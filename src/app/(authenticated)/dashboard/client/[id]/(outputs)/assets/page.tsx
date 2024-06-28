@@ -8,8 +8,14 @@ export default async function Assets({ params }: { params: { id: string } }) {
   const clientId = parseInt(params.id);
   const assets = await getAssetsWithBeneficiaries(clientId);
   const sb = await createClient();
-  const { data: businesses } = await sb.from("businesses").select();
-  const { data: beneficiaries } = await sb.from("beneficiaries").select();
+  const { data: businesses } = await sb
+    .from("businesses")
+    .select()
+    .eq("client_id", clientId);
+  const { data: beneficiaries } = await sb
+    .from("beneficiaries")
+    .select()
+    .eq("client_id", clientId);
   if (!assets || !businesses || !beneficiaries) {
     notFound();
   }
