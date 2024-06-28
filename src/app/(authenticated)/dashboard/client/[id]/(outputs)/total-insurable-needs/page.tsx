@@ -2,7 +2,6 @@ import Heading from "@/components/heading";
 import TotalInsurableNeedsTable from "./total-insurable-needs-table";
 import { createClient } from "@/lib/supabase/server";
 import { calculateInsuredIncomeAmount } from "@/lib/client/utils";
-import { useMemo } from "react";
 import {
   calculateSurplusShortfall,
   calculateTotalSumGoals,
@@ -15,8 +14,6 @@ import {
   calculateTotalAdditionalMoneyRequired,
   calculateTotalFutureValue,
 } from "@/lib/asset/manager-utils";
-import { Heading2 } from "lucide-react";
-import { getAssetsWithBeneficiaries } from "@/data/assets";
 import { getBusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
 import KeyPersonTable from "./key-person-table";
 import ShareholderTable from "./shareholder-table";
