@@ -9,11 +9,15 @@ import {
 import type { KeyPerson } from "@/types/db";
 import DeleteKeyPersonButton from "./delete-key-person-button";
 import { formatMoney } from "@/lib/utils";
+import EditKeyPeopleDialog from "./edit-key-people-dialog";
+import { BusinessesWithKeyPeople } from "@/data/businesses";
 
 export default async function KeyPeopleTable({
   keyPeople,
+  businesses,
 }: {
   keyPeople: KeyPerson[];
+  businesses: BusinessesWithKeyPeople;
 }) {
   return (
     <Table>
@@ -34,6 +38,9 @@ export default async function KeyPeopleTable({
             </TableCell>
             <TableCell className="text-center">
               {formatMoney(kp.insurance_coverage)}
+            </TableCell>
+            <TableCell className="text-right">
+              <EditKeyPeopleDialog keyPerson={kp} businesses={businesses} />
             </TableCell>
             <TableCell className="text-right">
               <DeleteKeyPersonButton id={kp.id} businessId={kp.business_id} />

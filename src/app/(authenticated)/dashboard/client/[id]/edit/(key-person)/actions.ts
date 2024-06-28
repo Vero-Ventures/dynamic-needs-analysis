@@ -1,8 +1,11 @@
 "use server";
-import { ownsBusinessProcedure } from "@/procedures/auth/actions";
+import {
+  ownsBusinessProcedure,
+  ownsKeyPersonProcedure,
+} from "@/procedures/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { createKeyPersonSchema } from "./schema";
+import { createKeyPersonSchema, editKeyPersonSchema } from "./schema";
 import { z } from "zod";
 
 export const createKeyPerson = ownsBusinessProcedure
@@ -23,6 +26,31 @@ export const createKeyPerson = ownsBusinessProcedure
         "Something went wrong with adding the key person to the database"
       );
     }
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
+  });
+
+export const editKeyPerson = ownsKeyPersonProcedure
+  .createServerAction()
+  .input(editKeyPersonSchema)
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("key_people")
+      .update({
+        name: input.name,
+        ebitda_contribution_percentage: input.ebitda_contribution_percentage,
+        insurance_coverage: input.insurance_coverage,
+        business_id: input.business_id,
+      })
+      .eq("id", input.key_person_id);
+
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with updating the key person in the database"
+      );
+    }
+
     revalidatePath(`/dashboard/client/${input.client_id}/edit`);
   });
 

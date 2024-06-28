@@ -26,7 +26,10 @@ export default async function KeyPeople({ clientId }: { clientId: number }) {
             b.key_people.length > 0 ? (
               <div key={b.id}>
                 <h2 className="text-lg font-bold">{b.name}</h2>
-                <KeyPeopleTable keyPeople={b.key_people} />
+                <KeyPeopleTable
+                  businesses={businesses}
+                  keyPeople={b.key_people}
+                />
               </div>
             ) : null
           )}
