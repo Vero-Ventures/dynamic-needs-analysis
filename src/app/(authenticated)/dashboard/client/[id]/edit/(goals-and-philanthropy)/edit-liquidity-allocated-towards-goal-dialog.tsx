@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormSubmitButton from "@/components/form-submit-button";
 import { useServerAction } from "zsa-react";
 import { editLiquidityAllocatedTowardsGoals } from "./actions";
+import { toast } from "sonner";
 
 export default function EditLiquidityAllocatedTowardsGoalsDialog({
   client,
@@ -46,7 +47,13 @@ export default function EditLiquidityAllocatedTowardsGoalsDialog({
     editLiquidityAllocatedTowardsGoals
   );
   async function onSubmit(values: EditLiquidityAllocatedTowardsGoals) {
-    await execute({ ...values, client_id: client.id });
+    toast.promise(execute({ ...values, client_id: client.id }), {
+      loading: "Updating...",
+      success: "Liquidity updated successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     setOpen(false);
   }
   return (
