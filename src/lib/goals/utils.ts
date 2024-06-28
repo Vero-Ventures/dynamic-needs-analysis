@@ -22,7 +22,8 @@ export function calculateSurplusShortfall(
   liquidityAllocatedToGoals: number,
   totalSumGoals: number
 ): number {
-  return liquidityAllocatedToGoals - totalSumGoals;
+  const goalShortfall = liquidityAllocatedToGoals - totalSumGoals;
+  return goalShortfall < 0 ? goalShortfall : 0;
 }
 
 export function calculateCurrentFutureTotals(assets: Asset[]) {
