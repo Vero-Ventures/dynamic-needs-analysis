@@ -54,6 +54,7 @@ import { createGoalSchema, type CreateGoal } from "./schema";
 import { useServerAction } from "zsa-react";
 import { createGoal } from "./actions";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 function AddGoalsAndPhilanthropyForm({
   setOpen,
@@ -73,7 +74,13 @@ function AddGoalsAndPhilanthropyForm({
   });
 
   async function onSubmit(values: CreateGoal) {
-    await execute({ ...values, client_id: clientId });
+    toast.promise(execute({ ...values, client_id: clientId }), {
+      loading: "Adding...",
+      success: "Goal added successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     setOpen(false);
   }
 
