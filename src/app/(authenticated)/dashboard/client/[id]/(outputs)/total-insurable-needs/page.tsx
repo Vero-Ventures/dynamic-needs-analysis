@@ -135,7 +135,7 @@ export default async function TotalInsurableNeedsPage({
   ];
   return (
     <div className="space-y-6 p-6">
-      <section>
+      <section className="space-y-4">
         <Heading variant="h1">Total Insurable Needs</Heading>
         <TotalInsurableNeedsTable data={initialTotalInsurableNeeds} />
       </section>

@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatMoney } from "@/lib/utils";
 import type { Shareholder } from "@/types/db";
 
 export default async function ShareholdersTable({
@@ -14,12 +15,12 @@ export default async function ShareholdersTable({
   shareholders: Shareholder[];
 }) {
   return (
-    <Table>
+    <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-left">Name</TableHead>
+          <TableHead className="text-center">Name</TableHead>
           <TableHead className="text-center">Share Percentage</TableHead>
-          <TableHead className="text-right">Insurance Coverage</TableHead>
+          <TableHead className="text-center">Insurance Coverage</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -31,7 +32,7 @@ export default async function ShareholdersTable({
                 {s.share_percentage}
               </TableCell>
               <TableCell className="text-right">
-                {s.insurance_coverage}
+                {formatMoney(s.insurance_coverage)}
               </TableCell>
             </TableRow>
           ))

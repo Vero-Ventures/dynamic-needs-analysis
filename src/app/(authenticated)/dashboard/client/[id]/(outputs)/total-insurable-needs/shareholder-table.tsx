@@ -28,7 +28,7 @@ export default function ShareholderTable({
     <Table className="w-fit">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Name</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Need</TableHead>
           <TableHead>Priority</TableHead>
           <TableHead>Want</TableHead>
@@ -47,8 +47,8 @@ function ShareholderTableRow({ item }: { item: ShareholderTableData }) {
   const [priority, setPriority] = useState(item.priority);
   return (
     <TableRow key={item.id}>
-      <TableCell className="w-[200px] font-medium">{item.name}</TableCell>
-      <TableCell className="w-[100px]">{formatMoney(item.need)}</TableCell>
+      <TableCell className="font-medium">{item.name}</TableCell>
+      <TableCell>{formatMoney(item.need)}</TableCell>
       <TableCell className="flex w-[200px] flex-col gap-2">
         <Slider
           onValueChange={([priority]) => setPriority(priority)}
@@ -58,9 +58,7 @@ function ShareholderTableRow({ item }: { item: ShareholderTableData }) {
         />
         <span className="flex">{priority}%</span>
       </TableCell>
-      <TableCell className="w-[100px]">
-        {formatMoney(calculateWant(item.need, priority))}
-      </TableCell>
+      <TableCell>{formatMoney(calculateWant(item.need, priority))}</TableCell>
     </TableRow>
   );
 }

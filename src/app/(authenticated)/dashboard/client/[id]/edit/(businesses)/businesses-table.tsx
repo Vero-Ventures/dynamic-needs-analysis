@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import { createClient } from "@/lib/supabase/server";
 import DeleteBusinessButton from "./delete-business-button";
+import { formatMoney } from "@/lib/utils";
 
 export default async function BusinessesTable({
   clientId,
@@ -38,9 +39,13 @@ export default async function BusinessesTable({
         {businesses?.map((b) => (
           <TableRow key={b.id}>
             <TableCell className="text-center">{b.name}</TableCell>
-            <TableCell className="text-center">{b.valuation}</TableCell>
-            <TableCell className="text-center">{b.appreciation_rate}</TableCell>
-            <TableCell className="text-center">{b.term}</TableCell>
+            <TableCell className="text-center">
+              {formatMoney(b.valuation)}
+            </TableCell>
+            <TableCell className="text-center">
+              {b.appreciation_rate + "%"}
+            </TableCell>
+            <TableCell className="text-center">{b.term + " years"}</TableCell>
             <TableCell className="text-right">
               <DeleteBusinessButton id={b.id} />
             </TableCell>
