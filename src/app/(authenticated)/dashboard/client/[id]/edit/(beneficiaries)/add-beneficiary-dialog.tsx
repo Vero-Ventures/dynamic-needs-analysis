@@ -54,6 +54,7 @@ import { createBeneficiarySchema } from "./schema";
 import { useParams } from "next/navigation";
 import { createBeneficiary } from "./actions";
 import { useServerAction } from "zsa-react";
+import { toast } from "sonner";
 
 function AddBeneficiaryForm({
   setOpen,
@@ -73,7 +74,13 @@ function AddBeneficiaryForm({
   });
 
   async function onSubmit(values: CreateBeneficiary) {
-    await execute({ ...values, client_id: clientId });
+    toast.promise(execute({ ...values, client_id: clientId }), {
+      loading: "Adding...",
+      success: "Beneficiary added successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     setOpen(false);
   }
 
