@@ -58,6 +58,7 @@ export const ownsBusinessProcedure = createServerActionProcedure(
       business,
     };
   });
+
 export const ownsShareholderProcedure = createServerActionProcedure(
   ownsBusinessProcedure
 )
@@ -153,5 +154,30 @@ export const ownsAssetProcedure = createServerActionProcedure(
       client_id: ctx.client_id,
       asset,
       beneficiary: ctx.beneficiary,
+    };
+  });
+
+export const ownsGoalProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ goal_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: goal, error } = await sb
+      .from("goals")
+      .select("id")
+      .match({ id: input.goal_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!goal) {
+      throw new Error("Invalid goal id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      goal,
     };
   });
