@@ -54,6 +54,7 @@ import { createDebtSchema } from "./schema";
 import { createDebt } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 function AddDebtForm({
   setOpen,
@@ -76,7 +77,13 @@ function AddDebtForm({
   });
 
   async function onSubmit(values: CreateDebt) {
-    await execute({ ...values, client_id: clientId });
+    toast.promise(execute({ ...values, client_id: clientId }), {
+      loading: "Adding...",
+      success: "Debt added successfully.",
+      error: (error) => {
+        if (error instanceof Error) return error.message;
+      },
+    });
     setOpen(false);
   }
 
