@@ -82,7 +82,7 @@ function EditBeneficiaryForm({
       }),
       {
         loading: "Updating...",
-        success: "Beneficiary updated successfully",
+        success: "Beneficiary updated successfully.",
         error: (error) => {
           if (error instanceof Error) return error.message;
         },
