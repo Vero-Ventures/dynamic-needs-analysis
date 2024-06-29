@@ -25,6 +25,7 @@ import { editBusiness } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
 import { Business } from "@/types/db";
+import { toast } from "sonner";
 
 export function EditBusinessForm({
   onCloseDialog,
@@ -49,7 +50,20 @@ export function EditBusinessForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: EditBusiness) {
-    await execute({ ...values, client_id: clientId, business_id: business.id });
+    toast.promise(
+      execute({
+        ...values,
+        client_id: clientId,
+        business_id: business.id,
+      }),
+      {
+        loading: "Updating...",
+        success: "Business updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     onCloseDialog();
   }
   return (
