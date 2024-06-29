@@ -35,6 +35,7 @@ import type { CreateAsset } from "./schema";
 import { createAssetSchema } from "./schema";
 import { createAsset } from "./actions";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 export function AddAssetForm({
   beneficiaries,
@@ -102,18 +103,27 @@ export function AddAssetForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: CreateAsset) {
-    await execute({
-      client_id: clientId,
-      ...values,
-      asset_beneficiaries: assetBeneficiaries
-        .filter((b) => b.already_assigned)
-        .map((b) => {
-          return {
-            beneficiary_id: b.id,
-            allocation: b.allocation,
-          };
-        }),
-    });
+    toast.promise(
+      execute({
+        client_id: clientId,
+        ...values,
+        asset_beneficiaries: assetBeneficiaries
+          .filter((b) => b.already_assigned)
+          .map((b) => {
+            return {
+              beneficiary_id: b.id,
+              allocation: b.allocation,
+            };
+          }),
+      }),
+      {
+        loading: "Adding...",
+        success: "Asset added successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     form.reset();
     setAssetBeneficiaries(
       beneficiaries.map((beneficiary) => ({

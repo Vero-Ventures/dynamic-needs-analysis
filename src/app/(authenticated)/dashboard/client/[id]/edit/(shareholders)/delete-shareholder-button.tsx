@@ -5,6 +5,7 @@ import { useServerAction } from "zsa-react";
 import DeleteItemButton from "@/components/delete-item-button";
 import { useParams } from "next/navigation";
 import { deleteShareholder } from "./actions";
+import { toast } from "sonner";
 
 export default function DeleteShareholderButton({
   id,
@@ -22,11 +23,20 @@ export default function DeleteShareholderButton({
       size="icon"
       isPending={isPending}
       onClick={async () => {
-        await execute({
-          client_id: clientId,
-          shareholder_id: id,
-          business_id: businessId,
-        });
+        toast.promise(
+          execute({
+            client_id: clientId,
+            shareholder_id: id,
+            business_id: businessId,
+          }),
+          {
+            loading: "Deleting...",
+            success: "Shareholder deleted successfully.",
+            error: (error) => {
+              if (error instanceof Error) return error.message;
+            },
+          }
+        );
       }}
     />
   );

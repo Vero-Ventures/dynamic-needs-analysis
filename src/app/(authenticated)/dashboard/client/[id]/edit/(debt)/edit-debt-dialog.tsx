@@ -48,6 +48,7 @@ import { editDebt } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
 import { Debt } from "@/types/db";
+import { toast } from "sonner";
 
 function EditDebtForm({
   setOpen,
@@ -72,7 +73,20 @@ function EditDebtForm({
   });
 
   async function onSubmit(values: EditDebt) {
-    await execute({ ...values, client_id: clientId, debt_id: debt.id });
+    toast.promise(
+      execute({
+        ...values,
+        client_id: clientId,
+        debt_id: debt.id,
+      }),
+      {
+        loading: "Updating...",
+        success: "Debt updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     setOpen(false);
   }
 

@@ -52,6 +52,7 @@ import { useParams } from "next/navigation";
 import { editBeneficiary } from "./actions";
 import { useServerAction } from "zsa-react";
 import { Beneficiary } from "@/types/db";
+import { toast } from "sonner";
 
 function EditBeneficiaryForm({
   setOpen,
@@ -73,11 +74,20 @@ function EditBeneficiaryForm({
   });
 
   async function onSubmit(values: EditBeneficiary) {
-    await execute({
-      ...values,
-      client_id: clientId,
-      beneficiary_id: beneficiary.id,
-    });
+    toast.promise(
+      execute({
+        ...values,
+        client_id: clientId,
+        beneficiary_id: beneficiary.id,
+      }),
+      {
+        loading: "Updating...",
+        success: "Beneficiary updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     setOpen(false);
   }
 

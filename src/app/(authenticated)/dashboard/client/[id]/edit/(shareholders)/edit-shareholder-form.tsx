@@ -29,6 +29,7 @@ import { editShareholderSchema } from "./schema";
 import { editShareholder } from "./actions";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { Shareholder } from "@/types/db";
+import { toast } from "sonner";
 
 export function EditShareholderForm({
   businesses,
@@ -58,12 +59,21 @@ export function EditShareholderForm({
 
   // 2. Define a submit handler.
   async function onSubmit(values: EditShareholder) {
-    await execute({
-      ...values,
-      business_id: Number.parseInt(values.business.value),
-      shareholder_id: shareholder.id,
-      client_id: clientId,
-    });
+    toast.promise(
+      execute({
+        ...values,
+        business_id: Number.parseInt(values.business.value),
+        shareholder_id: shareholder.id,
+        client_id: clientId,
+      }),
+      {
+        loading: "Updating...",
+        success: "Shareholder updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     onCloseDialog();
   }
   return (

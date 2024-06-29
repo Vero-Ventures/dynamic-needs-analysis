@@ -30,6 +30,7 @@ import type { EditKeyPerson } from "./schema";
 import { editKeyPersonSchema } from "./schema";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { KeyPerson } from "@/types/db";
+import { toast } from "sonner";
 
 export function EditKeyPersonForm({
   businesses,
@@ -58,12 +59,27 @@ export function EditKeyPersonForm({
   });
 
   async function onSubmit(values: EditKeyPerson) {
-    await execute({
-      ...values,
-      business_id: Number.parseInt(values.business.value),
-      key_person_id: keyPerson.id,
-      client_id: clientId,
-    });
+    // await execute({
+    //   ...values,
+    //   business_id: Number.parseInt(values.business.value),
+    //   key_person_id: keyPerson.id,
+    //   client_id: clientId,
+    // });
+    toast.promise(
+      execute({
+        ...values,
+        business_id: Number.parseInt(values.business.value),
+        key_person_id: keyPerson.id,
+        client_id: clientId,
+      }),
+      {
+        loading: "Updating...",
+        success: "Key person updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     onCloseDialog();
   }
   return (
