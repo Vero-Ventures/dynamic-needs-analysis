@@ -9,10 +9,14 @@ import {
 import type { Shareholder } from "@/types/db";
 import DeleteShareholderButton from "./delete-shareholder-button";
 import { formatMoney } from "@/lib/utils";
+import EditShareholderDialog from "./edit-shareholder-dialog";
+import { BusinessesWithShareholders } from "@/data/businesses";
 
 export default async function ShareholdersTable({
+  businesses,
   shareholders,
 }: {
+  businesses: BusinessesWithShareholders;
   shareholders: Shareholder[];
 }) {
   return (
@@ -34,6 +38,9 @@ export default async function ShareholdersTable({
             </TableCell>
             <TableCell className="text-center">
               {formatMoney(s.insurance_coverage)}
+            </TableCell>
+            <TableCell className="text-right">
+              <EditShareholderDialog businesses={businesses} shareholder={s} />
             </TableCell>
             <TableCell className="text-right">
               <DeleteShareholderButton businessId={s.business_id} id={s.id} />

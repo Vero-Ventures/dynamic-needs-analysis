@@ -2,9 +2,12 @@
 
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { ownsClientProcedure } from "@/procedures/auth/actions";
+import {
+  ownsBeneficiaryProcedure,
+  ownsClientProcedure,
+} from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import { createBeneficiarySchema } from "./schema";
+import { createBeneficiarySchema, editBeneficiarySchema } from "./schema";
 
 export const createBeneficiary = ownsClientProcedure
   .createServerAction()
@@ -16,6 +19,24 @@ export const createBeneficiary = ownsClientProcedure
       console.error(error.message);
       throw new Error(
         "Something went wrong with adding the beneficiary to the database"
+      );
+    }
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
+  });
+
+export const editBeneficiary = ownsBeneficiaryProcedure
+  .createServerAction()
+  .input(editBeneficiarySchema)
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("beneficiaries")
+      .update({ name: input.name, allocation: input.allocation })
+      .match({ id: input.beneficiary_id, client_id: input.client_id });
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with updating the beneficiary in the database"
       );
     }
     revalidatePath(`/dashboard/client/${input.client_id}/edit`);

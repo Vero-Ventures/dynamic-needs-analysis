@@ -11,3 +11,6 @@ export const createShareholderSchema = z.object({
 });
 
 export type CreateShareholder = z.infer<typeof createShareholderSchema>;
+
+export const editShareholderSchema = createShareholderSchema;
+export type EditShareholder = CreateShareholder;

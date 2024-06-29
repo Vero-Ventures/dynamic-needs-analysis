@@ -59,6 +59,29 @@ export const ownsBusinessProcedure = createServerActionProcedure(
     };
   });
 
+export const ownsShareholderProcedure = createServerActionProcedure(
+  ownsBusinessProcedure
+)
+  .input(z.object({ shareholder_id: z.number() }))
+  .handler(async ({ ctx }) => {
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      business: ctx.business,
+    };
+  });
+export const ownsKeyPersonProcedure = createServerActionProcedure(
+  ownsBusinessProcedure
+)
+  .input(z.object({ key_person_id: z.number() }))
+  .handler(async ({ ctx }) => {
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      business: ctx.business,
+    };
+  });
+
 export const ownsBeneficiaryProcedure = createServerActionProcedure(
   ownsClientProcedure
 )
@@ -69,6 +92,30 @@ export const ownsBeneficiaryProcedure = createServerActionProcedure(
       .from("beneficiaries")
       .select("id")
       .match({ id: input.beneficiary_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!beneficiary) {
+      throw new Error("Invalid beneficiary id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      beneficiary,
+    };
+  });
+export const ownsDebtProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ debt_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: beneficiary, error } = await sb
+      .from("debts")
+      .select("id")
+      .match({ id: input.debt_id, client_id: ctx.client_id })
       .single();
 
     if (error) {
@@ -107,5 +154,30 @@ export const ownsAssetProcedure = createServerActionProcedure(
       client_id: ctx.client_id,
       asset,
       beneficiary: ctx.beneficiary,
+    };
+  });
+
+export const ownsGoalProcedure = createServerActionProcedure(
+  ownsClientProcedure
+)
+  .input(z.object({ goal_id: z.number() }))
+  .handler(async ({ input, ctx }) => {
+    const sb = await createClient();
+    const { data: goal, error } = await sb
+      .from("goals")
+      .select("id")
+      .match({ id: input.goal_id, client_id: ctx.client_id })
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!goal) {
+      throw new Error("Invalid goal id");
+    }
+    return {
+      user: ctx.user,
+      client_id: ctx.client_id,
+      goal,
     };
   });

@@ -27,7 +27,10 @@ export default async function Shareholders({ clientId }: { clientId: number }) {
             b.shareholders.length > 0 ? (
               <div key={b.id}>
                 <h2 className="text-lg font-bold">{b.name}</h2>
-                <ShareholdersTable shareholders={b.shareholders} />
+                <ShareholdersTable
+                  businesses={businesses}
+                  shareholders={b.shareholders}
+                />
               </div>
             ) : null
           )}

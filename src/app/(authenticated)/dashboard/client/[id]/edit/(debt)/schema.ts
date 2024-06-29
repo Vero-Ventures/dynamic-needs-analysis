@@ -10,3 +10,6 @@ export const createDebtSchema = z.object({
 });
 
 export type CreateDebt = z.infer<typeof createDebtSchema>;
+
+export const editDebtSchema = createDebtSchema;
+export type EditDebt = CreateDebt;

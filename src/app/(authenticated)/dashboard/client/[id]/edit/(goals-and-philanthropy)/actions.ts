@@ -1,10 +1,14 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { ownsClientProcedure } from "@/procedures/auth/actions";
+import {
+  ownsClientProcedure,
+  ownsGoalProcedure,
+} from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
 import {
   createGoalSchema,
+  editGoalSchema,
   editLiquidityAllocatedTowardsGoalsSchema,
 } from "./schema";
 import { z } from "zod";
@@ -20,6 +24,30 @@ export const createGoal = ownsClientProcedure
       console.error(error.message);
       throw new Error(
         "Something went wrong with adding the goal to the database"
+      );
+    }
+
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
+  });
+
+export const editGoal = ownsGoalProcedure
+  .createServerAction()
+  .input(editGoalSchema)
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("goals")
+      .update({
+        name: input.name,
+        amount: input.amount,
+        philanthropic: input.philanthropic,
+      })
+      .match({ id: input.goal_id, client_id: input.client_id });
+
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with updating the goal in the database"
       );
     }
 

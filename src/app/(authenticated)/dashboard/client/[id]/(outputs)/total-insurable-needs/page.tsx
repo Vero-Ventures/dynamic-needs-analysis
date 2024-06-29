@@ -14,7 +14,6 @@ import {
   calculateTotalAdditionalMoneyRequired,
   calculateTotalFutureValue,
 } from "@/lib/asset/manager-utils";
-import { getBusinessesWithShareholdersAndKeyPeople } from "@/data/businesses";
 import KeyPersonTable from "./key-person-table";
 import ShareholderTable from "./shareholder-table";
 import {
@@ -64,7 +63,6 @@ export default async function TotalInsurableNeedsPage({
     throw beneficiaryError;
   }
 
-  const a = await getBusinessesWithShareholdersAndKeyPeople(clientId);
   const { data: business, error: businessError } = await sb
     .from("businesses")
     .select("*, shareholders (*), key_people (*)")
