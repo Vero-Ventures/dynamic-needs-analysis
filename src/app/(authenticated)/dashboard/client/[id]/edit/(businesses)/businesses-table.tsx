@@ -9,6 +9,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import DeleteBusinessButton from "./delete-business-button";
 import { formatMoney } from "@/lib/utils";
+import EditBusinessDialog from "./edit-business-dialog";
 
 export default async function BusinessesTable({
   clientId,
@@ -32,7 +33,8 @@ export default async function BusinessesTable({
           <TableHead className="text-center">Market Value</TableHead>
           <TableHead className="text-center">Growth Rate</TableHead>
           <TableHead className="text-center">Time horizon</TableHead>
-          <TableHead className="text-right"></TableHead>
+          <TableHead className="text-center"></TableHead>
+          <TableHead className="text-center"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -46,6 +48,9 @@ export default async function BusinessesTable({
               {b.appreciation_rate + "%"}
             </TableCell>
             <TableCell className="text-center">{b.term + " years"}</TableCell>
+            <TableCell className="text-right">
+              <EditBusinessDialog business={b} />
+            </TableCell>
             <TableCell className="text-right">
               <DeleteBusinessButton id={b.id} />
             </TableCell>

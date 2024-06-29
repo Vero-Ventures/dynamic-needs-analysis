@@ -6,3 +6,7 @@ export const createBeneficiarySchema = z.object({
 });
 
 export type CreateBeneficiary = z.infer<typeof createBeneficiarySchema>;
+
+export const editBeneficiarySchema = createBeneficiarySchema;
+
+export type EditBeneficiary = CreateBeneficiary;

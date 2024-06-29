@@ -15,3 +15,6 @@ export const editLiquidityAllocatedTowardsGoalsSchema = z.object({
 export type EditLiquidityAllocatedTowardsGoals = z.infer<
   typeof editLiquidityAllocatedTowardsGoalsSchema
 >;
+
+export const editGoalSchema = createGoalSchema;
+export type EditGoal = CreateGoal;

@@ -1,9 +1,12 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { ownsClientProcedure } from "@/procedures/auth/actions";
+import {
+  ownsBusinessProcedure,
+  ownsClientProcedure,
+} from "@/procedures/auth/actions";
 import { revalidatePath } from "next/cache";
-import { createBusinessSchema } from "./schema";
+import { createBusinessSchema, editBusinessSchema } from "./schema";
 import { z } from "zod";
 
 export const createBusiness = ownsClientProcedure
@@ -17,6 +20,32 @@ export const createBusiness = ownsClientProcedure
       console.error(error.message);
       throw new Error(
         "Something went wrong with adding the business to the database"
+      );
+    }
+
+    revalidatePath(`/dashboard/client/${input.client_id}/edit`);
+  });
+
+export const editBusiness = ownsBusinessProcedure
+  .createServerAction()
+  .input(editBusinessSchema)
+  .handler(async ({ input }) => {
+    const sb = await createClient();
+    const { error } = await sb
+      .from("businesses")
+      .update({
+        name: input.name,
+        valuation: input.valuation,
+        ebitda: input.ebitda,
+        term: input.term,
+        appreciation_rate: input.appreciation_rate,
+      })
+      .match({ id: input.business_id, client_id: input.client_id });
+
+    if (error) {
+      console.error(error.message);
+      throw new Error(
+        "Something went wrong with updating the business in the database"
       );
     }
 

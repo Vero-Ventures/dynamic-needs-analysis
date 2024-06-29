@@ -15,3 +15,6 @@ export const createBusinessSchema = z.object({
 });
 
 export type CreateBusiness = z.infer<typeof createBusinessSchema>;
+
+export const editBusinessSchema = createBusinessSchema;
+export type EditBusiness = CreateBusiness;

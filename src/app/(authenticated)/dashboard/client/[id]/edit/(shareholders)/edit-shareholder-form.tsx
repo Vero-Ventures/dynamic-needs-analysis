@@ -20,40 +20,57 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { createBusinessSchema, type CreateBusiness } from "./schema";
-import { createBusiness } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
 
-export function AddBusinessForm({
+import type { BusinessesWithShareholders } from "@/data/businesses";
+import type { EditShareholder } from "./schema";
+import { editShareholderSchema } from "./schema";
+import { editShareholder } from "./actions";
+import { AutoComplete } from "@/components/ui/autocomplete";
+import { Shareholder } from "@/types/db";
+
+export function EditShareholderForm({
+  businesses,
+  shareholder,
   onCloseDialog,
 }: {
+  shareholder: Shareholder;
+  businesses: BusinessesWithShareholders;
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending, execute } = useServerAction(createBusiness);
-  const form = useForm<CreateBusiness>({
-    resolver: zodResolver(createBusinessSchema),
+  const { isPending, execute } = useServerAction(editShareholder);
+  const form = useForm<EditShareholder>({
+    resolver: zodResolver(editShareholderSchema),
     defaultValues: {
-      name: "",
-      valuation: 0,
-      ebitda: 0,
-      term: 20,
-      appreciation_rate: 6,
+      name: shareholder.name,
+      insurance_coverage: shareholder.insurance_coverage,
+      share_percentage: shareholder.share_percentage,
+      business: {
+        value: shareholder.business_id.toString(),
+        label:
+          businesses.find((b) => b.id === shareholder.business_id)?.name || "",
+      },
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateBusiness) {
-    await execute({ ...values, client_id: clientId });
+  async function onSubmit(values: EditShareholder) {
+    await execute({
+      ...values,
+      business_id: Number.parseInt(values.business.value),
+      shareholder_id: shareholder.id,
+      client_id: clientId,
+    });
     onCloseDialog();
   }
   return (
     <DialogContent className="max-h-[calc(100dvh-100px)] overflow-y-auto p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
-          Add Business
+          Edit Shareholder
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
@@ -77,12 +94,12 @@ export function AddBusinessForm({
           <div className="grid grid-cols-2 items-center gap-4">
             <FormField
               control={form.control}
-              name="valuation"
+              name="share_percentage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Market Value</FormLabel>
+                  <FormLabel>Share Percentage</FormLabel>
                   <FormControl>
-                    <Input placeholder="$0.00" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,10 +107,10 @@ export function AddBusinessForm({
             />
             <FormField
               control={form.control}
-              name="ebitda"
+              name="insurance_coverage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Corporation&apos;s Ebitda</FormLabel>
+                  <FormLabel>Insurance Coverage</FormLabel>
                   <FormControl>
                     <Input placeholder="$0.00" {...field} />
                   </FormControl>
@@ -102,39 +119,34 @@ export function AddBusinessForm({
               )}
             />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
-            <FormField
-              control={form.control}
-              name="appreciation_rate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Growth Rate (%)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Between 0 and 6" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="term"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Time Horizon (years)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Between 0 and 20" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="business"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Business</FormLabel>
+                <FormControl>
+                  <AutoComplete
+                    value={field.value}
+                    options={businesses.map((b) => ({
+                      value: `${b.id}`,
+                      label: b.name,
+                    }))}
+                    onValueChange={field.onChange}
+                    placeholder="Select a business..."
+                    emptyMessage="No business found."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <DialogFooter>
             <FormSubmitButton
+              disabled={!form.formState.isValid}
               isPending={isPending || form.formState.isSubmitting}
-              loadingValue="Add..."
-              value="Add Business"
+              loadingValue="Saving..."
+              value="Save Changes"
             />
           </DialogFooter>
         </form>

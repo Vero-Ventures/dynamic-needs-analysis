@@ -11,6 +11,7 @@ import { formatMoney } from "@/lib/utils";
 import type { Goal } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
 import DeleteGoalsAndPhilanthropyButton from "./delete-goals-and-philanthropy-button";
+import EditGoalsAndPhilanthropyDialog from "./edit-goals-and-philanthropy-dialog";
 
 export default async function GoalsAndPhilanthropyTable({
   clientId,
@@ -37,27 +38,30 @@ export default async function GoalsAndPhilanthropyTable({
       </TableHeader>
       <TableBody>
         {goals?.map((g) => (
-          <GoalsAndPhilanthropyTableRow key={g.id} goals={g} />
+          <GoalsAndPhilanthropyTableRow key={g.id} goal={g} />
         ))}
       </TableBody>
     </Table>
   );
 }
 
-function GoalsAndPhilanthropyTableRow({ goals }: { goals: Goal }) {
+function GoalsAndPhilanthropyTableRow({ goal }: { goal: Goal }) {
   return (
     <TableRow>
-      <TableCell className="text-center font-medium">{goals.name}</TableCell>
+      <TableCell className="text-center font-medium">{goal.name}</TableCell>
       <TableCell className="text-center font-medium">
-        {formatMoney(goals.amount)}
+        {formatMoney(goal.amount)}
       </TableCell>
       <TableCell className="p-0 text-center">
-        {goals.philanthropic && (
+        {goal.philanthropic && (
           <CheckCircle2Icon className="mx-auto stroke-green-600" />
         )}
       </TableCell>
       <TableCell className="text-right">
-        <DeleteGoalsAndPhilanthropyButton id={goals.id} />
+        <EditGoalsAndPhilanthropyDialog goal={goal} />
+      </TableCell>
+      <TableCell className="text-right">
+        <DeleteGoalsAndPhilanthropyButton id={goal.id} />
       </TableCell>
     </TableRow>
   );

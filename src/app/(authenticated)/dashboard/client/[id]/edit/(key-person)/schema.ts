@@ -11,3 +11,6 @@ export const createKeyPersonSchema = z.object({
 });
 
 export type CreateKeyPerson = z.infer<typeof createKeyPersonSchema>;
+
+export const editKeyPersonSchema = createKeyPersonSchema;
+export type EditKeyPerson = CreateKeyPerson;

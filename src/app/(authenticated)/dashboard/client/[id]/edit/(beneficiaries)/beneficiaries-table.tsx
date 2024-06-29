@@ -9,6 +9,7 @@ import {
 import type { Beneficiary } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
 import DeleteBeneficiaryButton from "./delete-beneficiary-button";
+import EditBeneficiaryDialog from "./edit-beneficiary-dialog";
 
 export default async function BeneficiariesTable({
   clientId,
@@ -53,7 +54,10 @@ function BeneficiaryTableRow({ beneficiary }: { beneficiary: Beneficiary }) {
       <TableCell className="text-center font-medium">
         {beneficiary.allocation}
       </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="text-center">
+        <EditBeneficiaryDialog beneficiary={beneficiary} />
+      </TableCell>
+      <TableCell className="text-center">
         <DeleteBeneficiaryButton id={beneficiary.id} />
       </TableCell>
     </TableRow>

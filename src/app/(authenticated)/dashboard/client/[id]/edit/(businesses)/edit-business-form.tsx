@@ -20,40 +20,43 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { createBusinessSchema, type CreateBusiness } from "./schema";
-import { createBusiness } from "./actions";
+import { EditBusiness, editBusinessSchema } from "./schema";
+import { editBusiness } from "./actions";
 import { useServerAction } from "zsa-react";
 import { useParams } from "next/navigation";
+import { Business } from "@/types/db";
 
-export function AddBusinessForm({
+export function EditBusinessForm({
   onCloseDialog,
+  business,
 }: {
+  business: Business;
   onCloseDialog: () => void;
 }) {
   const params = useParams<{ id: string }>();
   const clientId = Number.parseInt(params.id);
-  const { isPending, execute } = useServerAction(createBusiness);
-  const form = useForm<CreateBusiness>({
-    resolver: zodResolver(createBusinessSchema),
+  const { isPending, execute } = useServerAction(editBusiness);
+  const form = useForm<EditBusiness>({
+    resolver: zodResolver(editBusinessSchema),
     defaultValues: {
-      name: "",
-      valuation: 0,
-      ebitda: 0,
-      term: 20,
-      appreciation_rate: 6,
+      name: business.name,
+      valuation: business.valuation,
+      ebitda: business.ebitda,
+      term: business.term,
+      appreciation_rate: business.appreciation_rate,
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: CreateBusiness) {
-    await execute({ ...values, client_id: clientId });
+  async function onSubmit(values: EditBusiness) {
+    await execute({ ...values, client_id: clientId, business_id: business.id });
     onCloseDialog();
   }
   return (
     <DialogContent className="max-h-[calc(100dvh-100px)] overflow-y-auto p-0 sm:max-w-[700px]">
       <DialogHeader className="rounded-t-xl border-b bg-muted p-4">
         <DialogTitle className="font-bold text-secondary">
-          Add Business
+          Edit Business
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
@@ -133,8 +136,8 @@ export function AddBusinessForm({
           <DialogFooter>
             <FormSubmitButton
               isPending={isPending || form.formState.isSubmitting}
-              loadingValue="Add..."
-              value="Add Business"
+              loadingValue="Saving..."
+              value="Save Changes"
             />
           </DialogFooter>
         </form>
