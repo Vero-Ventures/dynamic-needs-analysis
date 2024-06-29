@@ -51,6 +51,7 @@ import { editGoal } from "./actions";
 import { useParams } from "next/navigation";
 import { Goal } from "@/types/db";
 import { PenSquareIcon } from "lucide-react";
+import { toast } from "sonner";
 
 function EditGoalsAndPhilanthropyForm({
   goal,
@@ -72,7 +73,16 @@ function EditGoalsAndPhilanthropyForm({
   });
 
   async function onSubmit(values: CreateGoal) {
-    await execute({ ...values, client_id: clientId, goal_id: goal.id });
+    toast.promise(
+      execute({ ...values, client_id: clientId, goal_id: goal.id }),
+      {
+        loading: "Updating...",
+        success: "Goal updated successfully.",
+        error: (error) => {
+          if (error instanceof Error) return error.message;
+        },
+      }
+    );
     setOpen(false);
   }
 
