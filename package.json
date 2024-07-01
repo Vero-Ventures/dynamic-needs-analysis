@@ -23,7 +23,7 @@
     "db:types": "supabase gen types typescript --local > ./src/types/supabase.ts"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.29",
+    "@ai-sdk/openai": "^0.0.34",
     "@ai-sdk/react": "^0.0.2",
     "@hookform/resolvers": "^3.4.2",
     "@kinde-oss/kinde-auth-nextjs": "^2.3.1",
